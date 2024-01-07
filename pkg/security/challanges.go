@@ -17,8 +17,7 @@ func NewChallenge(account models.Account, factors []models.AuthFactor, ip, ua st
 	// Pickup any challenge if possible
 	if err := database.C.Where(models.AuthChallenge{
 		AccountID: account.ID,
-		State:     models.ActiveChallengeState,
-	}).First(&challenge).Error; err == nil {
+	}).Where("state = ?", models.ActiveChallengeState).First(&challenge).Error; err == nil {
 		return challenge, nil
 	}
 

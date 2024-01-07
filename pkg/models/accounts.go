@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/datatypes"
+)
 
 type AccountState = int8
 
@@ -12,13 +16,14 @@ const (
 type Account struct {
 	BaseModel
 
-	Name       string           `json:"name" gorm:"uniqueIndex"`
-	Nick       string           `json:"nick"`
-	State      AccountState     `json:"state"`
-	Session    []AuthSession    `json:"sessions"`
-	Challenges []AuthChallenge  `json:"challenges"`
-	Factors    []AuthFactor     `json:"factors"`
-	Contacts   []AccountContact `json:"contacts"`
+	Name        string                       `json:"name" gorm:"uniqueIndex"`
+	Nick        string                       `json:"nick"`
+	State       AccountState                 `json:"state"`
+	Session     []AuthSession                `json:"sessions"`
+	Challenges  []AuthChallenge              `json:"challenges"`
+	Factors     []AuthFactor                 `json:"factors"`
+	Contacts    []AccountContact             `json:"contacts"`
+	Permissions datatypes.JSONType[[]string] `json:"permissions"`
 }
 
 type AccountContactType = int8

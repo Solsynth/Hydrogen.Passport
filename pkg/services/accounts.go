@@ -7,6 +7,17 @@ import (
 	"code.smartsheep.studio/hydrogen/passport/pkg/models"
 )
 
+func GetAccount(id uint) (models.Account, error) {
+	var account models.Account
+	if err := database.C.Where(models.Account{
+		BaseModel: models.BaseModel{ID: id},
+	}).First(&account).Error; err != nil {
+		return account, err
+	}
+
+	return account, nil
+}
+
 func LookupAccount(id string) (models.Account, error) {
 	var account models.Account
 	if err := database.C.Where(models.Account{Name: id}).First(&account).Error; err == nil {

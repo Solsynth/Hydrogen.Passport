@@ -42,4 +42,25 @@ var Commands = map[string]publisher.CommandManifest{
 		Requirements: wire.CommandRequirements{},
 		Handle:       refreshToken,
 	},
+	"passport.auth": {
+		Name:         "Auth with access token.",
+		Description:  "Auth gateway request with access token.",
+		Requirements: wire.CommandRequirements{},
+		Providers: []wire.CommandProvider{
+			{
+				ID:             "passport.auth",
+				Implementation: "gateway.auth",
+				Weight:         1000,
+			},
+		},
+		Handle: doAuth,
+	},
+	"passport.test": {
+		Name:         "Test secured resource.",
+		Description:  "Test secured resource connectivity.",
+		Requirements: wire.CommandRequirements{Authorized: true},
+		Handle: func(c *publisher.RequestCtx) error {
+			return c.SendResponse("You got me!")
+		},
+	},
 }
