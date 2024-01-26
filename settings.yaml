@@ -1,12 +1,8 @@
 debug: true
 
-id: a143dcef-3059-4d22-9ae7-839166699660
-host: 127.0.0.1:1424
+bind: 0.0.0.0:8444
 domain: id.smartsheep.studio
 secret: LtTjzAGFLshwXhN4ZD4nG5KlMv1MWcsvfv03TSZYnT1VhiAnLIZFTnHUwR0XhGgi
-
-credentials:
-  key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDgVXIw08Wgl5ZTLnnH8o0EiWwvfvqbLxp7OgMsZBWOrJiaSrrNjZOyIab3T5Az/1IoUgjGnKvetiVbNL9HLaHMwaN28Q2RR1z+cw/f3NDFydDYmcj1OA/HT011Xh+K39lOjfQptEMOTCtWLOcuzu21jQICqDgsp7BSu3Lt6ezrHO4+kDSyNjclT9iX+RovjK3snJM1rsstezx1yo+f7NBA5WUs1/PfEgvwDZKBuUIqRb8GGcLEQav6FpNicx/L+I5TNDZgoeSlWYCOjZimQy7VagF7iyBwoqj9htRx3F1gZdjqdJxQzYxFrehKg+j+P/JvIifAx2CWyi5/O9BpSkW7 littlesheep@LittleSheepdeMacBook-Pro.local
 
 database:
   dsn: host=localhost dbname=hy_passport port=5432 sslmode=disable

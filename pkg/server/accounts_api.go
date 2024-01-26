@@ -1,21 +1,23 @@
 package server
 
 import (
-	"code.smartsheep.studio/hydrogen/bus/pkg/kit/adaptor"
-	"code.smartsheep.studio/hydrogen/bus/pkg/kit/publisher"
-	"code.smartsheep.studio/hydrogen/bus/pkg/wire"
 	"code.smartsheep.studio/hydrogen/passport/pkg/database"
 	"code.smartsheep.studio/hydrogen/passport/pkg/models"
 	"code.smartsheep.studio/hydrogen/passport/pkg/security"
+	"github.com/gofiber/fiber/v2"
 )
 
-func doRegister(c *publisher.RequestCtx) error {
-	data := adaptor.ParseAnyToStruct[struct {
+func doRegister(c *fiber.Ctx) error {
+	var data struct {
 		Name     string `json:"name"`
 		Nick     string `json:"nick"`
 		Email    string `json:"email"`
 		Password string `json:"password"`
-	}](c.Parameters)
+	}
+
+	if err := BindAndValidate(c, &data); err != nil {
+		return err
+	}
 
 	user := models.Account{
 		Name:  data.Name,
@@ -37,8 +39,8 @@ func doRegister(c *publisher.RequestCtx) error {
 	}
 
 	if err := database.C.Create(&user).Error; err != nil {
-		return c.SendError(wire.InvalidActions, err)
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
-	return c.SendResponse(user)
+	return c.JSON(user)
 }

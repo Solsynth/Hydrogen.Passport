@@ -1,39 +1,37 @@
 package server
 
 import (
-	"code.smartsheep.studio/hydrogen/bus/pkg/kit/publisher"
+	"github.com/gofiber/fiber/v2"
+	jsoniter "github.com/json-iterator/go"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 )
 
-const (
-	Hostname  = "hydrogen.passport"
-	Namespace = "passport"
-)
+var A *fiber.App
 
-var C *publisher.PublisherConnection
+func NewServer() {
+	A = fiber.New(fiber.Config{
+		DisableStartupMessage: true,
+		EnableIPValidation:    true,
+		ServerHeader:          "Hydrogen.Passport",
+		AppName:               "Hydrogen.Passport",
+		JSONEncoder:           jsoniter.ConfigCompatibleWithStandardLibrary.Marshal,
+		JSONDecoder:           jsoniter.ConfigCompatibleWithStandardLibrary.Unmarshal,
+	})
 
-func InitConnection(addr, id string) error {
-	if conn, err := publisher.NewConnection(
-		addr,
-		id,
-		Hostname,
-		Namespace,
-		viper.Get("credentials"),
-	); err != nil {
-		return err
-	} else {
-		C = conn
+	api := A.Group("/api").Name("API")
+	{
+		api.Post("/users", doRegister)
+
+		api.Put("/auth", startChallenge)
+		api.Post("/auth", doChallenge)
+		api.Post("/auth/token", exchangeToken)
+		api.Post("/auth/factors/:factorId", requestFactorToken)
 	}
-
-	return nil
 }
 
-func PublishCommands(conn *publisher.PublisherConnection) error {
-	for k, v := range Commands {
-		if err := conn.PublishCommand(k, v); err != nil {
-			return err
-		}
+func Listen() {
+	if err := A.Listen(viper.GetString("bind")); err != nil {
+		log.Fatal().Err(err).Msg("An error occurred when starting server...")
 	}
-
-	return nil
 }

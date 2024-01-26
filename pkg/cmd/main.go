@@ -1,13 +1,13 @@
 package main
 
 import (
+	"code.smartsheep.studio/hydrogen/passport/pkg/server"
 	"os"
 	"os/signal"
 	"syscall"
 
 	passport "code.smartsheep.studio/hydrogen/passport/pkg"
 	"code.smartsheep.studio/hydrogen/passport/pkg/database"
-	"code.smartsheep.studio/hydrogen/passport/pkg/server"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
@@ -37,10 +37,9 @@ func main() {
 		log.Fatal().Err(err).Msg("An error occurred when running database auto migration.")
 	}
 
-	// Create connection between bus
-	server.InitConnection(viper.GetString("host"), viper.GetString("id"))
-	server.PublishCommands(server.C)
-	go server.C.ListenToServer()
+	// Server
+	server.NewServer()
+	go server.Listen()
 
 	// Messages
 	log.Info().Msgf("Passport v%s is started...", passport.AppVersion)

@@ -1,32 +1,36 @@
 package server
 
 import (
-	"code.smartsheep.studio/hydrogen/bus/pkg/kit/adaptor"
-	"code.smartsheep.studio/hydrogen/bus/pkg/kit/publisher"
-	"code.smartsheep.studio/hydrogen/bus/pkg/wire"
 	"code.smartsheep.studio/hydrogen/passport/pkg/security"
 	"code.smartsheep.studio/hydrogen/passport/pkg/services"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/keyauth"
 )
 
-func doAuth(c *publisher.RequestCtx) error {
-	token := adaptor.ParseAnyToStruct[string](c.Parameters)
+var auth = keyauth.New(keyauth.Config{
+	KeyLookup:  "header:Authorization",
+	AuthScheme: "Bearer",
+	Validator: func(c *fiber.Ctx, token string) (bool, error) {
+		claims, err := security.DecodeJwt(token)
+		if err != nil {
+			return false, err
+		}
 
-	claims, err := security.DecodeJwt(token)
-	if err != nil {
-		return c.SendError(wire.Unauthorized, err)
-	}
+		session, err := services.LookupSessionWithToken(claims.ID)
+		if err != nil {
+			return false, err
+		} else if err := session.IsAvailable(); err != nil {
+			return false, err
+		}
 
-	session, err := services.LookupSessionWithToken(claims.ID)
-	if err != nil {
-		return c.SendError(wire.Unauthorized, err)
-	} else if err := session.IsAvailable(); err != nil {
-		return c.SendError(wire.Unauthorized, err)
-	}
+		user, err := services.GetAccount(session.AccountID)
+		if err != nil {
+			return false, err
+		}
 
-	user, err := services.GetAccount(session.AccountID)
-	if err != nil {
-		return c.SendError(wire.Unauthorized, err)
-	}
+		c.Locals("permissions", user.Permissions.Data())
 
-	return c.SendResponse(user.Permissions.Data())
-}
+		return true, nil
+	},
+	ContextKey: "token",
+})
