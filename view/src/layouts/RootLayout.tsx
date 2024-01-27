@@ -1,5 +1,5 @@
 import Navbar from "./shared/Navbar.tsx";
-import { readProfiles } from "../stores/userinfo.ts";
+import { readProfiles, UserinfoProvider } from "../stores/userinfo.tsx";
 import { createSignal, Show } from "solid-js";
 
 export default function RootLayout(props: any) {
@@ -15,11 +15,11 @@ export default function RootLayout(props: any) {
         </div>
       </div>
     }>
-      <div>
+      <UserinfoProvider>
         <Navbar />
 
         <main class="h-[calc(100vh-68px)]">{props.children}</main>
-      </div>
+      </UserinfoProvider>
     </Show>
   );
 }

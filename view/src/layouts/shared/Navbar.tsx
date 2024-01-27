@@ -1,5 +1,6 @@
-import { For, Show } from "solid-js";
-import { userinfo } from "../../stores/userinfo.ts";
+import { For, Match, Switch } from "solid-js";
+import { clearUserinfo, useUserinfo } from "../../stores/userinfo.tsx";
+import { useNavigate } from "@solidjs/router";
 
 interface MenuItem {
   label: string;
@@ -8,6 +9,14 @@ interface MenuItem {
 
 export default function Navbar() {
   const nav: MenuItem[] = [{ label: "Dashboard", href: "/" }];
+
+  const userinfo = useUserinfo();
+  const navigate = useNavigate();
+
+  function logout() {
+    clearUserinfo();
+    navigate("/auth/login");
+  }
 
   return (
     <div class="navbar bg-base-100 shadow-md px-5">
@@ -58,9 +67,14 @@ export default function Navbar() {
         </ul>
       </div>
       <div class="navbar-end pe-5">
-        <Show when={!userinfo.isLoggedIn}>
-          <a href="/auth/login" class="btn btn-sm btn-primary">Login</a>
-        </Show>
+        <Switch>
+          <Match when={userinfo?.isLoggedIn}>
+            <button type="button" class="btn btn-sm btn-ghost" onClick={() => logout()}>Logout</button>
+          </Match>
+          <Match when={!userinfo?.isLoggedIn}>
+            <a href="/auth/login" class="btn btn-sm btn-primary">Login</a>
+          </Match>
+        </Switch>
       </div>
     </div>
   );

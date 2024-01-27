@@ -1,16 +1,24 @@
-import { createStore } from "solid-js/store";
 import Cookie from "universal-cookie";
+import { createContext, useContext } from "solid-js";
+import { createStore } from "solid-js/store";
 
-const [userinfo, setUserinfo] = createStore({
+export interface Userinfo {
+  isLoggedIn: boolean,
+  displayName: string,
+  profiles: any,
+  meta: any
+}
+
+const UserinfoContext = createContext<Userinfo>();
+
+const defaultUserinfo: Userinfo = {
   isLoggedIn: false,
   displayName: "Citizen",
   profiles: null,
   meta: null
-});
+};
 
-function checkLoggedIn(): boolean {
-  return new Cookie().get("access_token");
-}
+const [userinfo, setUserinfo] = createStore<Userinfo>(structuredClone(defaultUserinfo));
 
 export function getAtk(): string {
   return new Cookie().get("access_token");
@@ -36,6 +44,10 @@ export async function refreshAtk() {
   }
 }
 
+function checkLoggedIn(): boolean {
+  return new Cookie().get("access_token");
+}
+
 export async function readProfiles() {
   if (!checkLoggedIn()) return;
 
@@ -59,4 +71,20 @@ export async function readProfiles() {
   });
 }
 
-export { userinfo };
+export function clearUserinfo() {
+  new Cookie().remove("access_token", { path: "/" });
+  new Cookie().remove("refresh_token", { path: "/" });
+  setUserinfo(defaultUserinfo);
+}
+
+export function UserinfoProvider(props: any) {
+  return (
+    <UserinfoContext.Provider value={userinfo}>
+      {props.children}
+    </UserinfoContext.Provider>
+  );
+}
+
+export function useUserinfo() {
+  return useContext(UserinfoContext);
+}

@@ -1,9 +1,9 @@
-import { readProfiles } from "../../stores/userinfo.ts";
+import { readProfiles } from "../../stores/userinfo.tsx";
 import { useNavigate } from "@solidjs/router";
 import { createSignal, For, Match, Show, Switch } from "solid-js";
 import Cookie from "universal-cookie";
 
-export default function Login() {
+export default function LoginPage() {
   const [title, setTitle] = createSignal("Sign in");
   const [subtitle, setSubtitle] = createSignal("Via your Goatpass account");
 
