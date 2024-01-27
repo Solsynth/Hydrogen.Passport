@@ -131,72 +131,78 @@ export default function LoginPage() {
 
   return (
     <div class="w-full h-full flex justify-center items-center">
-      <div class="card w-[480px] max-w-screen shadow-xl">
-        <div class="card-body">
-          <div id="header" class="text-center mb-5">
-            <h1 class="text-xl font-bold">{title()}</h1>
-            <p>{subtitle()}</p>
-          </div>
-
-          <Show when={error()}>
-            <div id="alerts" class="mt-1">
-              <div role="alert" class="alert alert-error">
-                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
-                     viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span class="capitalize">{error()}</span>
-              </div>
+      <div>
+        <div class="card w-[480px] max-w-screen shadow-xl">
+          <div class="card-body">
+            <div id="header" class="text-center mb-5">
+              <h1 class="text-xl font-bold">{title()}</h1>
+              <p>{subtitle()}</p>
             </div>
-          </Show>
 
-          <form id="form" onSubmit={(e) => handlers[stage()](e)}>
-            <Switch>
-              <Match when={stage() === "starting"}>
-                <label class="form-control w-full">
-                  <div class="label">
-                    <span class="label-text">Account ID</span>
-                  </div>
-                  <input name="id" type="text" placeholder="Type here" class="input input-bordered w-full" />
-                  <div class="label">
-                    <span class="label-text-alt">Your username, email or phone number.</span>
-                  </div>
-                </label>
-              </Match>
-              <Match when={stage() === "choosing"}>
-                <div class="join join-vertical w-full">
-                  <For each={factors()}>
-                    {item =>
-                      <input class="join-item btn" type="radio" name="factor"
-                             value={item.id}
-                             aria-label={getFactorName(item)}
-                      />
-                    }
-                  </For>
+            <Show when={error()}>
+              <div id="alerts" class="mt-1">
+                <div role="alert" class="alert alert-error">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                       viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span class="capitalize">{error()}</span>
                 </div>
-                <p class="text-center text-sm mt-2">Choose a way to verify that's you</p>
-              </Match>
-              <Match when={stage() === "verifying"}>
-                <label class="form-control w-full">
-                  <div class="label">
-                    <span class="label-text">Credentials</span>
-                  </div>
-                  <input name="credentials" type="password" placeholder="Type here"
-                         class="input input-bordered w-full" />
-                  <div class="label">
-                    <span class="label-text-alt">Password or one time password.</span>
-                  </div>
-                </label>
-              </Match>
-            </Switch>
+              </div>
+            </Show>
 
-            <button type="submit" class="btn btn-primary btn-block mt-3" disabled={loading()}>
-              <Show when={loading()} fallback={"Next"}>
-                <span class="loading loading-spinner"></span>
-              </Show>
-            </button>
-          </form>
+            <form id="form" onSubmit={(e) => handlers[stage()](e)}>
+              <Switch>
+                <Match when={stage() === "starting"}>
+                  <label class="form-control w-full">
+                    <div class="label">
+                      <span class="label-text">Account ID</span>
+                    </div>
+                    <input name="id" type="text" placeholder="Type here" class="input input-bordered w-full" />
+                    <div class="label">
+                      <span class="label-text-alt">Your username, email or phone number.</span>
+                    </div>
+                  </label>
+                </Match>
+                <Match when={stage() === "choosing"}>
+                  <div class="join join-vertical w-full">
+                    <For each={factors()}>
+                      {item =>
+                        <input class="join-item btn" type="radio" name="factor"
+                               value={item.id}
+                               aria-label={getFactorName(item)}
+                        />
+                      }
+                    </For>
+                  </div>
+                  <p class="text-center text-sm mt-2">Choose a way to verify that's you</p>
+                </Match>
+                <Match when={stage() === "verifying"}>
+                  <label class="form-control w-full">
+                    <div class="label">
+                      <span class="label-text">Credentials</span>
+                    </div>
+                    <input name="credentials" type="password" placeholder="Type here"
+                           class="input input-bordered w-full" />
+                    <div class="label">
+                      <span class="label-text-alt">Password or one time password.</span>
+                    </div>
+                  </label>
+                </Match>
+              </Switch>
+
+              <button type="submit" class="btn btn-primary btn-block mt-3" disabled={loading()}>
+                <Show when={loading()} fallback={"Next"}>
+                  <span class="loading loading-spinner"></span>
+                </Show>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="text-sm text-center mt-3">
+          <a href="/auth/register" class="link">Haven't an account? Click here to create one!</a>
         </div>
       </div>
     </div>
