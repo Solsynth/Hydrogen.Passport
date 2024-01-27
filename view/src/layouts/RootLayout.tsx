@@ -1,11 +1,25 @@
 import Navbar from "./shared/Navbar.tsx";
+import { readProfiles } from "../stores/userinfo.ts";
+import { createSignal, Show } from "solid-js";
 
 export default function RootLayout(props: any) {
-  return (
-    <div>
-      <Navbar />
+  const [ready, setReady] = createSignal(false);
 
-      <main class="h-[calc(100vh-68px)]">{props.children}</main>
-    </div>
+  readProfiles().then(() => setReady(true));
+
+  return (
+    <Show when={ready()} fallback={
+      <div class="h-screen w-screen flex justify-center items-center">
+        <div>
+          <span class="loading loading-lg loading-infinity"></span>
+        </div>
+      </div>
+    }>
+      <div>
+        <Navbar />
+
+        <main class="h-[calc(100vh-68px)]">{props.children}</main>
+      </div>
+    </Show>
   );
 }

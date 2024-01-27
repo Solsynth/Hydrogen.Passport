@@ -1,3 +1,4 @@
+import { readProfiles } from "../../stores/userinfo.ts";
 import { useNavigate } from "@solidjs/router";
 import { createSignal, For, Match, Show, Switch } from "solid-js";
 import Cookie from "universal-cookie";
@@ -85,6 +86,7 @@ export default function Login() {
         const data = await res.json();
         if (data["is_finished"]) {
           await grantToken(data["session"]["grant_token"]);
+          await readProfiles();
           navigate("/");
         } else {
           setError(null);

@@ -1,4 +1,5 @@
-import { For } from "solid-js";
+import { For, Show } from "solid-js";
+import { userinfo } from "../../stores/userinfo.ts";
 
 interface MenuItem {
   label: string;
@@ -57,7 +58,9 @@ export default function Navbar() {
         </ul>
       </div>
       <div class="navbar-end pe-5">
-        <a href="/auth/login" class="btn btn-sm btn-primary">Login</a>
+        <Show when={!userinfo.isLoggedIn}>
+          <a href="/auth/login" class="btn btn-sm btn-primary">Login</a>
+        </Show>
       </div>
     </div>
   );
