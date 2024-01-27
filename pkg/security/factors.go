@@ -7,13 +7,13 @@ import (
 	"github.com/samber/lo"
 )
 
-func GetFactorCode(factor models.AuthFactor) error {
+func GetFactorCode(factor models.AuthFactor) (bool, error) {
 	switch factor.Type {
 	case models.EmailPasswordFactor:
 		// TODO
-		return nil
+		return true, nil
 	default:
-		return fmt.Errorf("unsupported factor to get code")
+		return false, nil
 	}
 }
 

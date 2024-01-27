@@ -14,9 +14,11 @@ func requestFactorToken(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	}
 
-	if err := security.GetFactorCode(factor); err != nil {
+	if sent, err := security.GetFactorCode(factor); err != nil {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
+	} else if !sent {
+		return c.SendStatus(fiber.StatusNoContent)
+	} else {
+		return c.SendStatus(fiber.StatusOK)
 	}
-
-	return c.SendStatus(fiber.StatusOK)
 }

@@ -29,7 +29,7 @@ func LookupAccount(id string) (models.Account, error) {
 		if err := database.C.
 			Where(models.Account{
 				BaseModel: models.BaseModel{ID: contact.AccountID},
-			}).First(&contact).Error; err == nil {
+			}).First(&account).Error; err == nil {
 			return account, err
 		}
 	}

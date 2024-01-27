@@ -56,6 +56,8 @@ func NewChallenge(account models.Account, factors []models.AuthFactor, ip, ua st
 
 func DoChallenge(challenge models.AuthChallenge, factor models.AuthFactor, code string) error {
 	if err := challenge.IsAvailable(); err != nil {
+		challenge.State = models.ExpiredChallengeState
+		database.C.Save(&challenge)
 		return err
 	}
 	if challenge.Progress >= challenge.Requirements {

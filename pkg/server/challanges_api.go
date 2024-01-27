@@ -89,7 +89,7 @@ func doChallenge(c *fiber.Ctx) error {
 
 func exchangeToken(c *fiber.Ctx) error {
 	var data struct {
-		Token     string `json:"token"`
+		Code      string `json:"code"`
 		GrantType string `json:"grant_type"`
 	}
 
@@ -99,7 +99,7 @@ func exchangeToken(c *fiber.Ctx) error {
 
 	switch data.GrantType {
 	case "authorization_code":
-		access, refresh, err := security.ExchangeToken(data.Token)
+		access, refresh, err := security.ExchangeToken(data.Code)
 		if err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, err.Error())
 		}
@@ -109,7 +109,7 @@ func exchangeToken(c *fiber.Ctx) error {
 			"refresh_token": refresh,
 		})
 	case "refresh_token":
-		access, refresh, err := security.RefreshToken(data.Token)
+		access, refresh, err := security.RefreshToken(data.Code)
 		if err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, err.Error())
 		}

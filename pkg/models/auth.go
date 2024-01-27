@@ -52,6 +52,7 @@ type AuthChallengeState = int8
 
 const (
 	ActiveChallengeState = AuthChallengeState(iota)
+	ExpiredChallengeState
 	FinishChallengeState
 )
 
