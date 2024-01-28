@@ -23,7 +23,7 @@ func main() {
 	viper.AddConfigPath(".")
 	viper.AddConfigPath("..")
 	viper.SetConfigName("settings")
-	viper.SetConfigType("yaml")
+	viper.SetConfigType("toml")
 
 	// Load settings
 	if err := viper.ReadInConfig(); err != nil {

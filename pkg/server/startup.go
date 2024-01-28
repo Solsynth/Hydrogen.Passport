@@ -19,10 +19,13 @@ func NewServer() {
 		JSONDecoder:           jsoniter.ConfigCompatibleWithStandardLibrary.Unmarshal,
 	})
 
+	A.Get("/.well-known", getMetadata)
+
 	api := A.Group("/api").Name("API")
 	{
 		api.Get("/users/me", auth, getPrincipal)
 		api.Post("/users", doRegister)
+		api.Post("/users/me/confirm", doRegisterConfirm)
 
 		api.Put("/auth", startChallenge)
 		api.Post("/auth", doChallenge)

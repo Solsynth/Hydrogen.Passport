@@ -13,6 +13,7 @@ func RunMigration(source *gorm.DB) error {
 		&models.AccountContact{},
 		&models.AuthSession{},
 		&models.AuthChallenge{},
+		&models.MagicToken{},
 	); err != nil {
 		return err
 	}

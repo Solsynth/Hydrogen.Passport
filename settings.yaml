@@ -1,9 +1,0 @@
-debug: true
-
-bind: 0.0.0.0:8444
-domain: id.smartsheep.studio
-secret: LtTjzAGFLshwXhN4ZD4nG5KlMv1MWcsvfv03TSZYnT1VhiAnLIZFTnHUwR0XhGgi
-
-database:
-  dsn: host=localhost dbname=hy_passport port=5432 sslmode=disable
-  prefix: passport_

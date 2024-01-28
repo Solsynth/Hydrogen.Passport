@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/samber/lo"
 	"time"
 
 	"gorm.io/datatypes"
@@ -24,8 +25,16 @@ type Account struct {
 	Challenges  []AuthChallenge              `json:"challenges"`
 	Factors     []AuthFactor                 `json:"factors"`
 	Contacts    []AccountContact             `json:"contacts"`
+	MagicTokens []MagicToken                 `json:"-" gorm:"foreignKey:AssignTo"`
 	ConfirmedAt *time.Time                   `json:"confirmed_at"`
 	Permissions datatypes.JSONType[[]string] `json:"permissions"`
+}
+
+func (v Account) GetPrimaryEmail() AccountContact {
+	val, _ := lo.Find(v.Contacts, func(item AccountContact) bool {
+		return item.Type == EmailAccountContact && item.IsPrimary
+	})
+	return val
 }
 
 type AccountContactType = int8

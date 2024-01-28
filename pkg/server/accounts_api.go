@@ -44,3 +44,19 @@ func doRegister(c *fiber.Ctx) error {
 		return c.JSON(user)
 	}
 }
+
+func doRegisterConfirm(c *fiber.Ctx) error {
+	var data struct {
+		Code string `json:"code"`
+	}
+
+	if err := BindAndValidate(c, &data); err != nil {
+		return err
+	}
+
+	if err := services.ConfirmAccount(data.Code); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	}
+
+	return c.SendStatus(fiber.StatusOK)
+}

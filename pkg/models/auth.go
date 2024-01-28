@@ -18,7 +18,7 @@ type AuthFactor struct {
 	BaseModel
 
 	Type      int8    `json:"type"`
-	Secret    string  `json:"secret"`
+	Secret    string  `json:"-"`
 	Config    JSONMap `json:"config"`
 	AccountID uint    `json:"account_id"`
 }

@@ -110,6 +110,10 @@ export default function RegisterPage() {
             </div>
           </Show>
         </div>
+
+        <div class="text-sm text-center mt-3">
+          <a href="/auth/login" class="link">Already had an account? Login now!</a>
+        </div>
       </div>
     </div>
   );

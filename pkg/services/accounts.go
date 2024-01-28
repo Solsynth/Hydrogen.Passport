@@ -5,7 +5,10 @@ import (
 	"code.smartsheep.studio/hydrogen/passport/pkg/models"
 	"code.smartsheep.studio/hydrogen/passport/pkg/security"
 	"fmt"
+	"github.com/samber/lo"
 	"gorm.io/datatypes"
+	"gorm.io/gorm"
+	"time"
 )
 
 func GetAccount(id uint) (models.Account, error) {
@@ -65,7 +68,45 @@ func CreateAccount(name, nick, email, password string) (models.Account, error) {
 
 	if err := database.C.Create(&user).Error; err != nil {
 		return user, err
-	} else {
-		return user, nil
 	}
+
+	if tk, err := NewMagicToken(models.ConfirmMagicToken, &user, nil); err != nil {
+		return user, err
+	} else if err := NotifyMagicToken(tk); err != nil {
+		return user, err
+	}
+
+	return user, nil
+}
+
+func ConfirmAccount(code string) error {
+	var token models.MagicToken
+	if err := database.C.Where(&models.MagicToken{
+		Code: code,
+		Type: models.ConfirmMagicToken,
+	}).First(&token).Error; err != nil {
+		return err
+	} else if token.AssignTo == nil {
+		return fmt.Errorf("account was not found")
+	}
+
+	var user models.Account
+	if err := database.C.Where(&models.Account{
+		BaseModel: models.BaseModel{ID: *token.AssignTo},
+	}).First(&user).Error; err != nil {
+		return err
+	}
+
+	return database.C.Transaction(func(tx *gorm.DB) error {
+		user.ConfirmedAt = lo.ToPtr(time.Now())
+
+		if err := database.C.Delete(&token).Error; err != nil {
+			return err
+		}
+		if err := database.C.Save(&user).Error; err != nil {
+			return err
+		}
+
+		return nil
+	})
 }
