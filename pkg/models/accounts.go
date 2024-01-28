@@ -19,10 +19,12 @@ type Account struct {
 	Name        string                       `json:"name" gorm:"uniqueIndex"`
 	Nick        string                       `json:"nick"`
 	State       AccountState                 `json:"state"`
+	Profile     AccountProfile               `json:"profile"`
 	Session     []AuthSession                `json:"sessions"`
 	Challenges  []AuthChallenge              `json:"challenges"`
 	Factors     []AuthFactor                 `json:"factors"`
 	Contacts    []AccountContact             `json:"contacts"`
+	ConfirmedAt *time.Time                   `json:"confirmed_at"`
 	Permissions datatypes.JSONType[[]string] `json:"permissions"`
 }
 

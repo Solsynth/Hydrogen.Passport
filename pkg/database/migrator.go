@@ -9,6 +9,7 @@ func RunMigration(source *gorm.DB) error {
 	if err := source.AutoMigrate(
 		&models.Account{},
 		&models.AuthFactor{},
+		&models.AccountProfile{},
 		&models.AccountContact{},
 		&models.AuthSession{},
 		&models.AuthChallenge{},

@@ -21,7 +21,7 @@ func NewServer() {
 
 	api := A.Group("/api").Name("API")
 	{
-		api.Get("/users/me", auth, aboutMe)
+		api.Get("/users/me", auth, getPrincipal)
 		api.Post("/users", doRegister)
 
 		api.Put("/auth", startChallenge)

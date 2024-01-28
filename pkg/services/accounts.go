@@ -1,10 +1,11 @@
 package services
 
 import (
-	"fmt"
-
 	"code.smartsheep.studio/hydrogen/passport/pkg/database"
 	"code.smartsheep.studio/hydrogen/passport/pkg/models"
+	"code.smartsheep.studio/hydrogen/passport/pkg/security"
+	"fmt"
+	"gorm.io/datatypes"
 )
 
 func GetAccount(id uint) (models.Account, error) {
@@ -35,4 +36,36 @@ func LookupAccount(id string) (models.Account, error) {
 	}
 
 	return account, fmt.Errorf("account was not found")
+}
+
+func CreateAccount(name, nick, email, password string) (models.Account, error) {
+	user := models.Account{
+		Name:  name,
+		Nick:  nick,
+		State: models.PendingAccountState,
+		Profile: models.AccountProfile{
+			Experience: 100,
+		},
+		Factors: []models.AuthFactor{
+			{
+				Type:   models.PasswordAuthFactor,
+				Secret: security.HashPassword(password),
+			},
+		},
+		Contacts: []models.AccountContact{
+			{
+				Type:       models.EmailAccountContact,
+				Content:    email,
+				VerifiedAt: nil,
+			},
+		},
+		Permissions: datatypes.NewJSONType(make([]string, 0)),
+		ConfirmedAt: nil,
+	}
+
+	if err := database.C.Create(&user).Error; err != nil {
+		return user, err
+	} else {
+		return user, nil
+	}
 }

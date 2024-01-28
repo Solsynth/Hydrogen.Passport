@@ -3,9 +3,23 @@ package server
 import (
 	"code.smartsheep.studio/hydrogen/passport/pkg/database"
 	"code.smartsheep.studio/hydrogen/passport/pkg/models"
-	"code.smartsheep.studio/hydrogen/passport/pkg/security"
+	"code.smartsheep.studio/hydrogen/passport/pkg/services"
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm/clause"
 )
+
+func getPrincipal(c *fiber.Ctx) error {
+	user := c.Locals("principal").(models.Account)
+
+	var data models.Account
+	if err := database.C.Where(&models.Account{
+		BaseModel: models.BaseModel{ID: user.ID},
+	}).Preload(clause.Associations).First(&data).Error; err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(data)
+}
 
 func doRegister(c *fiber.Ctx) error {
 	var data struct {
@@ -19,28 +33,14 @@ func doRegister(c *fiber.Ctx) error {
 		return err
 	}
 
-	user := models.Account{
-		Name:  data.Name,
-		Nick:  data.Nick,
-		State: models.PendingAccountState,
-		Factors: []models.AuthFactor{
-			{
-				Type:   models.PasswordAuthFactor,
-				Secret: security.HashPassword(data.Password),
-			},
-		},
-		Contacts: []models.AccountContact{
-			{
-				Type:       models.EmailAccountContact,
-				Content:    data.Email,
-				VerifiedAt: nil,
-			},
-		},
-	}
-
-	if err := database.C.Create(&user).Error; err != nil {
+	if user, err := services.CreateAccount(
+		data.Name,
+		data.Nick,
+		data.Email,
+		data.Password,
+	); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	} else {
+		return c.JSON(user)
 	}
-
-	return c.JSON(user)
 }
