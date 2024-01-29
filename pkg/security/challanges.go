@@ -2,7 +2,6 @@ package security
 
 import (
 	"fmt"
-	"math"
 	"time"
 
 	"code.smartsheep.studio/hydrogen/passport/pkg/database"
@@ -36,7 +35,7 @@ func NewChallenge(account models.Account, factors []models.AuthFactor, ip, ua st
 	}
 
 	// Thinking of the requirements factors
-	requirements := int(math.Max(float64(len(factors)), math.Min(float64(risk), 1)))
+	requirements := lo.Clamp(risk, 1, len(factors))
 
 	challenge = models.AuthChallenge{
 		IpAddress:        ip,
