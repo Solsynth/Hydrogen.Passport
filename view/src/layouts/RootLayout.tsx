@@ -1,24 +1,35 @@
 import Navbar from "./shared/Navbar.tsx";
-import { readProfiles } from "../stores/userinfo.tsx";
-import { createSignal, Show } from "solid-js";
+import { readProfiles, useUserinfo } from "../stores/userinfo.tsx";
+import { createEffect, createSignal, Show } from "solid-js";
 import { readWellKnown } from "../stores/wellKnown.tsx";
-import { BeforeLeaveEventArgs, useBeforeLeave, useNavigate } from "@solidjs/router";
+import { BeforeLeaveEventArgs, useBeforeLeave, useLocation, useNavigate } from "@solidjs/router";
 
 export default function RootLayout(props: any) {
   const [ready, setReady] = createSignal(false);
 
   Promise.all([readWellKnown(), readProfiles()]).then(() => setReady(true));
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const userinfo = useUserinfo();
 
-  useBeforeLeave((e: BeforeLeaveEventArgs) => {
-    const whitelist = ["/auth/login", "/auth/register", "/users/me/confirm"]
+  const location = useLocation();
 
-    if (!whitelist.includes(e.to.toString()) && !e.defaultPrevented) {
-      e.preventDefault();
-      navigate(`/auth/login?redirect_uri=${e.to.toString()}`)
+  createEffect(() => {
+    if (ready()) {
+      keepGate(location.pathname);
     }
   });
+
+  function keepGate(path: string, e?: BeforeLeaveEventArgs) {
+    const whitelist = ["/auth/login", "/auth/register", "/users/me/confirm"];
+
+    if (!userinfo?.isLoggedIn && !whitelist.includes(path)) {
+      if (!e?.defaultPrevented) e?.preventDefault();
+      navigate(`/auth/login?redirect_uri=${path}`);
+    }
+  }
+
+  useBeforeLeave((e: BeforeLeaveEventArgs) => keepGate(e.to.toString().split("?")[0], e));
 
   return (
     <Show when={ready()} fallback={

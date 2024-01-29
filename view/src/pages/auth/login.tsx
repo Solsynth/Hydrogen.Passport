@@ -15,7 +15,7 @@ export default function LoginPage() {
   const [challenge, setChallenge] = createSignal<any>();
   const [stage, setStage] = createSignal("starting");
 
-  const[searchParams] = useSearchParams()
+  const [searchParams] = useSearchParams();
 
   const navigate = useNavigate();
 
@@ -212,8 +212,22 @@ export default function LoginPage() {
           </div>
         </div>
 
+        <Show when={searchParams["redirect_uri"]}>
+          <div id="redirect-info" class="mt-3">
+            <div role="alert" class="alert shadow-xl">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                   class="stroke-info shrink-0 w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span>You need to login before access that.</span>
+            </div>
+          </div>
+        </Show>
+
         <div class="text-sm text-center mt-3">
-          <a target="_blank" href="/auth/register?closable=yes" class="link">Haven't an account? Click here to create one!</a>
+          <a target="_blank" href="/auth/register?closable=yes" class="link">Haven't an account? Click here to create
+            one!</a>
         </div>
       </div>
     </div>
