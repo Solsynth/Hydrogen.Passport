@@ -50,7 +50,7 @@ export default function LoginPage() {
       if (!data.factor) return;
 
       setLoading(true);
-      const res = await fetch(`/api/auth/factors/${data.id}`, {
+      const res = await fetch(`/api/auth/factors/${data.factor}`, {
         method: "POST"
       });
       if (res.status !== 200 && res.status !== 204) {
@@ -93,6 +93,7 @@ export default function LoginPage() {
           setStage("choosing");
           setTitle("Continue verifying");
           setSubtitle("You passed one check, but that's not enough.");
+          setChallenge(data["challenge"]);
         }
       }
       setLoading(false);
@@ -120,10 +121,17 @@ export default function LoginPage() {
     }
   }
 
+  function getFactorAvailable(factor: any) {
+    const blacklist: number[] = challenge()?.blacklist_factors ?? [];
+    return blacklist.includes(factor.id);
+  }
+
   function getFactorName(factor: any) {
     switch (factor.type) {
       case 0:
         return "Password Verification";
+      case 1:
+        return "Email Verification Code";
       default:
         return "Unknown";
     }
@@ -171,6 +179,7 @@ export default function LoginPage() {
                       {item =>
                         <input class="join-item btn" type="radio" name="factor"
                                value={item.id}
+                               disabled={getFactorAvailable(item)}
                                aria-label={getFactorName(item)}
                         />
                       }

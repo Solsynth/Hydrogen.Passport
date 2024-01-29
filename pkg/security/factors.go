@@ -1,21 +1,10 @@
 package security
 
 import (
-	"fmt"
-
 	"code.smartsheep.studio/hydrogen/passport/pkg/models"
+	"fmt"
 	"github.com/samber/lo"
 )
-
-func GetFactorCode(factor models.AuthFactor) (bool, error) {
-	switch factor.Type {
-	case models.EmailPasswordFactor:
-		// TODO
-		return true, nil
-	default:
-		return false, nil
-	}
-}
 
 func VerifyFactor(factor models.AuthFactor, code string) error {
 	switch factor.Type {
@@ -24,6 +13,12 @@ func VerifyFactor(factor models.AuthFactor, code string) error {
 			VerifyPassword(code, factor.Secret),
 			nil,
 			fmt.Errorf("invalid password"),
+		)
+	case models.EmailPasswordFactor:
+		return lo.Ternary(
+			code == factor.Secret,
+			nil,
+			fmt.Errorf("invalid verification code"),
 		)
 	}
 

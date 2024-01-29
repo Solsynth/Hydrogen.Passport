@@ -7,7 +7,8 @@ import (
 
 func getMetadata(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
-		"name":   viper.GetString("name"),
-		"domain": viper.GetString("domain"),
+		"name":              viper.GetString("name"),
+		"domain":            viper.GetString("domain"),
+		"open_registration": !viper.GetBool("use_registration_magic_token"),
 	})
 }

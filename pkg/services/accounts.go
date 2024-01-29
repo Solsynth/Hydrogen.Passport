@@ -5,6 +5,7 @@ import (
 	"code.smartsheep.studio/hydrogen/passport/pkg/models"
 	"code.smartsheep.studio/hydrogen/passport/pkg/security"
 	"fmt"
+	"github.com/google/uuid"
 	"github.com/samber/lo"
 	"gorm.io/datatypes"
 	"gorm.io/gorm"
@@ -54,11 +55,16 @@ func CreateAccount(name, nick, email, password string) (models.Account, error) {
 				Type:   models.PasswordAuthFactor,
 				Secret: security.HashPassword(password),
 			},
+			{
+				Type:   models.EmailPasswordFactor,
+				Secret: uuid.NewString()[:8],
+			},
 		},
 		Contacts: []models.AccountContact{
 			{
 				Type:       models.EmailAccountContact,
 				Content:    email,
+				IsPrimary:  true,
 				VerifiedAt: nil,
 			},
 		},
@@ -80,14 +86,9 @@ func CreateAccount(name, nick, email, password string) (models.Account, error) {
 }
 
 func ConfirmAccount(code string) error {
-	var token models.MagicToken
-	if err := database.C.Where(&models.MagicToken{
-		Code: code,
-		Type: models.ConfirmMagicToken,
-	}).First(&token).Error; err != nil {
+	token, err := ValidateMagicToken(code, models.ConfirmMagicToken)
+	if err != nil {
 		return err
-	} else if token.AssignTo == nil {
-		return fmt.Errorf("account was not found")
 	}
 
 	var user models.Account

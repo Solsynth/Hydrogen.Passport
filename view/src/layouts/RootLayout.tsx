@@ -1,11 +1,12 @@
 import Navbar from "./shared/Navbar.tsx";
-import { readProfiles, UserinfoProvider } from "../stores/userinfo.tsx";
+import { readProfiles } from "../stores/userinfo.tsx";
 import { createSignal, Show } from "solid-js";
+import { readWellKnown } from "../stores/wellKnown.tsx";
 
 export default function RootLayout(props: any) {
   const [ready, setReady] = createSignal(false);
 
-  readProfiles().then(() => setReady(true));
+  Promise.all([readWellKnown(), readProfiles()]).then(() => setReady(true));
 
   return (
     <Show when={ready()} fallback={
@@ -15,11 +16,8 @@ export default function RootLayout(props: any) {
         </div>
       </div>
     }>
-      <UserinfoProvider>
-        <Navbar />
-
-        <main class="h-[calc(100vh-68px)]">{props.children}</main>
-      </UserinfoProvider>
+      <Navbar />
+      <main class="h-[calc(100vh-68px)] mt-[68px]">{props.children}</main>
     </Show>
   );
 }

@@ -4,7 +4,9 @@ import (
 	"code.smartsheep.studio/hydrogen/passport/pkg/database"
 	"code.smartsheep.studio/hydrogen/passport/pkg/models"
 	"code.smartsheep.studio/hydrogen/passport/pkg/services"
+	"fmt"
 	"github.com/gofiber/fiber/v2"
+	"github.com/spf13/viper"
 	"gorm.io/gorm/clause"
 )
 
@@ -23,14 +25,23 @@ func getPrincipal(c *fiber.Ctx) error {
 
 func doRegister(c *fiber.Ctx) error {
 	var data struct {
-		Name     string `json:"name"`
-		Nick     string `json:"nick"`
-		Email    string `json:"email"`
-		Password string `json:"password"`
+		Name       string `json:"name"`
+		Nick       string `json:"nick"`
+		Email      string `json:"email"`
+		Password   string `json:"password"`
+		MagicToken string `json:"magic_token"`
 	}
 
 	if err := BindAndValidate(c, &data); err != nil {
 		return err
+	} else if viper.GetBool("use_registration_magic_token") && len(data.MagicToken) <= 0 {
+		return fmt.Errorf("missing magic token in request")
+	}
+
+	if tk, err := services.ValidateMagicToken(data.MagicToken, models.RegistrationMagicToken); err != nil {
+		return err
+	} else {
+		database.C.Delete(&tk)
 	}
 
 	if user, err := services.CreateAccount(

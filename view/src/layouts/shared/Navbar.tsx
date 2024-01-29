@@ -1,6 +1,7 @@
 import { For, Match, Switch } from "solid-js";
 import { clearUserinfo, useUserinfo } from "../../stores/userinfo.tsx";
 import { useNavigate } from "@solidjs/router";
+import { useWellKnown } from "../../stores/wellKnown.tsx";
 
 interface MenuItem {
   label: string;
@@ -10,6 +11,7 @@ interface MenuItem {
 export default function Navbar() {
   const nav: MenuItem[] = [{ label: "Dashboard", href: "/" }];
 
+  const wellKnown = useWellKnown();
   const userinfo = useUserinfo();
   const navigate = useNavigate();
 
@@ -19,7 +21,7 @@ export default function Navbar() {
   }
 
   return (
-    <div class="navbar bg-base-100 shadow-md px-5">
+    <div class="navbar bg-base-100 shadow-md px-5 z-10 fixed top-0">
       <div class="navbar-start">
         <div class="dropdown">
           <div tabIndex={0} role="button" class="btn btn-ghost lg:hidden">
@@ -52,7 +54,7 @@ export default function Navbar() {
           </ul>
         </div>
         <a href="/" class="btn btn-ghost text-xl">
-          Goatpass
+          {wellKnown?.name ?? "Goatpass"}
         </a>
       </div>
       <div class="navbar-center hidden lg:flex">

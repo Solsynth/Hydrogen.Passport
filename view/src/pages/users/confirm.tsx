@@ -1,11 +1,14 @@
 import { createSignal, Show } from "solid-js";
-import { useSearchParams } from "@solidjs/router";
+import { useNavigate, useSearchParams } from "@solidjs/router";
+import { readProfiles } from "../../stores/userinfo.tsx";
 
 export default function ConfirmRegistrationPage() {
   const [error, setError] = createSignal<string | null>(null);
   const [status, setStatus] = createSignal("Confirming your account...");
 
   const [searchParams] = useSearchParams();
+
+  const navigate = useNavigate();
 
   async function doConfirm() {
     if (!searchParams["tk"]) {
@@ -23,6 +26,8 @@ export default function ConfirmRegistrationPage() {
       setError(await res.text());
     } else {
       setStatus("Confirmed. Redirecting to dashboard...");
+      await readProfiles();
+      navigate("/");
     }
   }
 
