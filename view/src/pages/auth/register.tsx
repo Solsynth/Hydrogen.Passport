@@ -1,5 +1,6 @@
 import { createSignal, Show } from "solid-js";
 import { useWellKnown } from "../../stores/wellKnown.tsx";
+import { useNavigate, useSearchParams } from "@solidjs/router";
 
 export default function RegisterPage() {
   const [title, setTitle] = createSignal("Create an account");
@@ -9,7 +10,10 @@ export default function RegisterPage() {
   const [loading, setLoading] = createSignal(false);
   const [done, setDone] = createSignal(false);
 
+  const [searchParams] = useSearchParams()
+
   const metadata = useWellKnown();
+  const navigate = useNavigate();
 
   async function submit(evt: SubmitEvent) {
     evt.preventDefault();
@@ -32,6 +36,14 @@ export default function RegisterPage() {
       setDone(true);
     }
     setLoading(false);
+  }
+
+  function callback() {
+    if(searchParams["closable"]) {
+      window.close()
+    } else {
+      navigate("/auth/login")
+    }
   }
 
   return (
@@ -124,7 +136,7 @@ export default function RegisterPage() {
               <div class="py-12 text-center">
                 <h2 class="text-lg font-bold">What's next?</h2>
                 <span>
-                <a href="/auth/login" class="link">Go login</a>{" "}
+                <a onClick={() => callback()} class="link">Go login</a>{" "}
                   then you can take part in the entire smartsheep community.
               </span>
               </div>
@@ -133,7 +145,7 @@ export default function RegisterPage() {
         </div>
 
         <div class="text-sm text-center mt-3">
-          <a href="/auth/login" class="link">Already had an account? Login now!</a>
+          <a onClick={() => callback()} class="link">Already had an account? Login now!</a>
         </div>
       </div>
     </div>

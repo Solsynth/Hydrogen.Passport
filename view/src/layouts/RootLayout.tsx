@@ -2,11 +2,23 @@ import Navbar from "./shared/Navbar.tsx";
 import { readProfiles } from "../stores/userinfo.tsx";
 import { createSignal, Show } from "solid-js";
 import { readWellKnown } from "../stores/wellKnown.tsx";
+import { BeforeLeaveEventArgs, useBeforeLeave, useNavigate } from "@solidjs/router";
 
 export default function RootLayout(props: any) {
   const [ready, setReady] = createSignal(false);
 
   Promise.all([readWellKnown(), readProfiles()]).then(() => setReady(true));
+
+  const navigate = useNavigate()
+
+  useBeforeLeave((e: BeforeLeaveEventArgs) => {
+    const whitelist = ["/auth/login", "/auth/register", "/users/me/confirm"]
+
+    if (!whitelist.includes(e.to.toString()) && !e.defaultPrevented) {
+      e.preventDefault();
+      navigate(`/auth/login?redirect_uri=${e.to.toString()}`)
+    }
+  });
 
   return (
     <Show when={ready()} fallback={

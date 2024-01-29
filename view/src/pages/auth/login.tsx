@@ -1,5 +1,5 @@
 import { readProfiles } from "../../stores/userinfo.tsx";
-import { useNavigate } from "@solidjs/router";
+import { useNavigate, useSearchParams } from "@solidjs/router";
 import { createSignal, For, Match, Show, Switch } from "solid-js";
 import Cookie from "universal-cookie";
 
@@ -14,6 +14,8 @@ export default function LoginPage() {
   const [factors, setFactors] = createSignal<any[]>([]);
   const [challenge, setChallenge] = createSignal<any>();
   const [stage, setStage] = createSignal("starting");
+
+  const[searchParams] = useSearchParams()
 
   const navigate = useNavigate();
 
@@ -87,7 +89,7 @@ export default function LoginPage() {
         if (data["is_finished"]) {
           await grantToken(data["session"]["grant_token"]);
           await readProfiles();
-          navigate("/");
+          navigate(searchParams["redirect_uri"] ?? "/");
         } else {
           setError(null);
           setStage("choosing");
@@ -211,7 +213,7 @@ export default function LoginPage() {
         </div>
 
         <div class="text-sm text-center mt-3">
-          <a href="/auth/register" class="link">Haven't an account? Click here to create one!</a>
+          <a target="_blank" href="/auth/register?closable=yes" class="link">Haven't an account? Click here to create one!</a>
         </div>
       </div>
     </div>
