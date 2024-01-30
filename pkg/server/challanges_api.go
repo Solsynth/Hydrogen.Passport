@@ -32,6 +32,7 @@ func startChallenge(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	}
 
+	services.AddEvent(user, "challenges.start", data.ID, c.IP(), c.Get(fiber.HeaderUserAgent))
 	return c.JSON(fiber.Map{
 		"display_name": user.Nick,
 		"challenge":    challenge,
@@ -90,6 +91,7 @@ func doChallenge(c *fiber.Ctx) error {
 func exchangeToken(c *fiber.Ctx) error {
 	var data struct {
 		Code         string `json:"code" form:"code"`
+		RefreshToken string `json:"refresh_token" form:"refresh_token"`
 		ClientID     string `json:"client_id" form:"client_id"`
 		ClientSecret string `json:"client_secret" form:"client_secret"`
 		RedirectUri  string `json:"redirect_uri" form:"redirect_uri"`
@@ -125,7 +127,7 @@ func exchangeToken(c *fiber.Ctx) error {
 		})
 	case "refresh_token":
 		// Refresh Token
-		access, refresh, err := security.RefreshToken(data.Code)
+		access, refresh, err := security.RefreshToken(data.RefreshToken)
 		if err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, err.Error())
 		}

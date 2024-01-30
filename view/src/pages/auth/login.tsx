@@ -214,7 +214,7 @@ export default function LoginPage() {
 
         <Show when={searchParams["redirect_uri"]}>
           <div id="redirect-info" class="mt-3">
-            <div role="alert" class="alert shadow-xl">
+            <div role="alert" class="alert shadow">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                    class="stroke-info shrink-0 w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

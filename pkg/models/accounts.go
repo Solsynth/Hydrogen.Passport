@@ -25,6 +25,7 @@ type Account struct {
 	Challenges   []AuthChallenge              `json:"challenges"`
 	Factors      []AuthFactor                 `json:"factors"`
 	Contacts     []AccountContact             `json:"contacts"`
+	Events       []ActionEvent                `json:"events"`
 	MagicTokens  []MagicToken                 `json:"-" gorm:"foreignKey:AssignTo"`
 	ThirdClients []ThirdClient                `json:"clients"`
 	ConfirmedAt  *time.Time                   `json:"confirmed_at"`

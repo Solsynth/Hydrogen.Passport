@@ -18,7 +18,7 @@ export default function RootLayout(props: any) {
     if (ready()) {
       keepGate(location.pathname);
     }
-  });
+  }, [ready, userinfo]);
 
   function keepGate(path: string, e?: BeforeLeaveEventArgs) {
     const whitelist = ["/auth/login", "/auth/register", "/users/me/confirm"];

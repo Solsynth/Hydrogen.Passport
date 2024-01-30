@@ -31,7 +31,7 @@ export async function refreshAtk() {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      code: rtk,
+      refresh_token: rtk,
       grant_type: "refresh_token"
     })
   });

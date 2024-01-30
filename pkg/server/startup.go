@@ -25,6 +25,8 @@ func NewServer() {
 	api := A.Group("/api").Name("API")
 	{
 		api.Get("/users/me", auth, getPrincipal)
+		api.Get("/users/me/events", auth, getEvents)
+
 		api.Post("/users", doRegister)
 		api.Post("/users/me/confirm", doRegisterConfirm)
 

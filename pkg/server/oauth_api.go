@@ -4,6 +4,7 @@ import (
 	"code.smartsheep.studio/hydrogen/passport/pkg/database"
 	"code.smartsheep.studio/hydrogen/passport/pkg/models"
 	"code.smartsheep.studio/hydrogen/passport/pkg/security"
+	"code.smartsheep.studio/hydrogen/passport/pkg/services"
 	"github.com/gofiber/fiber/v2"
 	"github.com/samber/lo"
 	"strings"
@@ -67,13 +68,12 @@ func doConnect(c *fiber.Ctx) error {
 	switch response {
 	case "code":
 		// OAuth Authorization Mode
-		expired := time.Now().Add(7 * 24 * time.Hour)
 		session, err := security.GrantOauthSession(
 			user,
 			client,
 			strings.Split(scope, " "),
 			[]string{"Hydrogen.Passport", client.Alias},
-			&expired,
+			nil,
 			lo.ToPtr(time.Now()),
 			c.IP(),
 			c.Get(fiber.HeaderUserAgent),
@@ -82,6 +82,7 @@ func doConnect(c *fiber.Ctx) error {
 		if err != nil {
 			return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 		} else {
+			services.AddEvent(user, "oauth.connect", client.Alias, c.IP(), c.Get(fiber.HeaderUserAgent))
 			return c.JSON(fiber.Map{
 				"session":      session,
 				"redirect_uri": redirect,
@@ -89,13 +90,12 @@ func doConnect(c *fiber.Ctx) error {
 		}
 	case "token":
 		// OAuth Implicit Mode
-		expired := time.Now().Add(7 * 24 * time.Hour)
 		session, err := security.GrantOauthSession(
 			user,
 			client,
 			strings.Split(scope, " "),
 			[]string{"Hydrogen.Passport", client.Alias},
-			&expired,
+			nil,
 			lo.ToPtr(time.Now()),
 			c.IP(),
 			c.Get(fiber.HeaderUserAgent),
@@ -106,6 +106,7 @@ func doConnect(c *fiber.Ctx) error {
 		} else if access, refresh, err := security.GetToken(session); err != nil {
 			return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 		} else {
+			services.AddEvent(user, "oauth.connect", client.Alias, c.IP(), c.Get(fiber.HeaderUserAgent))
 			return c.JSON(fiber.Map{
 				"access_token":  access,
 				"refresh_token": refresh,

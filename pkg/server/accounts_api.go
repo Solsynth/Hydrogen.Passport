@@ -27,6 +27,34 @@ func getPrincipal(c *fiber.Ctx) error {
 	return c.JSON(data)
 }
 
+func getEvents(c *fiber.Ctx) error {
+	user := c.Locals("principal").(models.Account)
+	take := c.QueryInt("take", 0)
+	offset := c.QueryInt("offset", 0)
+
+	var count int64
+	var events []models.ActionEvent
+	if err := database.C.
+		Where(&models.ActionEvent{AccountID: user.ID}).
+		Model(&models.ActionEvent{}).
+		Count(&count).Error; err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+
+	if err := database.C.
+		Where(&models.ActionEvent{AccountID: user.ID}).
+		Limit(take).
+		Offset(offset).
+		Find(&events).Error; err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(fiber.Map{
+		"count": count,
+		"data":  events,
+	})
+}
+
 func doRegister(c *fiber.Ctx) error {
 	var data struct {
 		Name       string `json:"name"`
