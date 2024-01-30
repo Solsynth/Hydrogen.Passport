@@ -8,6 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/spf13/viper"
+	"strconv"
 )
 
 func getPrincipal(c *fiber.Ctx) error {
@@ -29,7 +30,7 @@ func getPrincipal(c *fiber.Ctx) error {
 	raw, _ := jsoniter.Marshal(data)
 	jsoniter.Unmarshal(raw, &resp)
 
-	resp["sub"] = data.ID
+	resp["sub"] = strconv.Itoa(int(data.ID))
 	resp["family_name"] = data.Profile.FirstName
 	resp["given_name"] = data.Profile.LastName
 	resp["name"] = data.Name
