@@ -11,7 +11,7 @@ import (
 	"github.com/samber/lo"
 )
 
-func GrantSession(challenge models.AuthChallenge, claims []string, expired *time.Time, available *time.Time) (models.AuthSession, error) {
+func GrantSession(challenge models.AuthChallenge, claims, audiences []string, expired, available *time.Time) (models.AuthSession, error) {
 	var session models.AuthSession
 	if err := challenge.IsAvailable(); err != nil {
 		return session, err
@@ -24,6 +24,7 @@ func GrantSession(challenge models.AuthChallenge, claims []string, expired *time
 
 	session = models.AuthSession{
 		Claims:       claims,
+		Audiences:    audiences,
 		Challenge:    challenge,
 		GrantToken:   uuid.NewString(),
 		AccessToken:  uuid.NewString(),
@@ -42,7 +43,42 @@ func GrantSession(challenge models.AuthChallenge, claims []string, expired *time
 	return session, nil
 }
 
-func GetToken(session models.AuthSession, aud ...string) (string, string, error) {
+func GrantOauthSession(user models.Account, client models.ThirdClient, claims, audiences []string, expired, available *time.Time, ip, ua string) (models.AuthSession, error) {
+	session := models.AuthSession{
+		Claims:    claims,
+		Audiences: audiences,
+		Challenge: models.AuthChallenge{
+			IpAddress: ip,
+			UserAgent: ua,
+			RiskLevel: CalcRisk(user, ip, ua),
+			State:     models.FinishChallengeState,
+			AccountID: user.ID,
+		},
+		GrantToken:   uuid.NewString(),
+		AccessToken:  uuid.NewString(),
+		RefreshToken: uuid.NewString(),
+		ExpiredAt:    expired,
+		AvailableAt:  available,
+		ClientID:     &client.ID,
+		AccountID:    user.ID,
+	}
+
+	if err := database.C.Save(&session).Error; err != nil {
+		return session, err
+	}
+
+	return session, nil
+}
+
+func RegenSession(session models.AuthSession) (models.AuthSession, error) {
+	session.GrantToken = uuid.NewString()
+	session.AccessToken = uuid.NewString()
+	session.RefreshToken = uuid.NewString()
+	err := database.C.Save(&session).Error
+	return session, err
+}
+
+func GetToken(session models.AuthSession) (string, string, error) {
 	var refresh, access string
 	if err := session.IsAvailable(); err != nil {
 		return refresh, access, err
@@ -51,11 +87,11 @@ func GetToken(session models.AuthSession, aud ...string) (string, string, error)
 	var err error
 
 	sub := strconv.Itoa(int(session.ID))
-	access, err = EncodeJwt(session.AccessToken, nil, JwtAccessType, sub, aud, time.Now().Add(30*time.Minute))
+	access, err = EncodeJwt(session.AccessToken, nil, JwtAccessType, sub, session.Audiences, time.Now().Add(30*time.Minute))
 	if err != nil {
 		return refresh, access, err
 	}
-	refresh, err = EncodeJwt(session.RefreshToken, nil, JwtRefreshType, sub, aud, time.Now().Add(30*24*time.Hour))
+	refresh, err = EncodeJwt(session.RefreshToken, nil, JwtRefreshType, sub, session.Audiences, time.Now().Add(30*24*time.Hour))
 	if err != nil {
 		return refresh, access, err
 	}
@@ -66,7 +102,29 @@ func GetToken(session models.AuthSession, aud ...string) (string, string, error)
 	return access, refresh, nil
 }
 
-func ExchangeToken(token string, aud ...string) (string, string, error) {
+func ExchangeToken(token string) (string, string, error) {
+	var session models.AuthSession
+	if err := database.C.Where(models.AuthSession{GrantToken: token}).First(&session).Error; err != nil {
+		return "404", "403", err
+	} else if session.LastGrantAt != nil {
+		return "404", "403", fmt.Errorf("session was granted the first token, use refresh token instead")
+	} else if len(session.Audiences) > 1 {
+		return "404", "403", fmt.Errorf("should use authorization code grant type")
+	}
+
+	return GetToken(session)
+}
+
+func ExchangeOauthToken(clientId, clientSecret, redirectUri, token string) (string, string, error) {
+	var client models.ThirdClient
+	if err := database.C.Where(models.ThirdClient{Alias: clientId}).First(&client).Error; err != nil {
+		return "404", "403", err
+	} else if client.Secret != clientSecret {
+		return "404", "403", fmt.Errorf("invalid client secret")
+	} else if !client.IsDraft && !lo.Contains(client.Callbacks, redirectUri) {
+		return "404", "403", fmt.Errorf("invalid redirect uri")
+	}
+
 	var session models.AuthSession
 	if err := database.C.Where(models.AuthSession{GrantToken: token}).First(&session).Error; err != nil {
 		return "404", "403", err
@@ -74,10 +132,10 @@ func ExchangeToken(token string, aud ...string) (string, string, error) {
 		return "404", "403", fmt.Errorf("session was granted the first token, use refresh token instead")
 	}
 
-	return GetToken(session, aud...)
+	return GetToken(session)
 }
 
-func RefreshToken(token string, aud ...string) (string, string, error) {
+func RefreshToken(token string) (string, string, error) {
 	parseInt := func(str string) int {
 		val, _ := strconv.Atoi(str)
 		return val
@@ -94,5 +152,5 @@ func RefreshToken(token string, aud ...string) (string, string, error) {
 		return "404", "403", err
 	}
 
-	return GetToken(session, aud...)
+	return GetToken(session)
 }

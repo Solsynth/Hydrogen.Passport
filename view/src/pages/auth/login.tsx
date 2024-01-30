@@ -108,7 +108,7 @@ export default function LoginPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         code: tk,
-        grant_type: "authorization_code"
+        grant_type: "grant_token"
       })
     });
     if (res.status !== 200) {

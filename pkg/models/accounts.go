@@ -17,17 +17,18 @@ const (
 type Account struct {
 	BaseModel
 
-	Name        string                       `json:"name" gorm:"uniqueIndex"`
-	Nick        string                       `json:"nick"`
-	State       AccountState                 `json:"state"`
-	Profile     AccountProfile               `json:"profile"`
-	Session     []AuthSession                `json:"sessions"`
-	Challenges  []AuthChallenge              `json:"challenges"`
-	Factors     []AuthFactor                 `json:"factors"`
-	Contacts    []AccountContact             `json:"contacts"`
-	MagicTokens []MagicToken                 `json:"-" gorm:"foreignKey:AssignTo"`
-	ConfirmedAt *time.Time                   `json:"confirmed_at"`
-	Permissions datatypes.JSONType[[]string] `json:"permissions"`
+	Name         string                       `json:"name" gorm:"uniqueIndex"`
+	Nick         string                       `json:"nick"`
+	State        AccountState                 `json:"state"`
+	Profile      AccountProfile               `json:"profile"`
+	Sessions     []AuthSession                `json:"sessions"`
+	Challenges   []AuthChallenge              `json:"challenges"`
+	Factors      []AuthFactor                 `json:"factors"`
+	Contacts     []AccountContact             `json:"contacts"`
+	MagicTokens  []MagicToken                 `json:"-" gorm:"foreignKey:AssignTo"`
+	ThirdClients []ThirdClient                `json:"clients"`
+	ConfirmedAt  *time.Time                   `json:"confirmed_at"`
+	Permissions  datatypes.JSONType[[]string] `json:"permissions"`
 }
 
 func (v Account) GetPrimaryEmail() AccountContact {

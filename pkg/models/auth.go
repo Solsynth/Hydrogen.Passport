@@ -27,6 +27,7 @@ type AuthSession struct {
 	BaseModel
 
 	Claims       datatypes.JSONSlice[string] `json:"claims"`
+	Audiences    datatypes.JSONSlice[string] `json:"audiences"`
 	Challenge    AuthChallenge               `json:"challenge" gorm:"foreignKey:SessionID"`
 	GrantToken   string                      `json:"grant_token"`
 	AccessToken  string                      `json:"access_token"`
@@ -34,6 +35,7 @@ type AuthSession struct {
 	ExpiredAt    *time.Time                  `json:"expired_at"`
 	AvailableAt  *time.Time                  `json:"available_at"`
 	LastGrantAt  *time.Time                  `json:"last_grant_at"`
+	ClientID     *uint                       `json:"client_id"`
 	AccountID    uint                        `json:"account_id"`
 }
 
@@ -59,6 +61,7 @@ const (
 type AuthChallenge struct {
 	BaseModel
 
+	Location         string                     `json:"location"`
 	IpAddress        string                     `json:"ip_address"`
 	UserAgent        string                     `json:"user_agent"`
 	RiskLevel        int                        `json:"risk_level"`

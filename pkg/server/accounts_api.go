@@ -7,16 +7,20 @@ import (
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/spf13/viper"
-	"gorm.io/gorm/clause"
 )
 
 func getPrincipal(c *fiber.Ctx) error {
 	user := c.Locals("principal").(models.Account)
 
 	var data models.Account
-	if err := database.C.Where(&models.Account{
-		BaseModel: models.BaseModel{ID: user.ID},
-	}).Preload(clause.Associations).First(&data).Error; err != nil {
+	if err := database.C.
+		Where(&models.Account{BaseModel: models.BaseModel{ID: user.ID}}).
+		Preload("Profile").
+		Preload("Contacts").
+		Preload("Factors").
+		Preload("Sessions").
+		Preload("Challenges").
+		First(&data).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 

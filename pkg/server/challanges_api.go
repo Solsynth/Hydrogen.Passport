@@ -68,7 +68,7 @@ func doChallenge(c *fiber.Ctx) error {
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else if challenge.Progress >= challenge.Requirements {
-		session, err := security.GrantSession(challenge, []string{"*"}, nil, lo.ToPtr(time.Now()))
+		session, err := security.GrantSession(challenge, []string{"*"}, []string{"Hydrogen.Passport"}, nil, lo.ToPtr(time.Now()))
 		if err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, err.Error())
 		}
@@ -89,8 +89,11 @@ func doChallenge(c *fiber.Ctx) error {
 
 func exchangeToken(c *fiber.Ctx) error {
 	var data struct {
-		Code      string `json:"code"`
-		GrantType string `json:"grant_type"`
+		Code         string `json:"code" form:"code"`
+		ClientID     string `json:"client_id" form:"client_id"`
+		ClientSecret string `json:"client_secret" form:"client_secret"`
+		RedirectUri  string `json:"redirect_uri" form:"redirect_uri"`
+		GrantType    string `json:"grant_type" form:"grant_type"`
 	}
 
 	if err := BindAndValidate(c, &data); err != nil {
@@ -99,6 +102,18 @@ func exchangeToken(c *fiber.Ctx) error {
 
 	switch data.GrantType {
 	case "authorization_code":
+		// Authorization Code Mode
+		access, refresh, err := security.ExchangeOauthToken(data.ClientID, data.ClientSecret, data.RedirectUri, data.Code)
+		if err != nil {
+			return fiber.NewError(fiber.StatusBadRequest, err.Error())
+		}
+
+		return c.JSON(fiber.Map{
+			"access_token":  access,
+			"refresh_token": refresh,
+		})
+	case "grant_token":
+		// Internal Usage
 		access, refresh, err := security.ExchangeToken(data.Code)
 		if err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, err.Error())
@@ -109,6 +124,7 @@ func exchangeToken(c *fiber.Ctx) error {
 			"refresh_token": refresh,
 		})
 	case "refresh_token":
+		// Refresh Token
 		access, refresh, err := security.RefreshToken(data.Code)
 		if err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, err.Error())
@@ -119,6 +135,6 @@ func exchangeToken(c *fiber.Ctx) error {
 			"refresh_token": refresh,
 		})
 	default:
-		return fiber.NewError(fiber.StatusBadRequest, "Unsupported exchange token type.")
+		return fiber.NewError(fiber.StatusBadRequest, "unsupported exchange token type")
 	}
 }

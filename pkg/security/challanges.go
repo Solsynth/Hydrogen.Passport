@@ -10,31 +10,36 @@ import (
 	"gorm.io/datatypes"
 )
 
-func NewChallenge(account models.Account, factors []models.AuthFactor, ip, ua string) (models.AuthChallenge, error) {
+func CalcRisk(user models.Account, ip, ua string) int {
 	risk := 3
+	var secureFactor int64
+	if err := database.C.Where(models.AuthChallenge{
+		AccountID: user.ID,
+		IpAddress: ip,
+	}).Model(models.AuthChallenge{}).Count(&secureFactor).Error; err == nil {
+		if secureFactor >= 3 {
+			risk -= 2
+		} else if secureFactor >= 1 {
+			risk -= 1
+		}
+	}
+
+	return risk
+}
+
+func NewChallenge(user models.Account, factors []models.AuthFactor, ip, ua string) (models.AuthChallenge, error) {
 	var challenge models.AuthChallenge
 	// Pickup any challenge if possible
 	if err := database.C.Where(models.AuthChallenge{
-		AccountID: account.ID,
+		AccountID: user.ID,
 	}).Where("state = ?", models.ActiveChallengeState).First(&challenge).Error; err == nil {
 		return challenge, nil
 	}
 
-	// Reduce the risk level
-	var secureFactor int64
-	if err := database.C.Where(models.AuthChallenge{
-		AccountID: account.ID,
-		IpAddress: ip,
-	}).Model(models.AuthChallenge{}).Count(&secureFactor).Error; err != nil {
-		return challenge, err
-	}
-	if secureFactor >= 3 {
-		risk -= 2
-	} else if secureFactor >= 1 {
-		risk -= 1
-	}
+	// Calculate the risk level
+	risk := CalcRisk(user, ip, ua)
 
-	// Thinking of the requirements factors
+	// Clamp risk in the exists requirements factor count
 	requirements := lo.Clamp(risk, 1, len(factors))
 
 	challenge = models.AuthChallenge{
@@ -45,7 +50,7 @@ func NewChallenge(account models.Account, factors []models.AuthFactor, ip, ua st
 		BlacklistFactors: datatypes.NewJSONType([]uint{}),
 		State:            models.ActiveChallengeState,
 		ExpiredAt:        time.Now().Add(2 * time.Hour),
-		AccountID:        account.ID,
+		AccountID:        user.ID,
 	}
 
 	err := database.C.Save(&challenge).Error
