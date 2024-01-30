@@ -26,8 +26,9 @@ func preConnect(c *fiber.Ctx) error {
 
 	var session models.AuthSession
 	if err := database.C.Where(&models.AuthSession{
-		AccountID: user.ID,
-		ClientID:  &client.ID,
+		AccountID:   user.ID,
+		ClientID:    &client.ID,
+		LastGrantAt: nil,
 	}).First(&session).Error; err == nil {
 		if session.ExpiredAt != nil && session.ExpiredAt.Unix() < time.Now().Unix() {
 			return c.JSON(fiber.Map{
