@@ -3,11 +3,17 @@ package server
 import (
 	"code.smartsheep.studio/hydrogen/passport/pkg/view"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cache"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
+	"github.com/gofiber/fiber/v2/middleware/idempotency"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 	"net/http"
+	"strings"
+	"time"
 )
 
 var A *fiber.App
@@ -23,11 +29,26 @@ func NewServer() {
 		EnablePrintRoutes:     viper.GetBool("debug"),
 	})
 
-	A.Use("/", filesystem.New(filesystem.Config{
-		Root:         http.FS(view.FS),
-		PathPrefix:   "dist",
-		Index:        "index.html",
-		NotFoundFile: "index.html",
+	A.Use(idempotency.New())
+	A.Use(cors.New(cors.Config{
+		AllowCredentials: true,
+		AllowMethods: strings.Join([]string{
+			fiber.MethodGet,
+			fiber.MethodPost,
+			fiber.MethodHead,
+			fiber.MethodOptions,
+			fiber.MethodPut,
+			fiber.MethodDelete,
+			fiber.MethodPatch,
+		}, ","),
+		AllowOriginsFunc: func(origin string) bool {
+			return true
+		},
+	}))
+
+	A.Use(logger.New(logger.Config{
+		Format: "${status} | ${latency} | ${method} ${path}\n",
+		Output: log.Logger,
 	}))
 
 	A.Get("/.well-known", getMetadata)
@@ -50,6 +71,16 @@ func NewServer() {
 		api.Get("/auth/oauth/connect", auth, preConnect)
 		api.Post("/auth/oauth/connect", auth, doConnect)
 	}
+
+	A.Use("/", cache.New(cache.Config{
+		Expiration:   24 * time.Hour,
+		CacheControl: true,
+	}), filesystem.New(filesystem.Config{
+		Root:         http.FS(view.FS),
+		PathPrefix:   "dist",
+		Index:        "index.html",
+		NotFoundFile: "dist/index.html",
+	}))
 }
 
 func Listen() {
