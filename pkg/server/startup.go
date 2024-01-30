@@ -1,10 +1,13 @@
 package server
 
 import (
+	"code.smartsheep.studio/hydrogen/passport/pkg/view"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/filesystem"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
+	"net/http"
 )
 
 var A *fiber.App
@@ -17,7 +20,15 @@ func NewServer() {
 		AppName:               "Hydrogen.Passport",
 		JSONEncoder:           jsoniter.ConfigCompatibleWithStandardLibrary.Marshal,
 		JSONDecoder:           jsoniter.ConfigCompatibleWithStandardLibrary.Unmarshal,
+		EnablePrintRoutes:     viper.GetBool("debug"),
 	})
+
+	A.Use("/", filesystem.New(filesystem.Config{
+		Root:         http.FS(view.FS),
+		PathPrefix:   "dist",
+		Index:        "index.html",
+		NotFoundFile: "index.html",
+	}))
 
 	A.Get("/.well-known", getMetadata)
 	A.Get("/.well-known/openid-configuration", getOidcConfiguration)
