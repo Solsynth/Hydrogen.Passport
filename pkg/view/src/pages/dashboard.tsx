@@ -128,7 +128,7 @@ export default function DashboardPage() {
       <div id="data-area" class="mt-5 shadow">
         <div class="join join-vertical w-full">
 
-          <details class="collapse collapse-plus join-item border border-base-300">
+          <details class="collapse collapse-plus join-item">
             <summary class="collapse-title text-lg font-medium">
               Challenges
             </summary>
@@ -164,7 +164,7 @@ export default function DashboardPage() {
             </div>
           </details>
 
-          <details class="collapse collapse-plus join-item border border-base-300">
+          <details class="collapse collapse-plus join-item">
             <summary class="collapse-title text-lg font-medium">
               Sessions
             </summary>
@@ -203,7 +203,7 @@ export default function DashboardPage() {
             </div>
           </details>
 
-          <details class="collapse collapse-plus join-item border border-base-300">
+          <details class="collapse collapse-plus join-item">
             <summary class="collapse-title text-lg font-medium">
               Events
             </summary>
