@@ -25,7 +25,7 @@ func EncodeJwt(id string, val any, typ, sub string, aud []string, exp time.Time)
 		jwt.RegisteredClaims{
 			Subject:   sub,
 			Audience:  aud,
-			Issuer:    viper.GetString("domain"),
+			Issuer:    fmt.Sprintf("https://%s", viper.GetString("domain")),
 			ExpiresAt: jwt.NewNumericDate(exp),
 			NotBefore: jwt.NewNumericDate(time.Now()),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),

@@ -69,7 +69,7 @@ func doChallenge(c *fiber.Ctx) error {
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else if challenge.Progress >= challenge.Requirements {
-		session, err := security.GrantSession(challenge, []string{"*"}, []string{"Hydrogen.Passport"}, nil, lo.ToPtr(time.Now()))
+		session, err := security.GrantSession(challenge, []string{"*"}, []string{"passport"}, nil, lo.ToPtr(time.Now()))
 		if err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, err.Error())
 		}

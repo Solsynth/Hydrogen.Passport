@@ -22,8 +22,8 @@ func NewServer() {
 	A = fiber.New(fiber.Config{
 		DisableStartupMessage: true,
 		EnableIPValidation:    true,
-		ServerHeader:          "Hydrogen.Passport",
-		AppName:               "Hydrogen.Passport",
+		ServerHeader:          "passport",
+		AppName:               "passport",
 		JSONEncoder:           jsoniter.ConfigCompatibleWithStandardLibrary.Marshal,
 		JSONDecoder:           jsoniter.ConfigCompatibleWithStandardLibrary.Unmarshal,
 		EnablePrintRoutes:     viper.GetBool("debug"),
