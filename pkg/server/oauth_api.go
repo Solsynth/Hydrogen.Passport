@@ -19,7 +19,7 @@ func preConnect(c *fiber.Ctx) error {
 	if err := database.C.Where(&models.ThirdClient{Alias: id}).First(&client).Error; err != nil {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	} else if !client.IsDraft && !lo.Contains(client.Callbacks, strings.Split(redirect, "?")[0]) {
-		return fiber.NewError(fiber.StatusBadRequest, "invalid request url")
+		return fiber.NewError(fiber.StatusBadRequest, "invalid callback url")
 	}
 
 	user := c.Locals("principal").(models.Account)

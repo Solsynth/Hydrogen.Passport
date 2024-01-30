@@ -18,9 +18,9 @@ func CalcRisk(user models.Account, ip, ua string) int {
 		IpAddress: ip,
 	}).Model(models.AuthChallenge{}).Count(&secureFactor).Error; err == nil {
 		if secureFactor >= 3 {
-			risk -= 2
+			risk -= 3
 		} else if secureFactor >= 1 {
-			risk -= 1
+			risk -= 2
 		}
 	}
 

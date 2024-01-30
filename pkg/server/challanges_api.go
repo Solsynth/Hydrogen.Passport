@@ -102,41 +102,36 @@ func exchangeToken(c *fiber.Ctx) error {
 		return err
 	}
 
+	var err error
+	var access, refresh string
 	switch data.GrantType {
 	case "authorization_code":
 		// Authorization Code Mode
-		access, refresh, err := security.ExchangeOauthToken(data.ClientID, data.ClientSecret, data.RedirectUri, data.Code)
+		access, refresh, err = security.ExchangeOauthToken(data.ClientID, data.ClientSecret, data.RedirectUri, data.Code)
 		if err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, err.Error())
 		}
-
-		return c.JSON(fiber.Map{
-			"access_token":  access,
-			"refresh_token": refresh,
-		})
 	case "grant_token":
 		// Internal Usage
-		access, refresh, err := security.ExchangeToken(data.Code)
+		access, refresh, err = security.ExchangeToken(data.Code)
 		if err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, err.Error())
 		}
-
-		return c.JSON(fiber.Map{
-			"access_token":  access,
-			"refresh_token": refresh,
-		})
 	case "refresh_token":
 		// Refresh Token
-		access, refresh, err := security.RefreshToken(data.RefreshToken)
+		access, refresh, err = security.RefreshToken(data.RefreshToken)
 		if err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, err.Error())
 		}
-
-		return c.JSON(fiber.Map{
-			"access_token":  access,
-			"refresh_token": refresh,
-		})
 	default:
 		return fiber.NewError(fiber.StatusBadRequest, "unsupported exchange token type")
 	}
+
+	return c.JSON(fiber.Map{
+		"id_token":      access,
+		"access_token":  access,
+		"refresh_token": refresh,
+		"token_type":    "Bearer",
+		"expires_in":    (30 * time.Minute).Seconds(),
+	})
 }
