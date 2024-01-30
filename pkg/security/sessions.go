@@ -86,12 +86,13 @@ func GetToken(session models.AuthSession) (string, string, error) {
 
 	var err error
 
-	sub := strconv.Itoa(int(session.ID))
-	access, err = EncodeJwt(session.AccessToken, nil, JwtAccessType, sub, session.Audiences, time.Now().Add(30*time.Minute))
+	sub := strconv.Itoa(int(session.AccountID))
+	sed := strconv.Itoa(int(session.ID))
+	access, err = EncodeJwt(session.AccessToken, JwtAccessType, sub, sed, session.Audiences, time.Now().Add(30*time.Minute))
 	if err != nil {
 		return refresh, access, err
 	}
-	refresh, err = EncodeJwt(session.RefreshToken, nil, JwtRefreshType, sub, session.Audiences, time.Now().Add(30*24*time.Hour))
+	refresh, err = EncodeJwt(session.RefreshToken, JwtRefreshType, sub, sed, session.Audiences, time.Now().Add(30*24*time.Hour))
 	if err != nil {
 		return refresh, access, err
 	}

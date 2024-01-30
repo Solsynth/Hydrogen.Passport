@@ -11,8 +11,8 @@ import (
 type PayloadClaims struct {
 	jwt.RegisteredClaims
 
-	Type  string `json:"typ"`
-	Value any    `json:"val"`
+	SessionID string `json:"sed"`
+	Type      string `json:"typ"`
 }
 
 const (
@@ -20,7 +20,7 @@ const (
 	JwtRefreshType = "refresh"
 )
 
-func EncodeJwt(id string, val any, typ, sub string, aud []string, exp time.Time) (string, error) {
+func EncodeJwt(id string, typ, sub, sed string, aud []string, exp time.Time) (string, error) {
 	tk := jwt.NewWithClaims(jwt.SigningMethodHS512, PayloadClaims{
 		jwt.RegisteredClaims{
 			Subject:   sub,
@@ -31,8 +31,8 @@ func EncodeJwt(id string, val any, typ, sub string, aud []string, exp time.Time)
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			ID:        id,
 		},
+		sed,
 		typ,
-		val,
 	})
 
 	return tk.SignedString([]byte(viper.GetString("secret")))
