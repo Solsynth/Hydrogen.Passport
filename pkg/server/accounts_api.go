@@ -6,6 +6,7 @@ import (
 	"code.smartsheep.studio/hydrogen/passport/pkg/services"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
+	jsoniter "github.com/json-iterator/go"
 	"github.com/spf13/viper"
 )
 
@@ -24,7 +25,18 @@ func getPrincipal(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 
-	return c.JSON(data)
+	var resp fiber.Map
+	raw, _ := jsoniter.Marshal(data)
+	jsoniter.Unmarshal(raw, &resp)
+
+	resp["sub"] = data.ID
+	resp["family_name"] = data.Profile.FirstName
+	resp["given_name"] = data.Profile.LastName
+	resp["name"] = data.Name
+	resp["email"] = data.GetPrimaryEmail().Content
+	resp["preferred_username"] = data.Nick
+
+	return c.JSON(resp)
 }
 
 func getEvents(c *fiber.Ctx) error {
