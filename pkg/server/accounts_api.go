@@ -55,6 +55,20 @@ func getEvents(c *fiber.Ctx) error {
 	})
 }
 
+func killSession(c *fiber.Ctx) error {
+	user := c.Locals("principal").(models.Account)
+	id, _ := c.ParamsInt("sessionId", 0)
+
+	if err := database.C.Delete(&models.AuthSession{}, &models.AuthSession{
+		BaseModel: models.BaseModel{ID: uint(id)},
+		AccountID: user.ID,
+	}).Error; err != nil {
+		return fiber.NewError(fiber.StatusNotFound, err.Error())
+	}
+
+	return c.SendStatus(fiber.StatusOK)
+}
+
 func doRegister(c *fiber.Ctx) error {
 	var data struct {
 		Name       string `json:"name"`

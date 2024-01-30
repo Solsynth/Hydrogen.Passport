@@ -1,4 +1,4 @@
-import { getAtk, useUserinfo } from "../stores/userinfo.tsx";
+import { getAtk, readProfiles, useUserinfo } from "../stores/userinfo.tsx";
 import { createSignal, For, Show } from "solid-js";
 
 export default function DashboardPage() {
@@ -20,6 +20,7 @@ export default function DashboardPage() {
   const [eventCount, setEventCount] = createSignal(0);
 
   const [error, setError] = createSignal<string | null>(null);
+  const [submitting, setSubmitting] = createSignal(false);
 
   async function readEvents() {
     const res = await fetch("/api/users/me/events?take=10", {
@@ -32,6 +33,21 @@ export default function DashboardPage() {
       setEvents(data["data"]);
       setEventCount(data["count"]);
     }
+  }
+
+  async function killSession(item: any) {
+    setSubmitting(true);
+    const res = await fetch(`/api/users/me/sessions/${item.id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${getAtk()}` }
+    });
+    if (res.status !== 200) {
+      setError(await res.text());
+    } else {
+      await readProfiles();
+      setError(null);
+    }
+    setSubmitting(false);
   }
 
   readEvents();
@@ -160,6 +176,7 @@ export default function DashboardPage() {
                   <th>Third Client</th>
                   <th>Audiences</th>
                   <th>Date</th>
+                  <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -169,6 +186,16 @@ export default function DashboardPage() {
                     <td>{item.client_id ? "Linked" : "Non-linked"}</td>
                     <td>{item.audiences?.join(", ")}</td>
                     <td>{new Date(item.created_at).toLocaleString()}</td>
+                    <td class="py-0">
+                      <button class="btn btn-sm btn-square btn-error" disabled={submitting()}
+                              onClick={() => killSession(item)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="h-5 w-5">
+                          <path
+                            d="M256 48C141.31 48 48 141.31 48 256s93.31 208 208 208s208-93.31 208-208S370.69 48 256 48zm80 224H176a16 16 0 0 1 0-32h160a16 16 0 0 1 0 32z"
+                            fill="currentColor"></path>
+                        </svg>
+                      </button>
+                    </td>
                   </tr>}
                 </For>
                 </tbody>

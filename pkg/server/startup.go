@@ -26,6 +26,7 @@ func NewServer() {
 	{
 		api.Get("/users/me", auth, getPrincipal)
 		api.Get("/users/me/events", auth, getEvents)
+		api.Delete("/users/me/sessions/:sessionId", auth, killSession)
 
 		api.Post("/users", doRegister)
 		api.Post("/users/me/confirm", doRegisterConfirm)

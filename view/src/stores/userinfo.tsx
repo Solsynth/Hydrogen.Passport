@@ -36,7 +36,7 @@ export async function refreshAtk() {
     })
   });
   if (res.status !== 200) {
-    throw new Error(await res.text());
+    console.error(await res.text())
   } else {
     const data = await res.json();
     new Cookie().set("access_token", data["access_token"], { path: "/" });
@@ -48,7 +48,7 @@ function checkLoggedIn(): boolean {
   return new Cookie().get("access_token");
 }
 
-export async function readProfiles() {
+export async function readProfiles(recovering = true) {
   if (!checkLoggedIn()) return;
 
   const res = await fetch("/api/users/me", {
@@ -56,9 +56,14 @@ export async function readProfiles() {
   });
 
   if (res.status !== 200) {
-    // Auto retry after refresh access token
-    await refreshAtk();
-    return await readProfiles();
+    if (recovering) {
+      // Auto retry after refresh access token
+      await refreshAtk();
+      return await readProfiles(false);
+    } else {
+      clearUserinfo();
+      window.location.reload();
+    }
   }
 
   const data = await res.json();
