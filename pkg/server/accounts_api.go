@@ -38,6 +38,10 @@ func getUserinfo(c *fiber.Ctx) error {
 	resp["email"] = data.GetPrimaryEmail().Content
 	resp["preferred_username"] = data.Nick
 
+	if len(data.Avatar) > 0 {
+		resp["picture"] = fmt.Sprintf("https://%s/api/avatar/%s", viper.GetString("domain"), data.Avatar)
+	}
+
 	return c.JSON(resp)
 }
 

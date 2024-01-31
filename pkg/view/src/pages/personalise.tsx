@@ -57,8 +57,8 @@ export default function PersonalPage() {
   return (
     <div class="max-w-[720px] mx-auto px-5 pt-12">
       <div class="px-5">
-        <h1 class="text-2xl font-bold">{userinfo?.displayName}</h1>
-        <p>Joined at {new Date(userinfo?.meta?.created_at).toLocaleString()}</p>
+        <h1 class="text-2xl font-bold">Personalize</h1>
+        <p>Customize your account and let us provide a better service to you.</p>
       </div>
 
       <div id="alerts">
