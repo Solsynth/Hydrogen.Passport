@@ -7,6 +7,8 @@ bind = "0.0.0.0:8444"
 domain = "id.smartsheep.studio"
 secret = "LtTjzAGFLshwXhN4ZD4nG5KlMv1MWcsvfv03TSZYnT1VhiAnLIZFTnHUwR0XhGgi"
 
+content = "uploads"
+
 use_registration_magic_token = true
 
 [mailer]

@@ -8,7 +8,7 @@ export default function PersonalPage() {
   const [success, setSuccess] = createSignal<null | string>(null);
   const [loading, setLoading] = createSignal(false);
 
-  async function update(evt: SubmitEvent) {
+  async function updateBasis(evt: SubmitEvent) {
     evt.preventDefault();
 
     const data = Object.fromEntries(new FormData(evt.target as HTMLFormElement));
@@ -33,6 +33,27 @@ export default function PersonalPage() {
     setLoading(false);
   }
 
+  async function updateAvatar(evt: SubmitEvent) {
+    evt.preventDefault();
+
+    setLoading(true);
+    const data = new FormData(evt.target as HTMLFormElement);
+    const res = await fetch("/api/avatar", {
+      method: "PUT",
+      headers: { "Authorization": `Bearer ${getAtk()}` },
+      body: data
+    });
+    if (res.status !== 200) {
+      setSuccess(null);
+      setError(await res.text());
+    } else {
+      await readProfiles();
+      setSuccess("Your avatar has been update.");
+      setError(null);
+    }
+    setLoading(false);
+  }
+
   return (
     <div class="max-w-[720px] mx-auto px-5 pt-12">
       <div class="px-5">
@@ -40,36 +61,34 @@ export default function PersonalPage() {
         <p>Joined at {new Date(userinfo?.meta?.created_at).toLocaleString()}</p>
       </div>
 
-      <div class="card shadow mt-5">
-        <div class="card-body">
+      <div id="alerts">
+        <Show when={error()}>
+          <div role="alert" class="alert alert-error mt-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="capitalize">{error()}</span>
+          </div>
+        </Show>
 
-          <Show when={error()}>
-            <div id="alerts">
-              <div role="alert" class="alert alert-error">
-                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
-                     viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span class="capitalize">{error()}</span>
-              </div>
-            </div>
-          </Show>
+        <Show when={success()}>
+          <div role="alert" class="alert alert-success mt-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="capitalize">{success()}</span>
+          </div>
+        </Show>
+      </div>
 
-          <Show when={success()}>
-            <div id="alerts">
-              <div role="alert" class="alert alert-success">
-                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
-                     viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span class="capitalize">{success()}</span>
-              </div>
-            </div>
-          </Show>
+      <div class="card shadow-xl mt-5">
 
-          <form class="grid grid-cols-1 gap-2" onSubmit={update}>
+        <div class="card-body border-b border-base-200">
+          <form class="grid grid-cols-1 gap-2" onSubmit={updateBasis}>
             <label class="form-control w-full">
               <div class="label">
                 <span class="label-text">Username</span>
@@ -107,7 +126,30 @@ export default function PersonalPage() {
                        placeholder="Type here" class="input input-bordered w-full" />
               </label>
             </div>
-            <button type="submit" class="btn btn-primary btn-block mt-5" disabled={loading()}>
+
+            <div>
+              <button type="submit" class="btn btn-primary mt-5" disabled={loading()}>
+                <Show when={loading()} fallback={"Save changes"}>
+                  <span class="loading loading-spinner"></span>
+                </Show>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card-body">
+          <form onSubmit={updateAvatar}>
+            <label class="form-control w-full">
+              <div class="label">
+                <span class="label-text">Pick an avatar</span>
+              </div>
+              <input type="file" name="avatar" accept="image/*" class="file-input file-input-bordered w-full" />
+              <div class="label">
+                <span class="label-text-alt">Will took some time to apply to entire site</span>
+              </div>
+            </label>
+
+            <button type="submit" class="btn btn-primary mt-5" disabled={loading()}>
               <Show when={loading()} fallback={"Save changes"}>
                 <span class="loading loading-spinner"></span>
               </Show>

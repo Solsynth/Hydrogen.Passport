@@ -2,6 +2,8 @@ package models
 
 import (
 	"github.com/samber/lo"
+	"github.com/spf13/viper"
+	"path/filepath"
 	"time"
 
 	"gorm.io/datatypes"
@@ -19,6 +21,7 @@ type Account struct {
 
 	Name         string                       `json:"name" gorm:"uniqueIndex"`
 	Nick         string                       `json:"nick"`
+	Avatar       string                       `json:"avatar"`
 	State        AccountState                 `json:"state"`
 	Profile      AccountProfile               `json:"profile"`
 	Sessions     []AuthSession                `json:"sessions"`
@@ -37,6 +40,11 @@ func (v Account) GetPrimaryEmail() AccountContact {
 		return item.Type == EmailAccountContact && item.IsPrimary
 	})
 	return val
+}
+
+func (v Account) GetAvatarPath() string {
+	basepath := viper.GetString("content")
+	return filepath.Join(basepath, v.Avatar)
 }
 
 type AccountContactType = int8

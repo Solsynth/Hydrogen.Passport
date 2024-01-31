@@ -57,6 +57,9 @@ func NewServer() {
 
 	api := A.Group("/api").Name("API")
 	{
+		api.Get("/avatar/:avatarId", getAvatar)
+		api.Put("/avatar", auth, setAvatar)
+
 		api.Get("/users/me", auth, getUserinfo)
 		api.Put("/users/me", auth, editUserinfo)
 		api.Get("/users/me/events", auth, getEvents)
