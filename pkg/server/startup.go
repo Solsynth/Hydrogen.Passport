@@ -24,6 +24,7 @@ func NewServer() {
 		EnableIPValidation:    true,
 		ServerHeader:          "passport",
 		AppName:               "passport",
+		ProxyHeader:           fiber.HeaderXForwardedFor,
 		JSONEncoder:           jsoniter.ConfigCompatibleWithStandardLibrary.Marshal,
 		JSONDecoder:           jsoniter.ConfigCompatibleWithStandardLibrary.Unmarshal,
 		EnablePrintRoutes:     viper.GetBool("debug"),
