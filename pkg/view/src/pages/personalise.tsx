@@ -1,0 +1,121 @@
+import { getAtk, readProfiles, useUserinfo } from "../stores/userinfo.tsx";
+import { createSignal, Show } from "solid-js";
+
+export default function PersonalPage() {
+  const userinfo = useUserinfo();
+
+  const [error, setError] = createSignal<null | string>(null);
+  const [success, setSuccess] = createSignal<null | string>(null);
+  const [loading, setLoading] = createSignal(false);
+
+  async function update(evt: SubmitEvent) {
+    evt.preventDefault();
+
+    const data = Object.fromEntries(new FormData(evt.target as HTMLFormElement));
+
+    setLoading(true);
+    const res = await fetch("/api/users/me", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${getAtk()}`
+      },
+      body: JSON.stringify(data)
+    });
+    if (res.status !== 200) {
+      setSuccess(null);
+      setError(await res.text());
+    } else {
+      await readProfiles();
+      setSuccess("Your basic information has been update.");
+      setError(null);
+    }
+    setLoading(false);
+  }
+
+  return (
+    <div class="max-w-[720px] mx-auto px-5 pt-12">
+      <div class="px-5">
+        <h1 class="text-2xl font-bold">{userinfo?.displayName}</h1>
+        <p>Joined at {new Date(userinfo?.meta?.created_at).toLocaleString()}</p>
+      </div>
+
+      <div class="card shadow mt-5">
+        <div class="card-body">
+
+          <Show when={error()}>
+            <div id="alerts">
+              <div role="alert" class="alert alert-error">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                     viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="capitalize">{error()}</span>
+              </div>
+            </div>
+          </Show>
+
+          <Show when={success()}>
+            <div id="alerts">
+              <div role="alert" class="alert alert-success">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                     viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="capitalize">{success()}</span>
+              </div>
+            </div>
+          </Show>
+
+          <form class="grid grid-cols-1 gap-2" onSubmit={update}>
+            <label class="form-control w-full">
+              <div class="label">
+                <span class="label-text">Username</span>
+              </div>
+              <input value={userinfo?.meta?.name} name="name" type="text" placeholder="Type here"
+                     class="input input-bordered w-full" disabled />
+            </label>
+            <label class="form-control w-full">
+              <div class="label">
+                <span class="label-text">Nickname</span>
+              </div>
+              <input value={userinfo?.meta?.nick} name="nick" type="text" placeholder="Type here"
+                     class="input input-bordered w-full" />
+            </label>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-x-4">
+              <label class="form-control w-full">
+                <div class="label">
+                  <span class="label-text">First Name</span>
+                </div>
+                <input value={userinfo?.meta?.profile?.first_name} name="first_name" type="text"
+                       placeholder="Type here" class="input input-bordered w-full" />
+              </label>
+              <label class="form-control w-full">
+                <div class="label">
+                  <span class="label-text">Middle Name</span>
+                </div>
+                <input value={userinfo?.meta?.profile?.middle_name} name="middle_name" type="text"
+                       placeholder="Type here" class="input input-bordered w-full" />
+              </label>
+              <label class="form-control w-full">
+                <div class="label">
+                  <span class="label-text">Last Name</span>
+                </div>
+                <input value={userinfo?.meta?.profile?.last_name} name="last_name" type="text"
+                       placeholder="Type here" class="input input-bordered w-full" />
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block mt-5" disabled={loading()}>
+              <Show when={loading()} fallback={"Save changes"}>
+                <span class="loading loading-spinner"></span>
+              </Show>
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  );
+}

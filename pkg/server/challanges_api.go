@@ -11,7 +11,7 @@ import (
 
 func startChallenge(c *fiber.Ctx) error {
 	var data struct {
-		ID string `json:"id"`
+		ID string `json:"id" validate:"required"`
 	}
 
 	if err := BindAndValidate(c, &data); err != nil {
@@ -42,9 +42,9 @@ func startChallenge(c *fiber.Ctx) error {
 
 func doChallenge(c *fiber.Ctx) error {
 	var data struct {
-		ChallengeID uint   `json:"challenge_id"`
-		FactorID    uint   `json:"factor_id"`
-		Secret      string `json:"secret"`
+		ChallengeID uint   `json:"challenge_id" validate:"required"`
+		FactorID    uint   `json:"factor_id" validate:"required"`
+		Secret      string `json:"secret" validate:"required"`
 	}
 
 	if err := BindAndValidate(c, &data); err != nil {

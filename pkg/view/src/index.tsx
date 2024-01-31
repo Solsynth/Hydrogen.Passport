@@ -19,6 +19,7 @@ render(() => (
     <UserinfoProvider>
       <Router root={RootLayout}>
         <Route path="/" component={lazy(() => import("./pages/dashboard.tsx"))} />
+        <Route path="/personalise" component={lazy(() => import("./pages/personalise.tsx"))} />
         <Route path="/auth/login" component={lazy(() => import("./pages/auth/login.tsx"))} />
         <Route path="/auth/register" component={lazy(() => import("./pages/auth/register.tsx"))} />
         <Route path="/auth/oauth/connect" component={lazy(() => import("./pages/auth/connect.tsx"))} />

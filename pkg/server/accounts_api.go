@@ -9,9 +9,10 @@ import (
 	jsoniter "github.com/json-iterator/go"
 	"github.com/spf13/viper"
 	"strconv"
+	"time"
 )
 
-func getPrincipal(c *fiber.Ctx) error {
+func getUserinfo(c *fiber.Ctx) error {
 	user := c.Locals("principal").(models.Account)
 
 	var data models.Account
@@ -68,6 +69,44 @@ func getEvents(c *fiber.Ctx) error {
 	})
 }
 
+func editUserinfo(c *fiber.Ctx) error {
+	user := c.Locals("principal").(models.Account)
+
+	var data struct {
+		Nick       string    `json:"nick" validate:"required,min=4,max=24"`
+		FirstName  string    `json:"first_name"`
+		MiddleName string    `json:"middle_name"`
+		LastName   string    `json:"last_name"`
+		Birthday   time.Time `json:"birthday"`
+	}
+
+	if err := BindAndValidate(c, &data); err != nil {
+		return err
+	}
+
+	var account models.Account
+	if err := database.C.
+		Where(&models.Account{BaseModel: models.BaseModel{ID: user.ID}}).
+		Preload("Profile").
+		First(&account).Error; err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+
+	account.Nick = data.Nick
+	account.Profile.FirstName = data.FirstName
+	account.Profile.MiddleName = data.MiddleName
+	account.Profile.LastName = data.LastName
+	account.Profile.Birthday = &data.Birthday
+
+	if err := database.C.Save(&account).Error; err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	} else if err := database.C.Save(&account.Profile).Error; err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+
+	return c.SendStatus(fiber.StatusOK)
+}
+
 func killSession(c *fiber.Ctx) error {
 	user := c.Locals("principal").(models.Account)
 	id, _ := c.ParamsInt("sessionId", 0)
@@ -84,10 +123,10 @@ func killSession(c *fiber.Ctx) error {
 
 func doRegister(c *fiber.Ctx) error {
 	var data struct {
-		Name       string `json:"name"`
-		Nick       string `json:"nick"`
-		Email      string `json:"email"`
-		Password   string `json:"password"`
+		Name       string `json:"name" validate:"required,lowercase,alphanum,min=4,max=16"`
+		Nick       string `json:"nick" validate:"required,min=4,max=24"`
+		Email      string `json:"email" validate:"required,email"`
+		Password   string `json:"password" validate:"required,min=4,max=32"`
 		MagicToken string `json:"magic_token"`
 	}
 
@@ -117,7 +156,7 @@ func doRegister(c *fiber.Ctx) error {
 
 func doRegisterConfirm(c *fiber.Ctx) error {
 	var data struct {
-		Code string `json:"code"`
+		Code string `json:"code" validate:"required"`
 	}
 
 	if err := BindAndValidate(c, &data); err != nil {

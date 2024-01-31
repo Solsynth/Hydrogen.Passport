@@ -9,7 +9,10 @@ interface MenuItem {
 }
 
 export default function Navbar() {
-  const nav: MenuItem[] = [{ label: "Dashboard", href: "/" }];
+  const nav: MenuItem[] = [
+    { label: "Dashboard", href: "/" },
+    { label: "Personalise", href: "/personalise" }
+  ];
 
   const wellKnown = useWellKnown();
   const userinfo = useUserinfo();

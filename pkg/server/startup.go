@@ -22,8 +22,8 @@ func NewServer() {
 	A = fiber.New(fiber.Config{
 		DisableStartupMessage: true,
 		EnableIPValidation:    true,
-		ServerHeader:          "passport",
-		AppName:               "passport",
+		ServerHeader:          "Hydrogen.Passport",
+		AppName:               "Hydrogen.Passport",
 		ProxyHeader:           fiber.HeaderXForwardedFor,
 		JSONEncoder:           jsoniter.ConfigCompatibleWithStandardLibrary.Marshal,
 		JSONDecoder:           jsoniter.ConfigCompatibleWithStandardLibrary.Unmarshal,
@@ -57,7 +57,8 @@ func NewServer() {
 
 	api := A.Group("/api").Name("API")
 	{
-		api.Get("/users/me", auth, getPrincipal)
+		api.Get("/users/me", auth, getUserinfo)
+		api.Put("/users/me", auth, editUserinfo)
 		api.Get("/users/me/events", auth, getEvents)
 		api.Delete("/users/me/sessions/:sessionId", auth, killSession)
 

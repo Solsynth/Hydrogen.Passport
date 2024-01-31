@@ -117,8 +117,8 @@ export default function LoginPage() {
       throw new Error(err);
     } else {
       const data = await res.json();
-      new Cookie().set("access_token", data["access_token"], { path: "/" });
-      new Cookie().set("refresh_token", data["refresh_token"], { path: "/" });
+      new Cookie().set("access_token", data["access_token"], { path: "/", maxAge: undefined });
+      new Cookie().set("refresh_token", data["refresh_token"], { path: "/", maxAge: undefined });
       setError(null);
     }
   }

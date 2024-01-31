@@ -5,7 +5,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-var validation = validator.New()
+var validation = validator.New(validator.WithRequiredStructEnabled())
 
 func BindAndValidate(c *fiber.Ctx, out any) error {
 	if err := c.BodyParser(out); err != nil {

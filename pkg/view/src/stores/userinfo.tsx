@@ -39,8 +39,8 @@ export async function refreshAtk() {
     console.error(await res.text())
   } else {
     const data = await res.json();
-    new Cookie().set("access_token", data["access_token"], { path: "/" });
-    new Cookie().set("refresh_token", data["refresh_token"], { path: "/" });
+    new Cookie().set("access_token", data["access_token"], { path: "/", maxAge: undefined });
+    new Cookie().set("refresh_token", data["refresh_token"], { path: "/", maxAge: undefined });
   }
 }
 
@@ -77,8 +77,8 @@ export async function readProfiles(recovering = true) {
 }
 
 export function clearUserinfo() {
-  new Cookie().remove("access_token", { path: "/" });
-  new Cookie().remove("refresh_token", { path: "/" });
+  new Cookie().remove("access_token", { path: "/", maxAge: undefined });
+  new Cookie().remove("refresh_token", { path: "/", maxAge: undefined });
   setUserinfo(defaultUserinfo);
 }
 
