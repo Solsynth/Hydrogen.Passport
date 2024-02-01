@@ -60,6 +60,9 @@ func NewServer() {
 		api.Get("/avatar/:avatarId", getAvatar)
 		api.Put("/avatar", auth, setAvatar)
 
+		api.Get("/notifications", auth, getNotifications)
+		api.Put("/notifications/:notificationId/read", auth, markNotificationRead)
+
 		api.Get("/users/me", auth, getUserinfo)
 		api.Put("/users/me", auth, editUserinfo)
 		api.Get("/users/me/events", auth, getEvents)

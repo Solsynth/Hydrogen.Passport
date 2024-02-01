@@ -1,8 +1,10 @@
-import { useUserinfo } from "../stores/userinfo.tsx";
-import { Show } from "solid-js";
+import { getAtk, readProfiles, useUserinfo } from "../stores/userinfo.tsx";
+import { createSignal, For, Show } from "solid-js";
 
 export default function DashboardPage() {
   const userinfo = useUserinfo();
+
+  const [error, setError] = createSignal<string | null>(null);
 
   function getGreeting() {
     const currentHour = new Date().getHours();
@@ -13,6 +15,19 @@ export default function DashboardPage() {
       return "Afternoon! Hope you have a productive and joyful afternoon! ☀️";
     } else {
       return "Good evening! Wishing you a relaxing and pleasant evening. 🌙";
+    }
+  }
+
+  async function readNotification(item: any) {
+    const res = await fetch(`/api/notifications/${item.id}/read`, {
+      method: "PUT",
+      headers: { Authorization: `Bearer ${getAtk()}` }
+    });
+    if (res.status !== 200) {
+      setError(await res.text());
+    } else {
+      await readProfiles();
+      setError(null);
     }
   }
 
@@ -37,17 +52,54 @@ export default function DashboardPage() {
             </div>
           </div>
         </Show>
+        <Show when={error()}>
+          <div role="alert" class="alert alert-error mt-5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="capitalize">{error()}</span>
+          </div>
+        </Show>
       </div>
 
       <div class="card shadow-xl mt-5">
         <div class="card-body">
-          <h2 class="card-title">Recommendations</h2>
-          <ol>
-            <li>1. Turn on the notification of us.</li>
-            <li>2. Download passport mobile application.</li>
-            <li>3. Add more factor to keep your account in safe.</li>
-            <li>4. Subscribe to Project Hydrogen to get following updates.</li>
-          </ol>
+          <h2 class="card-title">Notifications</h2>
+          <div class="bg-base-200 mt-3 mx-[-32px]">
+            <Show when={userinfo?.meta?.notifications?.length <= 0}>
+              <table class="table">
+                <tbody>
+                <tr>
+                  <td class="px-[32px]">You're done! There are no notifications unread for you.</td>
+                </tr>
+                </tbody>
+              </table>
+            </Show>
+            <Show when={userinfo?.meta?.notifications?.length > 0}>
+              <table class="table">
+                <tbody>
+                <For each={userinfo?.meta?.notifications}>
+                  {item =>
+                    <tr>
+                      <td class="px-[32px]">
+                        <h2 class="font-bold">{item.subject}</h2>
+                        <p>{item.content}</p>
+                        <div class="flex gap-2">
+                          <Show when={item.is_important}>
+                            <span class="font-bold">Important</span>
+                          </Show>
+                          <a class="link" onClick={() => readNotification(item)}>Mark as read</a>
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                </For>
+                </tbody>
+              </table>
+            </Show>
+          </div>
         </div>
       </div>
 
