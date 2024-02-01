@@ -20,7 +20,7 @@ func getOidcConfiguration(c *fiber.Ctx) error {
 
 	return c.JSON(fiber.Map{
 		"issuer":                                           basepath,
-		"authorization_endpoint":                           fmt.Sprintf("%s/auth/oauth/connect", basepath),
+		"authorization_endpoint":                           fmt.Sprintf("%s/auth/o/connect", basepath),
 		"token_endpoint":                                   fmt.Sprintf("%s/api/auth/token", basepath),
 		"userinfo_endpoint":                                fmt.Sprintf("%s/api/users/me", basepath),
 		"response_types_supported":                         []string{"code", "token"},

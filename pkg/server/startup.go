@@ -78,8 +78,8 @@ func NewServer() {
 		api.Post("/auth/token", exchangeToken)
 		api.Post("/auth/factors/:factorId", requestFactorToken)
 
-		api.Get("/auth/oauth/connect", auth, preConnect)
-		api.Post("/auth/oauth/connect", auth, doConnect)
+		api.Get("/auth/o/connect", auth, preConnect)
+		api.Post("/auth/o/connect", auth, doConnect)
 	}
 
 	A.Use("/", cache.New(cache.Config{
