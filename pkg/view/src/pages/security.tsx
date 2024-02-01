@@ -1,14 +1,42 @@
-import { getAtk, readProfiles, useUserinfo } from "../stores/userinfo.tsx";
+import { getAtk } from "../stores/userinfo.tsx";
 import { createSignal, For, Show } from "solid-js";
 
 export default function DashboardPage() {
-  const userinfo = useUserinfo();
-
+  const [challenges, setChallenges] = createSignal<any[]>([]);
+  const [challengeCount, setChallengeCount] = createSignal(0);
+  const [sessions, setSessions] = createSignal<any[]>([]);
+  const [sessionCount, setSessionCount] = createSignal(0);
   const [events, setEvents] = createSignal<any[]>([]);
   const [eventCount, setEventCount] = createSignal(0);
 
   const [error, setError] = createSignal<string | null>(null);
   const [submitting, setSubmitting] = createSignal(false);
+
+  async function readChallenges() {
+    const res = await fetch("/api/users/me/challenges?take=10", {
+      headers: { Authorization: `Bearer ${getAtk()}` }
+    });
+    if (res.status !== 200) {
+      setError(await res.text());
+    } else {
+      const data = await res.json();
+      setChallenges(data["data"]);
+      setChallengeCount(data["count"]);
+    }
+  }
+
+  async function readSessions() {
+    const res = await fetch("/api/users/me/sessions?take=10", {
+      headers: { Authorization: `Bearer ${getAtk()}` }
+    });
+    if (res.status !== 200) {
+      setError(await res.text());
+    } else {
+      const data = await res.json();
+      setSessions(data["data"]);
+      setSessionCount(data["count"]);
+    }
+  }
 
   async function readEvents() {
     const res = await fetch("/api/users/me/events?take=10", {
@@ -32,12 +60,14 @@ export default function DashboardPage() {
     if (res.status !== 200) {
       setError(await res.text());
     } else {
-      await readProfiles();
+      await readSessions();
       setError(null);
     }
     setSubmitting(false);
   }
 
+  readChallenges();
+  readSessions();
   readEvents();
 
   return (
@@ -71,7 +101,7 @@ export default function DashboardPage() {
               </svg>
             </div>
             <div class="stat-title">Challenges</div>
-            <div class="stat-value">{userinfo?.meta?.challenges?.length}</div>
+            <div class="stat-value">{challengeCount()}</div>
           </div>
 
           <div class="stat">
@@ -83,7 +113,7 @@ export default function DashboardPage() {
               </svg>
             </div>
             <div class="stat-title">Sessions</div>
-            <div class="stat-value">{userinfo?.meta?.sessions?.length}</div>
+            <div class="stat-value">{sessionCount()}</div>
           </div>
 
           <div class="stat">
@@ -120,7 +150,7 @@ export default function DashboardPage() {
                   </tr>
                   </thead>
                   <tbody>
-                  <For each={userinfo?.meta?.challenges ?? []}>
+                  <For each={challenges()}>
                     {item => <tr>
                       <th>{item.id}</th>
                       <td>{item.state}</td>
@@ -155,7 +185,7 @@ export default function DashboardPage() {
                 </tr>
                 </thead>
                 <tbody>
-                <For each={userinfo?.meta?.sessions ?? []}>
+                <For each={sessions()}>
                   {item => <tr>
                     <th>{item.id}</th>
                     <td>{item.client_id ? "Linked" : "Non-linked"}</td>

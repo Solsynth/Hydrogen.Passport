@@ -63,6 +63,8 @@ func NewServer() {
 		api.Get("/users/me", auth, getUserinfo)
 		api.Put("/users/me", auth, editUserinfo)
 		api.Get("/users/me/events", auth, getEvents)
+		api.Get("/users/me/challenges", auth, getChallenges)
+		api.Get("/users/me/sessions", auth, getSessions)
 		api.Delete("/users/me/sessions/:sessionId", auth, killSession)
 
 		api.Post("/users", doRegister)

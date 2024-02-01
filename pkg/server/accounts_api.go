@@ -21,8 +21,7 @@ func getUserinfo(c *fiber.Ctx) error {
 		Preload("Profile").
 		Preload("Contacts").
 		Preload("Factors").
-		Preload("Sessions").
-		Preload("Challenges").
+		Preload("Notifications", "read_at IS NULL").
 		First(&data).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}

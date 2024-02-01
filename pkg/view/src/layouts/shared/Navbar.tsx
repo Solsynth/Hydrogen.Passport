@@ -1,18 +1,23 @@
-import { For, Match, Switch } from "solid-js";
+import { For, Match, Show, Switch } from "solid-js";
 import { clearUserinfo, useUserinfo } from "../../stores/userinfo.tsx";
 import { useNavigate } from "@solidjs/router";
 import { useWellKnown } from "../../stores/wellKnown.tsx";
 
 interface MenuItem {
   label: string;
-  href: string;
+  href?: string;
+  children?: MenuItem[];
 }
 
 export default function Navbar() {
   const nav: MenuItem[] = [
-    { label: "Dashboard", href: "/" },
-    { label: "Security", href: "/security" },
-    { label: "Personalise", href: "/personalise" }
+    {
+      label: "You", children: [
+        { label: "Dashboard", href: "/" },
+        { label: "Security", href: "/security" },
+        { label: "Personalise", href: "/personalise" }
+      ]
+    }
   ];
 
   const wellKnown = useWellKnown();
@@ -52,6 +57,17 @@ export default function Navbar() {
               {(item) => (
                 <li>
                   <a href={item.href}>{item.label}</a>
+                  <Show when={item.children}>
+                    <ul class="p-2">
+                      <For each={item.children}>
+                        {(item) =>
+                          <li>
+                            <a href={item.href}>{item.label}</a>
+                          </li>
+                        }
+                      </For>
+                    </ul>
+                  </Show>
                 </li>
               )}
             </For>
@@ -66,7 +82,22 @@ export default function Navbar() {
           <For each={nav}>
             {(item) => (
               <li>
-                <a href={item.href}>{item.label}</a>
+                <Show when={item.children} fallback={<a href={item.href}>{item.label}</a>}>
+                  <details>
+                    <summary>
+                      <a href={item.href}>{item.label}</a>
+                    </summary>
+                    <ul class="p-2">
+                      <For each={item.children}>
+                        {(item) =>
+                          <li>
+                            <a href={item.href}>{item.label}</a>
+                          </li>
+                        }
+                      </For>
+                    </ul>
+                  </details>
+                </Show>
               </li>
             )}
           </For>
