@@ -21,15 +21,16 @@ export default function RootLayout(props: any) {
   }, [ready, userinfo]);
 
   function keepGate(path: string, e?: BeforeLeaveEventArgs) {
+    const pathname = path.split("?")[0];
     const whitelist = ["/auth/login", "/auth/register", "/users/me/confirm"];
 
-    if (!userinfo?.isLoggedIn && !whitelist.includes(path)) {
+    if (!userinfo?.isLoggedIn && !whitelist.includes(pathname)) {
       if (!e?.defaultPrevented) e?.preventDefault();
-      navigate(`/auth/login?redirect_uri=${path}`);
+      navigate(`/auth/login?redirect_uri=${encodeURIComponent(path)}`);
     }
   }
 
-  useBeforeLeave((e: BeforeLeaveEventArgs) => keepGate(e.to.toString().split("?")[0], e));
+  useBeforeLeave((e: BeforeLeaveEventArgs) => keepGate(e.to.toString(), e));
 
   return (
     <Show when={ready()} fallback={

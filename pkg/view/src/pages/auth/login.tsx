@@ -89,7 +89,7 @@ export default function LoginPage() {
         if (data["is_finished"]) {
           await grantToken(data["session"]["grant_token"]);
           await readProfiles();
-          navigate(searchParams["redirect_uri"] ?? "/");
+          navigate(searchParams["redirect_uri"] ? decodeURIComponent(searchParams["redirect_uri"]) : "/");
         } else {
           setError(null);
           setStage("choosing");
