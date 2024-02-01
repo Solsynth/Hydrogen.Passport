@@ -148,7 +148,7 @@ func RefreshToken(token string) (string, string, error) {
 	} else if claims.Type != JwtRefreshType {
 		return "404", "403", fmt.Errorf("invalid token type, expected refresh token")
 	} else if err := database.C.Where(models.AuthSession{
-		BaseModel: models.BaseModel{ID: uint(parseInt(claims.Subject))},
+		BaseModel: models.BaseModel{ID: uint(parseInt(claims.SessionID))},
 	}).First(&session).Error; err != nil {
 		return "404", "403", err
 	}
