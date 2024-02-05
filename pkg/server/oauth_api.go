@@ -15,6 +15,10 @@ func preConnect(c *fiber.Ctx) error {
 	id := c.Query("client_id")
 	redirect := c.Query("redirect_uri")
 
+	if len(id) <= 0 || len(redirect) <= 0 {
+		return fiber.NewError(fiber.StatusBadRequest, "invalid request, missing query parameters")
+	}
+
 	var client models.ThirdClient
 	if err := database.C.Where(&models.ThirdClient{Alias: id}).First(&client).Error; err != nil {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())

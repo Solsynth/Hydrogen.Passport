@@ -2,7 +2,7 @@ import Navbar from "./shared/Navbar.tsx";
 import { readProfiles, useUserinfo } from "../stores/userinfo.tsx";
 import { createEffect, createSignal, Show } from "solid-js";
 import { readWellKnown } from "../stores/wellKnown.tsx";
-import { BeforeLeaveEventArgs, useBeforeLeave, useLocation, useNavigate } from "@solidjs/router";
+import { BeforeLeaveEventArgs, useLocation, useNavigate } from "@solidjs/router";
 
 export default function RootLayout(props: any) {
   const [ready, setReady] = createSignal(false);
@@ -16,9 +16,9 @@ export default function RootLayout(props: any) {
 
   createEffect(() => {
     if (ready()) {
-      keepGate(location.pathname);
+      keepGate(location.pathname + location.search);
     }
-  }, [ready, userinfo]);
+  }, [ready, userinfo, location]);
 
   function keepGate(path: string, e?: BeforeLeaveEventArgs) {
     const pathname = path.split("?")[0];
@@ -29,8 +29,6 @@ export default function RootLayout(props: any) {
       navigate(`/auth/login?redirect_uri=${encodeURIComponent(path)}`);
     }
   }
-
-  useBeforeLeave((e: BeforeLeaveEventArgs) => keepGate(e.to.toString(), e));
 
   return (
     <Show when={ready()} fallback={
