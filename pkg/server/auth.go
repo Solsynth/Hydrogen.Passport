@@ -29,7 +29,6 @@ var auth = keyauth.New(keyauth.Config{
 		}
 
 		c.Locals("principal", user)
-		c.Locals("permissions", user.Permissions.Data())
 
 		return true, nil
 	},

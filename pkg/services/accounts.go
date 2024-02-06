@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/samber/lo"
-	"gorm.io/datatypes"
 	"gorm.io/gorm"
 	"time"
 )
@@ -68,7 +67,7 @@ func CreateAccount(name, nick, email, password string) (models.Account, error) {
 				VerifiedAt: nil,
 			},
 		},
-		Permissions: datatypes.NewJSONType(make([]string, 0)),
+		PowerLevel:  0,
 		ConfirmedAt: nil,
 	}
 
@@ -100,6 +99,7 @@ func ConfirmAccount(code string) error {
 
 	return database.C.Transaction(func(tx *gorm.DB) error {
 		user.ConfirmedAt = lo.ToPtr(time.Now())
+		user.PowerLevel += 5
 
 		if err := database.C.Delete(&token).Error; err != nil {
 			return err
