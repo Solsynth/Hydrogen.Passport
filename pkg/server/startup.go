@@ -80,6 +80,11 @@ func NewServer() {
 
 		api.Get("/auth/o/connect", auth, preConnect)
 		api.Post("/auth/o/connect", auth, doConnect)
+
+		developers := A.Group("/dev").Name("Developers API")
+		{
+			developers.Post("/notify", notifyUser)
+		}
 	}
 
 	A.Use("/", cache.New(cache.Config{
