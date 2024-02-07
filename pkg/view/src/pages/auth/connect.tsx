@@ -79,8 +79,8 @@ export default function OauthConnectPage() {
   preConnect();
 
   return (
-    <div class="w-full h-full flex justify-center items-center">
-      <div class="card w-[480px] max-w-screen shadow-xl">
+    <div class="h-full flex justify-center items-center mx-5">
+      <div class="card w-screen max-w-[480px] shadow-xl">
         <div class="card-body">
           <div id="header" class="text-center mb-5">
             <h1 class="text-xl font-bold">{title()}</h1>

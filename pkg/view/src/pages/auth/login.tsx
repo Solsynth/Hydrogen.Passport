@@ -140,9 +140,9 @@ export default function LoginPage() {
   }
 
   return (
-    <div class="w-full h-full flex justify-center items-center">
+    <div class="h-full flex justify-center items-center mx-5">
       <div>
-        <div class="card w-[480px] max-w-screen shadow-xl">
+        <div class="card w-screen max-w-[480px] shadow-xl">
           <div class="card-body">
             <div id="header" class="text-center mb-5">
               <h1 class="text-xl font-bold">{title()}</h1>
@@ -210,20 +210,29 @@ export default function LoginPage() {
               </button>
             </form>
           </div>
-        </div>
 
-        <Show when={searchParams["redirect_uri"]}>
-          <div id="redirect-info" class="mt-3">
-            <div role="alert" class="alert shadow">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                   class="stroke-info shrink-0 w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              <span>You need to login before access that.</span>
-            </div>
+          <div id="tips" class="flex flex-col gap-4">
+            <Show when={challenge()}>
+              <div class="px-7 py-5 text-center bg-base-200">
+                <progress
+                  class="progress w-2/3"
+                  value={challenge().progress / challenge().requirements * 100}
+                  max="100"
+                />
+                <div class="mt-3 flex justify-center gap-2">
+                  <span>Risk <b>{challenge().risk_level}</b></span>
+                  <span>Progress <b>{challenge().progress}/{challenge().requirements}</b></span>
+                </div>
+              </div>
+            </Show>
+
+            <Show when={searchParams["redirect_uri"]}>
+              <div role="alert" class="px-7 py-5 text-center bg-base-200">
+                <span>You need to login before access that.</span>
+              </div>
+            </Show>
           </div>
-        </Show>
+        </div>
 
         <div class="text-sm text-center mt-3">
           <a target="_blank" href="/auth/register?closable=yes" class="link">Haven't an account? Click here to create

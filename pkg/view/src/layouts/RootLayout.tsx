@@ -1,8 +1,8 @@
 import Navbar from "./shared/Navbar.tsx";
 import { readProfiles, useUserinfo } from "../stores/userinfo.tsx";
-import { createEffect, createSignal, Show } from "solid-js";
+import { createEffect, createMemo, createSignal, Show } from "solid-js";
 import { readWellKnown } from "../stores/wellKnown.tsx";
-import { BeforeLeaveEventArgs, useLocation, useNavigate } from "@solidjs/router";
+import { BeforeLeaveEventArgs, useLocation, useNavigate, useSearchParams } from "@solidjs/router";
 
 export default function RootLayout(props: any) {
   const [ready, setReady] = createSignal(false);
@@ -13,6 +13,7 @@ export default function RootLayout(props: any) {
   const userinfo = useUserinfo();
 
   const location = useLocation();
+  const [searchParams] = useSearchParams();
 
   createEffect(() => {
     if (ready()) {
@@ -30,6 +31,14 @@ export default function RootLayout(props: any) {
     }
   }
 
+  const mainContentStyles = createMemo(() => {
+    if (searchParams["embedded"]) {
+      return "h-screen";
+    } else {
+      return "h-[calc(100vh-64px)] mt-[64px]";
+    }
+  });
+
   return (
     <Show when={ready()} fallback={
       <div class="h-screen w-screen flex justify-center items-center">
@@ -38,8 +47,11 @@ export default function RootLayout(props: any) {
         </div>
       </div>
     }>
-      <Navbar />
-      <main class="h-[calc(100vh-68px)] mt-[68px]">{props.children}</main>
+      <Show when={!searchParams["embedded"]}>
+        <Navbar />
+      </Show>
+
+      <main class={`${mainContentStyles()} px-5`}>{props.children}</main>
     </Show>
   );
 }
