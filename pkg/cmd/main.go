@@ -1,6 +1,7 @@
 package main
 
 import (
+	"code.smartsheep.studio/hydrogen/passport/pkg/external"
 	"code.smartsheep.studio/hydrogen/passport/pkg/server"
 	"os"
 	"os/signal"
@@ -35,6 +36,12 @@ func main() {
 		log.Fatal().Err(err).Msg("An error occurred when connect to database.")
 	} else if err := database.RunMigration(database.C); err != nil {
 		log.Fatal().Err(err).Msg("An error occurred when running database auto migration.")
+	}
+
+	// External
+	// All the things are optional so when error occurred the server won't crash
+	if err := external.SetupFirebase(viper.GetString("external.firebase.credentials")); err != nil {
+		log.Error().Err(err).Msg("An error occurred when starting firebase communicating...")
 	}
 
 	// Server

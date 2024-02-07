@@ -11,6 +11,9 @@ content = "uploads"
 
 use_registration_magic_token = true
 
+[external.firebase]
+credentials = "dist/firebase-certs.json"
+
 [mailer]
 name = "Alphabot <alphabot@smartsheep.studio>"
 smtp_host = "smtp.exmail.qq.com"
