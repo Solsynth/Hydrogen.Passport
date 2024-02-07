@@ -17,21 +17,22 @@ const (
 type Account struct {
 	BaseModel
 
-	Name          string           `json:"name" gorm:"uniqueIndex"`
-	Nick          string           `json:"nick"`
-	Avatar        string           `json:"avatar"`
-	State         AccountState     `json:"state"`
-	Profile       AccountProfile   `json:"profile"`
-	Sessions      []AuthSession    `json:"sessions"`
-	Challenges    []AuthChallenge  `json:"challenges"`
-	Factors       []AuthFactor     `json:"factors"`
-	Contacts      []AccountContact `json:"contacts"`
-	Events        []ActionEvent    `json:"events"`
-	MagicTokens   []MagicToken     `json:"-" gorm:"foreignKey:AssignTo"`
-	ThirdClients  []ThirdClient    `json:"clients"`
-	Notifications []Notification   `json:"notifications" gorm:"foreignKey:RecipientID"`
-	ConfirmedAt   *time.Time       `json:"confirmed_at"`
-	PowerLevel    int              `json:"power_level"`
+	Name              string                   `json:"name" gorm:"uniqueIndex"`
+	Nick              string                   `json:"nick"`
+	Avatar            string                   `json:"avatar"`
+	State             AccountState             `json:"state"`
+	Profile           AccountProfile           `json:"profile"`
+	Sessions          []AuthSession            `json:"sessions"`
+	Challenges        []AuthChallenge          `json:"challenges"`
+	Factors           []AuthFactor             `json:"factors"`
+	Contacts          []AccountContact         `json:"contacts"`
+	Events            []ActionEvent            `json:"events"`
+	MagicTokens       []MagicToken             `json:"-" gorm:"foreignKey:AssignTo"`
+	ThirdClients      []ThirdClient            `json:"clients"`
+	Notifications     []Notification           `json:"notifications" gorm:"foreignKey:RecipientID"`
+	NotifySubscribers []NotificationSubscriber `json:"notify_subscribers"`
+	ConfirmedAt       *time.Time               `json:"confirmed_at"`
+	PowerLevel        int                      `json:"power_level"`
 }
 
 func (v Account) GetPrimaryEmail() AccountContact {

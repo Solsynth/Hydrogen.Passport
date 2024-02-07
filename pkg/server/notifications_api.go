@@ -3,6 +3,7 @@ package server
 import (
 	"code.smartsheep.studio/hydrogen/passport/pkg/database"
 	"code.smartsheep.studio/hydrogen/passport/pkg/models"
+	"code.smartsheep.studio/hydrogen/passport/pkg/services"
 	"github.com/gofiber/fiber/v2"
 	"github.com/samber/lo"
 	"time"
@@ -56,4 +57,29 @@ func markNotificationRead(c *fiber.Ctx) error {
 	} else {
 		return c.SendStatus(fiber.StatusOK)
 	}
+}
+
+func addNotifySubscriber(c *fiber.Ctx) error {
+	user := c.Locals("principal").(models.Account)
+
+	var data struct {
+		Provider string `json:"provider" validate:"required"`
+		DeviceID string `json:"device_id" validate:"required"`
+	}
+
+	if err := BindAndValidate(c, &data); err != nil {
+		return err
+	}
+
+	subscriber, err := services.AddNotifySubscriber(
+		user,
+		data.Provider,
+		data.DeviceID,
+		c.Get(fiber.HeaderUserAgent),
+	)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(subscriber)
 }
