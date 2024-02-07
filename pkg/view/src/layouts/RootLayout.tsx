@@ -12,22 +12,26 @@ export default function RootLayout(props: any) {
   const navigate = useNavigate();
   const userinfo = useUserinfo();
 
-  const location = useLocation();
   const [searchParams] = useSearchParams();
+  const location = useLocation();
 
   createEffect(() => {
     if (ready()) {
-      keepGate(location.pathname + location.search);
+      keepGate(location.pathname + location.search, searchParams["embedded"] != null);
     }
   }, [ready, userinfo, location]);
 
-  function keepGate(path: string, e?: BeforeLeaveEventArgs) {
+  function keepGate(path: string, embedded: boolean, e?: BeforeLeaveEventArgs) {
     const pathname = path.split("?")[0];
     const whitelist = ["/auth/login", "/auth/register", "/users/me/confirm"];
 
     if (!userinfo?.isLoggedIn && !whitelist.includes(pathname)) {
       if (!e?.defaultPrevented) e?.preventDefault();
-      navigate(`/auth/login?redirect_uri=${encodeURIComponent(path)}`);
+      if (embedded) {
+        navigate(`/auth/login?redirect_uri=${encodeURIComponent(path)}&embedded=yes`);
+      } else {
+        navigate(`/auth/login?redirect_uri=${encodeURIComponent(path)}`);
+      }
     }
   }
 
