@@ -75,8 +75,13 @@ func NewNotification(
 				Token: subscriber.DeviceID,
 			}
 
-			if _, err = client.Send(ctx, message); err != nil {
+			if response, err := client.Send(ctx, message); err != nil {
 				log.Warn().Err(err).Msg("An error occurred when notify subscriber though firebase FCM...")
+			} else {
+				log.Debug().
+					Str("response", response).
+					Int("subscriber", int(subscriber.ID)).
+					Msg("Notified to subscriber though firebase FCM.")
 			}
 		}
 	}

@@ -42,6 +42,8 @@ func main() {
 	// All the things are optional so when error occurred the server won't crash
 	if err := external.SetupFirebase(viper.GetString("external.firebase.credentials")); err != nil {
 		log.Error().Err(err).Msg("An error occurred when starting firebase communicating...")
+	} else {
+		log.Info().Msg("Successfully setup firebase communication.")
 	}
 
 	// Server
