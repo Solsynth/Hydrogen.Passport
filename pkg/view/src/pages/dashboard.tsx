@@ -87,6 +87,11 @@ export default function DashboardPage() {
                         <h2 class="font-bold">{item.subject}</h2>
                         <p>{item.content}</p>
                         <div class="flex gap-2">
+                          <For each={item.links}>
+                            {item => <a class="link" href={item.url}>{item.label}</a>}
+                          </For>
+                        </div>
+                        <div class="flex gap-2">
                           <Show when={item.is_important}>
                             <span class="font-bold">Important</span>
                           </Show>
