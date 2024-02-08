@@ -1,5 +1,6 @@
 package server
 
+import "C"
 import (
 	"code.smartsheep.studio/hydrogen/passport/pkg/database"
 	"code.smartsheep.studio/hydrogen/passport/pkg/models"
@@ -69,6 +70,14 @@ func addNotifySubscriber(c *fiber.Ctx) error {
 
 	if err := BindAndValidate(c, &data); err != nil {
 		return err
+	}
+
+	var count int64
+	if err := database.C.Where(&models.NotificationSubscriber{
+		DeviceID:  data.DeviceID,
+		AccountID: user.ID,
+	}).Model(&models.NotificationSubscriber{}).Count(&count).Error; err != nil || count > 0 {
+		return c.SendStatus(fiber.StatusOK)
 	}
 
 	subscriber, err := services.AddNotifySubscriber(

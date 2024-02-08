@@ -32,6 +32,6 @@ type NotificationSubscriber struct {
 
 	UserAgent string `json:"user_agent"`
 	Provider  string `json:"provider"`
-	DeviceID  string `json:"device_id"`
+	DeviceID  string `json:"device_id" gorm:"uniqueIndex"`
 	AccountID uint   `json:"account_id"`
 }
