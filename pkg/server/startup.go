@@ -62,7 +62,7 @@ func NewServer() {
 
 		api.Get("/notifications", auth, getNotifications)
 		api.Put("/notifications/:notificationId/read", auth, markNotificationRead)
-		api.Post("/notification/subscribe", auth, addNotifySubscriber)
+		api.Post("/notifications/subscribe", auth, addNotifySubscriber)
 
 		api.Get("/users/me", auth, getUserinfo)
 		api.Put("/users/me", auth, editUserinfo)
