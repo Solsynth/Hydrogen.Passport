@@ -24,3 +24,8 @@ password = "gz937Zxxzfcd9SeH"
 [database]
 dsn = "host=localhost dbname=hy_passport port=5432 sslmode=disable"
 prefix = "passport_"
+
+[[directory]]
+name = "Goatpass"
+description = "Authorization Serivce"
+link = "https://id.smartsheep.studio"

@@ -11,6 +11,7 @@ func getMetadata(c *fiber.Ctx) error {
 		"name":              viper.GetString("name"),
 		"domain":            viper.GetString("domain"),
 		"open_registration": !viper.GetBool("use_registration_magic_token"),
+		"directory":         viper.Get("directory"),
 	})
 }
 
