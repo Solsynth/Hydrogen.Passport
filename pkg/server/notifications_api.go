@@ -1,6 +1,5 @@
 package server
 
-import "C"
 import (
 	"code.smartsheep.studio/hydrogen/passport/pkg/database"
 	"code.smartsheep.studio/hydrogen/passport/pkg/models"
