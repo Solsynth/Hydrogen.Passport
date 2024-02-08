@@ -45,7 +45,7 @@ func NewNotification(
 
 	var subscribers []models.NotificationSubscriber
 	if err := database.C.Where(&models.NotificationSubscriber{
-		AccountID: user.ID,
+		AccountID: target.ID,
 	}).Find(&subscribers).Error; err != nil {
 		// I don't know why cannot get subscribers list, but whatever, the notifications has created
 		log.Error().Err(err).Msg("Unexpected error occurred during the notification.")
