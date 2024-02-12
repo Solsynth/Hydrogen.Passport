@@ -21,6 +21,7 @@ func getChallenges(c *fiber.Ctx) error {
 	}
 
 	if err := database.C.
+		Order("created_at desc").
 		Where(&models.AuthChallenge{AccountID: user.ID}).
 		Limit(take).
 		Offset(offset).
@@ -49,6 +50,7 @@ func getSessions(c *fiber.Ctx) error {
 	}
 
 	if err := database.C.
+		Order("created_at desc").
 		Where(&models.AuthSession{AccountID: user.ID}).
 		Limit(take).
 		Offset(offset).

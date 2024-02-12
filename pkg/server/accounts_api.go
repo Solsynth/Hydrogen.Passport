@@ -58,6 +58,7 @@ func getEvents(c *fiber.Ctx) error {
 	}
 
 	if err := database.C.
+		Order("created_at desc").
 		Where(&models.ActionEvent{AccountID: user.ID}).
 		Limit(take).
 		Offset(offset).
