@@ -2,6 +2,7 @@ package security
 
 import (
 	"fmt"
+	"github.com/spf13/viper"
 	"strconv"
 	"time"
 
@@ -84,15 +85,17 @@ func GetToken(session models.AuthSession) (string, string, error) {
 		return refresh, access, err
 	}
 
-	var err error
+	accessDuration := time.Duration(viper.GetInt64("security.access_token_duration")) * time.Second
+	refreshDuration := time.Duration(viper.GetInt64("security.refresh_token_duration")) * time.Second
 
+	var err error
 	sub := strconv.Itoa(int(session.AccountID))
 	sed := strconv.Itoa(int(session.ID))
-	access, err = EncodeJwt(session.AccessToken, JwtAccessType, sub, sed, session.Audiences, time.Now().Add(30*time.Minute))
+	access, err = EncodeJwt(session.AccessToken, JwtAccessType, sub, sed, session.Audiences, time.Now().Add(accessDuration))
 	if err != nil {
 		return refresh, access, err
 	}
-	refresh, err = EncodeJwt(session.RefreshToken, JwtRefreshType, sub, sed, session.Audiences, time.Now().Add(30*24*time.Hour))
+	refresh, err = EncodeJwt(session.RefreshToken, JwtRefreshType, sub, sed, session.Audiences, time.Now().Add(refreshDuration))
 	if err != nil {
 		return refresh, access, err
 	}
@@ -153,5 +156,9 @@ func RefreshToken(token string) (string, string, error) {
 		return "404", "403", err
 	}
 
-	return GetToken(session)
+	if session, err := RegenSession(session); err != nil {
+		return "404", "403", err
+	} else {
+		return GetToken(session)
+	}
 }

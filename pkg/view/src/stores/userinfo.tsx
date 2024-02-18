@@ -21,49 +21,23 @@ const defaultUserinfo: Userinfo = {
 const [userinfo, setUserinfo] = createStore<Userinfo>(structuredClone(defaultUserinfo));
 
 export function getAtk(): string {
-  return new Cookie().get("access_token");
-}
-
-export async function refreshAtk() {
-  const rtk = new Cookie().get("refresh_token");
-
-  const res = await fetch("/api/auth/token", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      refresh_token: rtk,
-      grant_type: "refresh_token"
-    })
-  });
-  if (res.status !== 200) {
-    console.error(await res.text())
-  } else {
-    const data = await res.json();
-    new Cookie().set("access_token", data["access_token"], { path: "/", maxAge: undefined });
-    new Cookie().set("refresh_token", data["refresh_token"], { path: "/", maxAge: undefined });
-  }
+  return new Cookie().get("identity_auth_key");
 }
 
 function checkLoggedIn(): boolean {
-  return new Cookie().get("access_token");
+  return new Cookie().get("identity_auth_key");
 }
 
-export async function readProfiles(recovering = true) {
+export async function readProfiles() {
   if (!checkLoggedIn()) return;
 
   const res = await fetch("/api/users/me", {
-    headers: { "Authorization": `Bearer ${getAtk()}` }
+    credentials: "include"
   });
 
   if (res.status !== 200) {
-    if (recovering) {
-      // Auto retry after refresh access token
-      await refreshAtk();
-      return await readProfiles(false);
-    } else {
-      clearUserinfo();
-      window.location.reload();
-    }
+    clearUserinfo();
+    window.location.reload();
   }
 
   const data = await res.json();
@@ -77,8 +51,14 @@ export async function readProfiles(recovering = true) {
 }
 
 export function clearUserinfo() {
-  new Cookie().remove("access_token", { path: "/", maxAge: undefined });
-  new Cookie().remove("refresh_token", { path: "/", maxAge: undefined });
+  const cookies = document.cookie.split(";");
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i];
+    const eqPos = cookie.indexOf("=");
+    const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  }
+
   setUserinfo(defaultUserinfo);
 }
 

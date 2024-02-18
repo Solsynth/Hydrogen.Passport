@@ -1,5 +1,5 @@
 import { getAtk } from "../stores/userinfo.tsx";
-import { createSignal, For, Show } from "solid-js";
+import { createSignal, For, Match, Show, Switch } from "solid-js";
 
 export default function DashboardPage() {
   const [challenges, setChallenges] = createSignal<any[]>([]);
@@ -11,6 +11,8 @@ export default function DashboardPage() {
 
   const [error, setError] = createSignal<string | null>(null);
   const [submitting, setSubmitting] = createSignal(false);
+
+  const [contentTab, setContentTab] = createSignal(0);
 
   async function readChallenges() {
     const res = await fetch("/api/users/me/challenges?take=10", {
@@ -94,11 +96,7 @@ export default function DashboardPage() {
         <div class="stats shadow w-full">
           <div class="stat">
             <div class="stat-figure text-secondary">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                   class="inline-block w-8 h-8 stroke-current">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
+              <i class="fa-solid fa-door-open inline-block text-[28px] w-8 h-8 stroke-current"></i>
             </div>
             <div class="stat-title">Challenges</div>
             <div class="stat-value">{challengeCount()}</div>
@@ -106,11 +104,7 @@ export default function DashboardPage() {
 
           <div class="stat">
             <div class="stat-figure text-secondary">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                   class="inline-block w-8 h-8 stroke-current">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
-              </svg>
+              <i class="fa-solid fa-key inline-block text-[28px] w-8 h-8 stroke-current"></i>
             </div>
             <div class="stat-title">Sessions</div>
             <div class="stat-value">{sessionCount()}</div>
@@ -118,11 +112,7 @@ export default function DashboardPage() {
 
           <div class="stat">
             <div class="stat-figure text-secondary">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                   class="inline-block w-8 h-8 stroke-current">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
-              </svg>
+              <i class="fa-solid fa-person-walking inline-block text-[28px] w-8 h-8 stroke-current"></i>
             </div>
             <div class="stat-title">Events</div>
             <div class="stat-value">{eventCount()}</div>
@@ -130,50 +120,52 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div id="data-area" class="mt-5 shadow">
-        <div class="join join-vertical w-full">
+      <div id="switch-area" class="mt-5">
+        <div role="tablist" class="tabs tabs-boxed">
+          <input type="radio" name="content-switch" role="tab" class="tab" aria-label="Challenges"
+                 checked={contentTab() === 0} onChange={() => setContentTab(0)} />
+          <input type="radio" name="content-switch" role="tab" class="tab" aria-label="Sessions"
+                 checked={contentTab() === 1} onChange={() => setContentTab(1)} />
+          <input type="radio" name="content-switch" role="tab" class="tab" aria-label="Events"
+                 checked={contentTab() === 2} onChange={() => setContentTab(2)} />
+        </div>
+      </div>
 
-          <details class="collapse collapse-plus join-item border-b border-base-200">
-            <summary class="collapse-title text-lg font-medium">
-              Challenges
-            </summary>
-            <div class="collapse-content mx-[-16px]">
-              <div class="overflow-x-auto">
-                <table class="table">
-                  <thead>
-                  <tr>
-                    <th></th>
-                    <th>State</th>
-                    <th>IP Address</th>
-                    <th>User Agent</th>
-                    <th>Date</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <For each={challenges()}>
-                    {item => <tr>
-                      <th>{item.id}</th>
-                      <td>{item.state}</td>
-                      <td>{item.ip_address}</td>
-                      <td>
+      <div id="data-area" class="mt-5 shadow">
+        <Switch>
+          <Match when={contentTab() === 0}>
+            <div class="overflow-x-auto">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th></th>
+                  <th>State</th>
+                  <th>IP Address</th>
+                  <th>User Agent</th>
+                  <th>Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <For each={challenges()}>
+                  {item => <tr>
+                    <th>{item.id}</th>
+                    <td>{item.state}</td>
+                    <td>{item.ip_address}</td>
+                    <td>
                         <span class="tooltip" data-tip={item.user_agent}>
                           {item.user_agent.substring(0, 10) + "..."}
                         </span>
-                      </td>
-                      <td>{new Date(item.created_at).toLocaleString()}</td>
-                    </tr>}
-                  </For>
-                  </tbody>
-                </table>
-              </div>
+                    </td>
+                    <td>{new Date(item.created_at).toLocaleString()}</td>
+                  </tr>}
+                </For>
+                </tbody>
+              </table>
             </div>
-          </details>
+          </Match>
 
-          <details class="collapse collapse-plus join-item border-b border-base-200">
-            <summary class="collapse-title text-lg font-medium">
-              Sessions
-            </summary>
-            <div class="collapse-content mx-[-16px]">
+          <Match when={contentTab() === 1}>
+            <div class="overflow-x-auto">
               <table class="table">
                 <thead>
                 <tr>
@@ -192,13 +184,8 @@ export default function DashboardPage() {
                     <td>{item.audiences?.join(", ")}</td>
                     <td>{new Date(item.created_at).toLocaleString()}</td>
                     <td class="py-0">
-                      <button class="btn btn-sm btn-square btn-error" disabled={submitting()}
-                              onClick={() => killSession(item)}>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="h-5 w-5">
-                          <path
-                            d="M256 48C141.31 48 48 141.31 48 256s93.31 208 208 208s208-93.31 208-208S370.69 48 256 48zm80 224H176a16 16 0 0 1 0-32h160a16 16 0 0 1 0 32z"
-                            fill="currentColor"></path>
-                        </svg>
+                      <button disabled={submitting()} onClick={() => killSession(item)}>
+                        <i class="fa-solid fa-right-from-bracket"></i>
                       </button>
                     </td>
                   </tr>}
@@ -206,47 +193,41 @@ export default function DashboardPage() {
                 </tbody>
               </table>
             </div>
-          </details>
+          </Match>
 
-          <details class="collapse collapse-plus join-item">
-            <summary class="collapse-title text-lg font-medium">
-              Events
-            </summary>
-            <div class="collapse-content mx-[-16px]">
-              <div class="overflow-x-auto">
-                <table class="table">
-                  <thead>
-                  <tr>
-                    <th></th>
-                    <th>Type</th>
-                    <th>Target</th>
-                    <th>IP Address</th>
-                    <th>User Agent</th>
-                    <th>Date</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <For each={events()}>
-                    {item => <tr>
-                      <th>{item.id}</th>
-                      <td>{item.type}</td>
-                      <td>{item.target}</td>
-                      <td>{item.ip_address}</td>
-                      <td>
+          <Match when={contentTab() === 2}>
+            <div class="overflow-x-auto">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th></th>
+                  <th>Type</th>
+                  <th>Target</th>
+                  <th>IP Address</th>
+                  <th>User Agent</th>
+                  <th>Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <For each={events()}>
+                  {item => <tr>
+                    <th>{item.id}</th>
+                    <td>{item.type}</td>
+                    <td>{item.target}</td>
+                    <td>{item.ip_address}</td>
+                    <td>
                         <span class="tooltip" data-tip={item.user_agent}>
                           {item.user_agent.substring(0, 10) + "..."}
                         </span>
-                      </td>
-                      <td>{new Date(item.created_at).toLocaleString()}</td>
-                    </tr>}
-                  </For>
-                  </tbody>
-                </table>
-              </div>
+                    </td>
+                    <td>{new Date(item.created_at).toLocaleString()}</td>
+                  </tr>}
+                </For>
+                </tbody>
+              </table>
             </div>
-          </details>
-
-        </div>
+          </Match>
+        </Switch>
       </div>
     </div>
   );

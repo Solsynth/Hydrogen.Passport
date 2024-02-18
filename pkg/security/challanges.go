@@ -2,6 +2,8 @@ package security
 
 import (
 	"fmt"
+	"github.com/google/uuid"
+	"strings"
 	"time"
 
 	"code.smartsheep.studio/hydrogen/identity/pkg/database"
@@ -81,6 +83,12 @@ func DoChallenge(challenge models.AuthChallenge, factor models.AuthFactor, code 
 
 	if err := database.C.Save(&challenge).Error; err != nil {
 		return err
+	}
+
+	// Revoke some factor passwords
+	if factor.Type == models.EmailPasswordFactor {
+		factor.Secret = strings.ReplaceAll(uuid.NewString(), "-", "")
+		database.C.Save(&factor)
 	}
 
 	return nil

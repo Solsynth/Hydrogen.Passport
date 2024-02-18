@@ -43,9 +43,8 @@ func LookupAccount(id string) (models.Account, error) {
 
 func CreateAccount(name, nick, email, password string) (models.Account, error) {
 	user := models.Account{
-		Name:  name,
-		Nick:  nick,
-		State: models.PendingAccountState,
+		Name: name,
+		Nick: nick,
 		Profile: models.AccountProfile{
 			Experience: 100,
 		},

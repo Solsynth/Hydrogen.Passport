@@ -127,6 +127,8 @@ func exchangeToken(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, "unsupported exchange token type")
 	}
 
+	security.SetJwtCookieSet(c, access, refresh)
+
 	return c.JSON(fiber.Map{
 		"id_token":      access,
 		"access_token":  access,

@@ -8,6 +8,8 @@ import "./assets/fonts/fonts.css";
 import { lazy } from "solid-js";
 import { Route, Router } from "@solidjs/router";
 
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
 import RootLayout from "./layouts/RootLayout.tsx";
 import { UserinfoProvider } from "./stores/userinfo.tsx";
 import { WellKnownProvider } from "./stores/wellKnown.tsx";

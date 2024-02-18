@@ -137,12 +137,12 @@ func doRegister(c *fiber.Ctx) error {
 		return err
 	} else if viper.GetBool("use_registration_magic_token") && len(data.MagicToken) <= 0 {
 		return fmt.Errorf("missing magic token in request")
-	}
-
-	if tk, err := services.ValidateMagicToken(data.MagicToken, models.RegistrationMagicToken); err != nil {
-		return err
-	} else {
-		database.C.Delete(&tk)
+	} else if viper.GetBool("use_registration_magic_token") {
+		if tk, err := services.ValidateMagicToken(data.MagicToken, models.RegistrationMagicToken); err != nil {
+			return err
+		} else {
+			database.C.Delete(&tk)
+		}
 	}
 
 	if user, err := services.CreateAccount(

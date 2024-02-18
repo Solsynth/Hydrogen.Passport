@@ -58,18 +58,18 @@ func NewServer() {
 	api := A.Group("/api").Name("API")
 	{
 		api.Get("/avatar/:avatarId", getAvatar)
-		api.Put("/avatar", auth, setAvatar)
+		api.Put("/avatar", authMiddleware, setAvatar)
 
-		api.Get("/notifications", auth, getNotifications)
-		api.Put("/notifications/:notificationId/read", auth, markNotificationRead)
-		api.Post("/notifications/subscribe", auth, addNotifySubscriber)
+		api.Get("/notifications", authMiddleware, getNotifications)
+		api.Put("/notifications/:notificationId/read", authMiddleware, markNotificationRead)
+		api.Post("/notifications/subscribe", authMiddleware, addNotifySubscriber)
 
-		api.Get("/users/me", auth, getUserinfo)
-		api.Put("/users/me", auth, editUserinfo)
-		api.Get("/users/me/events", auth, getEvents)
-		api.Get("/users/me/challenges", auth, getChallenges)
-		api.Get("/users/me/sessions", auth, getSessions)
-		api.Delete("/users/me/sessions/:sessionId", auth, killSession)
+		api.Get("/users/me", authMiddleware, getUserinfo)
+		api.Put("/users/me", authMiddleware, editUserinfo)
+		api.Get("/users/me/events", authMiddleware, getEvents)
+		api.Get("/users/me/challenges", authMiddleware, getChallenges)
+		api.Get("/users/me/sessions", authMiddleware, getSessions)
+		api.Delete("/users/me/sessions/:sessionId", authMiddleware, killSession)
 
 		api.Post("/users", doRegister)
 		api.Post("/users/me/confirm", doRegisterConfirm)
@@ -79,8 +79,8 @@ func NewServer() {
 		api.Post("/auth/token", exchangeToken)
 		api.Post("/auth/factors/:factorId", requestFactorToken)
 
-		api.Get("/auth/o/connect", auth, preConnect)
-		api.Post("/auth/o/connect", auth, doConnect)
+		api.Get("/auth/o/connect", authMiddleware, preConnect)
+		api.Post("/auth/o/connect", authMiddleware, doConnect)
 
 		developers := api.Group("/dev").Name("Developers API")
 		{

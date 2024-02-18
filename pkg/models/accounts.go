@@ -7,20 +7,12 @@ import (
 	"time"
 )
 
-type AccountState = int8
-
-const (
-	PendingAccountState = AccountState(iota)
-	ActiveAccountState
-)
-
 type Account struct {
 	BaseModel
 
 	Name              string                   `json:"name" gorm:"uniqueIndex"`
 	Nick              string                   `json:"nick"`
 	Avatar            string                   `json:"avatar"`
-	State             AccountState             `json:"state"`
 	Profile           AccountProfile           `json:"profile"`
 	Sessions          []AuthSession            `json:"sessions"`
 	Challenges        []AuthChallenge          `json:"challenges"`

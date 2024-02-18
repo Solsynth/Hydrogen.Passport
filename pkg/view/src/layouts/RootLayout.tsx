@@ -1,4 +1,4 @@
-import Navbar from "./shared/Navbar.tsx";
+import Navigatior from "./shared/Navigatior.tsx";
 import { readProfiles, useUserinfo } from "../stores/userinfo.tsx";
 import { createEffect, createMemo, createSignal, Show } from "solid-js";
 import { readWellKnown } from "../stores/wellKnown.tsx";
@@ -52,7 +52,7 @@ export default function RootLayout(props: any) {
       </div>
     }>
       <Show when={!searchParams["embedded"]}>
-        <Navbar />
+        <Navigatior />
       </Show>
 
       <main class={`${mainContentStyles()} px-5`}>{props.children}</main>
