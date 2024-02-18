@@ -55,7 +55,7 @@ export default function PersonalPage() {
   }
 
   return (
-    <div class="max-w-[720px] mx-auto px-5 pt-12">
+    <div class="max-w-[720px] mx-auto pt-12">
       <div class="px-5">
         <h1 class="text-2xl font-bold">Personalize</h1>
         <p>Customize your account and let us provide a better service to you.</p>

@@ -71,7 +71,7 @@ export default function DashboardPage() {
   readEvents();
 
   return (
-    <div class="max-w-[720px] mx-auto px-5 pt-12">
+    <div class="max-w-[720px] mx-auto pt-12">
       <div id="greeting" class="px-5">
         <h1 class="text-2xl font-bold">Security</h1>
         <p>Here is your account status of security.</p>

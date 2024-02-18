@@ -1,7 +1,6 @@
 import { For, Match, Show, Switch } from "solid-js";
 import { clearUserinfo, useUserinfo } from "../../stores/userinfo.tsx";
 import { useNavigate } from "@solidjs/router";
-import { useWellKnown } from "../../stores/wellKnown.tsx";
 
 interface MenuItem {
   label: string;
@@ -20,7 +19,6 @@ export default function Navbar() {
     }
   ];
 
-  const wellKnown = useWellKnown();
   const userinfo = useUserinfo();
   const navigate = useNavigate();
 
@@ -32,52 +30,11 @@ export default function Navbar() {
   return (
     <div class="navbar bg-base-100 shadow-md px-5 z-10 fixed top-0">
       <div class="navbar-start">
-        <div class="dropdown">
-          <div tabIndex={0} role="button" class="btn btn-ghost lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
-          </div>
-          <ul
-            tabIndex={0}
-            class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-          >
-            <For each={nav}>
-              {(item) => (
-                <li>
-                  <a href={item.href}>{item.label}</a>
-                  <Show when={item.children}>
-                    <ul class="p-2">
-                      <For each={item.children}>
-                        {(item) =>
-                          <li>
-                            <a href={item.href}>{item.label}</a>
-                          </li>
-                        }
-                      </For>
-                    </ul>
-                  </Show>
-                </li>
-              )}
-            </For>
-          </ul>
-        </div>
-        <a href="/" class="btn btn-ghost text-xl">
-          {wellKnown?.name ?? "Goatpass"}
+        <a class="btn btn-ghost text-xl p-2 w-[48px] h-[48px] max-lg:ml-2.5" href="/">
+          <img width="40" height="40" src="/favicon.svg" alt="Logo" />
         </a>
       </div>
-      <div class="navbar-center hidden lg:flex">
+      <div class="navbar-center flex">
         <ul class="menu menu-horizontal px-1">
           <For each={nav}>
             {(item) => (
