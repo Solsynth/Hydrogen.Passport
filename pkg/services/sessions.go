@@ -3,6 +3,9 @@ package services
 import (
 	"code.smartsheep.studio/hydrogen/identity/pkg/database"
 	"code.smartsheep.studio/hydrogen/identity/pkg/models"
+	"github.com/spf13/viper"
+	"gorm.io/gorm"
+	"time"
 )
 
 func LookupSessionWithToken(tokenId string) (models.AuthSession, error) {
@@ -15,4 +18,9 @@ func LookupSessionWithToken(tokenId string) (models.AuthSession, error) {
 	}
 
 	return session, nil
+}
+
+func PerformAutoSignoff() *gorm.DB {
+	signoffDuration := time.Duration(viper.GetInt64("security.auto_signoff_duration")) * time.Second
+	return database.C.Where("last_grant_at < ?", time.Now().Add(-signoffDuration)).Delete(&models.AuthSession{})
 }

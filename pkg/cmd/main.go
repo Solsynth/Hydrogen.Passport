@@ -3,6 +3,8 @@ package main
 import (
 	"code.smartsheep.studio/hydrogen/identity/pkg/external"
 	"code.smartsheep.studio/hydrogen/identity/pkg/server"
+	"code.smartsheep.studio/hydrogen/identity/pkg/services"
+	"github.com/robfig/cron/v3"
 	"os"
 	"os/signal"
 	"syscall"
@@ -50,12 +52,26 @@ func main() {
 	server.NewServer()
 	go server.Listen()
 
+	// Configure timed tasks
+	quartz := cron.New(cron.WithLogger(cron.VerbosePrintfLogger(&log.Logger)))
+	quartz.AddFunc("@every 15s", func() {
+		log.Info().Msg("Running auto sign off...")
+		if tx := services.PerformAutoSignoff(); tx.Error != nil {
+			log.Error().Err(tx.Error).Msg("An error occurred when running auto sign off...")
+		} else {
+			log.Info().Int64("affected", tx.RowsAffected).Msg("Auto sign off accomplished.")
+		}
+	})
+	quartz.Run()
+
 	// Messages
-	log.Info().Msgf("Passport v%s is started...", identity.AppVersion)
+	log.Info().Msgf("Identity v%s is started...", identity.AppVersion)
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 
-	log.Info().Msgf("Passport v%s is quitting...", identity.AppVersion)
+	log.Info().Msgf("Identity v%s is quitting...", identity.AppVersion)
+
+	quartz.Stop()
 }
