@@ -54,7 +54,7 @@ func main() {
 
 	// Configure timed tasks
 	quartz := cron.New(cron.WithLogger(cron.VerbosePrintfLogger(&log.Logger)))
-	quartz.AddFunc("@every 15s", func() {
+	quartz.AddFunc("@every 60m", func() {
 		log.Info().Msg("Running auto sign off...")
 		if tx := services.PerformAutoSignoff(); tx.Error != nil {
 			log.Error().Err(tx.Error).Msg("An error occurred when running auto sign off...")
