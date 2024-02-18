@@ -1,14 +1,14 @@
 package main
 
 import (
-	"code.smartsheep.studio/hydrogen/passport/pkg/external"
-	"code.smartsheep.studio/hydrogen/passport/pkg/server"
+	"code.smartsheep.studio/hydrogen/identity/pkg/external"
+	"code.smartsheep.studio/hydrogen/identity/pkg/server"
 	"os"
 	"os/signal"
 	"syscall"
 
-	passport "code.smartsheep.studio/hydrogen/passport/pkg"
-	"code.smartsheep.studio/hydrogen/passport/pkg/database"
+	identity "code.smartsheep.studio/hydrogen/identity/pkg"
+	"code.smartsheep.studio/hydrogen/identity/pkg/database"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
@@ -51,11 +51,11 @@ func main() {
 	go server.Listen()
 
 	// Messages
-	log.Info().Msgf("Passport v%s is started...", passport.AppVersion)
+	log.Info().Msgf("Passport v%s is started...", identity.AppVersion)
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 
-	log.Info().Msgf("Passport v%s is quitting...", passport.AppVersion)
+	log.Info().Msgf("Passport v%s is quitting...", identity.AppVersion)
 }

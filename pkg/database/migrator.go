@@ -1,7 +1,7 @@
 package database
 
 import (
-	"code.smartsheep.studio/hydrogen/passport/pkg/models"
+	"code.smartsheep.studio/hydrogen/identity/pkg/models"
 	"gorm.io/gorm"
 )
 

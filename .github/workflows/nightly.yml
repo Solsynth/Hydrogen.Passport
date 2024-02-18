@@ -25,4 +25,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: xsheep2010/passport:nightly
+          tags: xsheep2010/identity:nightly

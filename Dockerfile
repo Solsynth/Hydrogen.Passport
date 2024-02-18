@@ -1,5 +1,5 @@
 # Building Backend
-FROM golang:alpine as passport-server
+FROM golang:alpine as identity-server
 
 RUN apk add nodejs npm
 
@@ -14,8 +14,8 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -buildvcs -o /dist ./pkg/cmd/
 # Runtime
 FROM golang:alpine
 
-COPY --from=passport-server /dist /passport/server
+COPY --from=identity-server /dist /identity/server
 
 EXPOSE 8444
 
-CMD ["/passport/server"]
+CMD ["/identity/server"]

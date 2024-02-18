@@ -1,8 +1,8 @@
 package services
 
 import (
-	"code.smartsheep.studio/hydrogen/passport/pkg/database"
-	"code.smartsheep.studio/hydrogen/passport/pkg/models"
+	"code.smartsheep.studio/hydrogen/identity/pkg/database"
+	"code.smartsheep.studio/hydrogen/identity/pkg/models"
 )
 
 func AddEvent(user models.Account, event, target, ip, ua string) models.ActionEvent {

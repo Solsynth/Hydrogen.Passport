@@ -1,8 +1,8 @@
 package server
 
 import (
-	"code.smartsheep.studio/hydrogen/passport/pkg/security"
-	"code.smartsheep.studio/hydrogen/passport/pkg/services"
+	"code.smartsheep.studio/hydrogen/identity/pkg/security"
+	"code.smartsheep.studio/hydrogen/identity/pkg/services"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/keyauth"
 )

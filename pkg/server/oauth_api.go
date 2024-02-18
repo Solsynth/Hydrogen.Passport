@@ -1,10 +1,10 @@
 package server
 
 import (
-	"code.smartsheep.studio/hydrogen/passport/pkg/database"
-	"code.smartsheep.studio/hydrogen/passport/pkg/models"
-	"code.smartsheep.studio/hydrogen/passport/pkg/security"
-	"code.smartsheep.studio/hydrogen/passport/pkg/services"
+	"code.smartsheep.studio/hydrogen/identity/pkg/database"
+	"code.smartsheep.studio/hydrogen/identity/pkg/models"
+	"code.smartsheep.studio/hydrogen/identity/pkg/security"
+	"code.smartsheep.studio/hydrogen/identity/pkg/services"
 	"github.com/gofiber/fiber/v2"
 	"github.com/samber/lo"
 	"strings"
@@ -76,7 +76,7 @@ func doConnect(c *fiber.Ctx) error {
 			user,
 			client,
 			strings.Split(scope, " "),
-			[]string{"passport", client.Alias},
+			[]string{"identity", client.Alias},
 			nil,
 			lo.ToPtr(time.Now()),
 			c.IP(),
@@ -98,7 +98,7 @@ func doConnect(c *fiber.Ctx) error {
 			user,
 			client,
 			strings.Split(scope, " "),
-			[]string{"passport", client.Alias},
+			[]string{"identity", client.Alias},
 			nil,
 			lo.ToPtr(time.Now()),
 			c.IP(),

@@ -4,8 +4,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"time"
 
-	"code.smartsheep.studio/hydrogen/passport/pkg/security"
-	"code.smartsheep.studio/hydrogen/passport/pkg/services"
+	"code.smartsheep.studio/hydrogen/identity/pkg/security"
+	"code.smartsheep.studio/hydrogen/identity/pkg/services"
 	"github.com/samber/lo"
 )
 
@@ -69,7 +69,7 @@ func doChallenge(c *fiber.Ctx) error {
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else if challenge.Progress >= challenge.Requirements {
-		session, err := security.GrantSession(challenge, []string{"*"}, []string{"passport"}, nil, lo.ToPtr(time.Now()))
+		session, err := security.GrantSession(challenge, []string{"*"}, []string{"identity"}, nil, lo.ToPtr(time.Now()))
 		if err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, err.Error())
 		}

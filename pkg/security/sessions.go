@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"time"
 
-	"code.smartsheep.studio/hydrogen/passport/pkg/database"
-	"code.smartsheep.studio/hydrogen/passport/pkg/models"
+	"code.smartsheep.studio/hydrogen/identity/pkg/database"
+	"code.smartsheep.studio/hydrogen/identity/pkg/models"
 	"github.com/google/uuid"
 	"github.com/samber/lo"
 )

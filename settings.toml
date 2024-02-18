@@ -22,8 +22,8 @@ username = "alphabot@smartsheep.studio"
 password = "gz937Zxxzfcd9SeH"
 
 [database]
-dsn = "host=localhost dbname=hy_passport port=5432 sslmode=disable"
-prefix = "passport_"
+dsn = "host=localhost dbname=hy_identity port=5432 sslmode=disable"
+prefix = "identity_"
 
 [[directory]]
 name = "Goatpass"

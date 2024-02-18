@@ -1,9 +1,9 @@
 package services
 
 import (
-	"code.smartsheep.studio/hydrogen/passport/pkg/database"
-	"code.smartsheep.studio/hydrogen/passport/pkg/external"
-	"code.smartsheep.studio/hydrogen/passport/pkg/models"
+	"code.smartsheep.studio/hydrogen/identity/pkg/database"
+	"code.smartsheep.studio/hydrogen/identity/pkg/external"
+	"code.smartsheep.studio/hydrogen/identity/pkg/models"
 	"context"
 	"firebase.google.com/go/messaging"
 	"github.com/rs/zerolog/log"

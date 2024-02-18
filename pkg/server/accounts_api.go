@@ -1,9 +1,9 @@
 package server
 
 import (
-	"code.smartsheep.studio/hydrogen/passport/pkg/database"
-	"code.smartsheep.studio/hydrogen/passport/pkg/models"
-	"code.smartsheep.studio/hydrogen/passport/pkg/services"
+	"code.smartsheep.studio/hydrogen/identity/pkg/database"
+	"code.smartsheep.studio/hydrogen/identity/pkg/models"
+	"code.smartsheep.studio/hydrogen/identity/pkg/services"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	jsoniter "github.com/json-iterator/go"

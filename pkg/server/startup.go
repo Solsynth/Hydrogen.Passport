@@ -1,7 +1,7 @@
 package server
 
 import (
-	"code.smartsheep.studio/hydrogen/passport/pkg/view"
+	"code.smartsheep.studio/hydrogen/identity/pkg/view"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cache"
 	"github.com/gofiber/fiber/v2/middleware/cors"

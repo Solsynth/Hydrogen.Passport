@@ -1,4 +1,4 @@
-module code.smartsheep.studio/hydrogen/passport
+module code.smartsheep.studio/hydrogen/identity
 
 go 1.21.5
 

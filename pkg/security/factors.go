@@ -1,7 +1,7 @@
 package security
 
 import (
-	"code.smartsheep.studio/hydrogen/passport/pkg/models"
+	"code.smartsheep.studio/hydrogen/identity/pkg/models"
 	"fmt"
 	"github.com/samber/lo"
 )
