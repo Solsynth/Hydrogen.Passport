@@ -8,7 +8,7 @@ interface MenuItem {
   children?: MenuItem[];
 }
 
-export default function Navigatior() {
+export default function Navigator() {
   const nav: MenuItem[] = [
     {
       label: "You", children: [

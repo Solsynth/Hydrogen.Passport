@@ -21,8 +21,8 @@ func getOidcConfiguration(c *fiber.Ctx) error {
 
 	return c.JSON(fiber.Map{
 		"issuer":                                           basepath,
-		"authorization_endpoint":                           fmt.Sprintf("%s/authMiddleware/o/connect", basepath),
-		"token_endpoint":                                   fmt.Sprintf("%s/api/authMiddleware/token", basepath),
+		"authorization_endpoint":                           fmt.Sprintf("%s/auth/o/connect", basepath),
+		"token_endpoint":                                   fmt.Sprintf("%s/api/auth/token", basepath),
 		"userinfo_endpoint":                                fmt.Sprintf("%s/api/users/me", basepath),
 		"response_types_supported":                         []string{"code", "token"},
 		"grant_types_supported":                            []string{"authorization_code", "implicit", "refresh_token"},
