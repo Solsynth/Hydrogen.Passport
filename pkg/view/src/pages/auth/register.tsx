@@ -1,6 +1,7 @@
 import { createSignal, Show } from "solid-js";
 import { useWellKnown } from "../../stores/wellKnown.tsx";
 import { useNavigate, useSearchParams } from "@solidjs/router";
+import { request } from "../../scripts/request.ts";
 
 export default function RegisterPage() {
   const [title, setTitle] = createSignal("Create an account");
@@ -22,7 +23,7 @@ export default function RegisterPage() {
     if (!data.name || !data.nick || !data.email || !data.password) return;
 
     setLoading(true);
-    const res = await fetch("/api/users", {
+    const res = await request("/api/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)

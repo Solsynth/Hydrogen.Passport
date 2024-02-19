@@ -1,5 +1,6 @@
 import { getAtk, readProfiles, useUserinfo } from "../stores/userinfo.tsx";
 import { createSignal, Show } from "solid-js";
+import { request } from "../scripts/request.ts";
 
 export default function PersonalPage() {
   const userinfo = useUserinfo();
@@ -14,7 +15,7 @@ export default function PersonalPage() {
     const data = Object.fromEntries(new FormData(evt.target as HTMLFormElement));
 
     setLoading(true);
-    const res = await fetch("/api/users/me", {
+    const res = await request("/api/users/me", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +39,7 @@ export default function PersonalPage() {
 
     setLoading(true);
     const data = new FormData(evt.target as HTMLFormElement);
-    const res = await fetch("/api/avatar", {
+    const res = await request("/api/avatar", {
       method: "PUT",
       headers: { "Authorization": `Bearer ${getAtk()}` },
       body: data

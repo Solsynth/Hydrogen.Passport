@@ -1,6 +1,7 @@
 import { createSignal, Show } from "solid-js";
 import { useLocation, useSearchParams } from "@solidjs/router";
 import { getAtk, useUserinfo } from "../../stores/userinfo.tsx";
+import { request } from "../../scripts/request.ts";
 
 export default function OauthConnectPage() {
   const [title, setTitle] = createSignal("Connect Third-party");
@@ -18,7 +19,7 @@ export default function OauthConnectPage() {
   const location = useLocation();
 
   async function preConnect() {
-    const res = await fetch(`/api/auth/o/connect${location.search}`, {
+    const res = await request(`/api/auth/o/connect${location.search}`, {
       headers: { "Authorization": `Bearer ${getAtk()}` }
     });
 
@@ -51,7 +52,7 @@ export default function OauthConnectPage() {
     setLoading(true);
     setStatus("Approving...");
 
-    const res = await fetch("/api/auth/o/connect?" + new URLSearchParams({
+    const res = await request("/api/auth/o/connect?" + new URLSearchParams({
       client_id: searchParams["client_id"] as string,
       redirect_uri: encodeURIComponent(searchParams["redirect_uri"] as string),
       response_type: "code",

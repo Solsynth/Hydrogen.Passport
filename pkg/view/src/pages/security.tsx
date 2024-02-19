@@ -1,5 +1,6 @@
 import { getAtk } from "../stores/userinfo.tsx";
 import { createSignal, For, Match, Show, Switch } from "solid-js";
+import { request } from "../scripts/request.ts";
 
 export default function DashboardPage() {
   const [challenges, setChallenges] = createSignal<any[]>([]);
@@ -15,7 +16,7 @@ export default function DashboardPage() {
   const [contentTab, setContentTab] = createSignal(0);
 
   async function readChallenges() {
-    const res = await fetch("/api/users/me/challenges?take=10", {
+    const res = await request("/api/users/me/challenges?take=10", {
       headers: { Authorization: `Bearer ${getAtk()}` }
     });
     if (res.status !== 200) {
@@ -28,7 +29,7 @@ export default function DashboardPage() {
   }
 
   async function readSessions() {
-    const res = await fetch("/api/users/me/sessions?take=10", {
+    const res = await request("/api/users/me/sessions?take=10", {
       headers: { Authorization: `Bearer ${getAtk()}` }
     });
     if (res.status !== 200) {
@@ -41,7 +42,7 @@ export default function DashboardPage() {
   }
 
   async function readEvents() {
-    const res = await fetch("/api/users/me/events?take=10", {
+    const res = await request("/api/users/me/events?take=10", {
       headers: { Authorization: `Bearer ${getAtk()}` }
     });
     if (res.status !== 200) {
@@ -55,7 +56,7 @@ export default function DashboardPage() {
 
   async function killSession(item: any) {
     setSubmitting(true);
-    const res = await fetch(`/api/users/me/sessions/${item.id}`, {
+    const res = await request(`/api/users/me/sessions/${item.id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${getAtk()}` }
     });

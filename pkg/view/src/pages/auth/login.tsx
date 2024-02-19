@@ -1,6 +1,7 @@
 import { readProfiles } from "../../stores/userinfo.tsx";
 import { useNavigate, useSearchParams } from "@solidjs/router";
 import { createSignal, For, Match, Show, Switch } from "solid-js";
+import { request } from "../../scripts/request.ts";
 
 export default function LoginPage() {
   const [title, setTitle] = createSignal("Sign in");
@@ -26,7 +27,7 @@ export default function LoginPage() {
       if (!data.id) return;
 
       setLoading(true);
-      const res = await fetch("/api/auth", {
+      const res = await request("/api/auth", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
@@ -51,7 +52,7 @@ export default function LoginPage() {
       if (!data.factor) return;
 
       setLoading(true);
-      const res = await fetch(`/api/auth/factors/${data.factor}`, {
+      const res = await request(`/api/auth/factors/${data.factor}`, {
         method: "POST"
       });
       if (res.status !== 200 && res.status !== 204) {
@@ -72,7 +73,7 @@ export default function LoginPage() {
       if (!data.credentials) return;
 
       setLoading(true);
-      const res = await fetch(`/api/auth`, {
+      const res = await request(`/api/auth`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -102,7 +103,7 @@ export default function LoginPage() {
   };
 
   async function grantToken(tk: string) {
-    const res = await fetch("/api/auth/token", {
+    const res = await request("/api/auth/token", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

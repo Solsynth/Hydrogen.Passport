@@ -1,6 +1,7 @@
 import Cookie from "universal-cookie";
 import { createContext, useContext } from "solid-js";
 import { createStore } from "solid-js/store";
+import { request } from "../scripts/request.ts";
 
 export interface Userinfo {
   isLoggedIn: boolean,
@@ -31,7 +32,7 @@ function checkLoggedIn(): boolean {
 export async function readProfiles() {
   if (!checkLoggedIn()) return;
 
-  const res = await fetch("/api/users/me", {
+  const res = await request("/api/users/me", {
     credentials: "include"
   });
 

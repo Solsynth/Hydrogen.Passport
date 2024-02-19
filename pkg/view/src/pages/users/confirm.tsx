@@ -1,6 +1,7 @@
 import { createSignal, Show } from "solid-js";
 import { useNavigate, useSearchParams } from "@solidjs/router";
 import { readProfiles } from "../../stores/userinfo.tsx";
+import { request } from "../../scripts/request.ts";
 
 export default function ConfirmRegistrationPage() {
   const [error, setError] = createSignal<string | null>(null);
@@ -15,7 +16,7 @@ export default function ConfirmRegistrationPage() {
       setError("Bad Request: Code was not exists");
     }
 
-    const res = await fetch("/api/users/me/confirm", {
+    const res = await request("/api/users/me/confirm", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

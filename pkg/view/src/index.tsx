@@ -41,6 +41,7 @@ declare const __GARFISH_EXPORTS__: {
 declare global {
   interface Window {
     __GARFISH__: boolean;
+    __LAUNCHPAD_TARGET__?: string;
   }
 }
 
@@ -60,6 +61,7 @@ if (!window.__GARFISH__) {
   render(router, root!);
 } else if (typeof __GARFISH_EXPORTS__ !== "undefined") {
   console.log("Running in launchpad container!")
+  console.log("Launchpad target:", window.__LAUNCHPAD_TARGET__)
   if (__GARFISH_EXPORTS__.registerProvider) {
     __GARFISH_EXPORTS__.registerProvider(provider);
   } else {

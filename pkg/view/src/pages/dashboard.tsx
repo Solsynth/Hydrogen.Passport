@@ -1,5 +1,6 @@
 import { getAtk, readProfiles, useUserinfo } from "../stores/userinfo.tsx";
 import { createSignal, For, Show } from "solid-js";
+import { request } from "../scripts/request.ts";
 
 export default function DashboardPage() {
   const userinfo = useUserinfo();
@@ -19,7 +20,7 @@ export default function DashboardPage() {
   }
 
   async function readNotification(item: any) {
-    const res = await fetch(`/api/notifications/${item.id}/read`, {
+    const res = await request(`/api/notifications/${item.id}/read`, {
       method: "PUT",
       headers: { Authorization: `Bearer ${getAtk()}` }
     });
