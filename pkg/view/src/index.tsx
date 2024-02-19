@@ -56,8 +56,10 @@ export const provider = () => ({
 });
 
 if (!window.__GARFISH__) {
+  console.log("Running directly!")
   render(router, root!);
-} else if (typeof __GARFISH_EXPORTS__ === "object" && __GARFISH_EXPORTS__) {
+} else if (typeof __GARFISH_EXPORTS__ !== "undefined") {
+  console.log("Running in launchpad container!")
   if (__GARFISH_EXPORTS__.registerProvider) {
     __GARFISH_EXPORTS__.registerProvider(provider);
   } else {
