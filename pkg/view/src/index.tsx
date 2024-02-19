@@ -33,8 +33,19 @@ const router = (basename?: string) => (
   </WellKnownProvider>
 );
 
+declare const __GARFISH_EXPORTS__: {
+  provider: Object;
+  registerProvider?: (provider: any) => void;
+};
+
+declare global {
+  interface Window {
+    __GARFISH__: boolean;
+  }
+}
+
 export const provider = () => ({
-  render: ({ dom, basename }: any) => {
+  render: ({ dom, basename }: { dom: any, basename: string }) => {
     render(
       () => router(basename),
       dom.querySelector("#root")
@@ -44,7 +55,12 @@ export const provider = () => ({
   }
 });
 
-// @ts-ignore
 if (!window.__GARFISH__) {
   render(router, root!);
+} else if (typeof __GARFISH_EXPORTS__ === "object" && __GARFISH_EXPORTS__) {
+  if (__GARFISH_EXPORTS__.registerProvider) {
+    __GARFISH_EXPORTS__.registerProvider(provider);
+  } else {
+    __GARFISH_EXPORTS__.provider = provider;
+  }
 }
