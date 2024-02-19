@@ -16,10 +16,10 @@ import { WellKnownProvider } from "./stores/wellKnown.tsx";
 
 const root = document.getElementById("root");
 
-render(() => (
+const router = (basename?: string) => (
   <WellKnownProvider>
     <UserinfoProvider>
-      <Router root={RootLayout}>
+      <Router root={RootLayout} base={basename}>
         <Route path="/" component={lazy(() => import("./pages/dashboard.tsx"))} />
         <Route path="/security" component={lazy(() => import("./pages/security.tsx"))} />
         <Route path="/personalise" component={lazy(() => import("./pages/personalise.tsx"))} />
@@ -31,4 +31,17 @@ render(() => (
       </Router>
     </UserinfoProvider>
   </WellKnownProvider>
-), root!);
+);
+
+export const provider = () => ({
+  render: ({ dom, basename }: any) => {
+    render(
+      () => router(basename),
+      dom.querySelector("#root")
+    );
+  },
+  destroy: () => {
+  }
+});
+
+render(router, root!);
