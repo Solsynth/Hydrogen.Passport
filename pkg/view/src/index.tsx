@@ -44,4 +44,7 @@ export const provider = () => ({
   }
 });
 
-render(router, root!);
+// @ts-ignore
+if (!window.__GARFISH__) {
+  render(router, root!);
+}
