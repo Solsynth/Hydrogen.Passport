@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option go_package = ".;proto";
+
+package proto;
+
+service Auth {
+  rpc Authenticate(AuthRequest) returns (AuthReply) {}
+}
+
+message Userinfo {
+  string name = 1;
+  string nick = 2;
+  string email = 3;
+  string avatar = 4;
+  optional string description = 5;
+}
+
+message AuthRequest {
+  string access_token = 1;
+  optional string refresh_token = 2;
+}
+
+message AuthReply {
+  bool is_valid = 1;
+  optional string access_token = 2;
+  optional string refresh_token = 3;
+  optional Userinfo userinfo = 4;
+}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"code.smartsheep.studio/hydrogen/identity/pkg/external"
+	"code.smartsheep.studio/hydrogen/identity/pkg/grpc"
 	"code.smartsheep.studio/hydrogen/identity/pkg/server"
 	"code.smartsheep.studio/hydrogen/identity/pkg/services"
 	"github.com/robfig/cron/v3"
@@ -51,6 +52,13 @@ func main() {
 	// Server
 	server.NewServer()
 	go server.Listen()
+
+	// Grpc Server
+	go func() {
+		if err := grpc.StartGrpc(); err != nil {
+			log.Fatal().Err(err).Msg("An message occurred when starting grpc server.")
+		}
+	}()
 
 	// Configure timed tasks
 	quartz := cron.New(cron.WithLogger(cron.VerbosePrintfLogger(&log.Logger)))

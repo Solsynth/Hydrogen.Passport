@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option go_package = ".;proto";
+
+package proto;
+
+service Notify {
+  rpc NotifyUser(NotifyRequest) returns (NotifyReply) {}
+}
+
+message NotifyLink {
+  string label = 1;
+  string url = 2;
+}
+
+message NotifyRequest {
+  string subject = 1;
+  string content = 2;
+  repeated NotifyLink links = 3;
+  bool is_important = 4;
+  uint64 recipient_id = 5;
+  string client_id = 6;
+  string client_secret = 7;
+}
+
+message NotifyReply {
+  bool is_sent = 1;
+}

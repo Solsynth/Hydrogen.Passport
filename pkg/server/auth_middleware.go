@@ -21,7 +21,7 @@ func authMiddleware(c *fiber.Ctx) error {
 	c.Locals("token", token)
 
 	if err := authFunc(c); err != nil {
-		fmt.Println(err)
+		fmt.Println("Watch out!", err)
 		return err
 	}
 
@@ -40,33 +40,14 @@ func authFunc(c *fiber.Ctx, overrides ...string) error {
 		}
 	}
 
-	claims, err := security.DecodeJwt(token)
-	if err != nil {
-		rtk := c.Cookies(security.CookieRefreshKey)
-		if len(rtk) > 0 && len(overrides) < 1 {
-			// Auto refresh and retry
-			access, refresh, err := security.RefreshToken(rtk)
-			if err == nil {
-				security.SetJwtCookieSet(c, access, refresh)
-				return authFunc(c, access)
-			}
+	rtk := c.Cookies(security.CookieRefreshKey)
+	if user, atk, rtk, err := services.Authenticate(token, rtk, 0); err == nil {
+		if atk != token {
+			security.SetJwtCookieSet(c, atk, rtk)
 		}
-		return fiber.NewError(fiber.StatusUnauthorized, fmt.Sprintf("invalid auth key: %v", err))
+		c.Locals("principal", user)
+		return nil
+	} else {
+		return err
 	}
-
-	session, err := services.LookupSessionWithToken(claims.ID)
-	if err != nil {
-		return fiber.NewError(fiber.StatusUnauthorized, fmt.Sprintf("invalid auth session: %v", err))
-	} else if err := session.IsAvailable(); err != nil {
-		return fiber.NewError(fiber.StatusUnauthorized, fmt.Sprintf("unavailable auth session: %v", err))
-	}
-
-	user, err := services.GetAccount(session.AccountID)
-	if err != nil {
-		return fiber.NewError(fiber.StatusUnauthorized, fmt.Sprintf("invalid account: %v", err))
-	}
-
-	c.Locals("principal", user)
-
-	return nil
 }

@@ -4,6 +4,7 @@ name = "Goatpass"
 maintainer = "SmartSheep Studio"
 
 bind = "0.0.0.0:8444"
+grpc_bind = "0.0.0.0:7444"
 domain = "id.smartsheep.studio"
 secret = "LtTjzAGFLshwXhN4ZD4nG5KlMv1MWcsvfv03TSZYnT1VhiAnLIZFTnHUwR0XhGgi"
 
