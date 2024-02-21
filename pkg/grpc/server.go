@@ -5,6 +5,7 @@ import (
 	"code.smartsheep.studio/hydrogen/identity/pkg/models"
 	"code.smartsheep.studio/hydrogen/identity/pkg/services"
 	"context"
+	"fmt"
 	"github.com/samber/lo"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
@@ -31,8 +32,8 @@ func (v *Server) Authenticate(_ context.Context, in *proto.AuthRequest) (*proto.
 			Userinfo: &proto.Userinfo{
 				Name:        user.Name,
 				Nick:        user.Nick,
-				Avatar:      user.Avatar,
 				Email:       user.GetPrimaryEmail().Content,
+				Avatar:      fmt.Sprintf("https://%s/api/avatar/%s", viper.GetString("domain"), user.Avatar),
 				Description: nil,
 			},
 		}, nil
