@@ -3,7 +3,6 @@ package server
 import (
 	"code.smartsheep.studio/hydrogen/identity/pkg/security"
 	"code.smartsheep.studio/hydrogen/identity/pkg/services"
-	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"strings"
 )
@@ -21,7 +20,6 @@ func authMiddleware(c *fiber.Ctx) error {
 	c.Locals("token", token)
 
 	if err := authFunc(c); err != nil {
-		fmt.Println("Watch out!", err)
 		return err
 	}
 
