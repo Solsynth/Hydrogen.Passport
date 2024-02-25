@@ -1,7 +1,6 @@
 import Cookie from "universal-cookie";
-import { createContext, useContext } from "solid-js";
-import { createStore } from "solid-js/store";
 import { request } from "../scripts/request.ts";
+import { createContext, useContext, useState } from "react";
 
 export interface Userinfo {
   isLoggedIn: boolean,
@@ -10,8 +9,6 @@ export interface Userinfo {
   meta: any
 }
 
-const UserinfoContext = createContext<Userinfo>();
-
 const defaultUserinfo: Userinfo = {
   isLoggedIn: false,
   displayName: "Citizen",
@@ -19,53 +16,55 @@ const defaultUserinfo: Userinfo = {
   meta: null
 };
 
-const [userinfo, setUserinfo] = createStore<Userinfo>(structuredClone(defaultUserinfo));
-
-export function getAtk(): string {
-  return new Cookie().get("identity_auth_key");
-}
-
-function checkLoggedIn(): boolean {
-  return new Cookie().get("identity_auth_key");
-}
-
-export async function readProfiles() {
-  if (!checkLoggedIn()) return;
-
-  const res = await request("/api/users/me", {
-    credentials: "include"
-  });
-
-  if (res.status !== 200) {
-    clearUserinfo();
-    window.location.reload();
-  }
-
-  const data = await res.json();
-
-  setUserinfo({
-    isLoggedIn: true,
-    displayName: data["nick"],
-    profiles: null,
-    meta: data
-  });
-}
-
-export function clearUserinfo() {
-  const cookies = document.cookie.split(";");
-  for (let i = 0; i < cookies.length; i++) {
-    const cookie = cookies[i];
-    const eqPos = cookie.indexOf("=");
-    const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
-    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-  }
-
-  setUserinfo(defaultUserinfo);
-}
+const UserinfoContext = createContext<any>({ userinfo: defaultUserinfo });
 
 export function UserinfoProvider(props: any) {
+  const [userinfo, setUserinfo] = useState<Userinfo>(structuredClone(defaultUserinfo));
+
+  function getAtk(): string {
+    return new Cookie().get("identity_auth_key");
+  }
+
+  function checkLoggedIn(): boolean {
+    return new Cookie().get("identity_auth_key");
+  }
+
+  async function readProfiles() {
+    if (!checkLoggedIn()) return;
+
+    const res = await request("/api/users/me", {
+      credentials: "include"
+    });
+
+    if (res.status !== 200) {
+      clearUserinfo();
+      window.location.reload();
+    }
+
+    const data = await res.json();
+
+    setUserinfo({
+      isLoggedIn: true,
+      displayName: data["nick"],
+      profiles: null,
+      meta: data
+    });
+  }
+
+  function clearUserinfo() {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i];
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+
+    setUserinfo(defaultUserinfo);
+  }
+
   return (
-    <UserinfoContext.Provider value={userinfo}>
+    <UserinfoContext.Provider value={{ userinfo, readProfiles, checkLoggedIn, getAtk, clearUserinfo }}>
       {props.children}
     </UserinfoContext.Provider>
   );

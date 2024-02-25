@@ -1,19 +1,18 @@
-import { createContext, useContext } from "solid-js";
-import { createStore } from "solid-js/store";
+import { createContext, useContext, useState } from "react";
 import { request } from "../scripts/request.ts";
 
-const WellKnownContext = createContext<any>();
-
-const [wellKnown, setWellKnown] = createStore<any>(null);
-
-export async function readWellKnown() {
-  const res = await request("/.well-known")
-  setWellKnown(await res.json())
-}
+const WellKnownContext = createContext<any>(null);
 
 export function WellKnownProvider(props: any) {
+  const [wellKnown, setWellKnown] = useState<any>(null);
+
+  async function readWellKnown() {
+    const res = await request("/.well-known");
+    setWellKnown(await res.json());
+  }
+
   return (
-    <WellKnownContext.Provider value={wellKnown}>
+    <WellKnownContext.Provider value={{ wellKnown, readWellKnown }}>
       {props.children}
     </WellKnownContext.Provider>
   );
