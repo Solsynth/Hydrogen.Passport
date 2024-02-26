@@ -168,7 +168,7 @@ export default function SignUpPage() {
   return (
     <Box sx={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
       <Box style={{ width: "100vw", maxWidth: "450px" }}>
-        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+        {error && <Alert severity="error" className="capitalize" sx={{ mb: 2 }}>{error}</Alert>}
 
         <Card variant="outlined">
           <Collapse in={loading}>

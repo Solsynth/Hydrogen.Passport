@@ -1,7 +1,8 @@
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import {
-  Box, Collapse,
+  Box,
+  Collapse,
   Divider,
   Drawer,
   IconButton,
@@ -14,15 +15,13 @@ import {
 } from "@mui/material";
 import { theme } from "@/theme";
 import { Fragment, ReactNode, useState } from "react";
-import HomeIcon from "@mui/icons-material/Home";
-import ArticleIcon from "@mui/icons-material/Article";
-import FeedIcon from "@mui/icons-material/RssFeed";
-import InfoIcon from "@mui/icons-material/Info";
-import GavelIcon from "@mui/icons-material/Gavel";
-import PolicyIcon from "@mui/icons-material/Policy";
-import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
+import LoginIcon from "@mui/icons-material/Login";
+import FaceIcon from "@mui/icons-material/Face";
+import LogoutIcon from "@mui/icons-material/Logout";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import { useUserinfo } from "@/stores/userinfo.tsx";
 
 export interface NavigationItem {
   icon?: ReactNode;
@@ -33,19 +32,6 @@ export interface NavigationItem {
 }
 
 export const DRAWER_WIDTH = 320;
-export const NAVIGATION_ITEMS: NavigationItem[] = [
-  { icon: <HomeIcon />, title: "首页", link: "/" },
-  { icon: <ArticleIcon />, title: "博客", link: "/posts" },
-  {
-    icon: <InfoIcon />, title: "信息中心", children: [
-      { icon: <GavelIcon />, title: "用户协议", link: "/i/user-agreement" },
-      { icon: <PolicyIcon />, title: "隐私协议", link: "/i/privacy-policy" },
-      { icon: <SupervisedUserCircleIcon />, title: "社区准则", link: "/i/community-guidelines" }
-    ]
-  },
-  { divider: true },
-  { icon: <FeedIcon />, title: "订阅源", link: "/feed" }
-];
 
 export const AppNavigationHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -91,6 +77,23 @@ export function AppNavigationSection({ items, depth }: { items: NavigationItem[]
 }
 
 export function AppNavigation({ showClose, onClose }: { showClose?: boolean; onClose: () => void }) {
+  const { checkLoggedIn } = useUserinfo();
+
+  const nav: NavigationItem[] = [
+    ...(
+      checkLoggedIn() ?
+        [
+          { icon: <FaceIcon />, title: "Account", link: "/users" },
+          { divider: true },
+          { icon: <LogoutIcon />, title: "Sign out", link: "/auth/sign-out" }
+        ] :
+        [
+          { icon: <HowToRegIcon />, title: "Sign up", link: "/auth/sign-up" },
+          { icon: <LoginIcon />, title: "Sign in", link: "/auth/sign-in" }
+        ]
+    )
+  ];
+
   return (
     <>
       <AppNavigationHeader>
@@ -102,7 +105,7 @@ export function AppNavigation({ showClose, onClose }: { showClose?: boolean; onC
       </AppNavigationHeader>
       <Divider />
       <List>
-        <AppNavigationSection items={NAVIGATION_ITEMS} />
+        <AppNavigationSection items={nav} />
       </List>
     </>
   );

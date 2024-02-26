@@ -8,6 +8,7 @@ import "virtual:uno.css";
 
 import "./index.css";
 import "@unocss/reset/tailwind.css";
+import "@fontsource/roboto/latin.css";
 
 import AppShell from "@/components/AppShell.tsx";
 import LandingPage from "@/pages/landing.tsx";
