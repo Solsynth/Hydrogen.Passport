@@ -1,7 +1,7 @@
 package server
 
 import (
-	"code.smartsheep.studio/hydrogen/identity/pkg/view"
+	"code.smartsheep.studio/hydrogen/identity/pkg/views"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cache"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -92,7 +92,7 @@ func NewServer() {
 		Expiration:   24 * time.Hour,
 		CacheControl: true,
 	}), filesystem.New(filesystem.Config{
-		Root:         http.FS(view.FS),
+		Root:         http.FS(views.FS),
 		PathPrefix:   "dist",
 		Index:        "index.html",
 		NotFoundFile: "dist/index.html",

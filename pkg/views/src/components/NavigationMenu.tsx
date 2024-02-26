@@ -1,27 +1,15 @@
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import {
-  Box,
-  Collapse,
-  Divider,
-  Drawer,
-  IconButton,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  styled,
-  useMediaQuery
-} from "@mui/material";
+import { Collapse, Divider, ListItemIcon, ListItemText, Menu, MenuItem, styled } from "@mui/material";
 import { theme } from "@/theme";
 import { Fragment, ReactNode, useState } from "react";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import LoginIcon from "@mui/icons-material/Login";
 import FaceIcon from "@mui/icons-material/Face";
-import LogoutIcon from "@mui/icons-material/Logout";
+import LogoutIcon from "@mui/icons-material/ExitToApp";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { useUserinfo } from "@/stores/userinfo.tsx";
+import { PopoverProps } from "@mui/material/Popover";
+import { Link } from "react-router-dom";
 
 export interface NavigationItem {
   icon?: ReactNode;
@@ -51,32 +39,30 @@ export function AppNavigationSection({ items, depth }: { items: NavigationItem[]
     } else if (item.children) {
       return (
         <Fragment key={idx}>
-          <ListItemButton onClick={() => setOpen(!open)} sx={{ pl: 2 + (depth ?? 0) * 2 }}>
+          <MenuItem onClick={() => setOpen(!open)} sx={{ pl: 2 + (depth ?? 0) * 2, width: 180 }}>
             <ListItemIcon>{item.icon}</ListItemIcon>
             <ListItemText primary={item.title} />
             {open ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
+          </MenuItem>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <AppNavigationSection items={item.children} depth={(depth ?? 0) + 1} />
-            </List>
+            <AppNavigationSection items={item.children} depth={(depth ?? 0) + 1} />
           </Collapse>
         </Fragment>
       );
     } else {
       return (
-        <a key={idx} href={item.link ?? "/"}>
-          <ListItemButton sx={{ pl: 2 + (depth ?? 0) * 2 }}>
+        <Link key={idx} to={item.link ?? "/"}>
+          <MenuItem sx={{ pl: 2 + (depth ?? 0) * 2, width: 180 }}>
             <ListItemIcon>{item.icon}</ListItemIcon>
             <ListItemText primary={item.title} />
-          </ListItemButton>
-        </a>
+          </MenuItem>
+        </Link>
       );
     }
   });
 }
 
-export function AppNavigation({ showClose, onClose }: { showClose?: boolean; onClose: () => void }) {
+export function AppNavigation() {
   const { checkLoggedIn } = useUserinfo();
 
   const nav: NavigationItem[] = [
@@ -94,61 +80,19 @@ export function AppNavigation({ showClose, onClose }: { showClose?: boolean; onC
     )
   ];
 
-  return (
-    <>
-      <AppNavigationHeader>
-        {showClose && (
-          <IconButton onClick={onClose}>
-            {theme.direction === "rtl" ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        )}
-      </AppNavigationHeader>
-      <Divider />
-      <List>
-        <AppNavigationSection items={nav} />
-      </List>
-    </>
-  );
+  return <AppNavigationSection items={nav} />;
 }
 
 export const isMobileQuery = theme.breakpoints.down("md");
 
-export default function NavigationDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const isMobile = useMediaQuery(isMobileQuery);
-
-  return isMobile ? (
-    <>
-      <Box sx={{ flexShrink: 0, width: DRAWER_WIDTH }} />
-      <Drawer
-        keepMounted
-        anchor="right"
-        variant="temporary"
-        open={open}
-        onClose={onClose}
-        sx={{
-          "& .MuiDrawer-paper": {
-            boxSizing: "border-box",
-            width: DRAWER_WIDTH
-          }
-        }}
-      >
-        <AppNavigation onClose={onClose} />
-      </Drawer>
-    </>
-  ) : (
-    <Drawer
-      variant="persistent"
-      anchor="right"
-      open={open}
-      sx={{
-        width: DRAWER_WIDTH,
-        flexShrink: 0,
-        "& .MuiDrawer-paper": {
-          width: DRAWER_WIDTH
-        }
-      }}
-    >
-      <AppNavigation showClose onClose={onClose} />
-    </Drawer>
+export default function NavigationMenu({ anchorEl, open, onClose }: {
+  anchorEl: PopoverProps["anchorEl"];
+  open: boolean;
+  onClose: () => void
+}) {
+  return (
+    <Menu anchorEl={anchorEl} open={open} onClose={onClose}>
+      <AppNavigation />
+    </Menu>
   );
 }
