@@ -5,15 +5,13 @@ import { createContext, useContext, useState } from "react";
 export interface Userinfo {
   isLoggedIn: boolean,
   displayName: string,
-  profiles: any,
-  meta: any
+  data: any,
 }
 
 const defaultUserinfo: Userinfo = {
   isLoggedIn: false,
   displayName: "Citizen",
-  profiles: null,
-  meta: null
+  data: null,
 };
 
 const UserinfoContext = createContext<any>({ userinfo: defaultUserinfo });
@@ -46,8 +44,7 @@ export function UserinfoProvider(props: any) {
     setUserinfo({
       isLoggedIn: true,
       displayName: data["nick"],
-      profiles: null,
-      meta: data
+      data: data
     });
   }
 

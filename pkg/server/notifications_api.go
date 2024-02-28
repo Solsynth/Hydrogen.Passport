@@ -14,17 +14,21 @@ func getNotifications(c *fiber.Ctx) error {
 	take := c.QueryInt("take", 0)
 	offset := c.QueryInt("offset", 0)
 
+	only_unread := c.QueryBool("only_unread", true)
+
+	tx := database.C.Where(&models.Notification{RecipientID: user.ID}).Model(&models.Notification{})
+	if only_unread {
+		tx = tx.Where("read_at IS NULL")
+	}
+
 	var count int64
 	var notifications []models.Notification
-	if err := database.C.
-		Where(&models.Notification{RecipientID: user.ID}).
-		Model(&models.Notification{}).
+	if err := tx.
 		Count(&count).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 
-	if err := database.C.
-		Where(&models.Notification{RecipientID: user.ID}).
+	if err := tx.
 		Limit(take).
 		Offset(offset).
 		Order("read_at desc").

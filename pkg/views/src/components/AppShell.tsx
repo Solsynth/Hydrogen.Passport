@@ -74,7 +74,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
                 sx={{ width: 32, height: 32, bgcolor: "transparent" }}
                 ref={container}
                 alt={userinfo?.displayName}
-                src={userinfo?.profiles?.avatar}
+                src={`/api/avatar/${userinfo?.data?.avatar}`}
               >
                 <AccountCircleIcon />
               </Avatar>

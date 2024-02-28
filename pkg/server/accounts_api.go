@@ -76,11 +76,11 @@ func editUserinfo(c *fiber.Ctx) error {
 	user := c.Locals("principal").(models.Account)
 
 	var data struct {
-		Nick       string    `json:"nick" validate:"required,min=4,max=24"`
-		FirstName  string    `json:"first_name"`
-		MiddleName string    `json:"middle_name"`
-		LastName   string    `json:"last_name"`
-		Birthday   time.Time `json:"birthday"`
+		Nick        string    `json:"nick" validate:"required,min=4,max=24"`
+		Description string    `json:"description"`
+		FirstName   string    `json:"first_name"`
+		LastName    string    `json:"last_name"`
+		Birthday    time.Time `json:"birthday"`
 	}
 
 	if err := BindAndValidate(c, &data); err != nil {
@@ -96,8 +96,8 @@ func editUserinfo(c *fiber.Ctx) error {
 	}
 
 	account.Nick = data.Nick
+	account.Description = data.Description
 	account.Profile.FirstName = data.FirstName
-	account.Profile.MiddleName = data.MiddleName
 	account.Profile.LastName = data.LastName
 	account.Profile.Birthday = &data.Birthday
 

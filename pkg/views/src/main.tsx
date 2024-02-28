@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { theme } from "@/theme.ts";
 
@@ -14,8 +16,13 @@ import AppShell from "@/components/AppShell.tsx";
 import LandingPage from "@/pages/landing.tsx";
 import SignUpPage from "@/pages/auth/sign-up.tsx";
 import SignInPage from "@/pages/auth/sign-in.tsx";
+import DashboardPage from "@/pages/users/dashboard.tsx";
 import ErrorBoundary from "@/error.tsx";
 import AppLoader from "@/components/AppLoader.tsx";
+import UserLayout from "@/pages/users/layout.tsx";
+import NotificationsPage from "@/pages/users/notifications.tsx";
+import PersonalizePage from "@/pages/users/personalize.tsx";
+import SecurityPage from "@/pages/users/security.tsx";
 import { UserinfoProvider } from "@/stores/userinfo.tsx";
 import { WellKnownProvider } from "@/stores/wellKnown.tsx";
 
@@ -36,7 +43,17 @@ const router = createBrowserRouter([
     element: <AppShell><Outlet /></AppShell>,
     errorElement: <ErrorBoundary />,
     children: [
-      { path: "/", element: <LandingPage /> }
+      { path: "/", element: <LandingPage /> },
+      {
+        path: "/users",
+        element: <UserLayout />,
+        children: [
+          { path: "/users", element: <DashboardPage /> },
+          { path: "/users/notifications", element: <NotificationsPage /> },
+          { path: "/users/personalize", element: <PersonalizePage /> },
+          { path: "/users/security", element: <SecurityPage /> }
+        ]
+      }
     ]
   },
   { path: "/auth/sign-up", element: <SignUpPage />, errorElement: <ErrorBoundary /> },
@@ -45,16 +62,18 @@ const router = createBrowserRouter([
 
 const element = (
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <WellKnownProvider>
-        <UserinfoProvider>
-          <AppLoader>
-            <CssBaseline />
-            <RouterProvider router={router} />
-          </AppLoader>
-        </UserinfoProvider>
-      </WellKnownProvider>
-    </ThemeProvider>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <ThemeProvider theme={theme}>
+        <WellKnownProvider>
+          <UserinfoProvider>
+            <AppLoader>
+              <CssBaseline />
+              <RouterProvider router={router} />
+            </AppLoader>
+          </UserinfoProvider>
+        </WellKnownProvider>
+      </ThemeProvider>
+    </LocalizationProvider>
   </React.StrictMode>
 );
 
