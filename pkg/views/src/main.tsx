@@ -64,6 +64,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/auth/sign-up", errorElement: <ErrorBoundary />, lazy: () => import("@/pages/auth/sign-up.tsx") },
       { path: "/auth/sign-in", errorElement: <ErrorBoundary />, lazy: () => import("@/pages/auth/sign-in.tsx") },
+      { path: "/auth/sign-out", errorElement: <ErrorBoundary />, lazy: () => import("@/pages/auth/sign-out.tsx") },
       { path: "/auth/o/connect", errorElement: <ErrorBoundary />, lazy: () => import("@/pages/auth/connect.tsx") }
     ]
   }

@@ -42,8 +42,7 @@ export function UserinfoProvider(props: any) {
     });
 
     if (res.status !== 200) {
-      clearUserinfo();
-      window.location.reload();
+      return;
     }
 
     const data = await res.json();
