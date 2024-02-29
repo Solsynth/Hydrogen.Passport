@@ -5,7 +5,7 @@ RUN apk add nodejs npm
 
 WORKDIR /source
 COPY . .
-WORKDIR /source/pkg/view
+WORKDIR /source/pkg/views
 RUN npm install
 RUN npm run build
 WORKDIR /source
