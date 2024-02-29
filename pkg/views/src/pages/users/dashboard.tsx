@@ -12,7 +12,7 @@ export function Component() {
       </Box>
 
       {
-        !userinfo?.profiles?.confirmed_at &&
+        !userinfo?.data?.confirmed_at &&
         <Alert severity="warning" sx={{ mt: 3, mx: 1 }}>
           Your account haven't confirmed yet. Go to your linked email
           inbox and check out our registration confirm email.
