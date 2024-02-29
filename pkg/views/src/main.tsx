@@ -16,6 +16,7 @@ import AppShell from "@/components/AppShell.tsx";
 import LandingPage from "@/pages/landing.tsx";
 import SignUpPage from "@/pages/auth/sign-up.tsx";
 import SignInPage from "@/pages/auth/sign-in.tsx";
+import OauthConnectPage from "@/pages/auth/connect.tsx";
 import DashboardPage from "@/pages/users/dashboard.tsx";
 import ErrorBoundary from "@/error.tsx";
 import AppLoader from "@/components/AppLoader.tsx";
@@ -25,6 +26,8 @@ import PersonalizePage from "@/pages/users/personalize.tsx";
 import SecurityPage from "@/pages/users/security.tsx";
 import { UserinfoProvider } from "@/stores/userinfo.tsx";
 import { WellKnownProvider } from "@/stores/wellKnown.tsx";
+import AuthLayout from "@/pages/auth/layout.tsx";
+import AuthGuard from "@/pages/guard.tsx";
 
 declare const __GARFISH_EXPORTS__: {
   provider: Object;
@@ -45,19 +48,33 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <LandingPage /> },
       {
-        path: "/users",
-        element: <UserLayout />,
+        path: "/",
+        element: <AuthGuard />,
         children: [
-          { path: "/users", element: <DashboardPage /> },
-          { path: "/users/notifications", element: <NotificationsPage /> },
-          { path: "/users/personalize", element: <PersonalizePage /> },
-          { path: "/users/security", element: <SecurityPage /> }
+          {
+            path: "/users",
+            element: <UserLayout />,
+            children: [
+              { path: "/users", element: <DashboardPage /> },
+              { path: "/users/notifications", element: <NotificationsPage /> },
+              { path: "/users/personalize", element: <PersonalizePage /> },
+              { path: "/users/security", element: <SecurityPage /> }
+            ]
+          }
         ]
       }
     ]
   },
-  { path: "/auth/sign-up", element: <SignUpPage />, errorElement: <ErrorBoundary /> },
-  { path: "/auth/sign-in", element: <SignInPage />, errorElement: <ErrorBoundary /> }
+  {
+    path: "/auth",
+    element: <AuthLayout />,
+    errorElement: <ErrorBoundary />,
+    children: [
+      { path: "/auth/sign-up", element: <SignUpPage />, errorElement: <ErrorBoundary /> },
+      { path: "/auth/sign-in", element: <SignInPage />, errorElement: <ErrorBoundary /> },
+      { path: "/auth/o/connect", element: <OauthConnectPage />, errorElement: <ErrorBoundary /> }
+    ]
+  }
 ]);
 
 const element = (
