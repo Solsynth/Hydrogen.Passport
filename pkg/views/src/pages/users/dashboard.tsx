@@ -1,7 +1,7 @@
 import { Alert, Box, Card, CardContent, Container, Typography } from "@mui/material";
 import { useUserinfo } from "@/stores/userinfo.tsx";
 
-export default function DashboardPage() {
+export function Component() {
   const { userinfo } = useUserinfo();
 
   return (

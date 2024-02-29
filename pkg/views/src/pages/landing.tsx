@@ -1,7 +1,7 @@
 import { Button, Container, Grid, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
-export default function LandingPage() {
+export function Component() {
   return (
     <Container sx={{ height: "calc(100vh - 64px)", display: "flex", alignItems: "center", textAlign: "center" }}>
       <Grid padding={5} spacing={8} container>

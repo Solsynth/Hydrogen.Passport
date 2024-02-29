@@ -13,17 +13,9 @@ import "@unocss/reset/tailwind.css";
 import "@fontsource/roboto/latin.css";
 
 import AppShell from "@/components/AppShell.tsx";
-import LandingPage from "@/pages/landing.tsx";
-import SignUpPage from "@/pages/auth/sign-up.tsx";
-import SignInPage from "@/pages/auth/sign-in.tsx";
-import OauthConnectPage from "@/pages/auth/connect.tsx";
-import DashboardPage from "@/pages/users/dashboard.tsx";
 import ErrorBoundary from "@/error.tsx";
 import AppLoader from "@/components/AppLoader.tsx";
 import UserLayout from "@/pages/users/layout.tsx";
-import NotificationsPage from "@/pages/users/notifications.tsx";
-import PersonalizePage from "@/pages/users/personalize.tsx";
-import SecurityPage from "@/pages/users/security.tsx";
 import { UserinfoProvider } from "@/stores/userinfo.tsx";
 import { WellKnownProvider } from "@/stores/wellKnown.tsx";
 import AuthLayout from "@/pages/auth/layout.tsx";
@@ -46,7 +38,7 @@ const router = createBrowserRouter([
     element: <AppShell><Outlet /></AppShell>,
     errorElement: <ErrorBoundary />,
     children: [
-      { path: "/", element: <LandingPage /> },
+      { path: "/", lazy: () => import("@/pages/landing.tsx") },
       {
         path: "/",
         element: <AuthGuard />,
@@ -55,10 +47,10 @@ const router = createBrowserRouter([
             path: "/users",
             element: <UserLayout />,
             children: [
-              { path: "/users", element: <DashboardPage /> },
-              { path: "/users/notifications", element: <NotificationsPage /> },
-              { path: "/users/personalize", element: <PersonalizePage /> },
-              { path: "/users/security", element: <SecurityPage /> }
+              { path: "/users", lazy: () => import("@/pages/users/dashboard.tsx") },
+              { path: "/users/notifications", lazy: () => import("@/pages/users/notifications.tsx") },
+              { path: "/users/personalize", lazy: () => import("@/pages/users/personalize.tsx") },
+              { path: "/users/security", lazy: () => import("@/pages/users/security.tsx") }
             ]
           }
         ]
@@ -70,9 +62,9 @@ const router = createBrowserRouter([
     element: <AuthLayout />,
     errorElement: <ErrorBoundary />,
     children: [
-      { path: "/auth/sign-up", element: <SignUpPage />, errorElement: <ErrorBoundary /> },
-      { path: "/auth/sign-in", element: <SignInPage />, errorElement: <ErrorBoundary /> },
-      { path: "/auth/o/connect", element: <OauthConnectPage />, errorElement: <ErrorBoundary /> }
+      { path: "/auth/sign-up", errorElement: <ErrorBoundary />, lazy: () => import("@/pages/auth/sign-up.tsx") },
+      { path: "/auth/sign-in", errorElement: <ErrorBoundary />, lazy: () => import("@/pages/auth/sign-in.tsx") },
+      { path: "/auth/o/connect", errorElement: <ErrorBoundary />, lazy: () => import("@/pages/auth/connect.tsx") }
     ]
   }
 ]);

@@ -21,7 +21,7 @@ import { FormEvent, useState } from "react";
 import { request } from "@/scripts/request.ts";
 import { useWellKnown } from "@/stores/wellKnown.tsx";
 
-export default function SignUpPage() {
+export function Component() {
   const [done, setDone] = useState(false);
 
   const [error, setError] = useState<string | null>(null);

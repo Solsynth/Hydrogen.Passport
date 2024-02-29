@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { TransitionGroup } from "react-transition-group";
 import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
 
-export default function NotificationsPage() {
+export function Component() {
   const { userinfo, readProfiles, getAtk } = useUserinfo();
 
   const [loading, setLoading] = useState(true);

@@ -19,7 +19,7 @@ import { request } from "@/scripts/request.ts";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 
-export default function SecurityPage() {
+export function Component() {
   const dataDefinitions: { [id: string]: GridColDef[] } = {
     challenges: [
       { field: "id", headerName: "ID", width: 64 },

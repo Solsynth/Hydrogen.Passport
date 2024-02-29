@@ -37,7 +37,7 @@ const VisuallyHiddenInput = styled("input")({
   width: 1
 });
 
-export default function PersonalizePage() {
+export function Component() {
   const { userinfo, readProfiles, getAtk } = useUserinfo();
 
   const [done, setDone] = useState(false);

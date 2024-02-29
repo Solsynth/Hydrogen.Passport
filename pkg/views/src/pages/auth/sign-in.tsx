@@ -25,7 +25,7 @@ import KeyIcon from "@mui/icons-material/Key";
 import PasswordIcon from "@mui/icons-material/Password";
 import EmailIcon from "@mui/icons-material/Email";
 
-export default function SignInPage() {
+export function Component() {
   const [panel, setPanel] = useState(0);
 
   const [error, setError] = useState<string | null>(null);

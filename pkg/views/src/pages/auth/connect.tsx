@@ -17,7 +17,7 @@ import { useSearchParams } from "react-router-dom";
 import OutletIcon from "@mui/icons-material/Outlet";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 
-export default function OauthConnectPage() {
+export function Component() {
   const { getAtk } = useUserinfo();
 
   const [panel, setPanel] = useState(0);
