@@ -277,51 +277,55 @@ export default function SignInPage() {
   }
 
   return (
-    <Box sx={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <Box style={{ width: "100vw", maxWidth: "450px" }}>
-        {error && <Alert severity="error" className="capitalize" sx={{ mb: 2 }}>{error}</Alert>}
+    <>
+      {error && <Alert severity="error" className="capitalize" sx={{ mb: 2 }}>{error}</Alert>}
 
-        <Card variant="outlined">
-          <Collapse in={loading}>
-            <LinearProgress />
-          </Collapse>
+      <Collapse in={searchParams.has("redirect_uri")}>
+        <Alert severity="info" sx={{ mb: 2 }}>
+          You need sign in before take an action. After that, we will take you back to your work.
+        </Alert>
+      </Collapse>
 
-          <CardContent
-            style={{ padding: "40px 48px 36px" }}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center"
-            }}
-          >
-            {elements[panel]}
-          </CardContent>
+      <Card variant="outlined">
+        <Collapse in={loading}>
+          <LinearProgress />
+        </Collapse>
 
-          <Collapse in={challenge != null} unmountOnExit>
-            <Box>
-              <Paper square sx={{ pt: 3, px: 5, textAlign: "center" }}>
-                <Typography sx={{ mb: 2 }}>
-                  Risk <b className="font-mono">{challenge?.risk_level}</b>&nbsp;
-                  Progress <b className="font-mono">{challenge?.progress}/{challenge?.requirements}</b>
-                </Typography>
-                <LinearProgress
-                  variant="determinate"
-                  value={challenge?.progress / challenge?.requirements * 100}
-                  sx={{ width: "calc(100%+5rem)", mt: 1, mx: -5 }}
-                />
-              </Paper>
-            </Box>
-          </Collapse>
-        </Card>
+        <CardContent
+          style={{ padding: "40px 48px 36px" }}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center"
+          }}
+        >
+          {elements[panel]}
+        </CardContent>
 
-        <Grid container justifyContent="center" sx={{ mt: 2 }}>
-          <Grid item>
-            <Link component={RouterLink} to="/auth/sign-up" variant="body2">
-              Haven't an account? Sign up!
-            </Link>
-          </Grid>
+        <Collapse in={challenge != null} unmountOnExit>
+          <Box>
+            <Paper square sx={{ pt: 3, px: 5, textAlign: "center" }}>
+              <Typography sx={{ mb: 2 }}>
+                Risk <b className="font-mono">{challenge?.risk_level}</b>&nbsp;
+                Progress <b className="font-mono">{challenge?.progress}/{challenge?.requirements}</b>
+              </Typography>
+              <LinearProgress
+                variant="determinate"
+                value={challenge?.progress / challenge?.requirements * 100}
+                sx={{ width: "calc(100%+5rem)", mt: 1, mx: -5 }}
+              />
+            </Paper>
+          </Box>
+        </Collapse>
+      </Card>
+
+      <Grid container justifyContent="center" sx={{ mt: 2 }}>
+        <Grid item>
+          <Link component={RouterLink} to="/auth/sign-up" variant="body2">
+            Haven't an account? Sign up!
+          </Link>
         </Grid>
-      </Box>
-    </Box>
+      </Grid>
+    </>
   );
 }

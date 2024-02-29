@@ -3,17 +3,17 @@ import { request } from "../scripts/request.ts";
 import { createContext, useContext, useState } from "react";
 
 export interface Userinfo {
+  isReady: boolean,
   isLoggedIn: boolean,
   displayName: string,
-  profiles: any,
-  meta: any
+  data: any,
 }
 
 const defaultUserinfo: Userinfo = {
+  isReady: false,
   isLoggedIn: false,
   displayName: "Citizen",
-  profiles: null,
-  meta: null
+  data: null
 };
 
 const UserinfoContext = createContext<any>({ userinfo: defaultUserinfo });
@@ -30,10 +30,15 @@ export function UserinfoProvider(props: any) {
   }
 
   async function readProfiles() {
-    if (!checkLoggedIn()) return;
+    if (!checkLoggedIn()) {
+      setUserinfo((data) => {
+        data.isReady = true;
+        return data;
+      });
+    }
 
     const res = await request("/api/users/me", {
-      credentials: "include"
+      headers: { "Authorization": `Bearer ${getAtk()}` }
     });
 
     if (res.status !== 200) {
@@ -44,10 +49,10 @@ export function UserinfoProvider(props: any) {
     const data = await res.json();
 
     setUserinfo({
+      isReady: true,
       isLoggedIn: true,
       displayName: data["nick"],
-      profiles: null,
-      meta: data
+      data: data
     });
   }
 

@@ -12,6 +12,7 @@ type Account struct {
 
 	Name              string                   `json:"name" gorm:"uniqueIndex"`
 	Nick              string                   `json:"nick"`
+	Description       string                   `json:"description"`
 	Avatar            string                   `json:"avatar"`
 	Profile           AccountProfile           `json:"profile"`
 	Sessions          []AuthSession            `json:"sessions"`

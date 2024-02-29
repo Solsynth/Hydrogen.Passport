@@ -166,35 +166,33 @@ export default function SignUpPage() {
   ];
 
   return (
-    <Box sx={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <Box style={{ width: "100vw", maxWidth: "450px" }}>
-        {error && <Alert severity="error" className="capitalize" sx={{ mb: 2 }}>{error}</Alert>}
+    <>
+      {error && <Alert severity="error" className="capitalize" sx={{ mb: 2 }}>{error}</Alert>}
 
-        <Card variant="outlined">
-          <Collapse in={loading}>
-            <LinearProgress />
-          </Collapse>
+      <Card variant="outlined">
+        <Collapse in={loading}>
+          <LinearProgress />
+        </Collapse>
 
-          <CardContent
-            style={{ padding: "40px 48px 36px" }}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center"
-            }}
-          >
-            {!done ? elements[0] : elements[1]}
-          </CardContent>
-        </Card>
+        <CardContent
+          style={{ padding: "40px 48px 36px" }}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center"
+          }}
+        >
+          {!done ? elements[0] : elements[1]}
+        </CardContent>
+      </Card>
 
-        <Grid container justifyContent="center" sx={{ mt: 2 }}>
-          <Grid item>
-            <Link component={RouterLink} to="/auth/sign-in" variant="body2">
-              Already have an account? Sign in!
-            </Link>
-          </Grid>
+      <Grid container justifyContent="center" sx={{ mt: 2 }}>
+        <Grid item>
+          <Link component={RouterLink} to="/auth/sign-in" variant="body2">
+            Already have an account? Sign in!
+          </Link>
         </Grid>
-      </Box>
-    </Box>
+      </Grid>
+    </>
   );
 }
