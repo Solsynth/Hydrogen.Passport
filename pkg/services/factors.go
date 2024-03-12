@@ -1,9 +1,10 @@
 package services
 
 import (
+	"fmt"
+
 	"code.smartsheep.studio/hydrogen/identity/pkg/database"
 	"code.smartsheep.studio/hydrogen/identity/pkg/models"
-	"fmt"
 	"github.com/google/uuid"
 	"github.com/spf13/viper"
 )
@@ -51,7 +52,7 @@ func GetFactorCode(factor models.AuthFactor) (bool, error) {
 			return true, err
 		}
 
-		factor.Secret = uuid.NewString()[:8]
+		factor.Secret = uuid.NewString()[:6]
 		if err := database.C.Save(&factor).Error; err != nil {
 			return true, err
 		}
