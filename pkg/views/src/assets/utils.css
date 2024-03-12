@@ -1,0 +1,15 @@
+html,
+body,
+#app,
+.v-application {
+  overflow: auto !important;
+  font-family: "Roboto Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  width: 0;
+}
