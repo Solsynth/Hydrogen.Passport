@@ -4,17 +4,15 @@ import { ref } from "vue"
 import { request } from "@/scripts/request"
 
 export interface Userinfo {
-  isReady: boolean
   isLoggedIn: boolean
   displayName: string
   data: any
 }
 
 const defaultUserinfo: Userinfo = {
-  isReady: false,
   isLoggedIn: false,
   displayName: "Citizen",
-  data: null
+  data: null,
 }
 
 export function getAtk(): string {
@@ -31,25 +29,25 @@ export const useUserinfo = defineStore("userinfo", () => {
 
   async function readProfiles() {
     if (!checkLoggedIn()) {
-        isReady.value = true;
-      }
-  
-      const res = await request("/api/users/me", {
-        headers: { "Authorization": `Bearer ${getAtk()}` }
-      });
-  
-      if (res.status !== 200) {
-        return;
-      }
-  
-      const data = await res.json();
-  
-      userinfo.value = {
-        isReady: true,
-        isLoggedIn: true,
-        displayName: data["nick"],
-        data: data
-      };
+      isReady.value = true
+    }
+
+    const res = await request("/api/users/me", {
+      headers: { Authorization: `Bearer ${getAtk()}` },
+    })
+
+    if (res.status !== 200) {
+      return
+    }
+
+    const data = await res.json()
+
+    isReady.value = true
+    userinfo.value = {
+      isLoggedIn: true,
+      displayName: data["nick"],
+      data: data,
+    }
   }
 
   return { userinfo, isReady, readProfiles }
