@@ -7,7 +7,17 @@
         <div>
           <v-avatar color="accent" icon="mdi-login-variant" size="large" class="card-rounded mb-2" />
           <h1 class="text-2xl">Sign in</h1>
-          <p>Through sign in to access the entire Solar Network.</p>
+          <div v-if="challenge" class="flex items-center gap-4">
+            <v-tooltip>
+              <template v-slot:activator="{ props }">
+                <v-progress-circular v-bind="props" size="large" :model-value="challenge?.progress / challenge?.requirements" />
+              </template>
+              <p><b>Risk: </b> {{ challenge?.risk_level }}</p>
+              <p><b>Progress: </b> {{ challenge?.progress }}/{{ challenge?.requirements }}</p>
+            </v-tooltip>
+            <p>We need to verify that the person trying to access your account is you.</p>
+          </div>
+          <p v-else>Sign in via your Solar ID to access the entire Solar Network.</p>
         </div>
 
         <v-window :model-value="panel" class="pa-2 mx-[-0.5rem]">
