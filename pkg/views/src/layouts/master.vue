@@ -14,9 +14,12 @@
           </v-btn>
         </template>
 
-        <v-list density="compact">
+        <v-list density="compact" v-if="!id.userinfo.isLoggedIn">
           <v-list-item title="Sign in" prepend-icon="mdi-login-variant" :to="{ name: 'auth.sign-in' }" />
           <v-list-item title="Create account" prepend-icon="mdi-account-plus" :to="{ name: 'auth.sign-up' }" />
+        </v-list>
+        <v-list density="compact" v-else>
+          <v-list-item title="Dashboard" prepend-icon="mdi-view-dashboard" :to="{ name: 'dashboard' }" />
         </v-list>
       </v-menu>
     </div>
