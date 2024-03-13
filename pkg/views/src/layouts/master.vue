@@ -15,8 +15,8 @@
         </template>
 
         <v-list density="compact">
-          <v-list-item title="Sign in" prepend-icon="mdi-login-variant" />
-          <v-list-item title="Create account" prepend-icon="mdi-account-plus" />
+          <v-list-item title="Sign in" prepend-icon="mdi-login-variant" :to="{ name: 'auth.sign-in' }" />
+          <v-list-item title="Create account" prepend-icon="mdi-account-plus" :to="{ name: 'auth.sign-up' }" />
         </v-list>
       </v-menu>
     </div>

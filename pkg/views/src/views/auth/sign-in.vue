@@ -1,5 +1,7 @@
 <template>
   <v-container class="h-screen flex flex-col gap-3 items-center justify-center">
+    <callback-notify />
+
     <v-card class="w-full max-w-[720px]" :loading="loading">
       <v-card-text class="card-grid pa-9">
         <div>
@@ -30,6 +32,7 @@
 <script setup lang="ts">
 import { ref, type Component } from "vue"
 import Copyright from "@/components/Copyright.vue"
+import CallbackNotify from "@/components/auth/CallbackNotify.vue"
 import AccountLocator from "@/components/auth/AccountLocator.vue"
 import FactorPicker from "@/components/auth/FactorPicker.vue"
 import FactorApplicator from "@/components/auth/FactorApplicator.vue"
@@ -66,4 +69,3 @@ const panels: { [id: string]: Component } = {
   border-radius: 8px;
 }
 </style>
-@/components/Copyright.vue

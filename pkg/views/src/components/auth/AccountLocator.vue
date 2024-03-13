@@ -9,7 +9,9 @@
         </v-alert>
       </v-expand-transition>
 
-      <div class="flex justify-end">
+      <div class="flex justify-between">
+        <v-btn type="button" variant="plain" color="grey-darken-3" :to="{ name: 'auth.sign-up' }">Sign up</v-btn>
+
         <v-btn
           type="submit"
           variant="text"
