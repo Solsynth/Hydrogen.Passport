@@ -16,6 +16,7 @@ const router = createRouter({
           children: [
             { path: "/", name: "dashboard", component: () => import("@/views/dashboard.vue") },
             { path: "/me/personalize", name: "personalize", component: () => import("@/views/personalize.vue") },
+            { path: "/me/security", name: "security", component: () => import("@/views/security.vue") },
           ],
         },
       ],
