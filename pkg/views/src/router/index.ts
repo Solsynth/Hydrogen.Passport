@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router"
 import { useUserinfo } from "@/stores/userinfo"
 import MasterLayout from "@/layouts/master.vue"
+import UserCenterLayout from "@/layouts/user-center.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,7 +9,16 @@ const router = createRouter({
     {
       path: "/",
       component: MasterLayout,
-      children: [{ path: "/", name: "dashboard", component: () => import("@/views/dashboard.vue") }],
+      children: [
+        {
+          path: "/",
+          component: UserCenterLayout,
+          children: [
+            { path: "/", name: "dashboard", component: () => import("@/views/dashboard.vue") },
+            { path: "/me/personalize", name: "personalize", component: () => import("@/views/personalize.vue") },
+          ],
+        },
+      ],
     },
     {
       path: "/auth",

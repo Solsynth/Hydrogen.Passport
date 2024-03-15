@@ -19,7 +19,7 @@
           <v-list-item title="Create account" prepend-icon="mdi-account-plus" :to="{ name: 'auth.sign-up' }" />
         </v-list>
         <v-list density="compact" v-else>
-          <v-list-item title="Dashboard" prepend-icon="mdi-view-dashboard" :to="{ name: 'dashboard' }" />
+          <v-list-item title="User Center" prepend-icon="mdi-account-supervisor" exact :to="{ name: 'dashboard' }" />
         </v-list>
       </v-menu>
     </div>
