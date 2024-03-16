@@ -120,6 +120,7 @@ async function preconnect() {
       panel.value = "callback"
       callback(data["session"])
     } else {
+      document.title = `Solarpass | Connect to ${data["client"]?.name}`
       metadata.value = data["client"]
       loading.value = false
     }
