@@ -123,7 +123,7 @@ async function submit() {
   const res = await request("/api/users", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    body: JSON.stringify(payload),
   })
   if (res.status !== 200) {
     error.value = await res.text()
