@@ -77,6 +77,7 @@ async function submit() {
       emits("swap", "pick")
       emits("update:challenge", data["challenge"])
       error.value = null
+      password.value = ""
     }
   }
 }

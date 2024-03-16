@@ -54,6 +54,7 @@ async function submit() {
     emits("update:currentFactor", item)
     emits("swap", "applicator")
     error.value = null
+    focus.value = null
   }
   emits("update:loading", false)
 }
