@@ -15,7 +15,8 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/api": "http://localhost:8444"
+      "/api": "http://localhost:8444",
+      "/.well-known": "http://localhost:8444"
     }
   }
 })

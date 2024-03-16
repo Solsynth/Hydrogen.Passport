@@ -36,6 +36,11 @@ const router = createRouter({
           component: () => import("@/views/auth/sign-up.vue"),
           meta: { public: true },
         },
+        {
+          path: "o/connect",
+          name: "openid.connect",
+          component: () => import("@/views/auth/connect.vue"),
+        },
       ],
     },
   ],
