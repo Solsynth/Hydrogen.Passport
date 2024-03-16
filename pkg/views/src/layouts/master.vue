@@ -7,21 +7,13 @@
 
       <v-spacer />
 
-      <v-menu>
-        <template #activator="{ props }">
-          <v-btn flat exact v-bind="props" icon>
-            <v-avatar color="transparent" icon="mdi-account-circle" :image="'/api/avatar/' + id.userinfo.data?.avatar" />
-          </v-btn>
-        </template>
+      <div class="me-2">
+        <notification-list />
+      </div>
 
-        <v-list density="compact" v-if="!id.userinfo.isLoggedIn">
-          <v-list-item title="Sign in" prepend-icon="mdi-login-variant" :to="{ name: 'auth.sign-in' }" />
-          <v-list-item title="Create account" prepend-icon="mdi-account-plus" :to="{ name: 'auth.sign-up' }" />
-        </v-list>
-        <v-list density="compact" v-else>
-          <v-list-item title="User Center" prepend-icon="mdi-account-supervisor" exact :to="{ name: 'dashboard' }" />
-        </v-list>
-      </v-menu>
+      <div>
+        <user-menu />
+      </div>
     </div>
   </v-app-bar>
 
@@ -31,25 +23,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue"
 import { useUserinfo } from "@/stores/userinfo"
+import NotificationList from "@/components/NotificationList.vue"
+import UserMenu from "@/components/UserMenu.vue"
 
 const id = useUserinfo()
-
-const username = computed(() => {
-  if (id.userinfo.isLoggedIn) {
-    return "@" + id.userinfo.data?.name
-  } else {
-    return "@vistor"
-  }
-})
-const nickname = computed(() => {
-  if (id.userinfo.isLoggedIn) {
-    return id.userinfo.data?.nick
-  } else {
-    return "Anonymous"
-  }
-})
 
 id.readProfiles()
 </script>

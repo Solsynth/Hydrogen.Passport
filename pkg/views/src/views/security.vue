@@ -105,7 +105,7 @@
                   <td>
                     <v-tooltip :text="item.user_agent" location="top">
                       <template #activator="{ props }">
-                        <div v-bind="props" class="text-ellipsis whitespace-nowrap overflow-hidden max-w-[280px]">
+                        <div v-bind="props" class="text-ellipsis whitespace-nowrap overflow-hidden max-w-[180px]">
                           {{ item.user_agent }}
                         </div>
                       </template>
