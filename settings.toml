@@ -32,8 +32,3 @@ refresh_token_duration = 2592000
 [database]
 dsn = "host=localhost dbname=hy_identity port=5432 sslmode=disable"
 prefix = "identity_"
-
-[[directory]]
-name = "Goatpass"
-description = "Authorization Serivce"
-link = "https://id.smartsheep.studio"

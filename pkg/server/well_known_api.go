@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/spf13/viper"
 )
@@ -11,7 +12,6 @@ func getMetadata(c *fiber.Ctx) error {
 		"name":              viper.GetString("name"),
 		"domain":            viper.GetString("domain"),
 		"open_registration": !viper.GetBool("use_registration_magic_token"),
-		"directory":         viper.Get("directory"),
 	})
 }
 
