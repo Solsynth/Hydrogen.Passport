@@ -1,13 +1,14 @@
 package services
 
 import (
-	"code.smartsheep.studio/hydrogen/identity/pkg/database"
-	"code.smartsheep.studio/hydrogen/identity/pkg/models"
 	"fmt"
-	"github.com/google/uuid"
-	"github.com/spf13/viper"
 	"strings"
 	"time"
+
+	"code.smartsheep.studio/hydrogen/identity/pkg/database"
+	"code.smartsheep.studio/hydrogen/identity/pkg/models"
+	"github.com/google/uuid"
+	"github.com/spf13/viper"
 )
 
 const ConfirmRegistrationTemplate = `Dear %s,
@@ -73,7 +74,7 @@ func NotifyMagicToken(token models.MagicToken) error {
 	var content string
 	switch token.Type {
 	case models.ConfirmMagicToken:
-		link := fmt.Sprintf("https://%s/users/me/confirm?tk=%s", viper.GetString("domain"), token.Code)
+		link := fmt.Sprintf("https://%s/me/confirm?tk=%s", viper.GetString("domain"), token.Code)
 		subject = fmt.Sprintf("[%s] Confirm your registration", viper.GetString("name"))
 		content = fmt.Sprintf(
 			ConfirmRegistrationTemplate,

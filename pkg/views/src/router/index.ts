@@ -56,6 +56,13 @@ const router = createRouter({
           name: "openid.connect",
           component: () => import("@/views/auth/connect.vue"),
         },
+
+        {
+          path: "/me/confirm",
+          name: "callback.confirm",
+          component: () => import("@/views/confirm.vue"),
+          meta: { public: true, title: "Confirm registration" },
+        },
       ],
     },
   ],
