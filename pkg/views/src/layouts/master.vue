@@ -1,7 +1,8 @@
 <template>
   <v-app-bar height="64" color="primary" scroll-behavior="elevate" flat>
     <div class="max-md:px-5 md:px-12 flex flex-grow-1 items-center">
-      <router-link :to="{ name: 'dashboard' }">
+      <router-link :to="{ name: 'dashboard' }" class="flex gap-1">
+        <img src="/favicon.svg" width="24" height="24" class="icon-filter" />
         <h2 class="ml-2 text-lg font-500">Solarpass</h2>
       </router-link>
 
@@ -37,5 +38,9 @@ id.readProfiles()
   position: fixed !important;
   bottom: 16px;
   right: 20px;
+}
+
+.icon-filter {
+  filter: invert(100%) sepia(100%) saturate(14%) hue-rotate(212deg) brightness(104%) contrast(104%);
 }
 </style>
