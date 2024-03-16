@@ -1,12 +1,13 @@
 package server
 
 import (
+	"time"
+
 	"code.smartsheep.studio/hydrogen/identity/pkg/database"
 	"code.smartsheep.studio/hydrogen/identity/pkg/models"
 	"code.smartsheep.studio/hydrogen/identity/pkg/services"
 	"github.com/gofiber/fiber/v2"
 	"github.com/samber/lo"
-	"time"
 )
 
 func getNotifications(c *fiber.Ctx) error {
@@ -14,7 +15,7 @@ func getNotifications(c *fiber.Ctx) error {
 	take := c.QueryInt("take", 0)
 	offset := c.QueryInt("offset", 0)
 
-	only_unread := c.QueryBool("only_unread", true)
+	only_unread := !c.QueryBool("past", false)
 
 	tx := database.C.Where(&models.Notification{RecipientID: user.ID}).Model(&models.Notification{})
 	if only_unread {

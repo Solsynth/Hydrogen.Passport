@@ -1,20 +1,22 @@
-import { defineConfig } from 'vite'
-import path from "path";
-import react from '@vitejs/plugin-react-swc'
+import { fileURLToPath, URL } from "node:url"
+
+import { defineConfig } from "vite"
+import vue from "@vitejs/plugin-vue"
+import vueJsx from "@vitejs/plugin-vue-jsx"
 import unocss from "unocss/vite"
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), unocss()],
+  plugins: [vue(), vueJsx(), unocss()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
   server: {
     proxy: {
-      "/.well-known": "http://localhost:8444",
-      "/api": "http://localhost:8444"
+      "/api": "http://localhost:8444",
+      "/.well-known": "http://localhost:8444"
     }
   }
 })

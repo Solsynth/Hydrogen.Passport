@@ -1,15 +1,16 @@
 package server
 
 import (
+	"fmt"
+	"strconv"
+	"time"
+
 	"code.smartsheep.studio/hydrogen/identity/pkg/database"
 	"code.smartsheep.studio/hydrogen/identity/pkg/models"
 	"code.smartsheep.studio/hydrogen/identity/pkg/services"
-	"fmt"
 	"github.com/gofiber/fiber/v2"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/spf13/viper"
-	"strconv"
-	"time"
 )
 
 func getUserinfo(c *fiber.Ctx) error {
@@ -20,7 +21,6 @@ func getUserinfo(c *fiber.Ctx) error {
 		Where(&models.Account{BaseModel: models.BaseModel{ID: user.ID}}).
 		Preload("Profile").
 		Preload("Contacts").
-		Preload("Notifications", "read_at IS NULL").
 		First(&data).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
