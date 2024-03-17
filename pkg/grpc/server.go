@@ -30,6 +30,7 @@ func (v *Server) Authenticate(_ context.Context, in *proto.AuthRequest) (*proto.
 			AccessToken:  &atk,
 			RefreshToken: &rtk,
 			Userinfo: &proto.Userinfo{
+				Id:          uint64(user.ID),
 				Name:        user.Name,
 				Nick:        user.Nick,
 				Email:       user.GetPrimaryEmail().Content,
