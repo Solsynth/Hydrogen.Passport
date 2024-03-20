@@ -138,6 +138,7 @@ watch(
     if (val.isReady) {
       data.value.name = id.userinfo.data.name
       data.value.nick = id.userinfo.data.nick
+      data.value.description = id.userinfo.data.description
       data.value.first_name = id.userinfo.data.profile.first_name
       data.value.last_name = id.userinfo.data.profile.last_name
       data.value.birthday = id.userinfo.data.profile.birthday
