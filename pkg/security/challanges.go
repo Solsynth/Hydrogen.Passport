@@ -2,12 +2,13 @@ package security
 
 import (
 	"fmt"
-	"github.com/google/uuid"
 	"strings"
 	"time"
 
-	"code.smartsheep.studio/hydrogen/identity/pkg/database"
-	"code.smartsheep.studio/hydrogen/identity/pkg/models"
+	"github.com/google/uuid"
+
+	"git.solsynth.dev/hydrogen/identity/pkg/database"
+	"git.solsynth.dev/hydrogen/identity/pkg/models"
 	"github.com/samber/lo"
 	"gorm.io/datatypes"
 )

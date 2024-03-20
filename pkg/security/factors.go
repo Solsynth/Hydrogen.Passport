@@ -1,8 +1,9 @@
 package security
 
 import (
-	"code.smartsheep.studio/hydrogen/identity/pkg/models"
 	"fmt"
+
+	"git.solsynth.dev/hydrogen/identity/pkg/models"
 	"github.com/samber/lo"
 )
 

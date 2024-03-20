@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"net"
 
-	"code.smartsheep.studio/hydrogen/identity/pkg/grpc/proto"
-	"code.smartsheep.studio/hydrogen/identity/pkg/models"
-	"code.smartsheep.studio/hydrogen/identity/pkg/services"
+	"git.solsynth.dev/hydrogen/identity/pkg/grpc/proto"
+	"git.solsynth.dev/hydrogen/identity/pkg/models"
+	"git.solsynth.dev/hydrogen/identity/pkg/services"
 	"github.com/samber/lo"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"

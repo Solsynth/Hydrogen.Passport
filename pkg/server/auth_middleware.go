@@ -1,10 +1,11 @@
 package server
 
 import (
-	"code.smartsheep.studio/hydrogen/identity/pkg/security"
-	"code.smartsheep.studio/hydrogen/identity/pkg/services"
-	"github.com/gofiber/fiber/v2"
 	"strings"
+
+	"git.solsynth.dev/hydrogen/identity/pkg/security"
+	"git.solsynth.dev/hydrogen/identity/pkg/services"
+	"github.com/gofiber/fiber/v2"
 )
 
 func authMiddleware(c *fiber.Ctx) error {

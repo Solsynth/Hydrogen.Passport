@@ -5,9 +5,9 @@ import (
 	"strconv"
 	"time"
 
-	"code.smartsheep.studio/hydrogen/identity/pkg/database"
-	"code.smartsheep.studio/hydrogen/identity/pkg/models"
-	"code.smartsheep.studio/hydrogen/identity/pkg/services"
+	"git.solsynth.dev/hydrogen/identity/pkg/database"
+	"git.solsynth.dev/hydrogen/identity/pkg/models"
+	"git.solsynth.dev/hydrogen/identity/pkg/services"
 	"github.com/gofiber/fiber/v2"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/spf13/viper"

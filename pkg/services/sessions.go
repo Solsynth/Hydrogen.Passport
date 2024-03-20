@@ -1,11 +1,12 @@
 package services
 
 import (
-	"code.smartsheep.studio/hydrogen/identity/pkg/database"
-	"code.smartsheep.studio/hydrogen/identity/pkg/models"
+	"time"
+
+	"git.solsynth.dev/hydrogen/identity/pkg/database"
+	"git.solsynth.dev/hydrogen/identity/pkg/models"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
-	"time"
 )
 
 func LookupSessionWithToken(tokenId string) (models.AuthSession, error) {

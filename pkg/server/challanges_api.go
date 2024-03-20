@@ -1,11 +1,12 @@
 package server
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"time"
 
-	"code.smartsheep.studio/hydrogen/identity/pkg/security"
-	"code.smartsheep.studio/hydrogen/identity/pkg/services"
+	"github.com/gofiber/fiber/v2"
+
+	"git.solsynth.dev/hydrogen/identity/pkg/security"
+	"git.solsynth.dev/hydrogen/identity/pkg/services"
 	"github.com/samber/lo"
 )
 

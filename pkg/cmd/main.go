@@ -1,17 +1,18 @@
 package main
 
 import (
-	"code.smartsheep.studio/hydrogen/identity/pkg/external"
-	"code.smartsheep.studio/hydrogen/identity/pkg/grpc"
-	"code.smartsheep.studio/hydrogen/identity/pkg/server"
-	"code.smartsheep.studio/hydrogen/identity/pkg/services"
-	"github.com/robfig/cron/v3"
 	"os"
 	"os/signal"
 	"syscall"
 
-	identity "code.smartsheep.studio/hydrogen/identity/pkg"
-	"code.smartsheep.studio/hydrogen/identity/pkg/database"
+	"git.solsynth.dev/hydrogen/identity/pkg/external"
+	"git.solsynth.dev/hydrogen/identity/pkg/grpc"
+	"git.solsynth.dev/hydrogen/identity/pkg/server"
+	"git.solsynth.dev/hydrogen/identity/pkg/services"
+	"github.com/robfig/cron/v3"
+
+	identity "git.solsynth.dev/hydrogen/identity/pkg"
+	"git.solsynth.dev/hydrogen/identity/pkg/database"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"

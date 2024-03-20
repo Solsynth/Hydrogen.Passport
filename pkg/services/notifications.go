@@ -1,11 +1,12 @@
 package services
 
 import (
-	"code.smartsheep.studio/hydrogen/identity/pkg/database"
-	"code.smartsheep.studio/hydrogen/identity/pkg/external"
-	"code.smartsheep.studio/hydrogen/identity/pkg/models"
 	"context"
+
 	"firebase.google.com/go/messaging"
+	"git.solsynth.dev/hydrogen/identity/pkg/database"
+	"git.solsynth.dev/hydrogen/identity/pkg/external"
+	"git.solsynth.dev/hydrogen/identity/pkg/models"
 	"github.com/rs/zerolog/log"
 )
 

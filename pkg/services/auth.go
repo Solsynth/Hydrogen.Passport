@@ -1,9 +1,10 @@
 package services
 
 import (
-	"code.smartsheep.studio/hydrogen/identity/pkg/models"
-	"code.smartsheep.studio/hydrogen/identity/pkg/security"
 	"fmt"
+
+	"git.solsynth.dev/hydrogen/identity/pkg/models"
+	"git.solsynth.dev/hydrogen/identity/pkg/security"
 	"github.com/gofiber/fiber/v2"
 )
 

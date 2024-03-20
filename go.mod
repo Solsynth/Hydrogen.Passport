@@ -1,4 +1,4 @@
-module code.smartsheep.studio/hydrogen/identity
+module git.solsynth.dev/hydrogen/identity
 
 go 1.21.5
 
@@ -91,4 +91,4 @@ require (
 	gorm.io/driver/mysql v1.5.2 // indirect
 )
 
-replace code.smartsheep.studio/hydrogen/bus => ../Bus
+replace git.solsynth.dev/hydrogen/bus => ../Bus
