@@ -1,6 +1,10 @@
 package server
 
 import (
+	"net/http"
+	"strings"
+	"time"
+
 	"code.smartsheep.studio/hydrogen/identity/pkg/views"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cache"
@@ -11,9 +15,6 @@ import (
 	jsoniter "github.com/json-iterator/go"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
-	"net/http"
-	"strings"
-	"time"
 )
 
 var A *fiber.App
@@ -58,21 +59,28 @@ func NewServer() {
 	api := A.Group("/api").Name("API")
 	{
 		api.Get("/avatar/:avatarId", getAvatar)
-		api.Put("/avatar", authMiddleware, setAvatar)
 
 		api.Get("/notifications", authMiddleware, getNotifications)
 		api.Put("/notifications/:notificationId/read", authMiddleware, markNotificationRead)
 		api.Post("/notifications/subscribe", authMiddleware, addNotifySubscriber)
 
-		api.Get("/users/me", authMiddleware, getUserinfo)
-		api.Put("/users/me", authMiddleware, editUserinfo)
-		api.Get("/users/me/events", authMiddleware, getEvents)
-		api.Get("/users/me/challenges", authMiddleware, getChallenges)
-		api.Get("/users/me/sessions", authMiddleware, getSessions)
-		api.Delete("/users/me/sessions/:sessionId", authMiddleware, killSession)
+		me := api.Group("/users/me").Name("Myself Operations")
+		{
+
+			me.Put("/avatar", authMiddleware, setAvatar)
+			me.Put("/banner", authMiddleware, setBanner)
+
+			me.Get("/", authMiddleware, getUserinfo)
+			me.Put("/", authMiddleware, editUserinfo)
+			me.Get("/events", authMiddleware, getEvents)
+			me.Get("/challenges", authMiddleware, getChallenges)
+			me.Get("/sessions", authMiddleware, getSessions)
+			me.Delete("/sessions/:sessionId", authMiddleware, killSession)
+
+			me.Post("/confirm", doRegisterConfirm)
+		}
 
 		api.Post("/users", doRegister)
-		api.Post("/users/me/confirm", doRegisterConfirm)
 
 		api.Put("/auth", startChallenge)
 		api.Post("/auth", doChallenge)

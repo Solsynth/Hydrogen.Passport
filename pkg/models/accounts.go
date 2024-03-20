@@ -1,10 +1,11 @@
 package models
 
 import (
-	"github.com/samber/lo"
-	"github.com/spf13/viper"
 	"path/filepath"
 	"time"
+
+	"github.com/samber/lo"
+	"github.com/spf13/viper"
 )
 
 type Account struct {
@@ -14,6 +15,7 @@ type Account struct {
 	Nick              string                   `json:"nick"`
 	Description       string                   `json:"description"`
 	Avatar            string                   `json:"avatar"`
+	Banner            string                   `json:"banner"`
 	Profile           AccountProfile           `json:"profile"`
 	Sessions          []AuthSession            `json:"sessions"`
 	Challenges        []AuthChallenge          `json:"challenges"`
@@ -38,6 +40,11 @@ func (v Account) GetPrimaryEmail() AccountContact {
 func (v Account) GetAvatarPath() string {
 	basepath := viper.GetString("content")
 	return filepath.Join(basepath, v.Avatar)
+}
+
+func (v Account) GetBannerPath() string {
+	basepath := viper.GetString("content")
+	return filepath.Join(basepath, v.Banner)
 }
 
 type AccountContactType = int8

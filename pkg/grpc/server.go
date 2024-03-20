@@ -1,16 +1,17 @@
 package grpc
 
 import (
+	"context"
+	"fmt"
+	"net"
+
 	"code.smartsheep.studio/hydrogen/identity/pkg/grpc/proto"
 	"code.smartsheep.studio/hydrogen/identity/pkg/models"
 	"code.smartsheep.studio/hydrogen/identity/pkg/services"
-	"context"
-	"fmt"
 	"github.com/samber/lo"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	"net"
 )
 
 type Server struct {
@@ -35,7 +36,8 @@ func (v *Server) Authenticate(_ context.Context, in *proto.AuthRequest) (*proto.
 				Nick:        user.Nick,
 				Email:       user.GetPrimaryEmail().Content,
 				Avatar:      fmt.Sprintf("https://%s/api/avatar/%s", viper.GetString("domain"), user.Avatar),
-				Description: nil,
+				Banner:      fmt.Sprintf("https://%s/api/avatar/%s", viper.GetString("domain"), user.Banner),
+				Description: &user.Description,
 			},
 		}, nil
 	}

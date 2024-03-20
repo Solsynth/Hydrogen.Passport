@@ -14,7 +14,8 @@ message Userinfo {
   string nick = 3;
   string email = 4;
   string avatar = 5;
-  optional string description = 6;
+  string banner = 6;
+  optional string description = 7;
 }
 
 message AuthRequest {

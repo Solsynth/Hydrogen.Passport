@@ -70,29 +70,44 @@
     </v-card>
 
     <v-card>
-      <template #text>
-        <div class="flex items-center gap-3">
-          <v-avatar
-            color="grey-lighten-2"
-            icon="mdi-account-circle"
-            class="rounded-card"
-            size="large"
-            :image="'/api/avatar/' + id.userinfo.data.avatar"
-          />
-          <v-file-input
-            clearable
-            hide-details
-            label="Upload another avatar"
-            variant="outlined"
-            density="comfortable"
-            accept="image/*"
-            prepend-icon=""
-            append-icon="mdi-upload"
-            v-model="avatar"
-            @click:append="applyAvatar"
-          />
-        </div>
-      </template>
+      <v-card-text class="flex items-center gap-3">
+        <v-avatar
+          color="grey-lighten-2"
+          icon="mdi-account-circle"
+          class="rounded-card"
+          size="large"
+          :image="'/api/avatar/' + id.userinfo.data.avatar"
+        />
+        <v-file-input
+          clearable
+          hide-details
+          label="Upload another avatar"
+          variant="outlined"
+          density="comfortable"
+          accept="image/*"
+          prepend-icon=""
+          append-icon="mdi-upload"
+          v-model="avatar"
+          @click:append="applyAvatar"
+        />
+      </v-card-text>
+
+      <v-img cover class="bg-grey-lighten-2" :height="320" :src="'/api/avatar/' + id.userinfo.data.banner" />
+
+      <v-card-text>
+        <v-file-input
+          clearable
+          hide-details
+          label="Update your banner"
+          variant="outlined"
+          density="compact"
+          accept="image/*"
+          prepend-icon=""
+          append-icon="mdi-upload"
+          v-model="banner"
+          @click:append="applyBanner"
+        />
+      </v-card-text>
     </v-card>
 
     <v-snackbar v-model="done" :timeout="3000"> Your personal information has been updated. </v-snackbar>
@@ -115,6 +130,7 @@ const loading = ref(false)
 
 const data = ref<any>({})
 const avatar = ref<any>(null)
+const banner = ref<any>(null)
 
 watch(
   id,
@@ -161,7 +177,7 @@ async function applyAvatar() {
   payload.set("avatar", avatar.value[0])
 
   loading.value = true
-  const res = await request("/api/avatar", {
+  const res = await request("/api/users/me/avatar", {
     method: "PUT",
     headers: { Authorization: `Bearer ${getAtk()}` },
     body: payload,
@@ -173,6 +189,31 @@ async function applyAvatar() {
     done.value = true
     error.value = null
     avatar.value = null
+  }
+  loading.value = false
+}
+
+async function applyBanner() {
+  if (!banner.value) return
+
+  if (loading.value) return
+
+  const payload = new FormData()
+  payload.set("banner", banner.value[0])
+
+  loading.value = true
+  const res = await request("/api/users/me/banner", {
+    method: "PUT",
+    headers: { Authorization: `Bearer ${getAtk()}` },
+    body: payload,
+  })
+  if (res.status !== 200) {
+    error.value = await res.text()
+  } else {
+    await id.readProfiles()
+    done.value = true
+    error.value = null
+    banner.value = null
   }
   loading.value = false
 }

@@ -2,7 +2,7 @@
   <v-app-bar height="64" color="primary" scroll-behavior="elevate" flat>
     <div class="max-md:px-5 md:px-12 flex flex-grow-1 items-center">
       <router-link :to="{ name: 'dashboard' }" class="flex gap-1">
-        <img src="/favicon.png" width="24" height="24" class="icon-filter" />
+        <img src="/favicon.png" width="27" height="24" class="icon-filter" />
         <h2 class="ml-2 text-lg font-500">Solarpass</h2>
       </router-link>
 
