@@ -10,7 +10,11 @@
           <div v-if="challenge" class="flex items-center gap-4">
             <v-tooltip>
               <template v-slot:activator="{ props }">
-                <v-progress-circular v-bind="props" size="large" :model-value="challenge?.progress / challenge?.requirements" />
+                <v-progress-circular
+                  v-bind="props"
+                  size="large"
+                  :model-value="(challenge?.progress / challenge?.requirements) * 100"
+                />
               </template>
               <p><b>Risk: </b> {{ challenge?.risk_level }}</p>
               <p><b>Progress: </b> {{ challenge?.progress }}/{{ challenge?.requirements }}</p>

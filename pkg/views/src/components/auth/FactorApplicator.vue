@@ -11,7 +11,7 @@
         type="password"
         variant="solo"
         density="comfortable"
-        :loading="loading"
+        :disabled="loading"
         v-model="password"
       />
 

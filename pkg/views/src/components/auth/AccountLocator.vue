@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center">
     <v-form class="flex-grow-1" @submit.prevent="submit">
-      <v-text-field label="Account ID" variant="solo" density="comfortable" :loading="props.loading" v-model="probe" />
+      <v-text-field label="Account ID" variant="solo" density="comfortable" :disabled="props.loading" v-model="probe" />
 
       <v-expand-transition>
         <v-alert v-show="error" variant="tonal" type="error" class="text-xs mb-3">
