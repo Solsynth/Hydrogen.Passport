@@ -36,10 +36,13 @@ func main() {
 	}
 
 	// Connect to database
-	if err := database.NewSource(); err != nil {
+	if err := database.NewGorm(); err != nil {
 		log.Fatal().Err(err).Msg("An error occurred when connect to database.")
 	} else if err := database.RunMigration(database.C); err != nil {
 		log.Fatal().Err(err).Msg("An error occurred when running database auto migration.")
+	}
+	if err := database.NewBolt(); err != nil {
+		log.Fatal().Err(err).Msg("An error occurred when init bolt db.")
 	}
 
 	// External
@@ -83,4 +86,6 @@ func main() {
 	log.Info().Msgf("Identity v%s is quitting...", identity.AppVersion)
 
 	quartz.Stop()
+
+	database.B.Close()
 }

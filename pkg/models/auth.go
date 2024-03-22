@@ -81,3 +81,9 @@ func (v AuthChallenge) IsAvailable() error {
 
 	return nil
 }
+
+type AuthContext struct {
+	Session   AuthSession `json:"session"`
+	Account   Account     `json:"account"`
+	ExpiredAt time.Time   `json:"expired_at"`
+}

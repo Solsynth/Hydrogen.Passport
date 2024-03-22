@@ -1,5 +1,3 @@
-debug = true
-
 name = "Goatpass"
 maintainer = "SmartSheep Studio"
 
@@ -11,6 +9,10 @@ secret = "LtTjzAGFLshwXhN4ZD4nG5KlMv1MWcsvfv03TSZYnT1VhiAnLIZFTnHUwR0XhGgi"
 content = "uploads"
 
 use_registration_magic_token = false
+
+[debug]
+database = false
+print_routes = false
 
 [external.firebase]
 credentials = "dist/firebase-certs.json"
@@ -32,3 +34,4 @@ refresh_token_duration = 2592000
 [database]
 dsn = "host=localhost dbname=hy_identity port=5432 sslmode=disable"
 prefix = "identity_"
+bolt = "uploads/bolt.db"

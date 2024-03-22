@@ -28,7 +28,7 @@ func NewServer() {
 		ProxyHeader:           fiber.HeaderXForwardedFor,
 		JSONEncoder:           jsoniter.ConfigCompatibleWithStandardLibrary.Marshal,
 		JSONDecoder:           jsoniter.ConfigCompatibleWithStandardLibrary.Unmarshal,
-		EnablePrintRoutes:     viper.GetBool("debug"),
+		EnablePrintRoutes:     viper.GetBool("debug.print_routes"),
 	})
 
 	A.Use(idempotency.New())
