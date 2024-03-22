@@ -3,7 +3,15 @@
     <v-form class="flex-grow-1" @submit.prevent="submit">
       <div v-if="inputType === 'one-time-password'" class="text-center">
         <p class="text-xs opacity-90">Check your inbox!</p>
-        <v-otp-input class="pt-0" variant="solo" density="compact" :length="6" v-model="password" :loading="loading" />
+        <v-otp-input
+          class="pt-0"
+          variant="solo"
+          density="compact"
+          type="text"
+          :length="6"
+          v-model="password"
+          :loading="loading"
+        />
       </div>
       <v-text-field
         v-else
