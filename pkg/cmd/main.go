@@ -66,14 +66,8 @@ func main() {
 
 	// Configure timed tasks
 	quartz := cron.New(cron.WithLogger(cron.VerbosePrintfLogger(&log.Logger)))
-	quartz.AddFunc("@every 60m", func() {
-		log.Info().Msg("Running auto sign off...")
-		if tx := services.PerformAutoSignoff(); tx.Error != nil {
-			log.Error().Err(tx.Error).Msg("An error occurred when running auto sign off...")
-		} else {
-			log.Info().Int64("affected", tx.RowsAffected).Msg("Auto sign off accomplished.")
-		}
-	})
+	quartz.AddFunc("@every 60m", services.DoAutoSignoff)
+	quartz.AddFunc("@every 60m", services.DoAutoAuthCleanup)
 	quartz.Run()
 
 	// Messages
