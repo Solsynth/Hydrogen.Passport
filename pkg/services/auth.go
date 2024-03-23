@@ -15,35 +15,42 @@ import (
 
 const authContextBucket = "AuthContext"
 
-func Authenticate(access, refresh string, depth int) (models.Account, string, string, error) {
-	var user models.Account
-	claims, err := security.DecodeJwt(access)
+func Authenticate(access, refresh string, depth int) (user models.Account, newAccess, newRefresh string, err error) {
+	var claims security.PayloadClaims
+	claims, err = security.DecodeJwt(access)
 	if err != nil {
 		if len(refresh) > 0 && depth < 1 {
 			// Auto refresh and retry
-			access, refresh, err := security.RefreshToken(refresh)
+			newAccess, newRefresh, err = security.RefreshToken(refresh)
 			if err == nil {
-				return Authenticate(access, refresh, depth+1)
+				return Authenticate(newAccess, newRefresh, depth+1)
 			}
 		}
-		return user, access, refresh, fiber.NewError(fiber.StatusUnauthorized, fmt.Sprintf("invalid auth key: %v", err))
+		err = fiber.NewError(fiber.StatusUnauthorized, fmt.Sprintf("invalid auth key: %v", err))
+		return
 	}
+
+	newAccess = access
+	newRefresh = refresh
 
 	var ctx models.AuthContext
 
 	ctx, lookupErr := GetAuthContext(claims.ID)
 	if lookupErr == nil {
 		log.Debug().Str("jti", claims.ID).Msg("Hit auth context cache once!")
-		return ctx.Account, access, refresh, nil
+		user = ctx.Account
+		return
 	}
 
 	ctx, err = GrantAuthContext(claims.ID)
 	if err == nil {
 		log.Debug().Str("jti", claims.ID).Err(lookupErr).Msg("Missed auth context cache once!")
-		return user, access, refresh, nil
+		user = ctx.Account
+		return
 	}
 
-	return user, access, refresh, fiber.NewError(fiber.StatusUnauthorized, err.Error())
+	err = fiber.NewError(fiber.StatusUnauthorized, err.Error())
+	return
 }
 
 func GetAuthContext(jti string) (models.AuthContext, error) {
