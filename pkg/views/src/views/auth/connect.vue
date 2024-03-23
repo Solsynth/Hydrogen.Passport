@@ -8,7 +8,7 @@
           <p>One Solarpass, entire internet.</p>
         </div>
 
-        <v-window :model-value="panel" class="pa-2 mx-[-0.5rem]">
+        <v-window :touch="false" :model-value="panel" class="pa-2 mx-[-0.5rem]">
           <v-window-item value="confirm">
             <div class="flex flex-col gap-2">
               <v-expand-transition>
@@ -141,12 +141,12 @@ async function approve() {
   loading.value = true
   const res = await request(
     "/api/auth/o/connect?" +
-      new URLSearchParams({
-        client_id: route.query["client_id"] as string,
-        redirect_uri: encodeURIComponent(route.query["redirect_uri"] as string),
-        response_type: "code",
-        scope: route.query["scope"] as string,
-      }),
+    new URLSearchParams({
+      client_id: route.query["client_id"] as string,
+      redirect_uri: encodeURIComponent(route.query["redirect_uri"] as string),
+      response_type: "code",
+      scope: route.query["scope"] as string,
+    }),
     {
       method: "POST",
       headers: { Authorization: `Bearer ${getAtk()}` },

@@ -8,7 +8,7 @@
           <p>Confirm your account to keep your account longer than 48 hours.</p>
         </div>
 
-        <v-window :model-value="panel" class="pa-2 mx-[-0.5rem]">
+        <v-window :touch="false" :model-value="panel" class="pa-2 mx-[-0.5rem]">
           <v-window-item value="confirm">
             <div>
               <v-expand-transition>

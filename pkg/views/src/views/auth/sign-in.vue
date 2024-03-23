@@ -10,11 +10,8 @@
           <div v-if="challenge" class="flex items-center gap-4">
             <v-tooltip>
               <template v-slot:activator="{ props }">
-                <v-progress-circular
-                  v-bind="props"
-                  size="large"
-                  :model-value="(challenge?.progress / challenge?.requirements) * 100"
-                />
+                <v-progress-circular v-bind="props" size="large"
+                  :model-value="(challenge?.progress / challenge?.requirements) * 100" />
               </template>
               <p><b>Risk: </b> {{ challenge?.risk_level }}</p>
               <p><b>Progress: </b> {{ challenge?.progress }}/{{ challenge?.requirements }}</p>
@@ -24,16 +21,10 @@
           <p v-else>Sign in via your Solar ID to access the entire Solar Network.</p>
         </div>
 
-        <v-window :model-value="panel" class="pa-2 mx-[-0.5rem]">
+        <v-window :touch="false" :model-value="panel" class="pa-2 mx-[-0.5rem]">
           <v-window-item v-for="k in Object.keys(panels)" :value="k">
-            <component
-              :is="panels[k]"
-              @swap="(val: string) => (panel = val)"
-              v-model:loading="loading"
-              v-model:factors="factors"
-              v-model:currentFactor="currentFactor"
-              v-model:challenge="challenge"
-            />
+            <component :is="panels[k]" @swap="(val: string) => (panel = val)" v-model:loading="loading"
+              v-model:factors="factors" v-model:currentFactor="currentFactor" v-model:challenge="challenge" />
           </v-window-item>
         </v-window>
       </v-card-text>

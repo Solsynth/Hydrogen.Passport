@@ -5,60 +5,28 @@
         <v-form class="mt-1" @submit.prevent="submit">
           <v-row dense>
             <v-col :xs="12" :md="6">
-              <v-text-field
-                readonly
-                hide-details
-                label="Username"
-                density="comfortable"
-                variant="outlined"
-                v-model="data.name"
-              />
+              <v-text-field readonly hide-details label="Username" density="comfortable" variant="outlined"
+                v-model="data.name" />
             </v-col>
             <v-col :xs="12" :md="6">
-              <v-text-field
-                hide-details
-                label="Nickname"
-                density="comfortable"
-                variant="outlined"
-                v-model="data.nick"
-              />
+              <v-text-field hide-details label="Nickname" density="comfortable" variant="outlined"
+                v-model="data.nick" />
             </v-col>
             <v-col :cols="12">
-              <v-textarea
-                hide-details
-                label="Description"
-                density="comfortable"
-                variant="outlined"
-                v-model="data.description"
-              />
+              <v-textarea hide-details label="Description" density="comfortable" variant="outlined"
+                v-model="data.description" />
             </v-col>
             <v-col :xs="12" :md="6" :lg="4">
-              <v-text-field
-                hide-details
-                label="First Name"
-                density="comfortable"
-                variant="outlined"
-                v-model="data.first_name"
-              />
+              <v-text-field hide-details label="First Name" density="comfortable" variant="outlined"
+                v-model="data.first_name" />
             </v-col>
             <v-col :xs="12" :md="6" :lg="4">
-              <v-text-field
-                hide-details
-                label="Last Name"
-                density="comfortable"
-                variant="outlined"
-                v-model="data.last_name"
-              />
+              <v-text-field hide-details label="Last Name" density="comfortable" variant="outlined"
+                v-model="data.last_name" />
             </v-col>
             <v-col :xs="12" :lg="4">
-              <v-text-field
-                hide-details
-                label="Birthday"
-                density="comfortable"
-                variant="outlined"
-                type="datetime-local"
-                v-model="data.birthday"
-              />
+              <v-text-field hide-details label="Birthday" density="comfortable" variant="outlined" type="datetime-local"
+                v-model="data.birthday" />
             </v-col>
           </v-row>
 
@@ -71,42 +39,17 @@
 
     <v-card>
       <v-card-text class="flex items-center gap-3">
-        <v-avatar
-          color="grey-lighten-2"
-          icon="mdi-account-circle"
-          class="rounded-card"
-          size="large"
-          :image="'/api/avatar/' + id.userinfo.data.avatar"
-        />
-        <v-file-input
-          clearable
-          hide-details
-          label="Upload another avatar"
-          variant="outlined"
-          density="comfortable"
-          accept="image/*"
-          prepend-icon=""
-          append-icon="mdi-upload"
-          v-model="avatar"
-          @click:append="applyAvatar"
-        />
+        <v-avatar color="grey-lighten-2" icon="mdi-account-circle" class="rounded-card" size="large"
+          :image="'/api/avatar/' + id.userinfo.data.avatar" />
+        <v-file-input clearable hide-details label="Upload another avatar" variant="outlined" density="comfortable"
+          accept="image/*" prepend-icon="" append-icon="mdi-upload" v-model="avatar" @click:append="applyAvatar" />
       </v-card-text>
 
       <v-img cover class="bg-grey-lighten-2" :height="320" :src="'/api/avatar/' + id.userinfo.data.banner" />
 
       <v-card-text>
-        <v-file-input
-          clearable
-          hide-details
-          label="Update your banner"
-          variant="outlined"
-          density="compact"
-          accept="image/*"
-          prepend-icon=""
-          append-icon="mdi-upload"
-          v-model="banner"
-          @click:append="applyBanner"
-        />
+        <v-file-input clearable hide-details label="Update your banner" variant="solo-filled" density="comfortable"
+          accept="image/*" prepend-icon="" append-icon="mdi-upload" v-model="banner" @click:append="applyBanner" />
       </v-card-text>
     </v-card>
 
