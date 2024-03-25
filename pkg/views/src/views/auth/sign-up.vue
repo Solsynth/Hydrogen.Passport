@@ -2,7 +2,7 @@
   <v-container class="h-screen flex flex-col gap-3 items-center justify-center">
     <callback-notify />
 
-    <v-card class="w-full max-w-[720px]" :loading="loading">
+    <v-card class="w-full max-w-[720px] overflow-auto" :loading="loading">
       <v-card-text class="card-grid pa-9">
         <div>
           <v-avatar color="accent" icon="mdi-login-variant" size="large" class="card-rounded mb-2" />
