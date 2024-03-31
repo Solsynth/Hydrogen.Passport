@@ -17,6 +17,9 @@ func authMiddleware(c *fiber.Ctx) error {
 		tk := strings.Replace(header, "Bearer", "", 1)
 		token = strings.TrimSpace(tk)
 	}
+	if query := c.Query("tk"); len(query) > 0 {
+		token = strings.TrimSpace(query)
+	}
 
 	c.Locals("token", token)
 

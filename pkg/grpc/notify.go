@@ -27,8 +27,24 @@ func (v *Server) NotifyUser(_ context.Context, in *proto.NotifyRequest) (*proto.
 		}
 	})
 
-	if err := services.NewNotification(client, user, in.Subject, in.Content, links, in.IsImportant); err != nil {
-		return nil, err
+	notification := models.Notification{
+		Subject:     in.GetSubject(),
+		Content:     in.GetContent(),
+		Links:       links,
+		IsImportant: in.GetIsImportant(),
+		ReadAt:      nil,
+		RecipientID: user.ID,
+		SenderID:    &client.ID,
+	}
+
+	if in.GetRealtime() {
+		if err := services.PushNotification(notification); err != nil {
+			return nil, err
+		}
+	} else {
+		if err := services.NewNotification(notification); err != nil {
+			return nil, err
+		}
 	}
 
 	return &proto.NotifyReply{IsSent: true}, nil

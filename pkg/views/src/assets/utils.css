@@ -2,7 +2,6 @@ html,
 body,
 #app,
 .v-application {
-  overflow: auto !important;
   font-family: "Roboto Sans", ui-sans-serif, system-ui, sans-serif;
 }
 

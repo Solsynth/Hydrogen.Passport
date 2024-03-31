@@ -1,7 +1,6 @@
 {
-  "name": "views",
-  "version": "0.0.0",
-  "private": true,
+  "name": "@hydrogen/identity",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",

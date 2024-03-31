@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	jsoniter "github.com/json-iterator/go"
 
 	"firebase.google.com/go/messaging"
 	"git.solsynth.dev/hydrogen/identity/pkg/database"
@@ -23,34 +24,27 @@ func AddNotifySubscriber(user models.Account, provider, device, ua string) (mode
 	return subscriber, err
 }
 
-func NewNotification(
-	user models.ThirdClient,
-	target models.Account,
-	subject, content string,
-	links []models.NotificationLink,
-	important bool,
-) error {
-	notification := models.Notification{
-		Subject:     subject,
-		Content:     content,
-		Links:       links,
-		IsImportant: important,
-		ReadAt:      nil,
-		SenderID:    &user.ID,
-		RecipientID: target.ID,
-	}
-
+func NewNotification(notification models.Notification) error {
 	if err := database.C.Save(&notification).Error; err != nil {
 		return err
 	}
 
+	go func() {
+		err := PushNotification(notification)
+		log.Error().Err(err).Msg("Unexpected error occurred during the notification.")
+	}()
+
+	return nil
+}
+
+func PushNotification(notification models.Notification) error {
+	WsNotifyQueue[notification.RecipientID], _ = jsoniter.Marshal(notification)
+
 	var subscribers []models.NotificationSubscriber
 	if err := database.C.Where(&models.NotificationSubscriber{
-		AccountID: target.ID,
+		AccountID: notification.RecipientID,
 	}).Find(&subscribers).Error; err != nil {
-		// I don't know why cannot get subscribers list, but whatever, the notifications has created
-		log.Error().Err(err).Msg("Unexpected error occurred during the notification.")
-		return nil
+		return err
 	}
 
 	for _, subscriber := range subscribers {

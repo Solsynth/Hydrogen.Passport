@@ -31,7 +31,17 @@ func notifyUser(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	}
 
-	if err := services.NewNotification(client, user, data.Subject, data.Content, data.Links, data.IsImportant); err != nil {
+	notification := models.Notification{
+		Subject:     data.Subject,
+		Content:     data.Subject,
+		Links:       data.Links,
+		IsImportant: data.IsImportant,
+		ReadAt:      nil,
+		RecipientID: user.ID,
+		SenderID:    &client.ID,
+	}
+
+	if err := services.NewNotification(notification); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 

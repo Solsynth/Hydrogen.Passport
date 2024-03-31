@@ -1,6 +1,7 @@
 package server
 
 import (
+	"github.com/gofiber/contrib/websocket"
 	"net/http"
 	"strings"
 	"time"
@@ -60,9 +61,14 @@ func NewServer() {
 	{
 		api.Get("/avatar/:avatarId", getAvatar)
 
-		api.Get("/notifications", authMiddleware, getNotifications)
-		api.Put("/notifications/:notificationId/read", authMiddleware, markNotificationRead)
-		api.Post("/notifications/subscribe", authMiddleware, addNotifySubscriber)
+		notify := api.Group("/notifications").Name("Notifications API")
+		{
+			notify.Get("/", authMiddleware, getNotifications)
+			notify.Put("/:notificationId/read", authMiddleware, markNotificationRead)
+			notify.Post("/subscribe", authMiddleware, addNotifySubscriber)
+
+			notify.Get("/listen", authMiddleware, websocket.New(listenNotifications))
+		}
 
 		me := api.Group("/users/me").Name("Myself Operations")
 		{
