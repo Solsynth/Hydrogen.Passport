@@ -14,6 +14,7 @@ func notifyUser(c *fiber.Ctx) error {
 		Content      string                    `json:"content" validate:"required,max=3072"`
 		Links        []models.NotificationLink `json:"links"`
 		IsImportant  bool                      `json:"is_important"`
+		IsRealtime   bool                      `json:"is_realtime"`
 		UserID       uint                      `json:"user_id" validate:"required"`
 	}
 
@@ -33,16 +34,23 @@ func notifyUser(c *fiber.Ctx) error {
 
 	notification := models.Notification{
 		Subject:     data.Subject,
-		Content:     data.Subject,
+		Content:     data.Content,
 		Links:       data.Links,
 		IsImportant: data.IsImportant,
+		IsRealtime:  data.IsRealtime,
 		ReadAt:      nil,
 		RecipientID: user.ID,
 		SenderID:    &client.ID,
 	}
 
-	if err := services.NewNotification(notification); err != nil {
-		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	if data.IsRealtime {
+		if err := services.PushNotification(notification); err != nil {
+			return fiber.NewError(fiber.StatusBadRequest, err.Error())
+		}
+	} else {
+		if err := services.NewNotification(notification); err != nil {
+			return fiber.NewError(fiber.StatusBadRequest, err.Error())
+		}
 	}
 
 	return c.SendStatus(fiber.StatusOK)

@@ -32,12 +32,13 @@ func (v *Server) NotifyUser(_ context.Context, in *proto.NotifyRequest) (*proto.
 		Content:     in.GetContent(),
 		Links:       links,
 		IsImportant: in.GetIsImportant(),
+		IsRealtime:  in.GetIsRealtime(),
 		ReadAt:      nil,
 		RecipientID: user.ID,
 		SenderID:    &client.ID,
 	}
 
-	if in.GetRealtime() {
+	if in.GetIsRealtime() {
 		if err := services.PushNotification(notification); err != nil {
 			return nil, err
 		}

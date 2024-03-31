@@ -21,7 +21,7 @@ message NotifyRequest {
   uint64 recipient_id = 5;
   string client_id = 6;
   string client_secret = 7;
-  bool realtime = 8;
+  bool is_realtime = 8;
 }
 
 message NotifyReply {

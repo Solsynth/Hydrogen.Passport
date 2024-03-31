@@ -31,14 +31,19 @@ func NewNotification(notification models.Notification) error {
 
 	go func() {
 		err := PushNotification(notification)
-		log.Error().Err(err).Msg("Unexpected error occurred during the notification.")
+		if err != nil {
+			log.Error().Err(err).Msg("Unexpected error occurred during the notification.")
+		}
 	}()
 
 	return nil
 }
 
 func PushNotification(notification models.Notification) error {
-	WsNotifyQueue[notification.RecipientID], _ = jsoniter.Marshal(notification)
+	raw, _ := jsoniter.Marshal(notification)
+	for _, conn := range WsConn[notification.RecipientID] {
+		_ = conn.WriteMessage(1, raw)
+	}
 
 	var subscribers []models.NotificationSubscriber
 	if err := database.C.Where(&models.NotificationSubscriber{

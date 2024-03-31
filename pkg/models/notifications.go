@@ -12,6 +12,7 @@ type Notification struct {
 	Content     string                                `json:"content"`
 	Links       datatypes.JSONSlice[NotificationLink] `json:"links"`
 	IsImportant bool                                  `json:"is_important"`
+	IsRealtime  bool                                  `json:"is_realtime" gorm:"-"`
 	ReadAt      *time.Time                            `json:"read_at"`
 	SenderID    *uint                                 `json:"sender_id"`
 	RecipientID uint                                  `json:"recipient_id"`

@@ -16,12 +16,8 @@ func listenNotifications(c *websocket.Conn) {
 	// Event loop
 	var err error
 	for {
-		message := services.WsNotifyQueue[user.ID]
-
-		if message != nil {
-			if err = c.WriteMessage(1, message); err != nil {
-				break
-			}
+		if _, _, err = c.ReadMessage(); err != nil {
+			break
 		}
 	}
 
