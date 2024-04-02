@@ -10,6 +10,7 @@ func RunMigration(source *gorm.DB) error {
 		&models.Account{},
 		&models.AuthFactor{},
 		&models.AccountProfile{},
+		&models.AccountPage{},
 		&models.AccountContact{},
 		&models.AuthSession{},
 		&models.AuthChallenge{},

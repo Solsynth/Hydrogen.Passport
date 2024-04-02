@@ -48,7 +48,7 @@
       <v-img cover class="bg-grey-lighten-2" :height="320" :src="'/api/avatar/' + id.userinfo.data.banner" />
 
       <v-card-text>
-        <v-file-input clearable hide-details label="Update your banner" variant="solo-filled" density="comfortable"
+        <v-file-input clearable hide-details label="Update your banner" variant="outlined" density="comfortable"
           accept="image/*" prepend-icon="" append-icon="mdi-upload" v-model="banner" @click:append="applyBanner" />
       </v-card-text>
     </v-card>

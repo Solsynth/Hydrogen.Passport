@@ -77,13 +77,21 @@ func NewServer() {
 			me.Put("/banner", authMiddleware, setBanner)
 
 			me.Get("/", authMiddleware, getUserinfo)
+			me.Get("/page", authMiddleware, getOwnPersonalPage)
 			me.Put("/", authMiddleware, editUserinfo)
+			me.Put("/page", authMiddleware, editPersonalPage)
 			me.Get("/events", authMiddleware, getEvents)
 			me.Get("/challenges", authMiddleware, getChallenges)
 			me.Get("/sessions", authMiddleware, getSessions)
 			me.Delete("/sessions/:sessionId", authMiddleware, killSession)
 
 			me.Post("/confirm", doRegisterConfirm)
+		}
+
+		directory := api.Group("/users/:alias").Name("User Directory")
+		{
+			directory.Get("/", getOtherUserinfo)
+			directory.Get("/page", getPersonalPage)
 		}
 
 		api.Post("/users", doRegister)

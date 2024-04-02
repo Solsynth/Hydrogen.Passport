@@ -27,6 +27,12 @@ const router = createRouter({
               meta: { title: "Your personality" },
             },
             {
+              path: "/me/personal-page",
+              name: "personal-page",
+              component: () => import("@/views/personal-page.vue"),
+              meta: { title: "Your personal page" },
+            },
+            {
               path: "/me/security",
               name: "security",
               component: () => import("@/views/security.vue"),

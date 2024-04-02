@@ -17,6 +17,7 @@ type Account struct {
 	Avatar            string                   `json:"avatar"`
 	Banner            string                   `json:"banner"`
 	Profile           AccountProfile           `json:"profile"`
+	PersonalPage      AccountPage              `json:"personal_page"`
 	Sessions          []AuthSession            `json:"sessions"`
 	Challenges        []AuthChallenge          `json:"challenges"`
 	Factors           []AuthFactor             `json:"factors"`
