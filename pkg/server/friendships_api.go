@@ -35,11 +35,23 @@ func getFriendship(c *fiber.Ctx) error {
 
 func makeFriendship(c *fiber.Ctx) error {
 	user := c.Locals("principal").(models.Account)
+	relatedName := c.Query("related")
 	relatedId, _ := c.ParamsInt("relatedId", 0)
 
-	related, err := services.GetAccount(uint(relatedId))
-	if err != nil {
-		return fiber.NewError(fiber.StatusNotFound, err.Error())
+	var err error
+	var related models.Account
+	if relatedId > 0 {
+		related, err = services.GetAccount(uint(relatedId))
+		if err != nil {
+			return fiber.NewError(fiber.StatusNotFound, err.Error())
+		}
+	} else if len(relatedName) > 0 {
+		related, err = services.LookupAccount(relatedName)
+		if err != nil {
+			return fiber.NewError(fiber.StatusNotFound, err.Error())
+		}
+	} else {
+		return fiber.NewError(fiber.StatusBadRequest, "must one of username or user id")
 	}
 
 	friend, err := services.NewFriend(user, related, models.FriendshipPending)
