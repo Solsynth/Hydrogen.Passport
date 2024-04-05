@@ -11,8 +11,7 @@ import (
 func ListFriend(anyside models.Account, status models.FriendshipStatus) ([]models.AccountFriendship, error) {
 	var relationships []models.AccountFriendship
 	if err := database.C.
-		Where(&models.AccountFriendship{AccountID: anyside.ID, Status: status}).
-		Or(&models.AccountFriendship{RelatedID: anyside.ID, Status: status}).
+		Where("(account_id = ? OR related_id = ?) AND status = ?", anyside.ID, anyside.ID, status).
 		Preload("Account").
 		Preload("Related").
 		Find(&relationships).Error; err != nil {
