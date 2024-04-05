@@ -91,6 +91,7 @@ func NewServer() {
 			{
 				friends.Get("/", authMiddleware, listFriendship)
 				friends.Get("/:relatedId", authMiddleware, getFriendship)
+				friends.Post("/", authMiddleware, makeFriendship)
 				friends.Post("/:relatedId", authMiddleware, makeFriendship)
 				friends.Put("/:relatedId", authMiddleware, editFriendship)
 				friends.Delete("/:relatedId", authMiddleware, deleteFriendship)
