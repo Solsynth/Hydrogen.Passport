@@ -87,6 +87,8 @@ func editFriendship(c *fiber.Ctx) error {
 		}
 	}
 
+	friendship.Status = models.FriendshipStatus(data.Status)
+
 	if friendship, err := services.EditFriend(friendship); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else {
