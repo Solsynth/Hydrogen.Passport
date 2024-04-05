@@ -69,6 +69,12 @@ func NewFriend(user models.Account, related models.Account, status models.Friend
 
 	if err := database.C.Save(&relationship).Error; err != nil {
 		return relationship, err
+	} else {
+		_ = NewNotification(models.Notification{
+			Subject:     fmt.Sprintf("New friend request from %s", user.Name),
+			Content:     fmt.Sprintf("You got a new friend request from %s. Go to your settings and decide how to deal it.", user.Nick),
+			RecipientID: related.ID,
+		})
 	}
 
 	return relationship, nil
