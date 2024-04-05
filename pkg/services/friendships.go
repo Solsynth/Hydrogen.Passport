@@ -14,6 +14,8 @@ func ListFriend(anyside models.Account, status models.FriendshipStatus) ([]model
 		Where(&models.AccountFriendship{Status: status}).
 		Where(&models.AccountFriendship{AccountID: anyside.ID}).
 		Or(&models.AccountFriendship{RelatedID: anyside.ID}).
+		Preload("Account").
+		Preload("Related").
 		Find(&relationships).Error; err != nil {
 		return relationships, err
 	}
