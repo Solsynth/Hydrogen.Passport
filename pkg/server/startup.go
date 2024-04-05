@@ -86,6 +86,15 @@ func NewServer() {
 			me.Delete("/sessions/:sessionId", authMiddleware, killSession)
 
 			me.Post("/confirm", doRegisterConfirm)
+
+			friends := me.Group("/friends").Name("Friends")
+			{
+				friends.Get("/", authMiddleware, listFriendship)
+				friends.Get("/:relatedId", authMiddleware, getFriendship)
+				friends.Post("/:relatedId", authMiddleware, makeFriendship)
+				friends.Put("/:relatedId", authMiddleware, editFriendship)
+				friends.Delete("/:relatedId", authMiddleware, deleteFriendship)
+			}
 		}
 
 		directory := api.Group("/users/:alias").Name("User Directory")

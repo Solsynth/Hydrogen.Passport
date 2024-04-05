@@ -27,7 +27,7 @@ func DoAutoSignoff() {
 	duration := time.Duration(viper.GetInt64("security.auto_signoff_duration")) * time.Second
 	divider := time.Now().Add(-duration)
 
-	log.Debug().Time("before", divider).Msg("Now auto signing off sessions...")
+	log.Debug().Time("before", divider).Msg("Now signing off sessions...")
 
 	if tx := database.C.
 		Where("last_grant_at < ?", divider).
@@ -39,7 +39,7 @@ func DoAutoSignoff() {
 }
 
 func DoAutoAuthCleanup() {
-	log.Debug().Msg("Now auto cleaning up cached auth context...")
+	log.Debug().Msg("Now cleaning up cached auth context...")
 
 	count := 0
 	err := database.B.Batch(func(tx *bbolt.Tx) error {

@@ -11,24 +11,32 @@ import (
 type Account struct {
 	BaseModel
 
-	Name              string                   `json:"name" gorm:"uniqueIndex"`
-	Nick              string                   `json:"nick"`
-	Description       string                   `json:"description"`
-	Avatar            string                   `json:"avatar"`
-	Banner            string                   `json:"banner"`
-	Profile           AccountProfile           `json:"profile"`
-	PersonalPage      AccountPage              `json:"personal_page"`
-	Sessions          []AuthSession            `json:"sessions"`
-	Challenges        []AuthChallenge          `json:"challenges"`
-	Factors           []AuthFactor             `json:"factors"`
-	Contacts          []AccountContact         `json:"contacts"`
-	Events            []ActionEvent            `json:"events"`
-	MagicTokens       []MagicToken             `json:"-" gorm:"foreignKey:AssignTo"`
-	ThirdClients      []ThirdClient            `json:"clients"`
+	Name        string     `json:"name" gorm:"uniqueIndex"`
+	Nick        string     `json:"nick"`
+	Description string     `json:"description"`
+	Avatar      string     `json:"avatar"`
+	Banner      string     `json:"banner"`
+	ConfirmedAt *time.Time `json:"confirmed_at"`
+	PowerLevel  int        `json:"power_level"`
+
+	Profile      AccountProfile   `json:"profile"`
+	PersonalPage AccountPage      `json:"personal_page"`
+	Contacts     []AccountContact `json:"contacts"`
+
+	Sessions   []AuthSession   `json:"sessions"`
+	Challenges []AuthChallenge `json:"challenges"`
+	Factors    []AuthFactor    `json:"factors"`
+
+	Events      []ActionEvent `json:"events"`
+	MagicTokens []MagicToken  `json:"-" gorm:"foreignKey:AssignTo"`
+
+	ThirdClients []ThirdClient `json:"clients"`
+
 	Notifications     []Notification           `json:"notifications" gorm:"foreignKey:RecipientID"`
 	NotifySubscribers []NotificationSubscriber `json:"notify_subscribers"`
-	ConfirmedAt       *time.Time               `json:"confirmed_at"`
-	PowerLevel        int                      `json:"power_level"`
+
+	Friendships        []AccountFriendship `json:"friendships" gorm:"foreignKey:AccountID"`
+	RelatedFriendships []AccountFriendship `json:"related_friendships" gorm:"foreignKey:RelatedID"`
 }
 
 func (v Account) GetPrimaryEmail() AccountContact {
@@ -63,4 +71,22 @@ type AccountContact struct {
 	IsPrimary  bool       `json:"is_primary"`
 	VerifiedAt *time.Time `json:"verified_at"`
 	AccountID  uint       `json:"account_id"`
+}
+
+type FriendshipStatus = int8
+
+const (
+	FriendshipPending = FriendshipStatus(iota)
+	FriendshipActive
+	FriendshipBlocked
+)
+
+type AccountFriendship struct {
+	BaseModel
+
+	AccountID uint             `json:"account_id"`
+	RelatedID uint             `json:"related_id"`
+	Account   Account          `json:"account"`
+	Related   Account          `json:"related"`
+	Status    FriendshipStatus `json:"status"`
 }

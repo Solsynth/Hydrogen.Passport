@@ -5,21 +5,24 @@ import (
 	"gorm.io/gorm"
 )
 
+var DatabaseAutoActionRange = []any{
+	&models.Account{},
+	&models.AuthFactor{},
+	&models.AccountProfile{},
+	&models.AccountPage{},
+	&models.AccountContact{},
+	&models.AccountFriendship{},
+	&models.AuthSession{},
+	&models.AuthChallenge{},
+	&models.MagicToken{},
+	&models.ThirdClient{},
+	&models.ActionEvent{},
+	&models.Notification{},
+	&models.NotificationSubscriber{},
+}
+
 func RunMigration(source *gorm.DB) error {
-	if err := source.AutoMigrate(
-		&models.Account{},
-		&models.AuthFactor{},
-		&models.AccountProfile{},
-		&models.AccountPage{},
-		&models.AccountContact{},
-		&models.AuthSession{},
-		&models.AuthChallenge{},
-		&models.MagicToken{},
-		&models.ThirdClient{},
-		&models.ActionEvent{},
-		&models.Notification{},
-		&models.NotificationSubscriber{},
-	); err != nil {
+	if err := source.AutoMigrate(DatabaseAutoActionRange...); err != nil {
 		return err
 	}
 

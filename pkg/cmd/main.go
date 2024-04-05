@@ -68,6 +68,7 @@ func main() {
 	quartz := cron.New(cron.WithLogger(cron.VerbosePrintfLogger(&log.Logger)))
 	quartz.AddFunc("@every 60m", services.DoAutoSignoff)
 	quartz.AddFunc("@every 60m", services.DoAutoAuthCleanup)
+	quartz.AddFunc("@every 60m", services.DoAutoDatabaseCleanup)
 	quartz.Run()
 
 	// Messages
