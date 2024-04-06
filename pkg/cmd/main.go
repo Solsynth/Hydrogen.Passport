@@ -69,7 +69,7 @@ func main() {
 	quartz.AddFunc("@every 60m", services.DoAutoSignoff)
 	quartz.AddFunc("@every 60m", services.DoAutoAuthCleanup)
 	quartz.AddFunc("@every 60m", services.DoAutoDatabaseCleanup)
-	quartz.Run()
+	quartz.Start()
 
 	// Messages
 	log.Info().Msgf("Identity v%s is started...", identity.AppVersion)
