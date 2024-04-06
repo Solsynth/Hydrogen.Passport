@@ -72,21 +72,3 @@ type AccountContact struct {
 	VerifiedAt *time.Time `json:"verified_at"`
 	AccountID  uint       `json:"account_id"`
 }
-
-type FriendshipStatus = int8
-
-const (
-	FriendshipPending = FriendshipStatus(iota)
-	FriendshipActive
-	FriendshipBlocked
-)
-
-type AccountFriendship struct {
-	BaseModel
-
-	AccountID uint             `json:"account_id"`
-	RelatedID uint             `json:"related_id"`
-	Account   Account          `json:"account"`
-	Related   Account          `json:"related"`
-	Status    FriendshipStatus `json:"status"`
-}

@@ -80,6 +80,22 @@ func NewFriend(user models.Account, related models.Account, status models.Friend
 	return relationship, nil
 }
 
+func EditFriendWithCheck(relationship models.AccountFriendship, user models.Account, originalStatus models.FriendshipStatus) (models.AccountFriendship, error) {
+	if relationship.Status != originalStatus {
+		if originalStatus == models.FriendshipBlocked && relationship.BlockedBy != nil && user.ID != *relationship.BlockedBy {
+			return relationship, fmt.Errorf("the friendship has been blocked by the otherside, you cannot modify it status")
+		}
+		if relationship.Status == models.FriendshipPending && relationship.RelatedID != user.ID {
+			return relationship, fmt.Errorf("only related person can accept friendship")
+		}
+	}
+	if originalStatus != models.FriendshipBlocked && relationship.Status == models.FriendshipBlocked {
+		relationship.BlockedBy = &user.ID
+	}
+
+	return EditFriend(relationship)
+}
+
 func EditFriend(relationship models.AccountFriendship) (models.AccountFriendship, error) {
 	if err := database.C.Save(&relationship).Error; err != nil {
 		return relationship, err

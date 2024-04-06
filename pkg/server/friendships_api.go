@@ -81,15 +81,12 @@ func editFriendship(c *fiber.Ctx) error {
 	friendship, err := services.GetFriendWithTwoSides(user.ID, related.ID)
 	if err != nil {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
-	} else if friendship.Status == models.FriendshipPending && data.Status == uint8(models.FriendshipActive) {
-		if friendship.RelatedID != user.ID {
-			return fiber.NewError(fiber.StatusNotFound, "only related person can accept friendship")
-		}
 	}
 
+	originalStatus := friendship.Status
 	friendship.Status = models.FriendshipStatus(data.Status)
 
-	if friendship, err := services.EditFriend(friendship); err != nil {
+	if friendship, err := services.EditFriendWithCheck(friendship, user, originalStatus); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else {
 		return c.JSON(friendship)
