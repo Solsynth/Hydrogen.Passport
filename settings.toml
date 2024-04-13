@@ -32,6 +32,6 @@ access_token_duration = 300
 refresh_token_duration = 2592000
 
 [database]
-dsn = "host=localhost dbname=hy_identity port=5432 sslmode=disable"
-prefix = "identity_"
+dsn = "host=localhost dbname=hy_passport port=5432 sslmode=disable"
+prefix = "passport_"
 bolt = "uploads/bolt.db"

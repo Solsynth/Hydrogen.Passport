@@ -16,11 +16,11 @@ const defaultUserinfo: Userinfo = {
 }
 
 export function getAtk(): string {
-  return new Cookie().get("identity_auth_key")
+  return new Cookie().get("passport_auth_key")
 }
 
 export function checkLoggedIn(): boolean {
-  return new Cookie().get("identity_auth_key")
+  return new Cookie().get("passport_auth_key")
 }
 
 export const useUserinfo = defineStore("userinfo", () => {

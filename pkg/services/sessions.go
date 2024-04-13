@@ -3,8 +3,8 @@ package services
 import (
 	"time"
 
-	"git.solsynth.dev/hydrogen/identity/pkg/database"
-	"git.solsynth.dev/hydrogen/identity/pkg/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/database"
+	"git.solsynth.dev/hydrogen/passport/pkg/models"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"

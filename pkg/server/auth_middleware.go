@@ -3,8 +3,8 @@ package server
 import (
 	"strings"
 
-	"git.solsynth.dev/hydrogen/identity/pkg/security"
-	"git.solsynth.dev/hydrogen/identity/pkg/services"
+	"git.solsynth.dev/hydrogen/passport/pkg/security"
+	"git.solsynth.dev/hydrogen/passport/pkg/services"
 	"github.com/gofiber/fiber/v2"
 )
 

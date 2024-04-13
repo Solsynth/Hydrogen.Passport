@@ -1,4 +1,4 @@
-module git.solsynth.dev/hydrogen/identity
+module git.solsynth.dev/hydrogen/passport
 
 go 1.21.5
 

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"git.solsynth.dev/hydrogen/identity/pkg/database"
-	"git.solsynth.dev/hydrogen/identity/pkg/models"
-	"git.solsynth.dev/hydrogen/identity/pkg/security"
+	"git.solsynth.dev/hydrogen/passport/pkg/database"
+	"git.solsynth.dev/hydrogen/passport/pkg/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/security"
 	"github.com/google/uuid"
 	"github.com/samber/lo"
 	"gorm.io/gorm"

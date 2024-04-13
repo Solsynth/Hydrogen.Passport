@@ -3,7 +3,7 @@ package security
 import (
 	"fmt"
 
-	"git.solsynth.dev/hydrogen/identity/pkg/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/models"
 	"github.com/samber/lo"
 )
 

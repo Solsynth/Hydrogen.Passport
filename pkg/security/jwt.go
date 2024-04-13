@@ -9,8 +9,8 @@ import (
 	"github.com/spf13/viper"
 )
 
-var CookieAccessKey = "identity_auth_key"
-var CookieRefreshKey = "identity_refresh_key"
+var CookieAccessKey = "passport_auth_key"
+var CookieRefreshKey = "passport_refresh_key"
 
 type PayloadClaims struct {
 	jwt.RegisteredClaims

@@ -5,14 +5,14 @@ import (
 	"os/signal"
 	"syscall"
 
-	"git.solsynth.dev/hydrogen/identity/pkg/external"
-	"git.solsynth.dev/hydrogen/identity/pkg/grpc"
-	"git.solsynth.dev/hydrogen/identity/pkg/server"
-	"git.solsynth.dev/hydrogen/identity/pkg/services"
+	"git.solsynth.dev/hydrogen/passport/pkg/external"
+	"git.solsynth.dev/hydrogen/passport/pkg/grpc"
+	"git.solsynth.dev/hydrogen/passport/pkg/server"
+	"git.solsynth.dev/hydrogen/passport/pkg/services"
 	"github.com/robfig/cron/v3"
 
-	identity "git.solsynth.dev/hydrogen/identity/pkg"
-	"git.solsynth.dev/hydrogen/identity/pkg/database"
+	passport "git.solsynth.dev/hydrogen/passport/pkg"
+	"git.solsynth.dev/hydrogen/passport/pkg/database"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
@@ -72,13 +72,13 @@ func main() {
 	quartz.Start()
 
 	// Messages
-	log.Info().Msgf("Identity v%s is started...", identity.AppVersion)
+	log.Info().Msgf("Identity v%s is started...", passport.AppVersion)
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 
-	log.Info().Msgf("Identity v%s is quitting...", identity.AppVersion)
+	log.Info().Msgf("Identity v%s is quitting...", passport.AppVersion)
 
 	quartz.Stop()
 

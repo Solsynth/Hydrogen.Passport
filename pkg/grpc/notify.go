@@ -3,9 +3,9 @@ package grpc
 import (
 	"context"
 
-	"git.solsynth.dev/hydrogen/identity/pkg/grpc/proto"
-	"git.solsynth.dev/hydrogen/identity/pkg/models"
-	"git.solsynth.dev/hydrogen/identity/pkg/services"
+	"git.solsynth.dev/hydrogen/passport/pkg/grpc/proto"
+	"git.solsynth.dev/hydrogen/passport/pkg/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/services"
 	"github.com/samber/lo"
 )
 

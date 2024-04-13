@@ -4,8 +4,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"git.solsynth.dev/hydrogen/identity/pkg/database"
-	"git.solsynth.dev/hydrogen/identity/pkg/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/database"
+	"git.solsynth.dev/hydrogen/passport/pkg/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"github.com/spf13/viper"

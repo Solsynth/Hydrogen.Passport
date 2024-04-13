@@ -3,9 +3,9 @@ package server
 import (
 	"time"
 
-	"git.solsynth.dev/hydrogen/identity/pkg/database"
-	"git.solsynth.dev/hydrogen/identity/pkg/models"
-	"git.solsynth.dev/hydrogen/identity/pkg/services"
+	"git.solsynth.dev/hydrogen/passport/pkg/database"
+	"git.solsynth.dev/hydrogen/passport/pkg/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/services"
 	"github.com/gofiber/fiber/v2"
 	"github.com/samber/lo"
 )

@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"git.solsynth.dev/hydrogen/identity/pkg/views"
+	"git.solsynth.dev/hydrogen/passport/pkg/views"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cache"
 	"github.com/gofiber/fiber/v2/middleware/cors"

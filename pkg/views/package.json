@@ -1,5 +1,5 @@
 {
-  "name": "@hydrogen/identity",
+  "name": "@hydrogen/passport",
   "version": "1.0.0",
   "type": "module",
   "scripts": {

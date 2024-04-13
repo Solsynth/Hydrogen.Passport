@@ -1,7 +1,7 @@
 package services
 
 import (
-	"git.solsynth.dev/hydrogen/identity/pkg/database"
+	"git.solsynth.dev/hydrogen/passport/pkg/database"
 	"github.com/rs/zerolog/log"
 	"time"
 )

@@ -3,7 +3,7 @@ package grpc
 import (
 	"net"
 
-	"git.solsynth.dev/hydrogen/identity/pkg/grpc/proto"
+	"git.solsynth.dev/hydrogen/passport/pkg/grpc/proto"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"

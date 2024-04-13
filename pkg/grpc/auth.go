@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"git.solsynth.dev/hydrogen/identity/pkg/grpc/proto"
-	"git.solsynth.dev/hydrogen/identity/pkg/services"
+	"git.solsynth.dev/hydrogen/passport/pkg/grpc/proto"
+	"git.solsynth.dev/hydrogen/passport/pkg/services"
 	"github.com/spf13/viper"
 )
 
