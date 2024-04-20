@@ -27,10 +27,15 @@ func DetectRisk(user models.Account, ip, ua string) bool {
 
 func NewTicket(user models.Account, ip, ua string) (models.AuthTicket, error) {
 	var ticket models.AuthTicket
-	if err := database.C.Where(models.AuthTicket{
-		AccountID: user.ID,
-	}).First(&ticket).Error; err == nil {
+	if err := database.C.
+		Where("account_id = ? AND expired_at < ? AND available_at IS NULL", time.Now(), user.ID).
+		First(&ticket).Error; err == nil {
 		return ticket, nil
+	}
+
+	requireMFA := DetectRisk(user, ip, ua)
+	if count := CountUserFactor(user.ID); count <= 1 {
+		requireMFA = false
 	}
 
 	ticket = models.AuthTicket{
@@ -38,7 +43,7 @@ func NewTicket(user models.Account, ip, ua string) (models.AuthTicket, error) {
 		Audiences:           []string{"passport"},
 		IpAddress:           ip,
 		UserAgent:           ua,
-		RequireMFA:          DetectRisk(user, ip, ua),
+		RequireMFA:          requireMFA,
 		RequireAuthenticate: true,
 		ExpiredAt:           lo.ToPtr(time.Now().Add(2 * time.Hour)),
 		AvailableAt:         nil,
@@ -85,16 +90,19 @@ func ActiveTicketWithPassword(ticket models.AuthTicket, password string) (models
 		return ticket, nil
 	}
 
-	if factor, err := GetPasswordFactor(ticket.AccountID); err != nil {
+	if factor, err := GetPasswordTypeFactor(ticket.AccountID); err != nil {
 		return ticket, fmt.Errorf("unable to active ticket: %v", err)
 	} else if err = CheckFactor(factor, password); err != nil {
 		return ticket, err
 	}
 
-	ticket.AvailableAt = lo.ToPtr(time.Now())
+	ticket.RequireAuthenticate = false
 
 	if !ticket.RequireAuthenticate && !ticket.RequireMFA {
 		ticket.AvailableAt = lo.ToPtr(time.Now())
+		ticket.GrantToken = lo.ToPtr(uuid.NewString())
+		ticket.AccessToken = lo.ToPtr(uuid.NewString())
+		ticket.RefreshToken = lo.ToPtr(uuid.NewString())
 	}
 
 	if err := database.C.Save(&ticket).Error; err != nil {
@@ -119,6 +127,9 @@ func ActiveTicketWithMFA(ticket models.AuthTicket, factor models.AuthFactor, cod
 
 	if !ticket.RequireAuthenticate && !ticket.RequireMFA {
 		ticket.AvailableAt = lo.ToPtr(time.Now())
+		ticket.GrantToken = lo.ToPtr(uuid.NewString())
+		ticket.AccessToken = lo.ToPtr(uuid.NewString())
+		ticket.RefreshToken = lo.ToPtr(uuid.NewString())
 	}
 
 	if err := database.C.Save(&ticket).Error; err != nil {
@@ -128,10 +139,10 @@ func ActiveTicketWithMFA(ticket models.AuthTicket, factor models.AuthFactor, cod
 	return ticket, nil
 }
 
-func RegenSession(session models.AuthTicket) (models.AuthTicket, error) {
-	session.GrantToken = lo.ToPtr(uuid.NewString())
-	session.AccessToken = lo.ToPtr(uuid.NewString())
-	session.RefreshToken = lo.ToPtr(uuid.NewString())
-	err := database.C.Save(&session).Error
-	return session, err
+func RegenSession(ticket models.AuthTicket) (models.AuthTicket, error) {
+	ticket.GrantToken = lo.ToPtr(uuid.NewString())
+	ticket.AccessToken = lo.ToPtr(uuid.NewString())
+	ticket.RefreshToken = lo.ToPtr(uuid.NewString())
+	err := database.C.Save(&ticket).Error
+	return ticket, err
 }

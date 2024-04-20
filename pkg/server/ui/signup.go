@@ -8,6 +8,7 @@ import (
 	"git.solsynth.dev/hydrogen/passport/pkg/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
+	"github.com/samber/lo"
 	"github.com/spf13/viper"
 	"github.com/sujit-baniya/flash"
 )
@@ -81,6 +82,6 @@ func signupAction(c *fiber.Ctx) error {
 	} else {
 		return flash.WithInfo(c, fiber.Map{
 			"message": "account has been created. now you can sign in!",
-		}).Redirect("/sign-in")
+		}).Redirect(lo.FromPtr(utils.GetRedirectUri(c, "/sign-in")))
 	}
 }

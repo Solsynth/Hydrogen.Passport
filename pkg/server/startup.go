@@ -130,7 +130,7 @@ func NewServer() {
 		URL:        "/favicon.png",
 	}))
 
-	ui.MapUserInterface(A)
+	ui.MapUserInterface(A, authFunc)
 }
 
 func Listen() {

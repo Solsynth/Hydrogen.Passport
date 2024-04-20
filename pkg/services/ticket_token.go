@@ -19,8 +19,8 @@ func GetToken(ticket models.AuthTicket) (string, string, error) {
 		return refresh, access, fmt.Errorf("unable to encode token, access or refresh token id missing")
 	}
 
-	accessDuration := time.Duration(viper.GetInt64("access_token_duration")) * time.Second
-	refreshDuration := time.Duration(viper.GetInt64("refresh_token_duration")) * time.Second
+	accessDuration := time.Duration(viper.GetInt64("security.access_token_duration")) * time.Second
+	refreshDuration := time.Duration(viper.GetInt64("security.refresh_token_duration")) * time.Second
 
 	var err error
 	sub := strconv.Itoa(int(ticket.AccountID))

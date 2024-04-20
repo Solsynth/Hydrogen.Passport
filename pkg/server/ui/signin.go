@@ -6,6 +6,7 @@ import (
 	"git.solsynth.dev/hydrogen/passport/pkg/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
+	"github.com/samber/lo"
 	"github.com/sujit-baniya/flash"
 )
 
@@ -18,9 +19,17 @@ func signinPage(c *fiber.Ctx) error {
 	signup, _ := localizer.LocalizeMessage(&i18n.Message{ID: "signupTitle"})
 	title, _ := localizer.LocalizeMessage(&i18n.Message{ID: "signinTitle"})
 	caption, _ := localizer.LocalizeMessage(&i18n.Message{ID: "signinCaption"})
+	requiredNotify, _ := localizer.LocalizeMessage(&i18n.Message{ID: "signinRequired"})
+
+	var info any
+	if flash.Get(c)["message"] != nil {
+		info = flash.Get(c)["message"]
+	} else {
+		info = requiredNotify
+	}
 
 	return c.Render("views/signin", fiber.Map{
-		"info": flash.Get(c)["message"],
+		"info": info,
 		"i18n": fiber.Map{
 			"next":     next,
 			"username": username,
@@ -66,12 +75,19 @@ func signinAction(c *fiber.Ctx) error {
 	}
 
 	if ticket.IsAvailable() != nil {
+		return flash.WithData(c, fiber.Map{
+			"redirect_uri": utils.GetRedirectUri(c),
+		}).Redirect(fmt.Sprintf("/mfa?ticket=%d", ticket.ID))
+	}
+
+	access, refresh, err := services.ExchangeToken(*ticket.GrantToken)
+	if err != nil {
 		return flash.WithInfo(c, fiber.Map{
-			"message": "multi factor authenticate required",
+			"message": fmt.Sprintf("failed to exchange token: %v", err.Error()),
 		}).Redirect("/sign-in")
 	} else {
-		return flash.WithInfo(c, fiber.Map{
-			"message": "done",
-		}).Redirect("/sign-in")
+		services.SetJwtCookieSet(c, access, refresh)
 	}
+
+	return c.Redirect(lo.FromPtr(utils.GetRedirectUri(c, "/users/me")))
 }

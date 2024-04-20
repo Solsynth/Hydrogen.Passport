@@ -4,9 +4,14 @@
   "username": "用户名",
   "nickname": "昵称",
   "password": "密码",
+  "unknown": "未知",
   "magicToken": "魔法令牌",
   "signinTitle": "登陆",
   "signinCaption": "登陆 Solarpass 以探索整个 Solar Network，浏览帖子、探索社区、和你的好朋友聊八卦，一切尽在 Solar Network!",
+  "signinRequired": "你需要在那之前登陆",
   "signupTitle": "注册",
-  "signupCaption": "注册以在 Solarpass 创建一个账号，之后你就可以探索整个 Solar Network，享受下一代互联网生态系统！"
+  "signupCaption": "注册以在 Solarpass 创建一个账号，之后你就可以探索整个 Solar Network，享受下一代互联网生态系统！",
+  "mfaTitle": "多因素验证",
+  "mfaCaption": "我们需要另一个方法来确认你是你。",
+  "mfaFactorEmail": "电子邮寄一次性验证码"
 }

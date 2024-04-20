@@ -4,9 +4,14 @@
   "username": "Username",
   "nickname": "Nickname",
   "password": "Password",
+  "unknown": "Unknown",
   "magicToken": "Magic Token",
   "signinTitle": "Sign In",
   "signinCaption": "Sign in to Solarpass to explore entire Solar Network. Explore posts, discover communities, talk with your best friends. All these things in the Solar Network!",
+  "signinRequired": "You need to sign in before do that.",
   "signupTitle": "Sign Up",
-  "signupCaption": "Sign up to create an account on Solarpass, then you can explore the entire Solar Network! Enjoy the next-generation Internet Ecosystem!"
+  "signupCaption": "Sign up to create an account on Solarpass, then you can explore the entire Solar Network! Enjoy the next-generation Internet Ecosystem!",
+  "mfaTitle": "Multi Factor Authenticate",
+  "mfaCaption": "We need use one more way to verify it is you.",
+  "mfaFactorEmail": "OTP through your email"
 }

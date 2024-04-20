@@ -4,32 +4,28 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: New ticket ways">
-      <change afterPath="$PROJECT_DIR$/pkg/server/ui/signin.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/server/ui/signup.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/views/signup.gohtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Passport.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Passport.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/74bcf3ef-a2b9-435b-b9e5-f32902a33b25.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/74bcf3ef-a2b9-435b-b9e5-f32902a33b25.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/74bcf3ef-a2b9-435b-b9e5-f32902a33b25/storage_v2/_src_/database/hy_passport.gNOKQQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/74bcf3ef-a2b9-435b-b9e5-f32902a33b25/storage_v2/_src_/database/hy_passport.gNOKQQ/schema/public.abK9xQ.meta" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Sign up &amp; Sign in">
+      <change afterPath="$PROJECT_DIR$/pkg/server/ui/accounts.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/server/ui/mfa.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/services/mfa.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/views/mfa-apply.gohtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/views/mfa.gohtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/views/users/me/index.gohtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/i18n/locale.en.json" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/i18n/locale.en.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/i18n/locale.zh.json" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/i18n/locale.zh.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/accounts_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/accounts_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/auth_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/auth_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/friendships_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/friendships_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/notifications_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/notifications_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/notify_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/notify_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/page_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/page_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/ui/auth.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/startup.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/startup.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/server/ui/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/ui/index.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/utils/request.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/ui/signin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/ui/signin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/ui/signup.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/ui/signup.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/factors.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/factors.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/services/ticket.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/ticket.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/ticket_token.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/ticket_token.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/utils/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/utils/request.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/views/layouts/auth.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/views/layouts/auth.gohtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/views/partials/header.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/views/partials/header.gohtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/views/signin.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/views/signin.gohtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/signup.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/views/signup.gohtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.toml" beforeDir="false" afterPath="$PROJECT_DIR$/settings.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,6 +89,7 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/pkg/views" />
+      <recent name="$PROJECT_DIR$/pkg/server/ui" />
       <recent name="$PROJECT_DIR$/pkg" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -137,7 +134,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value=":recycle: Refactor frontend" />
     <MESSAGE value=":sparkles: New ticket ways" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: New ticket ways" />
+    <MESSAGE value=":sparkles: Sign up &amp; Sign in" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Sign up &amp; Sign in" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

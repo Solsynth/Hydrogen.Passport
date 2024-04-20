@@ -8,28 +8,40 @@
 <div class="right-part">
     <div class="responsive-title-gap"></div>
 
-    <form class="action-form" action="/sign-in" method="POST">
-        <md-outlined-text-field
-                class="block-field"
-                name="username"
-                type="text"
-                autocomplete="username"
-                label={{.i18n.username}}
-        >
-        </md-outlined-text-field>
+    <form class="action-form" action="/mfa/apply" method="POST">
+        <label>
+            <input name="ticket_id" value="{{.ticket_id}}" hidden>
+        </label>
+        <label>
+            <input name="factor_id" value="{{.factor_id}}" hidden>
+        </label>
+
+        <div class="factor-label">{{.label}}</div>
 
         <md-outlined-text-field
                 class="block-field"
-                name="password"
+                name="code"
                 type="password"
-                autocomplete="password"
+                autocomplete="off"
                 label={{.i18n.password}}
         >
         </md-outlined-text-field>
 
         <div class="action-form-buttons">
-            <md-text-button type="button" href="/sign-up">{{.i18n.signup}}</md-text-button>
             <md-filled-button type="submit">{{.i18n.next}}</md-filled-button>
         </div>
     </form>
 </div>
+
+<style>
+    .factor-label {
+        font-size: 14px;
+        text-align: left;
+    }
+
+    @media (min-width: 768px) {
+        .factor-label {
+            text-align: center;
+        }
+    }
+</style>

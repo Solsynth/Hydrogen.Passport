@@ -25,7 +25,7 @@ Thank you for your cooperation in helping us maintain the security of your accou
 Best regards,
 %s`
 
-func GetPasswordFactor(userId uint) (models.AuthFactor, error) {
+func GetPasswordTypeFactor(userId uint) (models.AuthFactor, error) {
 	var factor models.AuthFactor
 	err := database.C.Where(models.AuthFactor{
 		Type:      models.PasswordAuthFactor,
@@ -51,6 +51,15 @@ func ListUserFactor(userId uint) ([]models.AuthFactor, error) {
 	}).Find(&factors).Error
 
 	return factors, err
+}
+
+func CountUserFactor(userId uint) int64 {
+	var count int64
+	database.C.Where(models.AuthFactor{
+		AccountID: userId,
+	}).Model(&models.AuthFactor{}).Count(&count)
+
+	return count
 }
 
 func GetFactorCode(factor models.AuthFactor) (bool, error) {
