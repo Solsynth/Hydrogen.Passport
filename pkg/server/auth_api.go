@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"git.solsynth.dev/hydrogen/passport/pkg/utils"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -15,7 +16,7 @@ func doAuthenticate(c *fiber.Ctx) error {
 		Password string `json:"password" validate:"required"`
 	}
 
-	if err := BindAndValidate(c, &data); err != nil {
+	if err := utils.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 
@@ -47,7 +48,7 @@ func doMultiFactorAuthenticate(c *fiber.Ctx) error {
 		Code     string `json:"code" validate:"required"`
 	}
 
-	if err := BindAndValidate(c, &data); err != nil {
+	if err := utils.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 
@@ -84,7 +85,7 @@ func getToken(c *fiber.Ctx) error {
 		GrantType    string `json:"grant_type" form:"grant_type"`
 	}
 
-	if err := BindAndValidate(c, &data); err != nil {
+	if err := utils.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 

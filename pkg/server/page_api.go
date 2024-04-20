@@ -3,6 +3,7 @@ package server
 import (
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/utils"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -47,7 +48,7 @@ func editPersonalPage(c *fiber.Ctx) error {
 		Links   []models.AccountPageLinks `json:"links"`
 	}
 
-	if err := BindAndValidate(c, &data); err != nil {
+	if err := utils.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 

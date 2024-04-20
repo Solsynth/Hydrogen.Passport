@@ -34,14 +34,15 @@ func NewTicket(user models.Account, ip, ua string) (models.AuthTicket, error) {
 	}
 
 	ticket = models.AuthTicket{
-		Claims:      []string{"*"},
-		Audiences:   []string{"passport"},
-		IpAddress:   ip,
-		UserAgent:   ua,
-		RequireMFA:  DetectRisk(user, ip, ua),
-		ExpiredAt:   lo.ToPtr(time.Now().Add(2 * time.Hour)),
-		AvailableAt: nil,
-		AccountID:   user.ID,
+		Claims:              []string{"*"},
+		Audiences:           []string{"passport"},
+		IpAddress:           ip,
+		UserAgent:           ua,
+		RequireMFA:          DetectRisk(user, ip, ua),
+		RequireAuthenticate: true,
+		ExpiredAt:           lo.ToPtr(time.Now().Add(2 * time.Hour)),
+		AvailableAt:         nil,
+		AccountID:           user.ID,
 	}
 
 	err := database.C.Save(&ticket).Error
@@ -81,7 +82,7 @@ func ActiveTicketWithPassword(ticket models.AuthTicket, password string) (models
 	if ticket.AvailableAt != nil {
 		return ticket, nil
 	} else if !ticket.RequireAuthenticate {
-		return ticket, fmt.Errorf("detected risk, multi factor authentication required")
+		return ticket, nil
 	}
 
 	if factor, err := GetPasswordFactor(ticket.AccountID); err != nil {

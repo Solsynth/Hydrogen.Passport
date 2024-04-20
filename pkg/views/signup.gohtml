@@ -1,0 +1,75 @@
+<div class="left-part">
+    <img class="logo" src="/favicon.png" width="64" height="64"/>
+
+    <h1 class="title">{{.i18n.title}}</h1>
+    <p class="caption">{{.i18n.caption}}</p>
+</div>
+
+<div class="right-part">
+    <div class="responsive-title-gap"></div>
+
+    <form class="action-form" action="/sign-up" method="POST">
+        <div class="columns-two">
+            <md-outlined-text-field
+                    class="block-field"
+                    name="name"
+                    type="text"
+                    autocomplete="username"
+                    label={{.i18n.username}}
+            >
+            </md-outlined-text-field>
+
+            <md-outlined-text-field
+                    class="block-field"
+                    name="nick"
+                    type="text"
+                    autocomplete="nickname"
+                    label={{.i18n.nickname}}
+            >
+            </md-outlined-text-field>
+        </div>
+
+
+        <md-outlined-text-field
+                class="block-field"
+                name="email"
+                type="email"
+                autocomplete="email"
+                label={{.i18n.email}}
+        >
+        </md-outlined-text-field>
+
+        <md-outlined-text-field
+                class="block-field"
+                name="password"
+                type="password"
+                autocomplete="new-password"
+                label={{.i18n.password}}
+        >
+        </md-outlined-text-field>
+
+        {{if eq .use_magic_token true}}
+            <md-outlined-text-field
+                    class="block-field"
+                    name="magic_token"
+                    type="password"
+                    autocomplete="off"
+                    label={{.i18n.magic_token}}
+            >
+            </md-outlined-text-field>
+        {{end}}
+
+        <div class="action-form-buttons">
+            <md-text-button type="button" href="/sign-in">{{.i18n.signin}}</md-text-button>
+            <md-filled-button type="submit">{{.i18n.next}}</md-filled-button>
+        </div>
+    </form>
+</div>
+
+<style>
+    .columns-two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+</style>

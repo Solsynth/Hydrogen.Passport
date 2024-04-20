@@ -1,6 +1,7 @@
 package server
 
 import (
+	"git.solsynth.dev/hydrogen/passport/pkg/utils"
 	"time"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
@@ -72,7 +73,7 @@ func addNotifySubscriber(c *fiber.Ctx) error {
 		DeviceID string `json:"device_id" validate:"required"`
 	}
 
-	if err := BindAndValidate(c, &data); err != nil {
+	if err := utils.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 

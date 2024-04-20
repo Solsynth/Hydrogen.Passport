@@ -1,7 +1,12 @@
 {
   "next": "Next",
+  "email": "Email",
   "username": "Username",
+  "nickname": "Nickname",
   "password": "Password",
+  "magicToken": "Magic Token",
   "signinTitle": "Sign In",
-  "signinCaption": "Sign in to Solarpass to explore entire Solar Network. Explore posts, discover communities, talk with your best friends. All these things in the Solar Network!"
+  "signinCaption": "Sign in to Solarpass to explore entire Solar Network. Explore posts, discover communities, talk with your best friends. All these things in the Solar Network!",
+  "signupTitle": "Sign Up",
+  "signupCaption": "Sign up to create an account on Solarpass, then you can explore the entire Solar Network! Enjoy the next-generation Internet Ecosystem!"
 }

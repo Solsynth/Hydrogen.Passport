@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"git.solsynth.dev/hydrogen/passport/pkg/utils"
 	"strconv"
 	"time"
 
@@ -83,7 +84,7 @@ func editUserinfo(c *fiber.Ctx) error {
 		Birthday    time.Time `json:"birthday"`
 	}
 
-	if err := BindAndValidate(c, &data); err != nil {
+	if err := utils.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 
@@ -133,7 +134,7 @@ func doRegister(c *fiber.Ctx) error {
 		MagicToken string `json:"magic_token"`
 	}
 
-	if err := BindAndValidate(c, &data); err != nil {
+	if err := utils.BindAndValidate(c, &data); err != nil {
 		return err
 	} else if viper.GetBool("use_registration_magic_token") && len(data.MagicToken) <= 0 {
 		return fmt.Errorf("missing magic token in request")
@@ -162,7 +163,7 @@ func doRegisterConfirm(c *fiber.Ctx) error {
 		Code string `json:"code" validate:"required"`
 	}
 
-	if err := BindAndValidate(c, &data); err != nil {
+	if err := utils.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 
