@@ -1,0 +1,34 @@
+<div class="left-part">
+    <img class="logo" src="/favicon.png" width="64" height="64"/>
+
+    <h1 class="title">{{.i18n.title}}</h1>
+    <p class="caption">{{.i18n.caption}}</p>
+</div>
+
+<div class="right-part">
+    <div class="responsive-title-gap"></div>
+
+    <form class="action-form">
+        <md-outlined-text-field
+                class="block-field"
+                name="username"
+                type="text"
+                autocomplete="username"
+                label={{.i18n.username}}
+        >
+        </md-outlined-text-field>
+
+        <md-outlined-text-field
+                class="block-field"
+                name="password"
+                type="password"
+                autocomplete="password"
+                label={{.i18n.password}}
+        >
+        </md-outlined-text-field>
+
+        <div class="action-form-buttons">
+            <md-filled-button type="submit">{{.i18n.next}}</md-filled-button>
+        </div>
+    </form>
+</div>

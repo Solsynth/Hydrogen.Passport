@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/pkg/embed.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/i18n/bundle.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/i18n/embed.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/i18n/locale.en.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/i18n/locale.zh.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/i18n/middleware.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/server/ui/auth.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/server/ui/index.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/views/index.gohtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/views/layouts/auth.gohtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/views/partials/header.gohtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/views/signin.gohtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Identity.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/cmd/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/meta.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/meta.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/startup.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/startup.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/userinfo..go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/userinfo.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/.eslintrc.cjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/.eslintrc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/.prettierrc.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/.vscode/extensions.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/embed.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/env.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/public/favicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/assets/utils.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/components/Copyright.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/components/NotificationList.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/components/UserMenu.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/components/auth/AccountLocator.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/components/auth/CallbackNotify.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/components/auth/FactorApplicator.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/components/auth/FactorPicker.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/layouts/master.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/layouts/user-center.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/main.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/router/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/scripts/request.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/stores/notifications.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/stores/userinfo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/views/auth/claims.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/views/auth/connect.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/views/auth/sign-in.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/views/auth/sign-up.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/views/confirm.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/views/dashboard.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/views/personal-page.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/views/personalize.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/src/views/security.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/tsconfig.app.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/tsconfig.node.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/uno.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/vite.config.ts" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" url="file:///opt/homebrew/opt/go/libexec" />
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="2fLXu43fjlLYVIGNrhGhOgBFq2O" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "Go 构建.Backend.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.automatic.dependencies.download": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "git-widget-placeholder": "refactor/ux",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "/Users/littlesheep/Documents/Projects/Hydrogen/Passport/pkg",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pkg" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Backend" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="Passport" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/pkg/cmd/main.go" />
+      <output_directory value="$PROJECT_DIR$/dist" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-gosdk-33c477a475b1-b97fc8a1e17c-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-241.14494.238" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-GO-241.14494.238" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+</project>

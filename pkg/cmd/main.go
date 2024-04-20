@@ -1,6 +1,8 @@
 package main
 
 import (
+	"git.solsynth.dev/hydrogen/passport/pkg"
+	"git.solsynth.dev/hydrogen/passport/pkg/i18n"
 	"os"
 	"os/signal"
 	"syscall"
@@ -11,7 +13,6 @@ import (
 	"git.solsynth.dev/hydrogen/passport/pkg/services"
 	"github.com/robfig/cron/v3"
 
-	passport "git.solsynth.dev/hydrogen/passport/pkg"
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -34,6 +35,8 @@ func main() {
 	if err := viper.ReadInConfig(); err != nil {
 		log.Panic().Err(err).Msg("An error occurred when loading settings.")
 	}
+
+	i18n.InitInternationalization()
 
 	// Connect to database
 	if err := database.NewGorm(); err != nil {
@@ -72,13 +75,13 @@ func main() {
 	quartz.Start()
 
 	// Messages
-	log.Info().Msgf("Identity v%s is started...", passport.AppVersion)
+	log.Info().Msgf("Passport v%s is started...", pkg.AppVersion)
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 
-	log.Info().Msgf("Identity v%s is quitting...", passport.AppVersion)
+	log.Info().Msgf("Passport v%s is quitting...", pkg.AppVersion)
 
 	quartz.Stop()
 

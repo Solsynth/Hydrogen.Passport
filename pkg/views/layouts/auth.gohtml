@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+{{template "views/partials/header"}}
+
+<body>
+<div class="wrapper-container">
+    <div class="wrapper-card">
+        {{embed}}
+    </div>
+</div>
+</body>
+
+<style>
+    .wrapper-container {
+        width: 100dvw;
+        height: 100dvh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .wrapper-card {
+        width: 100%;
+        max-width: 720px;
+        transition: all .3s;
+        height: auto;
+        overflow: auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        justify-content: center;
+        border-radius: 28px;
+        padding: 56px;
+        margin: 2rem;
+        gap: 0 2rem;
+        background-color: #ebf1fa;
+    }
+
+    .logo {
+        margin-left: -8px;
+        margin-bottom: -8px;
+        display: block;
+    }
+
+    .title {
+        margin-block-start: 0.33em;
+        margin-block-end: 0.33em;
+        font-size: 2.5rem;
+    }
+
+    .caption {
+        font-size: 1rem;
+    }
+
+    .action-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem 0;
+    }
+
+    .action-form-buttons {
+        display: flex;
+        justify-content: end;
+        margin-top: 8px;
+        gap: 4px;
+    }
+
+    .block-field {
+        width: 100%;
+    }
+
+    .responsive-hidden {
+        display: unset;
+    }
+
+    @media (min-width: 768px) {
+        .wrapper-card {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .responsive-title-gap {
+            height: calc(56px + 0.44rem);
+            display: block;
+        }
+    }
+</style>
+</html>

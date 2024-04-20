@@ -1,35 +1,39 @@
 package server
 
 import (
+	"git.solsynth.dev/hydrogen/passport/pkg"
+	"git.solsynth.dev/hydrogen/passport/pkg/i18n"
+	"git.solsynth.dev/hydrogen/passport/pkg/server/ui"
 	"github.com/gofiber/contrib/websocket"
-	"net/http"
-	"strings"
-	"time"
-
-	"git.solsynth.dev/hydrogen/passport/pkg/views"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cache"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/filesystem"
+	"github.com/gofiber/fiber/v2/middleware/favicon"
 	"github.com/gofiber/fiber/v2/middleware/idempotency"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/template/html/v2"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
+	"net/http"
+	"strings"
 )
 
 var A *fiber.App
 
 func NewServer() {
+	templates := html.NewFileSystem(http.FS(pkg.FS), ".gohtml")
+
 	A = fiber.New(fiber.Config{
 		DisableStartupMessage: true,
 		EnableIPValidation:    true,
-		ServerHeader:          "Hydrogen.Identity",
-		AppName:               "Hydrogen.Identity",
+		ServerHeader:          "Hydrogen.Passport",
+		AppName:               "Hydrogen.Passport",
 		ProxyHeader:           fiber.HeaderXForwardedFor,
 		JSONEncoder:           jsoniter.ConfigCompatibleWithStandardLibrary.Marshal,
 		JSONDecoder:           jsoniter.ConfigCompatibleWithStandardLibrary.Unmarshal,
 		EnablePrintRoutes:     viper.GetBool("debug.print_routes"),
+		Views:                 templates,
+		ViewsLayout:           "views/index",
 	})
 
 	A.Use(idempotency.New())
@@ -53,6 +57,8 @@ func NewServer() {
 		Format: "${status} | ${latency} | ${method} ${path}\n",
 		Output: log.Logger,
 	}))
+
+	A.Use(i18n.I18nMiddleware)
 
 	A.Get("/.well-known", getMetadata)
 	A.Get("/.well-known/openid-configuration", getOidcConfiguration)
@@ -120,15 +126,13 @@ func NewServer() {
 		}
 	}
 
-	A.Use("/", cache.New(cache.Config{
-		Expiration:   24 * time.Hour,
-		CacheControl: true,
-	}), filesystem.New(filesystem.Config{
-		Root:         http.FS(views.FS),
-		PathPrefix:   "dist",
-		Index:        "index.html",
-		NotFoundFile: "dist/index.html",
+	A.Use(favicon.New(favicon.Config{
+		FileSystem: http.FS(pkg.FS),
+		File:       "views/favicon.png",
+		URL:        "/favicon.png",
 	}))
+
+	ui.MapUserInterface(A)
 }
 
 func Listen() {
