@@ -87,8 +87,7 @@ func NewServer() {
 			me.Put("/", authMiddleware, editUserinfo)
 			me.Put("/page", authMiddleware, editPersonalPage)
 			me.Get("/events", authMiddleware, getEvents)
-			me.Get("/challenges", authMiddleware, getChallenges)
-			me.Get("/sessions", authMiddleware, getSessions)
+			me.Get("/tickets", authMiddleware, getTickets)
 			me.Delete("/sessions/:sessionId", authMiddleware, killSession)
 
 			me.Post("/confirm", doRegisterConfirm)
@@ -112,9 +111,8 @@ func NewServer() {
 
 		api.Post("/users", doRegister)
 
-		api.Put("/auth", startChallenge)
-		api.Post("/auth", doChallenge)
-		api.Post("/auth/token", exchangeToken)
+		api.Post("/auth", doAuthenticate)
+		api.Post("/auth/token", getToken)
 		api.Post("/auth/factors/:factorId", requestFactorToken)
 
 		api.Get("/auth/o/connect", authMiddleware, preConnect)

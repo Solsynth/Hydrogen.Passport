@@ -6,7 +6,6 @@ import (
 
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
-	"git.solsynth.dev/hydrogen/passport/pkg/security"
 	"github.com/google/uuid"
 	"github.com/samber/lo"
 	"gorm.io/gorm"
@@ -23,14 +22,14 @@ func GetAccount(id uint) (models.Account, error) {
 	return account, nil
 }
 
-func LookupAccount(id string) (models.Account, error) {
+func LookupAccount(probe string) (models.Account, error) {
 	var account models.Account
-	if err := database.C.Where(models.Account{Name: id}).First(&account).Error; err == nil {
+	if err := database.C.Where(models.Account{Name: probe}).First(&account).Error; err == nil {
 		return account, nil
 	}
 
 	var contact models.AccountContact
-	if err := database.C.Where(models.AccountContact{Content: id}).First(&contact).Error; err == nil {
+	if err := database.C.Where(models.AccountContact{Content: probe}).First(&contact).Error; err == nil {
 		if err := database.C.
 			Where(models.Account{
 				BaseModel: models.BaseModel{ID: contact.AccountID},
@@ -52,7 +51,7 @@ func CreateAccount(name, nick, email, password string) (models.Account, error) {
 		Factors: []models.AuthFactor{
 			{
 				Type:   models.PasswordAuthFactor,
-				Secret: security.HashPassword(password),
+				Secret: HashPassword(password),
 			},
 			{
 				Type:   models.EmailPasswordFactor,

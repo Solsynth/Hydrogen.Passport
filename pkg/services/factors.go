@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"github.com/samber/lo"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
@@ -24,7 +25,17 @@ Thank you for your cooperation in helping us maintain the security of your accou
 Best regards,
 %s`
 
-func LookupFactor(id uint) (models.AuthFactor, error) {
+func GetPasswordFactor(userId uint) (models.AuthFactor, error) {
+	var factor models.AuthFactor
+	err := database.C.Where(models.AuthFactor{
+		Type:      models.PasswordAuthFactor,
+		AccountID: userId,
+	}).First(&factor).Error
+
+	return factor, err
+}
+
+func GetFactor(id uint) (models.AuthFactor, error) {
 	var factor models.AuthFactor
 	err := database.C.Where(models.AuthFactor{
 		BaseModel: models.BaseModel{ID: id},
@@ -33,10 +44,10 @@ func LookupFactor(id uint) (models.AuthFactor, error) {
 	return factor, err
 }
 
-func LookupFactorsByUser(uid uint) ([]models.AuthFactor, error) {
+func ListUserFactor(userId uint) ([]models.AuthFactor, error) {
 	var factors []models.AuthFactor
 	err := database.C.Where(models.AuthFactor{
-		AccountID: uid,
+		AccountID: userId,
 	}).Find(&factors).Error
 
 	return factors, err
@@ -67,4 +78,23 @@ func GetFactorCode(factor models.AuthFactor) (bool, error) {
 	default:
 		return false, nil
 	}
+}
+
+func CheckFactor(factor models.AuthFactor, code string) error {
+	switch factor.Type {
+	case models.PasswordAuthFactor:
+		return lo.Ternary(
+			VerifyPassword(code, factor.Secret),
+			nil,
+			fmt.Errorf("invalid password"),
+		)
+	case models.EmailPasswordFactor:
+		return lo.Ternary(
+			code == factor.Secret,
+			nil,
+			fmt.Errorf("invalid verification code"),
+		)
+	}
+
+	return nil
 }

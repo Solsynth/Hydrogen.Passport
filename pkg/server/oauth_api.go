@@ -6,7 +6,6 @@ import (
 
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
-	"git.solsynth.dev/hydrogen/passport/pkg/security"
 	"git.solsynth.dev/hydrogen/passport/pkg/services"
 	"github.com/gofiber/fiber/v2"
 	"github.com/samber/lo"
@@ -29,8 +28,8 @@ func preConnect(c *fiber.Ctx) error {
 
 	user := c.Locals("principal").(models.Account)
 
-	var session models.AuthSession
-	if err := database.C.Where(&models.AuthSession{
+	var session models.AuthTicket
+	if err := database.C.Where(&models.AuthTicket{
 		AccountID: user.ID,
 		ClientID:  &client.ID,
 	}).Where("last_grant_at IS NULL").First(&session).Error; err == nil {
@@ -40,7 +39,7 @@ func preConnect(c *fiber.Ctx) error {
 				"session": nil,
 			})
 		} else {
-			session, err = security.RegenSession(session)
+			session, err = services.RegenSession(session)
 		}
 
 		return c.JSON(fiber.Map{
@@ -73,13 +72,11 @@ func doConnect(c *fiber.Ctx) error {
 	switch response {
 	case "code":
 		// OAuth Authorization Mode
-		session, err := security.GrantOauthSession(
+		ticket, err := services.NewOauthTicket(
 			user,
 			client,
 			strings.Split(scope, " "),
 			[]string{"passport", client.Alias},
-			nil,
-			lo.ToPtr(time.Now()),
 			c.IP(),
 			c.Get(fiber.HeaderUserAgent),
 		)
@@ -89,26 +86,24 @@ func doConnect(c *fiber.Ctx) error {
 		} else {
 			services.AddEvent(user, "oauth.connect", client.Alias, c.IP(), c.Get(fiber.HeaderUserAgent))
 			return c.JSON(fiber.Map{
-				"session":      session,
+				"session":      ticket,
 				"redirect_uri": redirect,
 			})
 		}
 	case "token":
 		// OAuth Implicit Mode
-		session, err := security.GrantOauthSession(
+		ticket, err := services.NewOauthTicket(
 			user,
 			client,
 			strings.Split(scope, " "),
 			[]string{"passport", client.Alias},
-			nil,
-			lo.ToPtr(time.Now()),
 			c.IP(),
 			c.Get(fiber.HeaderUserAgent),
 		)
 
 		if err != nil {
 			return fiber.NewError(fiber.StatusInternalServerError, err.Error())
-		} else if access, refresh, err := security.GetToken(session); err != nil {
+		} else if access, refresh, err := services.GetToken(ticket); err != nil {
 			return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 		} else {
 			services.AddEvent(user, "oauth.connect", client.Alias, c.IP(), c.Get(fiber.HeaderUserAgent))
@@ -116,7 +111,7 @@ func doConnect(c *fiber.Ctx) error {
 				"access_token":  access,
 				"refresh_token": refresh,
 				"redirect_uri":  redirect,
-				"session":       session,
+				"ticket":        ticket,
 			})
 		}
 	default:

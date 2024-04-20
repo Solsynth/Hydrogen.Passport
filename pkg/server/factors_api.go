@@ -8,7 +8,7 @@ import (
 func requestFactorToken(c *fiber.Ctx) error {
 	id, _ := c.ParamsInt("factorId", 0)
 
-	factor, err := services.LookupFactor(uint(id))
+	factor, err := services.GetFactor(uint(id))
 	if err != nil {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	}

@@ -23,9 +23,8 @@ type Account struct {
 	PersonalPage AccountPage      `json:"personal_page"`
 	Contacts     []AccountContact `json:"contacts"`
 
-	Sessions   []AuthSession   `json:"sessions"`
-	Challenges []AuthChallenge `json:"challenges"`
-	Factors    []AuthFactor    `json:"factors"`
+	Sessions []AuthTicket `json:"sessions"`
+	Factors  []AuthFactor `json:"factors"`
 
 	Events      []ActionEvent `json:"events"`
 	MagicTokens []MagicToken  `json:"-" gorm:"foreignKey:AssignTo"`

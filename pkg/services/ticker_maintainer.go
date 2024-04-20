@@ -1,27 +1,14 @@
 package services
 
 import (
-	"time"
-
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 	"go.etcd.io/bbolt"
+	"time"
 )
-
-func LookupSessionWithToken(tokenId string) (models.AuthSession, error) {
-	var session models.AuthSession
-	if err := database.C.
-		Where(models.AuthSession{AccessToken: tokenId}).
-		Or(models.AuthSession{RefreshToken: tokenId}).
-		First(&session).Error; err != nil {
-		return session, err
-	}
-
-	return session, nil
-}
 
 func DoAutoSignoff() {
 	duration := time.Duration(viper.GetInt64("security.auto_signoff_duration")) * time.Second
@@ -31,7 +18,7 @@ func DoAutoSignoff() {
 
 	if tx := database.C.
 		Where("last_grant_at < ?", divider).
-		Delete(&models.AuthSession{}); tx.Error != nil {
+		Delete(&models.AuthTicket{}); tx.Error != nil {
 		log.Error().Err(tx.Error).Msg("An error occurred when running auto sign off...")
 	} else {
 		log.Debug().Int64("affected", tx.RowsAffected).Msg("Auto sign off accomplished.")

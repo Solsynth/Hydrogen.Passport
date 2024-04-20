@@ -114,7 +114,7 @@ func killSession(c *fiber.Ctx) error {
 	user := c.Locals("principal").(models.Account)
 	id, _ := c.ParamsInt("sessionId", 0)
 
-	if err := database.C.Delete(&models.AuthSession{}, &models.AuthSession{
+	if err := database.C.Delete(&models.AuthTicket{}, &models.AuthTicket{
 		BaseModel: models.BaseModel{ID: uint(id)},
 		AccountID: user.ID,
 	}).Error; err != nil {

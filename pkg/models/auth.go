@@ -23,23 +23,30 @@ type AuthFactor struct {
 	AccountID uint    `json:"account_id"`
 }
 
-type AuthSession struct {
+type AuthTicket struct {
 	BaseModel
 
-	Claims       datatypes.JSONSlice[string] `json:"claims"`
-	Audiences    datatypes.JSONSlice[string] `json:"audiences"`
-	Challenge    AuthChallenge               `json:"challenge" gorm:"foreignKey:SessionID"`
-	GrantToken   string                      `json:"grant_token"`
-	AccessToken  string                      `json:"access_token"`
-	RefreshToken string                      `json:"refresh_token"`
-	ExpiredAt    *time.Time                  `json:"expired_at"`
-	AvailableAt  *time.Time                  `json:"available_at"`
-	LastGrantAt  *time.Time                  `json:"last_grant_at"`
-	ClientID     *uint                       `json:"client_id"`
-	AccountID    uint                        `json:"account_id"`
+	Location            string                      `json:"location"`
+	IpAddress           string                      `json:"ip_address"`
+	UserAgent           string                      `json:"user_agent"`
+	RequireMFA          bool                        `json:"require_mfa"`
+	RequireAuthenticate bool                        `json:"require_authenticate"`
+	Claims              datatypes.JSONSlice[string] `json:"claims"`
+	Audiences           datatypes.JSONSlice[string] `json:"audiences"`
+	GrantToken          *string                     `json:"grant_token"`
+	AccessToken         *string                     `json:"access_token"`
+	RefreshToken        *string                     `json:"refresh_token"`
+	ExpiredAt           *time.Time                  `json:"expired_at"`
+	AvailableAt         *time.Time                  `json:"available_at"`
+	LastGrantAt         *time.Time                  `json:"last_grant_at"`
+	ClientID            *uint                       `json:"client_id"`
+	AccountID           uint                        `json:"account_id"`
 }
 
-func (v AuthSession) IsAvailable() error {
+func (v AuthTicket) IsAvailable() error {
+	if v.RequireMFA || v.RequireAuthenticate {
+		return fmt.Errorf("session isn't authenticated yet")
+	}
 	if v.AvailableAt != nil && time.Now().Unix() < v.AvailableAt.Unix() {
 		return fmt.Errorf("session isn't available yet")
 	}
@@ -50,40 +57,8 @@ func (v AuthSession) IsAvailable() error {
 	return nil
 }
 
-type AuthChallengeState = int8
-
-const (
-	ActiveChallengeState = AuthChallengeState(iota)
-	ExpiredChallengeState
-	FinishChallengeState
-)
-
-type AuthChallenge struct {
-	BaseModel
-
-	Location         string                     `json:"location"`
-	IpAddress        string                     `json:"ip_address"`
-	UserAgent        string                     `json:"user_agent"`
-	RiskLevel        int                        `json:"risk_level"`
-	Progress         int                        `json:"progress"`
-	Requirements     int                        `json:"requirements"`
-	BlacklistFactors datatypes.JSONType[[]uint] `json:"blacklist_factors"`
-	State            int8                       `json:"state"`
-	ExpiredAt        time.Time                  `json:"expired_at"`
-	SessionID        *uint                      `json:"session_id"`
-	AccountID        uint                       `json:"account_id"`
-}
-
-func (v AuthChallenge) IsAvailable() error {
-	if time.Now().Unix() > v.ExpiredAt.Unix() {
-		return fmt.Errorf("challenge expired")
-	}
-
-	return nil
-}
-
 type AuthContext struct {
-	Session   AuthSession `json:"session"`
-	Account   Account     `json:"account"`
-	ExpiredAt time.Time   `json:"expired_at"`
+	Ticket    AuthTicket `json:"session"`
+	Account   Account    `json:"account"`
+	ExpiredAt time.Time  `json:"expired_at"`
 }

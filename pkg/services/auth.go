@@ -6,7 +6,6 @@ import (
 
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
-	"git.solsynth.dev/hydrogen/passport/pkg/security"
 	"github.com/gofiber/fiber/v2"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/rs/zerolog/log"
@@ -16,12 +15,12 @@ import (
 const authContextBucket = "AuthContext"
 
 func Authenticate(access, refresh string, depth int) (user models.Account, newAccess, newRefresh string, err error) {
-	var claims security.PayloadClaims
-	claims, err = security.DecodeJwt(access)
+	var claims PayloadClaims
+	claims, err = DecodeJwt(access)
 	if err != nil {
 		if len(refresh) > 0 && depth < 1 {
 			// Auto refresh and retry
-			newAccess, newRefresh, err = security.RefreshToken(refresh)
+			newAccess, newRefresh, err = RefreshToken(refresh)
 			if err == nil {
 				return Authenticate(newAccess, newRefresh, depth+1)
 			}
@@ -74,7 +73,7 @@ func GetAuthContext(jti string) (models.AuthContext, error) {
 	})
 
 	if err == nil && time.Now().Unix() >= ctx.ExpiredAt.Unix() {
-		RevokeAuthContext(jti)
+		_ = RevokeAuthContext(jti)
 
 		return ctx, fmt.Errorf("auth context has been expired")
 	}
@@ -86,7 +85,7 @@ func GrantAuthContext(jti string) (models.AuthContext, error) {
 	var ctx models.AuthContext
 
 	// Query data from primary database
-	session, err := LookupSessionWithToken(jti)
+	session, err := GetTicketWithToken(jti)
 	if err != nil {
 		return ctx, fmt.Errorf("invalid auth session: %v", err)
 	} else if err := session.IsAvailable(); err != nil {
@@ -101,7 +100,7 @@ func GrantAuthContext(jti string) (models.AuthContext, error) {
 	// Every context should expires in some while
 	// Once user update their account info, this will have delay to update
 	ctx = models.AuthContext{
-		Session:   session,
+		Ticket:    session,
 		Account:   user,
 		ExpiredAt: time.Now().Add(5 * time.Minute),
 	}

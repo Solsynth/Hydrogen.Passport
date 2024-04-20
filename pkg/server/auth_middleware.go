@@ -3,14 +3,13 @@ package server
 import (
 	"strings"
 
-	"git.solsynth.dev/hydrogen/passport/pkg/security"
 	"git.solsynth.dev/hydrogen/passport/pkg/services"
 	"github.com/gofiber/fiber/v2"
 )
 
 func authMiddleware(c *fiber.Ctx) error {
 	var token string
-	if cookie := c.Cookies(security.CookieAccessKey); len(cookie) > 0 {
+	if cookie := c.Cookies(services.CookieAccessKey); len(cookie) > 0 {
 		token = cookie
 	}
 	if header := c.Get(fiber.HeaderAuthorization); len(header) > 0 {
@@ -42,10 +41,10 @@ func authFunc(c *fiber.Ctx, overrides ...string) error {
 		}
 	}
 
-	rtk := c.Cookies(security.CookieRefreshKey)
+	rtk := c.Cookies(services.CookieRefreshKey)
 	if user, atk, rtk, err := services.Authenticate(token, rtk, 0); err == nil {
 		if atk != token {
-			security.SetJwtCookieSet(c, atk, rtk)
+			services.SetJwtCookieSet(c, atk, rtk)
 		}
 		c.Locals("principal", user)
 		return nil
