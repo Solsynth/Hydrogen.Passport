@@ -115,9 +115,6 @@ func NewServer() {
 		api.Post("/auth/token", getToken)
 		api.Post("/auth/factors/:factorId", requestFactorToken)
 
-		api.Get("/auth/o/connect", authMiddleware, preConnect)
-		api.Post("/auth/o/connect", authMiddleware, doConnect)
-
 		developers := api.Group("/dev").Name("Developers API")
 		{
 			developers.Post("/notify", notifyUser)

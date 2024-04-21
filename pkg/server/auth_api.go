@@ -117,8 +117,8 @@ func getToken(c *fiber.Ctx) error {
 		ticket, err = services.ActiveTicketWithPassword(ticket, data.Password)
 		if err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("invalid password: %v", err.Error()))
-		} else if ticket.GrantToken == nil {
-			return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("unable to get grant token to get token"))
+		} else if err := ticket.IsAvailable(); err != nil {
+			return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("risk detected: %v", err))
 		}
 		access, refresh, err = services.ExchangeOauthToken(data.ClientID, data.ClientSecret, data.RedirectUri, *ticket.GrantToken)
 		if err != nil {
