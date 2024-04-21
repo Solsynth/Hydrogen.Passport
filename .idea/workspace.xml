@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":truck: Update well known">
-      <change afterPath="$PROJECT_DIR$/pkg/server/ui/directory.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/views/users/directory/userinfo.gohtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/ui/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/ui/index.go" afterDir="false" />
-    </list>
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Others userinfo" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -137,7 +132,8 @@
     <MESSAGE value=":sparkles: Personalize" />
     <MESSAGE value=":sparkles: OAuth" />
     <MESSAGE value=":truck: Update well known" />
-    <option name="LAST_COMMIT_MESSAGE" value=":truck: Update well known" />
+    <MESSAGE value=":sparkles: Others userinfo" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Others userinfo" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
