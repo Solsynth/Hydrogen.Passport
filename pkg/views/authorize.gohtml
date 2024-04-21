@@ -1,0 +1,50 @@
+<div class="left-part">
+    <img class="logo" alt="Logo" src="/favicon.png" width="64" height="64"/>
+
+    <h1 class="title">{{.i18n.title}} {{.client.Name}}</h1>
+    <p class="caption">{{.i18n.caption}}</p>
+</div>
+
+<div class="right-part">
+    <div class="responsive-title-gap "></div>
+
+    <form class="action-form" action="{{.action_url}}" method="POST">
+        <div>
+            <div class="section-title">Description</div>
+            <div class="section-body">{{.client.Description}}</div>
+        </div>
+
+        <div>
+            <div class="section-title">Requested scopes</div>
+            <ul class="section-scope">
+                {{range $_, $element := .scopes}}
+                    <li>
+                        <span class="section-mono">{{$element}}</span>
+                    </li>
+                {{end}}
+            </ul>
+        </div>
+
+        <div class="action-form-buttons">
+            <md-text-button type="button" id="decline-button">{{.i18n.decline}}</md-text-button>
+            <md-filled-button type="submit">{{.i18n.approve}}</md-filled-button>
+        </div>
+    </form>
+</div>
+
+<style>
+    .section-title {
+        font-weight: bold;
+    }
+
+    .section-mono {
+        font-family: "Roboto Mono", monospace;
+    }
+</style>
+
+<script>
+    document.getElementById("decline-button").addEventListener("click", () => {
+        history.back()
+        window.close()
+    })
+</script>

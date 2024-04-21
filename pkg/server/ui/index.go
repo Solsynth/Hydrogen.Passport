@@ -29,11 +29,13 @@ func MapUserInterface(A *fiber.App, authFunc func(c *fiber.Ctx, overrides ...str
 	pages.Get("/sign-in", signinPage)
 	pages.Get("/mfa", mfaRequestPage)
 	pages.Get("/mfa/apply", mfaApplyPage)
+	pages.Get("/authorize", authCheckWare, authorizePage)
 
 	pages.Post("/sign-up", signupAction)
 	pages.Post("/sign-in", signinAction)
 	pages.Post("/mfa", mfaRequestAction)
 	pages.Post("/mfa/apply", mfaApplyAction)
+	pages.Post("/authorize", authCheckWare, authorizeAction)
 
 	pages.Get("/users/me", authCheckWare, selfUserinfoPage)
 	pages.Get("/users/me/personalize", authCheckWare, personalizePage)

@@ -4,17 +4,15 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: User center page">
-      <change afterPath="$PROJECT_DIR$/pkg/server/ui/personalize.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/views/users/personalize.gohtml" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Personalize">
+      <change afterPath="$PROJECT_DIR$/pkg/server/ui/oauth.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/views/authorize.gohtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/i18n/locale.en.json" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/i18n/locale.en.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/i18n/locale.zh.json" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/i18n/locale.zh.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/server/ui/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/ui/index.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/views/layouts/auth.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/views/layouts/auth.gohtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/views/layouts/user-center.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/views/layouts/user-center.gohtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/views/signup.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/views/signup.gohtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/views/users/me.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/views/users/me.gohtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/users/personalize.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/views/users/personalize.gohtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +136,8 @@
     <MESSAGE value=":sparkles: Sign up &amp; Sign in" />
     <MESSAGE value=":sparkles: An entire complete sign in user flow" />
     <MESSAGE value=":sparkles: User center page" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: User center page" />
+    <MESSAGE value=":sparkles: Personalize" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Personalize" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
