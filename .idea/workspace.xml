@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: OAuth">
-      <change beforePath="$PROJECT_DIR$/pkg/server/well_known_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/well_known_api.go" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":truck: Update well known">
+      <change afterPath="$PROJECT_DIR$/pkg/server/ui/directory.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/views/users/directory/userinfo.gohtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/ui/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/ui/index.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +55,7 @@
     "git-widget-placeholder": "refactor/ux",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "/Users/littlesheep/Documents/Projects/Hydrogen/Passport/pkg/views",
+    "last_opened_file_path": "/Users/littlesheep/Documents/Projects/Hydrogen/Passport/pkg/server/ui",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
@@ -68,11 +71,13 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/pkg/views" />
       <recent name="$PROJECT_DIR$/pkg/server/ui" />
+      <recent name="$PROJECT_DIR$/pkg/views/users" />
+      <recent name="$PROJECT_DIR$/pkg/views" />
       <recent name="$PROJECT_DIR$/pkg" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pkg/views/users/directory" />
       <recent name="$PROJECT_DIR$/pkg/views/users" />
       <recent name="$PROJECT_DIR$/pkg/utils" />
       <recent name="$PROJECT_DIR$/pkg/services" />
@@ -131,7 +136,8 @@
     <MESSAGE value=":sparkles: User center page" />
     <MESSAGE value=":sparkles: Personalize" />
     <MESSAGE value=":sparkles: OAuth" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: OAuth" />
+    <MESSAGE value=":truck: Update well known" />
+    <option name="LAST_COMMIT_MESSAGE" value=":truck: Update well known" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

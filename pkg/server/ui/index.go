@@ -37,6 +37,8 @@ func MapUserInterface(A *fiber.App, authFunc func(c *fiber.Ctx, overrides ...str
 	pages.Post("/mfa/apply", mfaApplyAction)
 	pages.Post("/authorize", authCheckWare, authorizeAction)
 
+	pages.Get("/@:account", otherUserinfoPage)
+
 	pages.Get("/users/me", authCheckWare, selfUserinfoPage)
 	pages.Get("/users/me/personalize", authCheckWare, personalizePage)
 
