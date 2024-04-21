@@ -12,7 +12,7 @@ func getTickets(c *fiber.Ctx) error {
 	offset := c.QueryInt("offset", 0)
 
 	var count int64
-	var sessions []models.AuthTicket
+	var tickets []models.AuthTicket
 	if err := database.C.
 		Where(&models.AuthTicket{AccountID: user.ID}).
 		Model(&models.AuthTicket{}).
@@ -25,12 +25,12 @@ func getTickets(c *fiber.Ctx) error {
 		Where(&models.AuthTicket{AccountID: user.ID}).
 		Limit(take).
 		Offset(offset).
-		Find(&sessions).Error; err != nil {
+		Find(&tickets).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 
 	return c.JSON(fiber.Map{
 		"count": count,
-		"data":  sessions,
+		"data":  tickets,
 	})
 }

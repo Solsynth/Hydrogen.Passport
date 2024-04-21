@@ -45,7 +45,7 @@ func NewTicket(user models.Account, ip, ua string) (models.AuthTicket, error) {
 		UserAgent:           ua,
 		RequireMFA:          requireMFA,
 		RequireAuthenticate: true,
-		ExpiredAt:           lo.ToPtr(time.Now().Add(2 * time.Hour)),
+		ExpiredAt:           nil,
 		AvailableAt:         nil,
 		AccountID:           user.ID,
 	}

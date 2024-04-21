@@ -88,7 +88,7 @@ func NewServer() {
 			me.Put("/page", authMiddleware, editPersonalPage)
 			me.Get("/events", authMiddleware, getEvents)
 			me.Get("/tickets", authMiddleware, getTickets)
-			me.Delete("/sessions/:sessionId", authMiddleware, killSession)
+			me.Delete("/tickets/:ticketId", authMiddleware, killSession)
 
 			me.Post("/confirm", doRegisterConfirm)
 

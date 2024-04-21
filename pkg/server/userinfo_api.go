@@ -12,7 +12,7 @@ func getOtherUserinfo(c *fiber.Ctx) error {
 	var account models.Account
 	if err := database.C.
 		Where(&models.Account{Name: alias}).
-		Omit("sessions", "challenges", "factors", "events", "clients", "notifications", "notify_subscribers").
+		Omit("tickets", "challenges", "factors", "events", "clients", "notifications", "notify_subscribers").
 		Preload("Profile").
 		First(&account).Error; err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())

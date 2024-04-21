@@ -14,7 +14,7 @@ func DoAutoSignoff() {
 	duration := time.Duration(viper.GetInt64("security.auto_signoff_duration")) * time.Second
 	divider := time.Now().Add(-duration)
 
-	log.Debug().Time("before", divider).Msg("Now signing off sessions...")
+	log.Debug().Time("before", divider).Msg("Now signing off tickets...")
 
 	if tx := database.C.
 		Where("last_grant_at < ?", divider).

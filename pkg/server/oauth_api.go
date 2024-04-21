@@ -28,29 +28,29 @@ func preConnect(c *fiber.Ctx) error {
 
 	user := c.Locals("principal").(models.Account)
 
-	var session models.AuthTicket
+	var ticket models.AuthTicket
 	if err := database.C.Where(&models.AuthTicket{
 		AccountID: user.ID,
 		ClientID:  &client.ID,
-	}).Where("last_grant_at IS NULL").First(&session).Error; err == nil {
-		if session.ExpiredAt != nil && session.ExpiredAt.Unix() < time.Now().Unix() {
+	}).Where("last_grant_at IS NULL").First(&ticket).Error; err == nil {
+		if ticket.ExpiredAt != nil && ticket.ExpiredAt.Unix() < time.Now().Unix() {
 			return c.JSON(fiber.Map{
-				"client":  client,
-				"session": nil,
+				"client": client,
+				"ticket": nil,
 			})
 		} else {
-			session, err = services.RegenSession(session)
+			ticket, err = services.RegenSession(ticket)
 		}
 
 		return c.JSON(fiber.Map{
-			"client":  client,
-			"session": session,
+			"client": client,
+			"ticket": ticket,
 		})
 	}
 
 	return c.JSON(fiber.Map{
-		"client":  client,
-		"session": nil,
+		"client": client,
+		"ticket": nil,
 	})
 }
 
@@ -86,7 +86,7 @@ func doConnect(c *fiber.Ctx) error {
 		} else {
 			services.AddEvent(user, "oauth.connect", client.Alias, c.IP(), c.Get(fiber.HeaderUserAgent))
 			return c.JSON(fiber.Map{
-				"session":      ticket,
+				"ticket":       ticket,
 				"redirect_uri": redirect,
 			})
 		}

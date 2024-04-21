@@ -45,20 +45,20 @@ type AuthTicket struct {
 
 func (v AuthTicket) IsAvailable() error {
 	if v.RequireMFA || v.RequireAuthenticate {
-		return fmt.Errorf("session isn't authenticated yet")
+		return fmt.Errorf("ticket isn't authenticated yet")
 	}
 	if v.AvailableAt != nil && time.Now().Unix() < v.AvailableAt.Unix() {
-		return fmt.Errorf("session isn't available yet")
+		return fmt.Errorf("ticket isn't available yet")
 	}
 	if v.ExpiredAt != nil && time.Now().Unix() > v.ExpiredAt.Unix() {
-		return fmt.Errorf("session expired")
+		return fmt.Errorf("ticket expired")
 	}
 
 	return nil
 }
 
 type AuthContext struct {
-	Ticket    AuthTicket `json:"session"`
+	Ticket    AuthTicket `json:"ticket"`
 	Account   Account    `json:"account"`
 	ExpiredAt time.Time  `json:"expired_at"`
 }

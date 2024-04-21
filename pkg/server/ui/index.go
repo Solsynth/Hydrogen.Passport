@@ -12,12 +12,10 @@ func MapUserInterface(A *fiber.App, authFunc func(c *fiber.Ctx, overrides ...str
 		if cookie := c.Cookies(services.CookieAccessKey); len(cookie) > 0 {
 			token = cookie
 		}
-		fmt.Println(token)
 
 		c.Locals("token", token)
 
 		if err := authFunc(c); err != nil {
-			fmt.Println(err)
 			uri := c.Request().URI().FullURI()
 			return c.Redirect(fmt.Sprintf("/sign-in?redirect_uri=%s", string(uri)))
 		} else {

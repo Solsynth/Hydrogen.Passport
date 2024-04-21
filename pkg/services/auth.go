@@ -85,14 +85,14 @@ func GrantAuthContext(jti string) (models.AuthContext, error) {
 	var ctx models.AuthContext
 
 	// Query data from primary database
-	session, err := GetTicketWithToken(jti)
+	ticket, err := GetTicketWithToken(jti)
 	if err != nil {
-		return ctx, fmt.Errorf("invalid auth session: %v", err)
-	} else if err := session.IsAvailable(); err != nil {
-		return ctx, fmt.Errorf("unavailable auth session: %v", err)
+		return ctx, fmt.Errorf("invalid auth ticket: %v", err)
+	} else if err := ticket.IsAvailable(); err != nil {
+		return ctx, fmt.Errorf("unavailable auth ticket: %v", err)
 	}
 
-	user, err := GetAccount(session.AccountID)
+	user, err := GetAccount(ticket.AccountID)
 	if err != nil {
 		return ctx, fmt.Errorf("invalid account: %v", err)
 	}
@@ -100,7 +100,7 @@ func GrantAuthContext(jti string) (models.AuthContext, error) {
 	// Every context should expires in some while
 	// Once user update their account info, this will have delay to update
 	ctx = models.AuthContext{
-		Ticket:    session,
+		Ticket:    ticket,
 		Account:   user,
 		ExpiredAt: time.Now().Add(5 * time.Minute),
 	}

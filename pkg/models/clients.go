@@ -11,7 +11,7 @@ type ThirdClient struct {
 	Secret        string                      `json:"secret"`
 	Urls          datatypes.JSONSlice[string] `json:"urls"`
 	Callbacks     datatypes.JSONSlice[string] `json:"callbacks"`
-	Sessions      []AuthTicket                `json:"sessions" gorm:"foreignKey:ClientID"`
+	Sessions      []AuthTicket                `json:"tickets" gorm:"foreignKey:ClientID"`
 	Notifications []Notification              `json:"notifications" gorm:"foreignKey:SenderID"`
 	IsDraft       bool                        `json:"is_draft"`
 	AccountID     *uint                       `json:"account_id"`

@@ -113,7 +113,7 @@ func editUserinfo(c *fiber.Ctx) error {
 
 func killSession(c *fiber.Ctx) error {
 	user := c.Locals("principal").(models.Account)
-	id, _ := c.ParamsInt("sessionId", 0)
+	id, _ := c.ParamsInt("ticketId", 0)
 
 	if err := database.C.Delete(&models.AuthTicket{}, &models.AuthTicket{
 		BaseModel: models.BaseModel{ID: uint(id)},
