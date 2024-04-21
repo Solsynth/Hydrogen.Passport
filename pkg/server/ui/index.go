@@ -2,6 +2,7 @@ package ui
 
 import (
 	"fmt"
+
 	"git.solsynth.dev/hydrogen/passport/pkg/services"
 	"github.com/gofiber/fiber/v2"
 )
@@ -24,6 +25,10 @@ func MapUserInterface(A *fiber.App, authFunc func(c *fiber.Ctx, overrides ...str
 	}
 
 	pages := A.Group("/").Name("Pages")
+
+	pages.Get("/", func(c *fiber.Ctx) error {
+		return c.Redirect("/users/me")
+	})
 
 	pages.Get("/sign-up", signupPage)
 	pages.Get("/sign-in", signinPage)
