@@ -4,30 +4,17 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: An entire complete sign in user flow">
-      <change afterPath="$PROJECT_DIR$/pkg/views/layouts/user-center.gohtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/views/users/me.gohtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Passport.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Passport.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: User center page">
+      <change afterPath="$PROJECT_DIR$/pkg/server/ui/personalize.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/views/users/personalize.gohtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/models/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/models/accounts.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/models/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/models/auth.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/models/clients.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/models/clients.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/accounts_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/accounts_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/oauth_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/oauth_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/security_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/security_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/startup.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/startup.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/ui/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/ui/accounts.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/i18n/locale.en.json" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/i18n/locale.en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/i18n/locale.zh.json" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/i18n/locale.zh.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/server/ui/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/ui/index.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/userinfo_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/userinfo_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/auth.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/ticker_maintainer.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/ticker_maintainer.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/ticket.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/ticket.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/views/layouts/auth.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/views/layouts/auth.gohtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/views/partials/header.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/views/partials/header.gohtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/views/users/me/index.gohtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/layouts/user-center.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/views/layouts/user-center.gohtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/signup.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/views/signup.gohtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/users/me.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/views/users/me.gohtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,6 +87,17 @@
       <recent name="$PROJECT_DIR$/pkg/services" />
     </key>
   </component>
+  <component name="RunAnythingCache">
+    <myKeys>
+      <visibility group="Grunt" flag="true" />
+      <visibility group="Gulp" flag="true" />
+      <visibility group="HTTP 请求" flag="true" />
+      <visibility group="Recent projects" flag="true" />
+      <visibility group="Run configurations" flag="true" />
+      <visibility group="npm" flag="true" />
+      <visibility group="yarn" flag="true" />
+    </myKeys>
+  </component>
   <component name="RunManager">
     <configuration name="Backend" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="Passport" />
@@ -139,7 +137,8 @@
     <MESSAGE value=":sparkles: New ticket ways" />
     <MESSAGE value=":sparkles: Sign up &amp; Sign in" />
     <MESSAGE value=":sparkles: An entire complete sign in user flow" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: An entire complete sign in user flow" />
+    <MESSAGE value=":sparkles: User center page" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: User center page" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

@@ -5,6 +5,8 @@
   "nickname": "昵称",
   "password": "密码",
   "unknown": "未知",
+  "apply": "应用",
+  "back": "返回",
   "magicToken": "魔法令牌",
   "signinTitle": "登陆",
   "signinCaption": "登陆 Solarpass 以探索整个 Solar Network，浏览帖子、探索社区、和你的好朋友聊八卦，一切尽在 Solar Network!",

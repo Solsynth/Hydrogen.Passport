@@ -3,11 +3,14 @@
 <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.1.2/dist/typography.min.css">
 <link rel="stylesheet" href="https://unpkg.com/tailwindcss@1.4.6/dist/utilities.min.css">
 
-<div class="left-part name-card">
-    {{$bannerLength := len .userinfo.Banner}} {{if gt $bannerLength 0}}
+<div class="banner-container">
+    {{if gt (len .userinfo.Banner) 0}}
+        <img src="/api/avatar/{{.userinfo.Banner}}" alt="Banner" class="banner">
     {{end}}
+</div>
 
-    {{$avatarLength := len .userinfo.Avatar}} {{if gt $avatarLength 0}}
+<div class="left-part name-card">
+    {{if gt (len .userinfo.Avatar) 0}}
         <img src="/api/avatar/{{.userinfo.Avatar}}" alt="Avatar" class="avatar">
     {{else}}
         <div class="avatar empty">
@@ -19,7 +22,7 @@
         <h2 class="username">{{.userinfo.Nick}}</h2>
         <h6 class="nickname">@{{.userinfo.Name}}</h6>
     </div>
-    {{$descriptionLength := len .userinfo.Description}} {{if gt $descriptionLength 0}}
+    {{if gt (len .userinfo.Description) 0}}
         <div class="description">{{.userinfo.Description}}</div>
     {{else}}
         <div class="description empty">No description yet.</div>
@@ -36,7 +39,7 @@
             Personalize
             <span slot="icon" class="material-symbols-outlined">palette</span>
         </md-filled-tonal-button>
-        <md-filled-tonal-button class="action" href="/users/me/security">
+        <md-filled-tonal-button disabled class="action" href="/users/me/security">
             Security
             <span slot="icon" class="material-symbols-outlined">security</span>
         </md-filled-tonal-button>
@@ -64,6 +67,18 @@
         align-items: center;
         background-color: var(--md-sys-color-secondary);
         color: var(--md-sys-color-on-secondary);
+    }
+
+    .banner-container {
+        grid-column: span 2;
+    }
+
+    .banner {
+        display: block;
+        object-fit: cover;
+        border-radius: 28px;
+        height: 180px;
+        width: 100%;
     }
 
     .name-card {

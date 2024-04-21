@@ -5,6 +5,8 @@
   "nickname": "Nickname",
   "password": "Password",
   "unknown": "Unknown",
+  "apply": "Apply",
+  "back": "Back",
   "magicToken": "Magic Token",
   "signinTitle": "Sign In",
   "signinCaption": "Sign in to Solarpass to explore entire Solar Network. Explore posts, discover communities, talk with your best friends. All these things in the Solar Network!",

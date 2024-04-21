@@ -1,0 +1,138 @@
+<div class="left-part">
+    <img class="logo" alt="Logo" src="/favicon.png" width="64" height="64"/>
+
+    <h1 class="title">Personalize</h1>
+    <p class="caption">Personalize your account, and make us provide better service for you.</p>
+</div>
+
+<div class="right-part">
+    <div class="responsive-title-gap"></div>
+
+    <div class="action-form">
+        <div class="input-label">Avatar</div>
+        <input
+                id="avatar-input"
+                class="block-field"
+                name="avatar"
+                type="file"
+                accept="image/*"
+                placeholder="Avatar"
+        >
+
+        <div class="input-label">Banner</div>
+        <input
+                id="banner-input"
+                class="block-field"
+                name="banner"
+                type="file"
+                accept="image/*"
+                placeholder="Banner"
+        >
+    </div>
+
+    <hr class="divider"/>
+
+    <form class="action-form" action="/users/me/personalize" method="POST">
+        <div class="columns-two">
+            <md-outlined-text-field
+                    class="block-field"
+                    name="name"
+                    type="text"
+                    autocomplete="username"
+                    label="Username"
+                    disabled
+                    value="{{.userinfo.Name}}"
+            >
+            </md-outlined-text-field>
+
+            <md-outlined-text-field
+                    class="block-field"
+                    name="nick"
+                    type="text"
+                    autocomplete="nickname"
+                    label="Nickname"
+                    value="{{.userinfo.Nick}}"
+            >
+            </md-outlined-text-field>
+        </div>
+
+        <div class="columns-two">
+            <md-outlined-text-field
+                    class="block-field"
+                    name="first_name"
+                    type="text"
+                    autocomplete="given_name"
+                    label="First Name"
+                    value="{{if gt (len .userinfo.Profile.FirstName) 0}}{{.userinfo.Profile.FirstName}}{{end}}"
+            >
+            </md-outlined-text-field>
+
+            <md-outlined-text-field
+                    class="block-field"
+                    name="last_name"
+                    type="text"
+                    autocomplete="family_name"
+                    label="Last Name"
+                    value="{{if gt (len .userinfo.Profile.LastName) 0}}{{.userinfo.Profile.LastName}}{{end}}"
+            >
+            </md-outlined-text-field>
+        </div>
+
+        <md-outlined-text-field
+                class="block-field"
+                name="birthday"
+                type="date"
+                label="Birthday"
+                value="{{if ne .birthday nil}}{{.birthday}}{{end}}"
+        >
+        </md-outlined-text-field>
+
+        <md-outlined-text-field
+                class="block-field"
+                name="description"
+                type="textarea"
+                autocomplete="off"
+                label="Description"
+                value="{{if gt (len .userinfo.Description) 0}}{{.userinfo.Description}}{{end}}"
+                style="resize: vertical"
+        >
+        </md-outlined-text-field>
+
+        <div class="action-form-buttons">
+            <md-text-button type="button" href="/users/me">{{.i18n.back}}</md-text-button>
+            <md-filled-button type="submit">{{.i18n.apply}}</md-filled-button>
+        </div>
+    </form>
+</div>
+
+<style>
+    .input-label {
+        font-size: 14px;
+        text-align: left;
+    }
+</style>
+
+<script>
+    document.getElementById("avatar-input").addEventListener("input", (evt) => {
+        if (!evt.target.files) return
+        const data = new FormData();
+        data.set("avatar", evt.target.files[0])
+        fetch("/api/users/me/avatar", {
+            method: "PUT",
+            body: data,
+        }).then(() => {
+            location.href = "/users/me"
+        })
+    })
+    document.getElementById("banner-input").addEventListener("input", (evt) => {
+        if (!evt.target.files) return
+        const data = new FormData();
+        data.set("banner", evt.target.files[0])
+        fetch("/api/users/me/banner", {
+            method: "PUT",
+            body: data,
+        }).then(() => {
+            location.href = "/users/me"
+        })
+    })
+</script>
