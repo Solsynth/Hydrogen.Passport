@@ -3,10 +3,24 @@ package services
 import (
 	"errors"
 	"fmt"
+
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
 	"gorm.io/gorm"
 )
+
+func ListAllFriend(anyside models.Account) ([]models.AccountFriendship, error) {
+	var relationships []models.AccountFriendship
+	if err := database.C.
+		Where("account_id = ? OR related_id = ?", anyside.ID, anyside.ID).
+		Preload("Account").
+		Preload("Related").
+		Find(&relationships).Error; err != nil {
+		return relationships, err
+	}
+
+	return relationships, nil
+}
 
 func ListFriend(anyside models.Account, status models.FriendshipStatus) ([]models.AccountFriendship, error) {
 	var relationships []models.AccountFriendship

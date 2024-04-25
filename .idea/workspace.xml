@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Bug fixes of design">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Bug fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/auth_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/auth_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/oauth_api.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/startup.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/startup.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/views/users/directory/userinfo.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/views/users/directory/userinfo.gohtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/views/users/me.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/views/users/me.gohtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +137,8 @@
     <MESSAGE value=":sparkles: Others userinfo" />
     <MESSAGE value=":lipstick: Fix ui design" />
     <MESSAGE value=":bug: Bug fixes of design" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Bug fixes of design" />
+    <MESSAGE value=":sparkles: Bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Bug fixes" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

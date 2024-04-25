@@ -1,6 +1,9 @@
 package server
 
 import (
+	"net/http"
+	"strings"
+
 	"git.solsynth.dev/hydrogen/passport/pkg"
 	"git.solsynth.dev/hydrogen/passport/pkg/i18n"
 	"git.solsynth.dev/hydrogen/passport/pkg/server/ui"
@@ -14,8 +17,6 @@ import (
 	jsoniter "github.com/json-iterator/go"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
-	"net/http"
-	"strings"
 )
 
 var A *fiber.App

@@ -9,13 +9,21 @@ import (
 
 func listFriendship(c *fiber.Ctx) error {
 	user := c.Locals("principal").(models.Account)
-	status := c.QueryInt("status", int(models.FriendshipActive))
+	status := c.QueryInt("status", -1)
 
-	if friends, err := services.ListFriend(user, models.FriendshipStatus(status)); err != nil {
-		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	var err error
+	var friends []models.AccountFriendship
+	if status < 0 {
+		if friends, err = services.ListAllFriend(user); err != nil {
+			return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+		}
 	} else {
-		return c.JSON(friends)
+		if friends, err = services.ListFriend(user, models.FriendshipStatus(status)); err != nil {
+			return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+		}
 	}
+
+	return c.JSON(friends)
 }
 
 func getFriendship(c *fiber.Ctx) error {
