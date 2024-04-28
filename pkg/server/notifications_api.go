@@ -48,17 +48,37 @@ func markNotificationRead(c *fiber.Ctx) error {
 	user := c.Locals("principal").(models.Account)
 	id, _ := c.ParamsInt("notificationId", 0)
 
-	var data models.Notification
+	var notify models.Notification
 	if err := database.C.Where(&models.Notification{
 		BaseModel:   models.BaseModel{ID: uint(id)},
 		RecipientID: user.ID,
-	}).First(&data).Error; err != nil {
+	}).First(&notify).Error; err != nil {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	}
 
-	data.ReadAt = lo.ToPtr(time.Now())
+	notify.ReadAt = lo.ToPtr(time.Now())
 
-	if err := database.C.Save(&data).Error; err != nil {
+	if err := database.C.Save(&notify).Error; err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	} else {
+		return c.SendStatus(fiber.StatusOK)
+	}
+}
+
+func markNotificationReadBatch(c *fiber.Ctx) error {
+	user := c.Locals("principal").(models.Account)
+
+	var data struct {
+		MessageIDs []uint `json:"messages"`
+	}
+
+	if err := utils.BindAndValidate(c, &data); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	}
+
+	if err := database.C.Model(&models.Notification{}).
+		Where("recipient_id = ? AND id IN ?", user.ID, data.MessageIDs).
+		Updates(&models.Notification{ReadAt: lo.ToPtr(time.Now())}).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	} else {
 		return c.SendStatus(fiber.StatusOK)

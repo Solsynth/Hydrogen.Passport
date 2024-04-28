@@ -71,8 +71,9 @@ func NewServer() {
 		notify := api.Group("/notifications").Name("Notifications API")
 		{
 			notify.Get("/", authMiddleware, getNotifications)
-			notify.Put("/:notificationId/read", authMiddleware, markNotificationRead)
 			notify.Post("/subscribe", authMiddleware, addNotifySubscriber)
+			notify.Put("/batch/read", authMiddleware, markNotificationReadBatch)
+			notify.Put("/:notificationId/read", authMiddleware, markNotificationRead)
 
 			notify.Get("/listen", authMiddleware, websocket.New(listenNotifications))
 		}
