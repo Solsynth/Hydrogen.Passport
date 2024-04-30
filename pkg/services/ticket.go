@@ -12,11 +12,21 @@ import (
 )
 
 func DetectRisk(user models.Account, ip, ua string) bool {
+	var availableFactor int64
+	if err := database.C.
+		Where(models.AuthFactor{AccountID: user.ID}).
+		Where("type != ?", models.PasswordAuthFactor).
+		Model(models.AuthFactor{}).
+		Where(&availableFactor); err != nil || availableFactor <= 0 {
+		return false
+	}
+
 	var secureFactor int64
-	if err := database.C.Where(models.AuthTicket{
-		AccountID: user.ID,
-		IpAddress: ip,
-	}).Model(models.AuthTicket{}).Count(&secureFactor).Error; err == nil {
+	if err := database.C.
+		Where(models.AuthTicket{AccountID: user.ID, IpAddress: ip}).
+		Where("available_at IS NOT NULL").
+		Model(models.AuthTicket{}).
+		Count(&secureFactor).Error; err == nil {
 		if secureFactor >= 1 {
 			return false
 		}
