@@ -28,7 +28,7 @@ func listCommunityRealm(c *fiber.Ctx) error {
 
 func listOwnedRealm(c *fiber.Ctx) error {
 	user := c.Locals("principal").(models.Account)
-	if realms, err := services.ListRealmWithUser(user); err != nil {
+	if realms, err := services.ListOwnedRealm(user); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else {
 		return c.JSON(realms)
@@ -37,7 +37,7 @@ func listOwnedRealm(c *fiber.Ctx) error {
 
 func listAvailableRealm(c *fiber.Ctx) error {
 	user := c.Locals("principal").(models.Account)
-	if realms, err := services.ListRealmIsAvailable(user); err != nil {
+	if realms, err := services.ListAvailableRealm(user); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else {
 		return c.JSON(realms)

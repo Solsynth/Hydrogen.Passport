@@ -18,7 +18,7 @@ func ListCommunityRealm() ([]models.Realm, error) {
 	return realms, nil
 }
 
-func ListRealmWithUser(user models.Account) ([]models.Realm, error) {
+func ListOwnedRealm(user models.Account) ([]models.Realm, error) {
 	var realms []models.Realm
 	if err := database.C.Where(&models.Realm{AccountID: user.ID}).Find(&realms).Error; err != nil {
 		return realms, err
@@ -27,7 +27,7 @@ func ListRealmWithUser(user models.Account) ([]models.Realm, error) {
 	return realms, nil
 }
 
-func ListRealmIsAvailable(user models.Account) ([]models.Realm, error) {
+func ListAvailableRealm(user models.Account) ([]models.Realm, error) {
 	var realms []models.Realm
 	var members []models.RealmMember
 	if err := database.C.Where(&models.RealmMember{

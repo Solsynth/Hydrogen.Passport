@@ -13,6 +13,7 @@ type Server struct {
 	proto.UnimplementedAuthServer
 	proto.UnimplementedNotifyServer
 	proto.UnimplementedFriendshipsServer
+	proto.UnimplementedRealmsServer
 }
 
 func StartGrpc() error {
@@ -26,6 +27,7 @@ func StartGrpc() error {
 	proto.RegisterAuthServer(server, &Server{})
 	proto.RegisterNotifyServer(server, &Server{})
 	proto.RegisterFriendshipsServer(server, &Server{})
+	proto.RegisterRealmsServer(server, &Server{})
 
 	reflection.Register(server)
 
