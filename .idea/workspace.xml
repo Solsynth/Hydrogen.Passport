@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Batch mark notify as read API">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Bug fixes of risk detection&#10;:lipstick: Optimized UI">
+      <change afterPath="$PROJECT_DIR$/pkg/models/realms.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/server/realm_members_api.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/server/realms_api.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/services/realms.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/auth_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/auth_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/ticket.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/ticket.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/views/partials/header.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/views/partials/header.gohtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/views/users/personalize.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/views/users/personalize.gohtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/database/migrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/database/migrator.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/startup.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/startup.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,7 +145,8 @@
     <MESSAGE value=":bug: Bug fixes of design" />
     <MESSAGE value=":sparkles: Bug fixes" />
     <MESSAGE value=":sparkles: Batch mark notify as read API" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Batch mark notify as read API" />
+    <MESSAGE value=":bug: Bug fixes of risk detection&#10;:lipstick: Optimized UI" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Bug fixes of risk detection&#10;:lipstick: Optimized UI" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

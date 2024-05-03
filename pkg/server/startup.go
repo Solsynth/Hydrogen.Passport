@@ -117,6 +117,21 @@ func NewServer() {
 		api.Post("/auth/token", getToken)
 		api.Post("/auth/factors/:factorId", requestFactorToken)
 
+		realms := api.Group("/realms").Name("Realms API")
+		{
+			realms.Get("/", listCommunityRealm)
+			realms.Get("/me", authMiddleware, listOwnedRealm)
+			realms.Get("/me/available", authMiddleware, listAvailableRealm)
+			realms.Get("/:realm", getRealm)
+			realms.Get("/:realm/members", listRealmMembers)
+			realms.Post("/", authMiddleware, createRealm)
+			realms.Put("/:realmId", authMiddleware, editRealm)
+			realms.Delete("/:realmId", authMiddleware, deleteRealm)
+			realms.Post("/:realm/members", authMiddleware, addRealmMember)
+			realms.Delete("/:realm/members", authMiddleware, removeRealmMember)
+			realms.Delete("/:realm/members/me", authMiddleware, leaveRealm)
+		}
+
 		developers := api.Group("/dev").Name("Developers API")
 		{
 			developers.Post("/notify", notifyUser)

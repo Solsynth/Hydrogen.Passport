@@ -12,6 +12,8 @@ var DatabaseAutoActionRange = []any{
 	&models.AccountPage{},
 	&models.AccountContact{},
 	&models.AccountFriendship{},
+	&models.Realm{},
+	&models.RealmMember{},
 	&models.AuthTicket{},
 	&models.MagicToken{},
 	&models.ThirdClient{},

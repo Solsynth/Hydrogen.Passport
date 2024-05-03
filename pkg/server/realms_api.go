@@ -1,0 +1,135 @@
+package server
+
+import (
+	"git.solsynth.dev/hydrogen/passport/pkg/database"
+	"git.solsynth.dev/hydrogen/passport/pkg/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/services"
+	"git.solsynth.dev/hydrogen/passport/pkg/utils"
+	"github.com/gofiber/fiber/v2"
+)
+
+func getRealm(c *fiber.Ctx) error {
+	alias := c.Params("realm")
+	if realm, err := services.GetRealmWithAlias(alias); err != nil {
+		return fiber.NewError(fiber.StatusNotFound, err.Error())
+	} else {
+		return c.JSON(realm)
+	}
+}
+
+func listCommunityRealm(c *fiber.Ctx) error {
+	realms, err := services.ListCommunityRealm()
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(realms)
+}
+
+func listOwnedRealm(c *fiber.Ctx) error {
+	user := c.Locals("principal").(models.Account)
+	if realms, err := services.ListRealmWithUser(user); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	} else {
+		return c.JSON(realms)
+	}
+}
+
+func listAvailableRealm(c *fiber.Ctx) error {
+	user := c.Locals("principal").(models.Account)
+	if realms, err := services.ListRealmIsAvailable(user); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	} else {
+		return c.JSON(realms)
+	}
+}
+
+func createRealm(c *fiber.Ctx) error {
+	user := c.Locals("principal").(models.Account)
+	if user.PowerLevel < 10 {
+		return fiber.NewError(fiber.StatusForbidden, "require power level 10 to create realms")
+	}
+
+	var data struct {
+		Alias       string `json:"alias" validate:"required,lowercase,min=4,max=32"`
+		Name        string `json:"name" validate:"required"`
+		Description string `json:"description"`
+		IsPublic    bool   `json:"is_public"`
+		IsCommunity bool   `json:"is_community"`
+	}
+
+	if err := utils.BindAndValidate(c, &data); err != nil {
+		return err
+	}
+
+	realm, err := services.NewRealm(models.Realm{
+		Alias:       data.Alias,
+		Name:        data.Name,
+		Description: data.Description,
+		IsPublic:    data.IsPublic,
+		IsCommunity: data.IsCommunity,
+		AccountID:   user.ID,
+	})
+
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	}
+	return c.JSON(realm)
+}
+
+func editRealm(c *fiber.Ctx) error {
+	user := c.Locals("principal").(models.Account)
+	id, _ := c.ParamsInt("realmId", 0)
+
+	var data struct {
+		Alias       string `json:"alias" validate:"required,lowercase,min=4,max=32"`
+		Name        string `json:"name" validate:"required"`
+		Description string `json:"description"`
+		IsPublic    bool   `json:"is_public"`
+		IsCommunity bool   `json:"is_community"`
+	}
+
+	if err := utils.BindAndValidate(c, &data); err != nil {
+		return err
+	}
+
+	var realm models.Realm
+	if err := database.C.Where(&models.Realm{
+		BaseModel: models.BaseModel{ID: uint(id)},
+		AccountID: user.ID,
+	}).First(&realm).Error; err != nil {
+		return fiber.NewError(fiber.StatusNotFound, err.Error())
+	}
+
+	realm.Alias = data.Alias
+	realm.Name = data.Name
+	realm.Description = data.Description
+	realm.IsPublic = data.IsPublic
+	realm.IsCommunity = data.IsCommunity
+
+	realm, err := services.EditRealm(realm)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(realm)
+}
+
+func deleteRealm(c *fiber.Ctx) error {
+	user := c.Locals("principal").(models.Account)
+	id, _ := c.ParamsInt("realmId", 0)
+
+	var realm models.Realm
+	if err := database.C.Where(&models.Realm{
+		BaseModel: models.BaseModel{ID: uint(id)},
+		AccountID: user.ID,
+	}).First(&realm).Error; err != nil {
+		return fiber.NewError(fiber.StatusNotFound, err.Error())
+	}
+
+	if err := services.DeleteRealm(realm); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	}
+
+	return c.SendStatus(fiber.StatusOK)
+}
