@@ -19,9 +19,10 @@ type Account struct {
 	ConfirmedAt *time.Time `json:"confirmed_at"`
 	PowerLevel  int        `json:"power_level"`
 
-	Profile      AccountProfile   `json:"profile"`
-	PersonalPage AccountPage      `json:"personal_page"`
-	Contacts     []AccountContact `json:"contacts"`
+	Profile         AccountProfile   `json:"profile"`
+	PersonalPage    AccountPage      `json:"personal_page"`
+	Contacts        []AccountContact `json:"contacts"`
+	RealmIdentities []RealmMember    `json:"realm_identities"`
 
 	Tickets []AuthTicket `json:"tickets"`
 	Factors []AuthFactor `json:"factors"`
