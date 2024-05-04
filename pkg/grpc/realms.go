@@ -20,6 +20,7 @@ func (v *Server) ListCommunityRealm(ctx context.Context, empty *emptypb.Empty) (
 	return &proto.ListRealmResponse{
 		Data: lo.Map(realms, func(item models.Realm, index int) *proto.RealmResponse {
 			return &proto.RealmResponse{
+				Id:          uint64(item.ID),
 				Alias:       item.Alias,
 				Name:        item.Name,
 				Description: item.Description,
@@ -43,6 +44,7 @@ func (v *Server) ListAvailableRealm(ctx context.Context, request *proto.RealmLoo
 	return &proto.ListRealmResponse{
 		Data: lo.Map(realms, func(item models.Realm, index int) *proto.RealmResponse {
 			return &proto.RealmResponse{
+				Id:          uint64(item.ID),
 				Alias:       item.Alias,
 				Name:        item.Name,
 				Description: item.Description,
@@ -66,6 +68,7 @@ func (v *Server) ListOwnedRealm(ctx context.Context, request *proto.RealmLookupW
 	return &proto.ListRealmResponse{
 		Data: lo.Map(realms, func(item models.Realm, index int) *proto.RealmResponse {
 			return &proto.RealmResponse{
+				Id:          uint64(item.ID),
 				Alias:       item.Alias,
 				Name:        item.Name,
 				Description: item.Description,
@@ -98,6 +101,7 @@ func (v *Server) GetRealm(ctx context.Context, request *proto.RealmLookupRequest
 	}
 
 	return &proto.RealmResponse{
+		Id:          uint64(realm.ID),
 		Alias:       realm.Alias,
 		Name:        realm.Name,
 		Description: realm.Description,

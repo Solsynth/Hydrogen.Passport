@@ -27,11 +27,12 @@ message RealmLookupRequest {
 }
 
 message RealmResponse {
-  string alias = 1;
-  string name = 2;
-  string description = 3;
-  bool is_public = 4;
-  bool is_community = 5;
+  uint64 id = 1;
+  string alias = 2;
+  string name = 3;
+  string description = 4;
+  bool is_public = 5;
+  bool is_community = 6;
 }
 
 message ListRealmResponse {

@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Realm Member GRPC">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Bug fixes on forgot add realm members for account">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/models/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/models/accounts.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/proto/realms.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/grpc/proto/realms.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/proto/realms.proto" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/grpc/proto/realms.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/realms.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/grpc/realms.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,7 +146,8 @@
     <MESSAGE value=":sparkles: Realm in passport" />
     <MESSAGE value=":sparkles: Realm GRPC" />
     <MESSAGE value=":sparkles: Realm Member GRPC" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Realm Member GRPC" />
+    <MESSAGE value=":bug: Bug fixes on forgot add realm members for account" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Bug fixes on forgot add realm members for account" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
