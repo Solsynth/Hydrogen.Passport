@@ -105,3 +105,43 @@ func (v *Server) GetRealm(ctx context.Context, request *proto.RealmLookupRequest
 		IsCommunity: realm.IsCommunity,
 	}, nil
 }
+
+func (v *Server) ListRealmMember(ctx context.Context, request *proto.RealmMemberLookupRequest) (*proto.ListRealmMemberResponse, error) {
+	var members []models.RealmMember
+	tx := database.C.Where("realm_id = ?", request.GetRealmId())
+	if request.UserId != nil {
+		tx = tx.Where("account_id = ?", request.GetUserId())
+	}
+
+	if err := tx.Find(&members).Error; err != nil {
+		return nil, err
+	}
+
+	return &proto.ListRealmMemberResponse{
+		Data: lo.Map(members, func(item models.RealmMember, index int) *proto.RealmMemberResponse {
+			return &proto.RealmMemberResponse{
+				RealmId:    uint64(item.RealmID),
+				UserId:     uint64(item.AccountID),
+				PowerLevel: int32(item.PowerLevel),
+			}
+		}),
+	}, nil
+}
+
+func (v *Server) GetRealmMember(ctx context.Context, request *proto.RealmMemberLookupRequest) (*proto.RealmMemberResponse, error) {
+	var member models.RealmMember
+	tx := database.C.Where("realm_id = ?", request.GetRealmId())
+	if request.UserId != nil {
+		tx = tx.Where("account_id = ?", request.GetUserId())
+	}
+
+	if err := tx.First(&member).Error; err != nil {
+		return nil, err
+	}
+
+	return &proto.RealmMemberResponse{
+		RealmId:    uint64(member.RealmID),
+		UserId:     uint64(member.AccountID),
+		PowerLevel: int32(member.PowerLevel),
+	}, nil
+}

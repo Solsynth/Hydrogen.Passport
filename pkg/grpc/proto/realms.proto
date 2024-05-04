@@ -11,6 +11,8 @@ service Realms {
   rpc ListAvailableRealm(RealmLookupWithUserRequest) returns (ListRealmResponse) {}
   rpc ListOwnedRealm(RealmLookupWithUserRequest) returns (ListRealmResponse) {}
   rpc GetRealm(RealmLookupRequest) returns (RealmResponse) {}
+  rpc ListRealmMember(RealmMemberLookupRequest) returns (ListRealmMemberResponse) {}
+  rpc GetRealmMember(RealmMemberLookupRequest) returns (RealmMemberResponse) {}
 }
 
 message RealmLookupWithUserRequest {
@@ -34,4 +36,19 @@ message RealmResponse {
 
 message ListRealmResponse {
   repeated RealmResponse data = 1;
+}
+
+message RealmMemberLookupRequest {
+  uint64 realm_id = 1;
+  optional uint64 user_id = 2;
+}
+
+message RealmMemberResponse {
+  uint64 realm_id = 1;
+  uint64 user_id = 2;
+  int32 power_level = 3;
+}
+
+message ListRealmMemberResponse {
+  repeated RealmMemberResponse data = 1;
 }
