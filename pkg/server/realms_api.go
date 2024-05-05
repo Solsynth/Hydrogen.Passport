@@ -69,7 +69,7 @@ func createRealm(c *fiber.Ctx) error {
 		IsPublic:    data.IsPublic,
 		IsCommunity: data.IsCommunity,
 		AccountID:   user.ID,
-	})
+	}, user)
 
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
