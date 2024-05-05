@@ -59,7 +59,7 @@ func GetRealmWithAlias(alias string) (models.Realm, error) {
 
 func NewRealm(realm models.Realm, user models.Account) (models.Realm, error) {
 	realm.Members = []models.RealmMember{
-		{AccountID: user.ID},
+		{AccountID: user.ID, PowerLevel: 100},
 	}
 
 	err := database.C.Save(&realm).Error
