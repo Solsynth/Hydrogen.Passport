@@ -5,13 +5,18 @@ import (
 	"github.com/gofiber/contrib/websocket"
 )
 
-type WsPushRequest struct {
-	Payload     []byte
-	RecipientID uint
+var wsConn = make(map[uint]map[*websocket.Conn]bool)
+
+func ClientRegister(user models.Account, conn *websocket.Conn) {
+	if wsConn[user.ID] == nil {
+		wsConn[user.ID] = make(map[*websocket.Conn]bool)
+	}
+	wsConn[user.ID][conn] = true
 }
 
-var WsConn = make(map[uint][]*websocket.Conn)
-
-func CheckOnline(user models.Account) bool {
-	return len(WsConn[user.ID]) > 0
+func ClientUnregister(user models.Account, conn *websocket.Conn) {
+	if wsConn[user.ID] == nil {
+		wsConn[user.ID] = make(map[*websocket.Conn]bool)
+	}
+	delete(wsConn[user.ID], conn)
 }

@@ -41,7 +41,7 @@ func NewNotification(notification models.Notification) error {
 
 func PushNotification(notification models.Notification) error {
 	raw, _ := jsoniter.Marshal(notification)
-	for _, conn := range WsConn[notification.RecipientID] {
+	for conn := range wsConn[notification.RecipientID] {
 		_ = conn.WriteMessage(1, raw)
 	}
 
