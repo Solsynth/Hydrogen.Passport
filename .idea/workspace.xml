@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix new realm owner missing permissions">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":zap: Use map to improve message delivery time">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/notify_ws.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/notify_ws.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/connections.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/connections.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/models/notifications.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/models/notifications.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/notifications_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/notifications_api.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/services/notifications.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/notifications.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -151,7 +151,8 @@
     <MESSAGE value=":bug: Bug fixes on realm missing member on creation" />
     <MESSAGE value=":bug: Dumb man make dumb mistake again" />
     <MESSAGE value=":bug: Fix new realm owner missing permissions" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix new realm owner missing permissions" />
+    <MESSAGE value=":zap: Use map to improve message delivery time" />
+    <option name="LAST_COMMIT_MESSAGE" value=":zap: Use map to improve message delivery time" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

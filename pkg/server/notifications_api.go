@@ -89,8 +89,9 @@ func addNotifySubscriber(c *fiber.Ctx) error {
 	user := c.Locals("principal").(models.Account)
 
 	var data struct {
-		Provider string `json:"provider" validate:"required"`
-		DeviceID string `json:"device_id" validate:"required"`
+		Provider    string `json:"provider" validate:"required"`
+		DeviceToken string `json:"device_token" validate:"required"`
+		DeviceID    string `json:"device_id" validate:"required"`
 	}
 
 	if err := utils.BindAndValidate(c, &data); err != nil {
@@ -99,8 +100,9 @@ func addNotifySubscriber(c *fiber.Ctx) error {
 
 	var count int64
 	if err := database.C.Where(&models.NotificationSubscriber{
-		DeviceID:  data.DeviceID,
-		AccountID: user.ID,
+		DeviceID:    data.DeviceID,
+		DeviceToken: data.DeviceToken,
+		AccountID:   user.ID,
 	}).Model(&models.NotificationSubscriber{}).Count(&count).Error; err != nil || count > 0 {
 		return c.SendStatus(fiber.StatusOK)
 	}
@@ -109,6 +111,7 @@ func addNotifySubscriber(c *fiber.Ctx) error {
 		user,
 		data.Provider,
 		data.DeviceID,
+		data.DeviceToken,
 		c.Get(fiber.HeaderUserAgent),
 	)
 	if err != nil {

@@ -31,8 +31,9 @@ const (
 type NotificationSubscriber struct {
 	BaseModel
 
-	UserAgent string `json:"user_agent"`
-	Provider  string `json:"provider"`
-	DeviceID  string `json:"device_id" gorm:"uniqueIndex"`
-	AccountID uint   `json:"account_id"`
+	UserAgent   string `json:"user_agent"`
+	Provider    string `json:"provider"`
+	DeviceID    string `json:"device_id" gorm:"uniqueIndex"`
+	DeviceToken string `json:"device_token"`
+	AccountID   uint   `json:"account_id"`
 }

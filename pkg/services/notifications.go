@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	jsoniter "github.com/json-iterator/go"
+	"reflect"
 
 	"firebase.google.com/go/messaging"
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
@@ -11,15 +12,32 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func AddNotifySubscriber(user models.Account, provider, device, ua string) (models.NotificationSubscriber, error) {
-	subscriber := models.NotificationSubscriber{
-		UserAgent: ua,
-		Provider:  provider,
-		DeviceID:  device,
+func AddNotifySubscriber(user models.Account, provider, id, tk, ua string) (models.NotificationSubscriber, error) {
+	var prev models.NotificationSubscriber
+	var subscriber models.NotificationSubscriber
+	if err := database.C.Where(&models.NotificationSubscriber{
+		DeviceID:  id,
 		AccountID: user.ID,
+	}); err != nil {
+		subscriber = models.NotificationSubscriber{
+			UserAgent:   ua,
+			Provider:    provider,
+			DeviceID:    id,
+			DeviceToken: tk,
+			AccountID:   user.ID,
+		}
+	} else {
+		prev = subscriber
 	}
 
-	err := database.C.Save(&subscriber).Error
+	subscriber.UserAgent = ua
+	subscriber.Provider = provider
+	subscriber.DeviceToken = tk
+
+	var err error
+	if !reflect.DeepEqual(subscriber, prev) {
+		err = database.C.Save(&subscriber).Error
+	}
 
 	return subscriber, err
 }
@@ -72,7 +90,7 @@ func PushNotification(notification models.Notification) error {
 					Title: notification.Subject,
 					Body:  notification.Content,
 				},
-				Token: subscriber.DeviceID,
+				Token: subscriber.DeviceToken,
 			}
 
 			if response, err := client.Send(ctx, message); err != nil {
