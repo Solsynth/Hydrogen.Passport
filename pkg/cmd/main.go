@@ -72,6 +72,7 @@ func main() {
 	quartz.AddFunc("@every 60m", services.DoAutoSignoff)
 	quartz.AddFunc("@every 60m", services.DoAutoAuthCleanup)
 	quartz.AddFunc("@every 60m", services.DoAutoDatabaseCleanup)
+	quartz.AddFunc("@every 5m", services.KexCleanup)
 	quartz.Start()
 
 	// Messages

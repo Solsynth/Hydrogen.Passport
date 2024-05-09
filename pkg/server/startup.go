@@ -1,13 +1,13 @@
 package server
 
 import (
+	"github.com/gofiber/contrib/websocket"
 	"net/http"
 	"strings"
 
 	"git.solsynth.dev/hydrogen/passport/pkg"
 	"git.solsynth.dev/hydrogen/passport/pkg/i18n"
 	"git.solsynth.dev/hydrogen/passport/pkg/server/ui"
-	"github.com/gofiber/contrib/websocket"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/favicon"
@@ -74,8 +74,6 @@ func NewServer() {
 			notify.Post("/subscribe", authMiddleware, addNotifySubscriber)
 			notify.Put("/batch/read", authMiddleware, markNotificationReadBatch)
 			notify.Put("/:notificationId/read", authMiddleware, markNotificationRead)
-
-			notify.Get("/listen", authMiddleware, websocket.New(listenNotifications))
 		}
 
 		me := api.Group("/users/me").Name("Myself Operations")
@@ -136,6 +134,8 @@ func NewServer() {
 		{
 			developers.Post("/notify", notifyUser)
 		}
+
+		api.Get("/ws", authMiddleware, websocket.New(listenWebsocket))
 	}
 
 	A.Use(favicon.New(favicon.Config{

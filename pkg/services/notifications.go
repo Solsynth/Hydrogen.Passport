@@ -60,7 +60,10 @@ func NewNotification(notification models.Notification) error {
 func PushNotification(notification models.Notification) error {
 	raw, _ := jsoniter.Marshal(notification)
 	for conn := range wsConn[notification.RecipientID] {
-		_ = conn.WriteMessage(1, raw)
+		_ = conn.WriteMessage(1, models.UnifiedCommand{
+			Action:  "notifications.new",
+			Payload: raw,
+		}.Marshal())
 	}
 
 	var subscribers []models.NotificationSubscriber
