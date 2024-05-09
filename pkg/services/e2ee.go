@@ -28,8 +28,12 @@ func KexRequest(conn *websocket.Conn, requestId, keypairId string, ownerId uint,
 	}
 
 	flag := false
-	for conn := range wsConn[ownerId] {
-		if conn.WriteMessage(1, models.UnifiedCommand{
+	for c := range wsConn[ownerId] {
+		if c == conn {
+			continue
+		}
+
+		if c.WriteMessage(1, models.UnifiedCommand{
 			Action: "kex.request",
 			Payload: fiber.Map{
 				"request_id": requestId,

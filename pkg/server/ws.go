@@ -60,7 +60,7 @@ func listenWebsocket(c *websocket.Conn) {
 			if len(req.RequestID) <= 0 || len(req.KeypairID) <= 0 {
 				message = lo.ToPtr(models.UnifiedCommandFromError(fmt.Errorf("invalid request")))
 			}
-			services.KexProvide(user.ID, req.RequestID, req.KeypairID, payload)
+			services.KexProvide(user.ID, req.RequestID, req.KeypairID, packet)
 		default:
 			message = lo.ToPtr(models.UnifiedCommandFromError(fmt.Errorf("unknown action")))
 		}

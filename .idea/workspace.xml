@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":recycle: Improved the notification subscriber API">
-      <change afterPath="$PROJECT_DIR$/pkg/models/unified.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/services/e2ee.go" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: E2EE Key Exchange">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/cmd/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/notify_ws.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/ws.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/startup.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/startup.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/notifications.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/notifications.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/ws.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/ws.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/e2ee.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/e2ee.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +164,8 @@
     <MESSAGE value=":bug: Fix new realm owner missing permissions" />
     <MESSAGE value=":zap: Use map to improve message delivery time" />
     <MESSAGE value=":recycle: Improved the notification subscriber API" />
-    <option name="LAST_COMMIT_MESSAGE" value=":recycle: Improved the notification subscriber API" />
+    <MESSAGE value=":sparkles: E2EE Key Exchange" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: E2EE Key Exchange" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
