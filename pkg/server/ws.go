@@ -49,7 +49,7 @@ func listenWebsocket(c *websocket.Conn) {
 			if len(req.RequestID) <= 0 || len(req.KeypairID) <= 0 || req.OwnerID <= 0 {
 				message = lo.ToPtr(models.UnifiedCommandFromError(fmt.Errorf("invalid request")))
 			}
-			services.KexRequest(c, req.RequestID, req.KeypairID, user.ID, req.Deadline)
+			services.KexRequest(c, req.RequestID, req.KeypairID, req.OwnerID, req.Deadline)
 		case "kex.provide":
 			var req struct {
 				RequestID string `json:"request_id"`
