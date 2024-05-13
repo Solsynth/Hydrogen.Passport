@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	jsoniter "github.com/json-iterator/go"
 	"reflect"
 
 	"firebase.google.com/go/messaging"
@@ -58,11 +57,10 @@ func NewNotification(notification models.Notification) error {
 }
 
 func PushNotification(notification models.Notification) error {
-	raw, _ := jsoniter.Marshal(notification)
 	for conn := range wsConn[notification.RecipientID] {
 		_ = conn.WriteMessage(1, models.UnifiedCommand{
 			Action:  "notifications.new",
-			Payload: raw,
+			Payload: notification,
 		}.Marshal())
 	}
 
