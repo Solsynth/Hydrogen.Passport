@@ -46,8 +46,8 @@ func listAvailableRealm(c *fiber.Ctx) error {
 
 func createRealm(c *fiber.Ctx) error {
 	user := c.Locals("principal").(models.Account)
-	if user.PowerLevel < 10 {
-		return fiber.NewError(fiber.StatusForbidden, "require power level 10 to create realms")
+	if err := utils.CheckPermissions(c, "CreateRealms", true); err != nil {
+		return err
 	}
 
 	var data struct {

@@ -6,7 +6,14 @@ import (
 	"strings"
 )
 
-func HasPermNode(held any, required any) bool {
+func HasPermNode(perms map[string]any, requiredKey string, requiredValue any) bool {
+	if heldValue, ok := perms[requiredKey]; ok {
+		return ComparePermNode(heldValue, requiredValue)
+	}
+	return false
+}
+
+func ComparePermNode(held any, required any) bool {
 	heldValue := reflect.ValueOf(held)
 	requiredValue := reflect.ValueOf(required)
 

@@ -104,7 +104,7 @@ func ConfirmAccount(code string) error {
 		for k, v := range viper.GetStringMap("permissions.verified") {
 			if val, ok := user.PermNodes[k]; !ok {
 				user.PermNodes[k] = v
-			} else if !HasPermNode(val, v) {
+			} else if !ComparePermNode(val, v) {
 				user.PermNodes[k] = v
 			}
 		}
