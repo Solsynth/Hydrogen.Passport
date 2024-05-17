@@ -6,6 +6,7 @@ package proto;
 
 service Auth {
   rpc Authenticate(AuthRequest) returns (AuthReply) {}
+  rpc CheckPerm(CheckPermRequest) returns (CheckPermReply) {}
 }
 
 message Userinfo {
@@ -29,4 +30,15 @@ message AuthReply {
   optional string refresh_token = 3;
   optional Userinfo userinfo = 4;
   optional bytes permissions = 5;
+  optional uint64 ticket_id = 6;
+}
+
+message CheckPermRequest {
+  string token = 1;
+  string key = 2;
+  bytes value = 3;
+}
+
+message CheckPermReply {
+  bool is_valid = 1;
 }

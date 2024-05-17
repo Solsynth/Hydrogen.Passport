@@ -11,7 +11,7 @@ import (
 
 var authContextCache = make(map[string]models.AuthContext)
 
-func Authenticate(access, refresh string, depth int) (user models.Account, perms map[string]any, newAccess, newRefresh string, err error) {
+func Authenticate(access, refresh string, depth int) (ctx models.AuthContext, perms map[string]any, newAccess, newRefresh string, err error) {
 	var claims PayloadClaims
 	claims, err = DecodeJwt(access)
 	if err != nil {
@@ -29,10 +29,8 @@ func Authenticate(access, refresh string, depth int) (user models.Account, perms
 	newAccess = access
 	newRefresh = refresh
 
-	var ctx models.AuthContext
 	if ctx, err = GetAuthContext(claims.ID); err == nil {
 		perms = FilterPermNodes(ctx.Account.PermNodes, ctx.Ticket.Claims)
-		user = ctx.Account
 		return
 	}
 
