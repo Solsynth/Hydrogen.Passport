@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"reflect"
 	"regexp"
 	"strings"
@@ -45,8 +46,8 @@ func FilterPermNodes(tree map[string]any, claims []string) map[string]any {
 	filteredTree := make(map[string]any)
 
 	match := func(claim, permission string) bool {
-		regex := strings.Replace(permission, "*", ".*", -1)
-		match, _ := regexp.MatchString("^"+regex+"$", claim)
+		regex := strings.ReplaceAll(claim, "*", ".*")
+		match, _ := regexp.MatchString(fmt.Sprintf("^%s$", regex), permission)
 		return match
 	}
 

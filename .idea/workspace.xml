@@ -4,19 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Permission check">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":zap: In memory auth context cache">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/74bcf3ef-a2b9-435b-b9e5-f32902a33b25.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/74bcf3ef-a2b9-435b-b9e5-f32902a33b25.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/74bcf3ef-a2b9-435b-b9e5-f32902a33b25/storage_v2/_src_/database/hy_passport.gNOKQQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/74bcf3ef-a2b9-435b-b9e5-f32902a33b25/storage_v2/_src_/database/hy_passport.gNOKQQ/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/cmd/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/database/source.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/database/source.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/models/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/models/auth.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/accounts_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/accounts_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/ui/personalize.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/ui/personalize.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/accounts.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/services/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/auth.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/ticker_maintainer.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/ticker_maintainer.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.toml" beforeDir="false" afterPath="$PROJECT_DIR$/settings.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/perms.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/perms.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +47,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "DefaultGoTemplateProperty": "Go File",
-    "Go 构建.Backend.executor": "Run",
+    "Go 构建.Backend.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
@@ -149,7 +142,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":sparkles: Personalize" />
     <MESSAGE value=":sparkles: OAuth" />
     <MESSAGE value=":truck: Update well known" />
     <MESSAGE value=":sparkles: Others userinfo" />
@@ -174,9 +166,21 @@
     <MESSAGE value=":bug: Fix notification push issue" />
     <MESSAGE value=":sparkles: Basis perm nodes feature" />
     <MESSAGE value=":sparkles: Permission check" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Permission check" />
+    <MESSAGE value=":zap: In memory auth context cache" />
+    <option name="LAST_COMMIT_MESSAGE" value=":zap: In memory auth context cache" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/pkg/services/perms.go</url>
+          <line>49</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

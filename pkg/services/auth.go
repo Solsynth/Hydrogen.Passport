@@ -30,18 +30,7 @@ func Authenticate(access, refresh string, depth int) (user models.Account, perms
 	newRefresh = refresh
 
 	var ctx models.AuthContext
-
-	ctx, lookupErr := GetAuthContext(claims.ID)
-	if lookupErr == nil {
-		log.Debug().Str("jti", claims.ID).Msg("Hit auth context cache once!")
-		perms = FilterPermNodes(ctx.Account.PermNodes, ctx.Ticket.Claims)
-		user = ctx.Account
-		return
-	}
-
-	ctx, err = GrantAuthContext(claims.ID)
-	if err == nil {
-
+	if ctx, err = GetAuthContext(claims.ID); err == nil {
 		perms = FilterPermNodes(ctx.Account.PermNodes, ctx.Ticket.Claims)
 		user = ctx.Account
 		return
@@ -61,14 +50,14 @@ func GetAuthContext(jti string) (models.AuthContext, error) {
 		authContextCache[jti] = ctx
 		log.Debug().Str("jti", jti).Msg("Used an auth context cache")
 	} else {
-		ctx, err = GrantAuthContext(jti)
+		ctx, err = CacheAuthContext(jti)
 		log.Debug().Str("jti", jti).Msg("Created a new auth context cache")
 	}
 
 	return ctx, err
 }
 
-func GrantAuthContext(jti string) (models.AuthContext, error) {
+func CacheAuthContext(jti string) (models.AuthContext, error) {
 	var ctx models.AuthContext
 
 	// Query data from primary database
