@@ -48,9 +48,13 @@ func (v *Server) CheckPerm(_ context.Context, in *proto.CheckPermRequest) (*prot
 		return nil, err
 	}
 
+	var heldPerms map[string]any
+	rawHeldPerms, _ := jsoniter.Marshal(ctx.Account.PermNodes)
+	_ = jsoniter.Unmarshal(rawHeldPerms, &heldPerms)
+
 	var value any
 	_ = jsoniter.Unmarshal(in.GetValue(), &value)
-	perms := services.FilterPermNodes(ctx.Account.PermNodes, ctx.Ticket.Claims)
+	perms := services.FilterPermNodes(heldPerms, ctx.Ticket.Claims)
 	valid := services.HasPermNode(perms, in.GetKey(), value)
 
 	return &proto.CheckPermReply{

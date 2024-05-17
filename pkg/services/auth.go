@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	jsoniter "github.com/json-iterator/go"
 	"time"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
@@ -30,7 +31,11 @@ func Authenticate(access, refresh string, depth int) (ctx models.AuthContext, pe
 	newRefresh = refresh
 
 	if ctx, err = GetAuthContext(claims.ID); err == nil {
-		perms = FilterPermNodes(ctx.Account.PermNodes, ctx.Ticket.Claims)
+		var heldPerms map[string]any
+		rawHeldPerms, _ := jsoniter.Marshal(ctx.Account.PermNodes)
+		_ = jsoniter.Unmarshal(rawHeldPerms, &heldPerms)
+
+		perms = FilterPermNodes(heldPerms, ctx.Ticket.Claims)
 		return
 	}
 
