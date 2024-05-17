@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix key exchange cause echo">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Basis perm nodes feature">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/notifications.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/notifications.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/ws.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/ws.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,8 +139,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":sparkles: Sign up &amp; Sign in" />
-    <MESSAGE value=":sparkles: An entire complete sign in user flow" />
     <MESSAGE value=":sparkles: User center page" />
     <MESSAGE value=":sparkles: Personalize" />
     <MESSAGE value=":sparkles: OAuth" />
@@ -164,7 +162,9 @@
     <MESSAGE value=":sparkles: E2EE Key Exchange" />
     <MESSAGE value=":bug: Bug fixes on E2EE" />
     <MESSAGE value=":bug: Fix key exchange cause echo" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix key exchange cause echo" />
+    <MESSAGE value=":bug: Fix notification push issue" />
+    <MESSAGE value=":sparkles: Basis perm nodes feature" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Basis perm nodes feature" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

@@ -42,10 +42,11 @@ func authFunc(c *fiber.Ctx, overrides ...string) error {
 	}
 
 	rtk := c.Cookies(services.CookieRefreshKey)
-	if user, atk, rtk, err := services.Authenticate(token, rtk, 0); err == nil {
+	if user, perms, atk, rtk, err := services.Authenticate(token, rtk, 0); err == nil {
 		if atk != token {
 			services.SetJwtCookieSet(c, atk, rtk)
 		}
+		c.Locals("permissions", perms)
 		c.Locals("principal", user)
 		return nil
 	} else {

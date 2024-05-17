@@ -14,7 +14,7 @@ import (
 
 const authContextBucket = "AuthContext"
 
-func Authenticate(access, refresh string, depth int) (user models.Account, newAccess, newRefresh string, err error) {
+func Authenticate(access, refresh string, depth int) (user models.Account, perms map[string]any, newAccess, newRefresh string, err error) {
 	var claims PayloadClaims
 	claims, err = DecodeJwt(access)
 	if err != nil {
@@ -37,6 +37,7 @@ func Authenticate(access, refresh string, depth int) (user models.Account, newAc
 	ctx, lookupErr := GetAuthContext(claims.ID)
 	if lookupErr == nil {
 		log.Debug().Str("jti", claims.ID).Msg("Hit auth context cache once!")
+		perms = FilterPermNodes(ctx.Account.PermNodes, ctx.Ticket.Claims)
 		user = ctx.Account
 		return
 	}
@@ -44,6 +45,7 @@ func Authenticate(access, refresh string, depth int) (user models.Account, newAc
 	ctx, err = GrantAuthContext(claims.ID)
 	if err == nil {
 		log.Debug().Str("jti", claims.ID).Err(lookupErr).Msg("Missed auth context cache once!")
+		perms = FilterPermNodes(ctx.Account.PermNodes, ctx.Ticket.Claims)
 		user = ctx.Account
 		return
 	}
@@ -97,7 +99,7 @@ func GrantAuthContext(jti string) (models.AuthContext, error) {
 		return ctx, fmt.Errorf("invalid account: %v", err)
 	}
 
-	// Every context should expires in some while
+	// Every context should expire in some while
 	// Once user update their account info, this will have delay to update
 	ctx = models.AuthContext{
 		Ticket:    ticket,

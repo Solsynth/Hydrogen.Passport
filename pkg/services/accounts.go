@@ -2,6 +2,8 @@ package services
 
 import (
 	"fmt"
+	"github.com/spf13/viper"
+	"gorm.io/datatypes"
 	"time"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
@@ -66,7 +68,7 @@ func CreateAccount(name, nick, email, password string) (models.Account, error) {
 				VerifiedAt: nil,
 			},
 		},
-		PowerLevel:  0,
+		PermNodes:   datatypes.JSONMap(viper.GetStringMap("permissions.default")),
 		ConfirmedAt: nil,
 	}
 
@@ -98,7 +100,14 @@ func ConfirmAccount(code string) error {
 
 	return database.C.Transaction(func(tx *gorm.DB) error {
 		user.ConfirmedAt = lo.ToPtr(time.Now())
-		user.PowerLevel += 5
+
+		for k, v := range viper.GetStringMap("permissions.verified") {
+			if val, ok := user.PermNodes[k]; !ok {
+				user.PermNodes[k] = v
+			} else if !HasPermNode(val, v) {
+				user.PermNodes[k] = v
+			}
+		}
 
 		if err := database.C.Delete(&token).Error; err != nil {
 			return err

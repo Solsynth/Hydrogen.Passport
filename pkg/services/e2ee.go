@@ -15,7 +15,7 @@ type kexRequest struct {
 
 var kexRequests = make(map[string]map[string]kexRequest)
 
-func KexRequest(conn *websocket.Conn, requestId, keypairId string, ownerId uint, deadline int64) {
+func KexRequest(conn *websocket.Conn, requestId, keypairId, algorithm string, ownerId uint, deadline int64) {
 	if kexRequests[keypairId] == nil {
 		kexRequests[keypairId] = make(map[string]kexRequest)
 	}
@@ -38,6 +38,7 @@ func KexRequest(conn *websocket.Conn, requestId, keypairId string, ownerId uint,
 			Payload: fiber.Map{
 				"request_id": requestId,
 				"keypair_id": keypairId,
+				"algorithm":  algorithm,
 				"owner_id":   ownerId,
 				"deadline":   deadline,
 			},

@@ -3,6 +3,7 @@ package grpc
 import (
 	"context"
 	"fmt"
+	jsoniter "github.com/json-iterator/go"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/grpc/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/services"
@@ -10,16 +11,18 @@ import (
 )
 
 func (v *Server) Authenticate(_ context.Context, in *proto.AuthRequest) (*proto.AuthReply, error) {
-	user, atk, rtk, err := services.Authenticate(in.GetAccessToken(), in.GetRefreshToken(), 0)
+	user, perms, atk, rtk, err := services.Authenticate(in.GetAccessToken(), in.GetRefreshToken(), 0)
 	if err != nil {
 		return &proto.AuthReply{
 			IsValid: false,
 		}, nil
 	} else {
+		rawPerms, _ := jsoniter.Marshal(perms)
 		return &proto.AuthReply{
 			IsValid:      true,
 			AccessToken:  &atk,
 			RefreshToken: &rtk,
+			Permissions:  rawPerms,
 			Userinfo: &proto.Userinfo{
 				Id:          uint64(user.ID),
 				Name:        user.Name,

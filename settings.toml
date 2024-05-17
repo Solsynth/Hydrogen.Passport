@@ -35,3 +35,9 @@ refresh_token_duration = 2592000
 dsn = "host=localhost dbname=hy_passport port=5432 sslmode=disable"
 prefix = "passport_"
 bolt = "uploads/bolt.db"
+
+[permissions.default]
+CreatePaperclipAttachments = 1048576
+
+[permissions.verified]
+CreatePaperclipAttachments = 26214400

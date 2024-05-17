@@ -28,4 +28,5 @@ message AuthReply {
   optional string access_token = 2;
   optional string refresh_token = 3;
   optional Userinfo userinfo = 4;
+  optional bytes permissions = 5;
 }

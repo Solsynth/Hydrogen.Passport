@@ -42,6 +42,7 @@ func listenWebsocket(c *websocket.Conn) {
 			var req struct {
 				RequestID string `json:"request_id"`
 				KeypairID string `json:"keypair_id"`
+				Algorithm string `json:"algorithm"`
 				OwnerID   uint   `json:"owner_id"`
 				Deadline  int64  `json:"deadline"`
 			}
@@ -49,11 +50,12 @@ func listenWebsocket(c *websocket.Conn) {
 			if len(req.RequestID) <= 0 || len(req.KeypairID) <= 0 || req.OwnerID <= 0 {
 				message = lo.ToPtr(models.UnifiedCommandFromError(fmt.Errorf("invalid request")))
 			}
-			services.KexRequest(c, req.RequestID, req.KeypairID, req.OwnerID, req.Deadline)
+			services.KexRequest(c, req.RequestID, req.KeypairID, req.Algorithm, req.OwnerID, req.Deadline)
 		case "kex.provide":
 			var req struct {
 				RequestID string `json:"request_id"`
 				KeypairID string `json:"keypair_id"`
+				Algorithm string `json:"algorithm"`
 				PublicKey []byte `json:"public_key"`
 			}
 			_ = jsoniter.Unmarshal(payload, &req)
