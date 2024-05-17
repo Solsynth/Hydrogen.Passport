@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/services"
 	"git.solsynth.dev/hydrogen/passport/pkg/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
@@ -91,6 +92,8 @@ func personalizeAction(c *fiber.Ctx) error {
 			"message": fmt.Sprintf("unable to personalize your profile: %v", err),
 		}).Redirect("/users/me/personalize")
 	}
+
+	services.InvalidAuthCacheWithUser(account.ID)
 
 	return flash.WithInfo(c, fiber.Map{
 		"message": "your account has been personalized",

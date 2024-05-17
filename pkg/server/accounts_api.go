@@ -108,6 +108,8 @@ func editUserinfo(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 
+	services.InvalidAuthCacheWithUser(account.ID)
+
 	return c.SendStatus(fiber.StatusOK)
 }
 

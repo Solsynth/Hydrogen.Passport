@@ -44,9 +44,6 @@ func main() {
 	} else if err := database.RunMigration(database.C); err != nil {
 		log.Fatal().Err(err).Msg("An error occurred when running database auto migration.")
 	}
-	if err := database.NewBolt(); err != nil {
-		log.Fatal().Err(err).Msg("An error occurred when init bolt db.")
-	}
 
 	// External
 	// All the things are optional so when error occurred the server won't crash
@@ -70,8 +67,8 @@ func main() {
 	// Configure timed tasks
 	quartz := cron.New(cron.WithLogger(cron.VerbosePrintfLogger(&log.Logger)))
 	quartz.AddFunc("@every 60m", services.DoAutoSignoff)
-	quartz.AddFunc("@every 60m", services.DoAutoAuthCleanup)
 	quartz.AddFunc("@every 60m", services.DoAutoDatabaseCleanup)
+	quartz.AddFunc("@every 60s", services.RecycleAuthContext)
 	quartz.AddFunc("@every 5m", services.KexCleanup)
 	quartz.Start()
 
@@ -85,6 +82,4 @@ func main() {
 	log.Info().Msgf("Passport v%s is quitting...", pkg.AppVersion)
 
 	quartz.Stop()
-
-	database.B.Close()
 }

@@ -116,6 +116,8 @@ func ConfirmAccount(code string) error {
 			return err
 		}
 
+		InvalidAuthCacheWithUser(user.ID)
+
 		return nil
 	})
 }

@@ -4,15 +4,12 @@ import (
 	"fmt"
 	"time"
 
-	"git.solsynth.dev/hydrogen/passport/pkg/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
 	"github.com/gofiber/fiber/v2"
-	jsoniter "github.com/json-iterator/go"
 	"github.com/rs/zerolog/log"
-	"go.etcd.io/bbolt"
 )
 
-const authContextBucket = "AuthContext"
+var authContextCache = make(map[string]models.AuthContext)
 
 func Authenticate(access, refresh string, depth int) (user models.Account, perms map[string]any, newAccess, newRefresh string, err error) {
 	var claims PayloadClaims
@@ -44,7 +41,7 @@ func Authenticate(access, refresh string, depth int) (user models.Account, perms
 
 	ctx, err = GrantAuthContext(claims.ID)
 	if err == nil {
-		log.Debug().Str("jti", claims.ID).Err(lookupErr).Msg("Missed auth context cache once!")
+
 		perms = FilterPermNodes(ctx.Account.PermNodes, ctx.Ticket.Claims)
 		user = ctx.Account
 		return
@@ -58,26 +55,14 @@ func GetAuthContext(jti string) (models.AuthContext, error) {
 	var err error
 	var ctx models.AuthContext
 
-	err = database.B.View(func(tx *bbolt.Tx) error {
-		bucket := tx.Bucket([]byte(authContextBucket))
-		if bucket == nil {
-			return fmt.Errorf("unable to find auth context bucket")
-		}
-
-		raw := bucket.Get([]byte(jti))
-		if raw == nil {
-			return fmt.Errorf("unable to find auth context")
-		} else if err := jsoniter.Unmarshal(raw, &ctx); err != nil {
-			return fmt.Errorf("unable to unmarshal auth context: %v", err)
-		}
-
-		return nil
-	})
-
-	if err == nil && time.Now().Unix() >= ctx.ExpiredAt.Unix() {
-		_ = RevokeAuthContext(jti)
-
-		return ctx, fmt.Errorf("auth context has been expired")
+	if val, ok := authContextCache[jti]; ok {
+		ctx = val
+		ctx.LastUsedAt = time.Now()
+		authContextCache[jti] = ctx
+		log.Debug().Str("jti", jti).Msg("Used an auth context cache")
+	} else {
+		ctx, err = GrantAuthContext(jti)
+		log.Debug().Str("jti", jti).Msg("Created a new auth context cache")
 	}
 
 	return ctx, err
@@ -99,37 +84,37 @@ func GrantAuthContext(jti string) (models.AuthContext, error) {
 		return ctx, fmt.Errorf("invalid account: %v", err)
 	}
 
-	// Every context should expire in some while
-	// Once user update their account info, this will have delay to update
 	ctx = models.AuthContext{
-		Ticket:    ticket,
-		Account:   user,
-		ExpiredAt: time.Now().Add(5 * time.Minute),
+		Ticket:     ticket,
+		Account:    user,
+		LastUsedAt: time.Now(),
 	}
 
-	// Save data into KV cache
-	return ctx, database.B.Update(func(tx *bbolt.Tx) error {
-		bucket, err := tx.CreateBucketIfNotExists([]byte(authContextBucket))
-		if err != nil {
-			return err
-		}
+	// Put the data into memory for cache
+	authContextCache[jti] = ctx
 
-		raw, err := jsoniter.Marshal(ctx)
-		if err != nil {
-			return err
-		}
-
-		return bucket.Put([]byte(jti), raw)
-	})
+	return ctx, nil
 }
 
-func RevokeAuthContext(jti string) error {
-	return database.B.Update(func(tx *bbolt.Tx) error {
-		bucket, err := tx.CreateBucketIfNotExists([]byte(authContextBucket))
-		if err != nil {
-			return err
-		}
+func RecycleAuthContext() {
+	if len(authContextCache) == 0 {
+		return
+	}
 
-		return bucket.Delete([]byte(jti))
-	})
+	affected := 0
+	for key, val := range authContextCache {
+		if val.LastUsedAt.Add(60*time.Second).Unix() < time.Now().Unix() {
+			affected++
+			delete(authContextCache, key)
+		}
+	}
+	log.Debug().Int("affected", affected).Msg("Recycled auth context...")
+}
+
+func InvalidAuthCacheWithUser(userId uint) {
+	for key, val := range authContextCache {
+		if val.Account.ID == userId {
+			delete(authContextCache, key)
+		}
+	}
 }

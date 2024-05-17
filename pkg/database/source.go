@@ -4,7 +4,6 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/samber/lo"
 	"github.com/spf13/viper"
-	"go.etcd.io/bbolt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -24,17 +23,6 @@ func NewGorm() error {
 		IgnoreRecordNotFoundError: true,
 		LogLevel:                  lo.Ternary(viper.GetBool("debug.database"), logger.Info, logger.Silent),
 	})})
-
-	return err
-}
-
-var B *bbolt.DB
-
-func NewBolt() error {
-	var err error
-
-	dsn := viper.GetString("database.bolt")
-	B, err = bbolt.Open(dsn, 0600, nil)
 
 	return err
 }

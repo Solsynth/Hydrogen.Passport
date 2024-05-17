@@ -4,7 +4,20 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Permission check" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Permission check">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/cmd/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/database/source.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/database/source.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/models/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/models/auth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/accounts_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/accounts_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/ui/personalize.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/ui/personalize.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/accounts.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/auth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/ticker_maintainer.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/ticker_maintainer.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.toml" beforeDir="false" afterPath="$PROJECT_DIR$/settings.toml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
