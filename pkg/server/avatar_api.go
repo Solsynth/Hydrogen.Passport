@@ -7,6 +7,7 @@ import (
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/grpc"
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/samber/lo"
 )
@@ -15,7 +16,11 @@ func setAvatar(c *fiber.Ctx) error {
 	user := c.Locals("principal").(models.Account)
 
 	var data struct {
-		AttachmentID string `json:"attachment"`
+		AttachmentID string `json:"attachment" validate:"required"`
+	}
+
+	if err := utils.BindAndValidate(c, &data); err != nil {
+		return err
 	}
 
 	if _, err := grpc.Attachments.CheckAttachmentExists(context.Background(), &pcpb.AttachmentLookupRequest{
@@ -36,8 +41,13 @@ func setAvatar(c *fiber.Ctx) error {
 
 func setBanner(c *fiber.Ctx) error {
 	user := c.Locals("principal").(models.Account)
+
 	var data struct {
-		AttachmentID string `json:"attachment"`
+		AttachmentID string `json:"attachment" validate:"required"`
+	}
+
+	if err := utils.BindAndValidate(c, &data); err != nil {
+		return err
 	}
 
 	if _, err := grpc.Attachments.CheckAttachmentExists(context.Background(), &pcpb.AttachmentLookupRequest{

@@ -53,6 +53,11 @@ func main() {
 		log.Info().Msg("Successfully setup firebase communication.")
 	}
 
+	// Connect other services
+	if err := grpc.ConnectPaperclip(); err != nil {
+		log.Fatal().Err(err).Msg("An error occurred when connecting to paperclip...")
+	}
+
 	// Server
 	server.NewServer()
 	go server.Listen()
