@@ -5,7 +5,7 @@ import (
 	"gorm.io/gorm"
 )
 
-var DatabaseAutoActionRange = []any{
+var AutoMaintainRange = []any{
 	&models.Account{},
 	&models.AuthFactor{},
 	&models.AccountProfile{},
@@ -23,7 +23,7 @@ var DatabaseAutoActionRange = []any{
 }
 
 func RunMigration(source *gorm.DB) error {
-	if err := source.AutoMigrate(DatabaseAutoActionRange...); err != nil {
+	if err := source.AutoMigrate(AutoMaintainRange...); err != nil {
 		return err
 	}
 

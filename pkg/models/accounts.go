@@ -1,11 +1,9 @@
 package models
 
 import (
-	"path/filepath"
 	"time"
 
 	"github.com/samber/lo"
-	"github.com/spf13/viper"
 	"gorm.io/datatypes"
 )
 
@@ -45,16 +43,6 @@ func (v Account) GetPrimaryEmail() AccountContact {
 		return item.Type == EmailAccountContact && item.IsPrimary
 	})
 	return val
-}
-
-func (v Account) GetAvatarPath() string {
-	basepath := viper.GetString("content")
-	return filepath.Join(basepath, v.Avatar)
-}
-
-func (v Account) GetBannerPath() string {
-	basepath := viper.GetString("content")
-	return filepath.Join(basepath, v.Banner)
 }
 
 type AccountContactType = int8

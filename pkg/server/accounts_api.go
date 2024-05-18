@@ -38,7 +38,7 @@ func getUserinfo(c *fiber.Ctx) error {
 	resp["preferred_username"] = data.Nick
 
 	if len(data.Avatar) > 0 {
-		resp["picture"] = fmt.Sprintf("https://%s/api/avatar/%s", viper.GetString("domain"), data.Avatar)
+		resp["picture"] = fmt.Sprintf("%s/api/attachments/%s", viper.GetString("paperclip.endpoint"), data.Avatar)
 	}
 
 	return c.JSON(resp)

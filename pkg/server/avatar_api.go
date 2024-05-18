@@ -1,50 +1,34 @@
 package server
 
 import (
-	"os"
-	"path/filepath"
-
+	"context"
+	"fmt"
+	pcpb "git.solsynth.dev/hydrogen/paperclip/pkg/grpc/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
+	"git.solsynth.dev/hydrogen/passport/pkg/grpc"
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
 	"github.com/gofiber/fiber/v2"
-	"github.com/google/uuid"
-	"github.com/spf13/viper"
+	"github.com/samber/lo"
 )
-
-func getAvatar(c *fiber.Ctx) error {
-	id := c.Params("avatarId")
-	basepath := viper.GetString("content")
-
-	return c.SendFile(filepath.Join(basepath, id))
-}
 
 func setAvatar(c *fiber.Ctx) error {
 	user := c.Locals("principal").(models.Account)
-	file, err := c.FormFile("avatar")
-	if err != nil {
-		return err
+
+	var data struct {
+		AttachmentID string `json:"attachment"`
 	}
 
-	var previous string
-	if len(user.Avatar) > 0 {
-		previous = user.GetAvatarPath()
+	if _, err := grpc.Attachments.CheckAttachmentExists(context.Background(), &pcpb.AttachmentLookupRequest{
+		Uuid:  &data.AttachmentID,
+		Usage: lo.ToPtr("p.avatar"),
+	}); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("avatar was not found in repository: %v", err))
 	}
 
-	user.Avatar = uuid.NewString()
+	user.Avatar = data.AttachmentID
 
-	if err := c.SaveFile(file, user.GetAvatarPath()); err != nil {
-		return err
-	} else {
-		database.C.Save(&user)
-
-		// Clean up
-		if len(previous) > 0 {
-			basepath := viper.GetString("content")
-			filepath := filepath.Join(basepath, previous)
-			if info, err := os.Stat(filepath); err == nil && !info.IsDir() {
-				os.Remove(filepath)
-			}
-		}
+	if err := database.C.Save(&user).Error; err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 
 	return c.SendStatus(fiber.StatusOK)
@@ -52,31 +36,21 @@ func setAvatar(c *fiber.Ctx) error {
 
 func setBanner(c *fiber.Ctx) error {
 	user := c.Locals("principal").(models.Account)
-	file, err := c.FormFile("banner")
-	if err != nil {
-		return err
+	var data struct {
+		AttachmentID string `json:"attachment"`
 	}
 
-	var previous string
-	if len(user.Banner) > 0 {
-		previous = user.GetBannerPath()
+	if _, err := grpc.Attachments.CheckAttachmentExists(context.Background(), &pcpb.AttachmentLookupRequest{
+		Uuid:  &data.AttachmentID,
+		Usage: lo.ToPtr("p.banner"),
+	}); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("banner was not found in repository: %v", err))
 	}
 
-	user.Banner = uuid.NewString()
+	user.Banner = data.AttachmentID
 
-	if err := c.SaveFile(file, user.GetBannerPath()); err != nil {
-		return err
-	} else {
-		database.C.Save(&user)
-
-		// Clean up
-		if len(previous) > 0 {
-			basepath := viper.GetString("content")
-			filepath := filepath.Join(basepath, previous)
-			if info, err := os.Stat(filepath); err == nil && !info.IsDir() {
-				os.Remove(filepath)
-			}
-		}
+	if err := database.C.Save(&user).Error; err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 
 	return c.SendStatus(fiber.StatusOK)

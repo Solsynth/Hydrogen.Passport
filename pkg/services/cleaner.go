@@ -11,7 +11,7 @@ func DoAutoDatabaseCleanup() {
 	log.Debug().Time("deadline", deadline).Msg("Now cleaning up entire database...")
 
 	var count int64
-	for _, model := range database.DatabaseAutoActionRange {
+	for _, model := range database.AutoMaintainRange {
 		tx := database.C.Unscoped().Delete(model, "deleted_at >= ?", deadline)
 		if tx.Error != nil {
 			log.Error().Err(tx.Error).Msg("An error occurred when running auth context cleanup...")

@@ -5,13 +5,13 @@
 
 <div class="banner-container">
     {{if gt (len .userinfo.Banner) 0}}
-        <img src="/api/avatar/{{.userinfo.Banner}}" alt="Banner" class="banner">
+        <img src="{{.banner}}" alt="Banner" class="banner">
     {{end}}
 </div>
 
 <div class="left-part name-card">
     {{if gt (len .userinfo.Avatar) 0}}
-        <img src="/api/avatar/{{.userinfo.Avatar}}" alt="Avatar" class="avatar">
+        <img src="{{.avatar}}" alt="Avatar" class="avatar">
     {{else}}
         <div class="avatar empty">
             <span class="material-symbols-outlined">account_circle</span>

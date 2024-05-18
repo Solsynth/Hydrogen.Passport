@@ -9,33 +9,7 @@
     <div class="responsive-title-gap"></div>
 
     <div class="personalize-actions">
-        <md-filled-tonal-button class="personalize-action" data-target="avatar">
-            Edit Avatar
-            <span slot="icon" class="material-symbols-outlined">account_circle</span>
-        </md-filled-tonal-button>
-        <input
-                hidden
-                id="avatar-input"
-                class="block-field"
-                name="avatar"
-                type="file"
-                accept="image/*"
-                placeholder="Avatar"
-        >
-
-        <md-filled-tonal-button class="personalize-action" data-target="banner">
-           Edit Banner
-            <span slot="icon" class="material-symbols-outlined">background_replace</span>
-        </md-filled-tonal-button>
-        <input
-                hidden
-                id="banner-input"
-                class="block-field"
-                name="banner"
-                type="file"
-                accept="image/*"
-                placeholder="Banner"
-        >
+        <span>We doesn't support edit avatar / banner through Hydrogen.Passport web yet. Go try our Solian App!</span>
     </div>
 
     <form class="action-form" action="/users/me/personalize" method="POST">
@@ -134,34 +108,3 @@
         margin-bottom: 2px;
     }
 </style>
-
-<script>
-    document.querySelectorAll(".personalize-action").forEach((element) => {
-        element.addEventListener("click", (_) => {
-            document.getElementById(`${element.getAttribute("data-target")}-input`).click();
-        })
-    })
-
-    document.getElementById("avatar-input").addEventListener("input", (evt) => {
-        if (!evt.target.files) return
-        const data = new FormData();
-        data.set("avatar", evt.target.files[0])
-        fetch("/api/users/me/avatar", {
-            method: "PUT",
-            body: data,
-        }).then(() => {
-            location.href = "/users/me"
-        })
-    })
-    document.getElementById("banner-input").addEventListener("input", (evt) => {
-        if (!evt.target.files) return
-        const data = new FormData();
-        data.set("banner", evt.target.files[0])
-        fetch("/api/users/me/banner", {
-            method: "PUT",
-            body: data,
-        }).then(() => {
-            location.href = "/users/me"
-        })
-    })
-</script>

@@ -6,13 +6,15 @@ grpc_bind = "0.0.0.0:7444"
 domain = "localhost"
 secret = "LtTjzAGFLshwXhN4ZD4nG5KlMv1MWcsvfv03TSZYnT1VhiAnLIZFTnHUwR0XhGgi"
 
-content = "uploads"
-
 use_registration_magic_token = false
 
 [debug]
 database = false
 print_routes = false
+
+[paperclip]
+endpoint = "http://localhost:8443"
+grpc_endpoint = "localhost:7443"
 
 [external.firebase]
 credentials = "dist/firebase-certs.json"

@@ -66,8 +66,6 @@ func NewServer() {
 
 	api := A.Group("/api").Name("API")
 	{
-		api.Get("/avatar/:avatarId", getAvatar)
-
 		notify := api.Group("/notifications").Name("Notifications API")
 		{
 			notify.Get("/", authMiddleware, getNotifications)

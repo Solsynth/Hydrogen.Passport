@@ -8,6 +8,7 @@ import (
 	"github.com/gomarkdown/markdown"
 	"github.com/gomarkdown/markdown/html"
 	"github.com/gomarkdown/markdown/parser"
+	"github.com/spf13/viper"
 	"github.com/sujit-baniya/flash"
 	"html/template"
 	"time"
@@ -44,5 +45,7 @@ func selfUserinfoPage(c *fiber.Ctx) error {
 		"birthday_at":   birthday,
 		"personal_page": template.HTML(markdown.Render(doc, renderer)),
 		"userinfo":      data,
+		"avatar":        fmt.Sprintf("%s/api/attachments/%s", viper.GetString("paperclip.endpoint"), data.Avatar),
+		"banner":        fmt.Sprintf("%s/api/attachments/%s", viper.GetString("paperclip.endpoint"), data.Banner),
 	}, "views/layouts/user-center")
 }
