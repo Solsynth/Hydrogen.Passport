@@ -37,8 +37,8 @@ func getUserinfo(c *fiber.Ctx) error {
 	resp["email"] = data.GetPrimaryEmail().Content
 	resp["preferred_username"] = data.Nick
 
-	if len(data.Avatar) > 0 {
-		resp["picture"] = fmt.Sprintf("%s/api/attachments/%s", viper.GetString("paperclip.endpoint"), data.Avatar)
+	if data.Avatar != nil {
+		resp["picture"] = fmt.Sprintf("%s/api/attachments/%d", viper.GetString("paperclip.endpoint"), data.Avatar)
 	}
 
 	return c.JSON(resp)

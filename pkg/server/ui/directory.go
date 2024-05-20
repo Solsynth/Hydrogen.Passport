@@ -45,7 +45,7 @@ func otherUserinfoPage(c *fiber.Ctx) error {
 		"birthday_at":   birthday,
 		"personal_page": template.HTML(markdown.Render(doc, renderer)),
 		"userinfo":      data,
-		"avatar":        fmt.Sprintf("%s/api/attachments/%s", viper.GetString("paperclip.endpoint"), data.Avatar),
-		"banner":        fmt.Sprintf("%s/api/attachments/%s", viper.GetString("paperclip.endpoint"), data.Banner),
+		"avatar":        fmt.Sprintf("%s/api/attachments/%d", viper.GetString("paperclip.endpoint"), data.Avatar),
+		"banner":        fmt.Sprintf("%s/api/attachments/%d", viper.GetString("paperclip.endpoint"), data.Banner),
 	}, "views/layouts/user-center")
 }

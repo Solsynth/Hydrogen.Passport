@@ -16,7 +16,7 @@ func setAvatar(c *fiber.Ctx) error {
 	user := c.Locals("principal").(models.Account)
 
 	var data struct {
-		AttachmentID string `json:"attachment" validate:"required"`
+		AttachmentID uint `json:"attachment" validate:"required"`
 	}
 
 	if err := utils.BindAndValidate(c, &data); err != nil {
@@ -24,13 +24,13 @@ func setAvatar(c *fiber.Ctx) error {
 	}
 
 	if _, err := grpc.Attachments.CheckAttachmentExists(context.Background(), &pcpb.AttachmentLookupRequest{
-		Uuid:  &data.AttachmentID,
+		Id:    lo.ToPtr(uint64(data.AttachmentID)),
 		Usage: lo.ToPtr("p.avatar"),
 	}); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("avatar was not found in repository: %v", err))
 	}
 
-	user.Avatar = data.AttachmentID
+	user.Avatar = &data.AttachmentID
 
 	if err := database.C.Save(&user).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
@@ -43,7 +43,7 @@ func setBanner(c *fiber.Ctx) error {
 	user := c.Locals("principal").(models.Account)
 
 	var data struct {
-		AttachmentID string `json:"attachment" validate:"required"`
+		AttachmentID uint `json:"attachment" validate:"required"`
 	}
 
 	if err := utils.BindAndValidate(c, &data); err != nil {
@@ -51,13 +51,13 @@ func setBanner(c *fiber.Ctx) error {
 	}
 
 	if _, err := grpc.Attachments.CheckAttachmentExists(context.Background(), &pcpb.AttachmentLookupRequest{
-		Uuid:  &data.AttachmentID,
+		Id:    lo.ToPtr(uint64(data.AttachmentID)),
 		Usage: lo.ToPtr("p.banner"),
 	}); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("banner was not found in repository: %v", err))
 	}
 
-	user.Banner = data.AttachmentID
+	user.Banner = &data.AttachmentID
 
 	if err := database.C.Save(&user).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())

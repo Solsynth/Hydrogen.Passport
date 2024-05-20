@@ -4,13 +4,13 @@
 <link rel="stylesheet" href="https://unpkg.com/tailwindcss@1.4.6/dist/utilities.min.css">
 
 <div class="banner-container">
-    {{if gt (len .userinfo.Banner) 0}}
+    {{if ne .userinfo.Banner nil}}
         <img src="{{.banner}}" alt="Banner" class="banner">
     {{end}}
 </div>
 
 <div class="left-part name-card">
-    {{if gt (len .userinfo.Avatar) 0}}
+    {{if ne .userinfo.Avatar nil}}
         <img src="{{.avatar}}" alt="Avatar" class="avatar">
     {{else}}
         <div class="avatar empty">

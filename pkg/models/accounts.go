@@ -13,8 +13,8 @@ type Account struct {
 	Name        string            `json:"name" gorm:"uniqueIndex"`
 	Nick        string            `json:"nick"`
 	Description string            `json:"description"`
-	Avatar      string            `json:"avatar"`
-	Banner      string            `json:"banner"`
+	Avatar      *uint             `json:"avatar"`
+	Banner      *uint             `json:"banner"`
 	ConfirmedAt *time.Time        `json:"confirmed_at"`
 	PermNodes   datatypes.JSONMap `json:"perm_nodes"`
 

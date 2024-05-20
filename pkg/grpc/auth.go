@@ -30,8 +30,8 @@ func (v *Server) Authenticate(_ context.Context, in *proto.AuthRequest) (*proto.
 				Name:        user.Name,
 				Nick:        user.Nick,
 				Email:       user.GetPrimaryEmail().Content,
-				Avatar:      fmt.Sprintf("%s/api/attachments/%s", viper.GetString("paperclip.endpoint"), user.Avatar),
-				Banner:      fmt.Sprintf("%s/api/attachments/%s", viper.GetString("paperclip.endpoint"), user.Banner),
+				Avatar:      fmt.Sprintf("%s/api/attachments/%d", viper.GetString("paperclip.endpoint"), user.Avatar),
+				Banner:      fmt.Sprintf("%s/api/attachments/%d", viper.GetString("paperclip.endpoint"), user.Banner),
 				Description: &user.Description,
 			},
 		}, nil
