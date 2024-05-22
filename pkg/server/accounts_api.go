@@ -2,9 +2,10 @@ package server
 
 import (
 	"fmt"
-	"git.solsynth.dev/hydrogen/passport/pkg/utils"
 	"strconv"
 	"time"
+
+	"git.solsynth.dev/hydrogen/passport/pkg/utils"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
@@ -38,7 +39,7 @@ func getUserinfo(c *fiber.Ctx) error {
 	resp["preferred_username"] = data.Nick
 
 	if data.Avatar != nil {
-		resp["picture"] = fmt.Sprintf("%s/api/attachments/%d", viper.GetString("paperclip.endpoint"), data.Avatar)
+		resp["picture"] = *data.GetAvatar()
 	}
 
 	return c.JSON(resp)

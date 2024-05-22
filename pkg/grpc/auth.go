@@ -2,13 +2,11 @@ package grpc
 
 import (
 	"context"
-	"fmt"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/grpc/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/services"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/samber/lo"
-	"github.com/spf13/viper"
 )
 
 func (v *Server) Authenticate(_ context.Context, in *proto.AuthRequest) (*proto.AuthReply, error) {
@@ -30,10 +28,10 @@ func (v *Server) Authenticate(_ context.Context, in *proto.AuthRequest) (*proto.
 		}
 
 		if user.Avatar != nil {
-			userinfo.Avatar = fmt.Sprintf("%s/api/attachments/%d", viper.GetString("paperclip.endpoint"), *user.Avatar)
+			userinfo.Avatar = *user.GetAvatar()
 		}
 		if user.Banner != nil {
-			userinfo.Banner = fmt.Sprintf("%s/api/attachments/%d", viper.GetString("paperclip.endpoint"), *user.Banner)
+			userinfo.Banner = *user.GetBanner()
 		}
 
 		return &proto.AuthReply{

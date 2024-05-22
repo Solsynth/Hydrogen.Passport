@@ -2,16 +2,16 @@ package ui
 
 import (
 	"fmt"
+	"html/template"
+	"time"
+
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gomarkdown/markdown"
 	"github.com/gomarkdown/markdown/html"
 	"github.com/gomarkdown/markdown/parser"
-	"github.com/spf13/viper"
 	"github.com/sujit-baniya/flash"
-	"html/template"
-	"time"
 )
 
 func otherUserinfoPage(c *fiber.Ctx) error {
@@ -27,7 +27,7 @@ func otherUserinfoPage(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 
-	var birthday = "Unknown"
+	birthday := "Unknown"
 	if data.Profile.Birthday != nil {
 		birthday = data.Profile.Birthday.Format(time.RFC822)
 	}
@@ -45,7 +45,7 @@ func otherUserinfoPage(c *fiber.Ctx) error {
 		"birthday_at":   birthday,
 		"personal_page": template.HTML(markdown.Render(doc, renderer)),
 		"userinfo":      data,
-		"avatar":        fmt.Sprintf("%s/api/attachments/%d", viper.GetString("paperclip.endpoint"), data.Avatar),
-		"banner":        fmt.Sprintf("%s/api/attachments/%d", viper.GetString("paperclip.endpoint"), data.Banner),
+		"avatar":        data.GetAvatar(),
+		"banner":        data.GetBanner(),
 	}, "views/layouts/user-center")
 }

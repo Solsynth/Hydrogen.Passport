@@ -1,9 +1,11 @@
 package models
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/samber/lo"
+	"github.com/spf13/viper"
 	"gorm.io/datatypes"
 )
 
@@ -36,6 +38,20 @@ type Account struct {
 
 	Friendships        []AccountFriendship `json:"friendships" gorm:"foreignKey:AccountID"`
 	RelatedFriendships []AccountFriendship `json:"related_friendships" gorm:"foreignKey:RelatedID"`
+}
+
+func (v Account) GetAvatar() *string {
+	if v.Avatar != nil {
+		return lo.ToPtr(fmt.Sprintf("%s/api/attachments/%d", viper.GetString("paperclip.endpoint"), *v.Avatar))
+	}
+	return nil
+}
+
+func (v Account) GetBanner() *string {
+	if v.Banner != nil {
+		return lo.ToPtr(fmt.Sprintf("%s/api/attachments/%d", viper.GetString("paperclip.endpoint"), *v.Banner))
+	}
+	return nil
 }
 
 func (v Account) GetPrimaryEmail() AccountContact {
