@@ -3,6 +3,7 @@ package grpc
 import (
 	"context"
 	"fmt"
+
 	"git.solsynth.dev/hydrogen/passport/pkg/grpc/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/services"
 	jsoniter "github.com/json-iterator/go"
@@ -19,21 +20,29 @@ func (v *Server) Authenticate(_ context.Context, in *proto.AuthRequest) (*proto.
 	} else {
 		user := ctx.Account
 		rawPerms, _ := jsoniter.Marshal(perms)
+
+		userinfo := &proto.Userinfo{
+			Id:          uint64(user.ID),
+			Name:        user.Name,
+			Nick:        user.Nick,
+			Email:       user.GetPrimaryEmail().Content,
+			Description: &user.Description,
+		}
+
+		if user.Avatar != nil {
+			userinfo.Avatar = fmt.Sprintf("%s/api/attachments/%d", viper.GetString("paperclip.endpoint"), *user.Avatar)
+		}
+		if user.Banner != nil {
+			userinfo.Banner = fmt.Sprintf("%s/api/attachments/%d", viper.GetString("paperclip.endpoint"), *user.Banner)
+		}
+
 		return &proto.AuthReply{
 			IsValid:      true,
 			AccessToken:  &atk,
 			RefreshToken: &rtk,
 			Permissions:  rawPerms,
 			TicketId:     lo.ToPtr(uint64(ctx.Ticket.ID)),
-			Userinfo: &proto.Userinfo{
-				Id:          uint64(user.ID),
-				Name:        user.Name,
-				Nick:        user.Nick,
-				Email:       user.GetPrimaryEmail().Content,
-				Avatar:      fmt.Sprintf("%s/api/attachments/%d", viper.GetString("paperclip.endpoint"), user.Avatar),
-				Banner:      fmt.Sprintf("%s/api/attachments/%d", viper.GetString("paperclip.endpoint"), user.Banner),
-				Description: &user.Description,
-			},
+			Userinfo:     userinfo,
 		}, nil
 	}
 }
