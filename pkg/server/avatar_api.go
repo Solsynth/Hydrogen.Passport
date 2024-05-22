@@ -3,10 +3,12 @@ package server
 import (
 	"context"
 	"fmt"
+
 	pcpb "git.solsynth.dev/hydrogen/paperclip/pkg/grpc/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/grpc"
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/services"
 	"git.solsynth.dev/hydrogen/passport/pkg/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/samber/lo"
@@ -34,6 +36,8 @@ func setAvatar(c *fiber.Ctx) error {
 
 	if err := database.C.Save(&user).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	} else {
+		services.InvalidAuthCacheWithUser(user.ID)
 	}
 
 	return c.SendStatus(fiber.StatusOK)
@@ -61,6 +65,8 @@ func setBanner(c *fiber.Ctx) error {
 
 	if err := database.C.Save(&user).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	} else {
+		services.InvalidAuthCacheWithUser(user.ID)
 	}
 
 	return c.SendStatus(fiber.StatusOK)
