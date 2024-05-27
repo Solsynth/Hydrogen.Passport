@@ -2,15 +2,20 @@ package services
 
 import (
 	"fmt"
-	jsoniter "github.com/json-iterator/go"
+	"sync"
 	"time"
+
+	jsoniter "github.com/json-iterator/go"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog/log"
 )
 
-var authContextCache = make(map[string]models.AuthContext)
+var (
+	authContextMutex sync.Mutex
+	authContextCache = make(map[string]models.AuthContext)
+)
 
 func Authenticate(access, refresh string, depth int) (ctx models.AuthContext, perms map[string]any, newAccess, newRefresh string, err error) {
 	var claims PayloadClaims
@@ -50,7 +55,9 @@ func GetAuthContext(jti string) (models.AuthContext, error) {
 	if val, ok := authContextCache[jti]; ok {
 		ctx = val
 		ctx.LastUsedAt = time.Now()
+		authContextMutex.Lock()
 		authContextCache[jti] = ctx
+		authContextMutex.Unlock()
 		log.Debug().Str("jti", jti).Msg("Used an auth context cache")
 	} else {
 		ctx, err = CacheAuthContext(jti)
@@ -83,7 +90,9 @@ func CacheAuthContext(jti string) (models.AuthContext, error) {
 	}
 
 	// Put the data into memory for cache
+	authContextMutex.Lock()
 	authContextCache[jti] = ctx
+	authContextMutex.Unlock()
 
 	return ctx, nil
 }
@@ -97,7 +106,9 @@ func RecycleAuthContext() {
 	for key, val := range authContextCache {
 		if val.LastUsedAt.Add(60*time.Second).Unix() < time.Now().Unix() {
 			affected++
+			authContextMutex.Lock()
 			delete(authContextCache, key)
+			authContextMutex.Unlock()
 		}
 	}
 	log.Debug().Int("affected", affected).Msg("Recycled auth context...")
@@ -106,7 +117,9 @@ func RecycleAuthContext() {
 func InvalidAuthCacheWithUser(userId uint) {
 	for key, val := range authContextCache {
 		if val.Account.ID == userId {
+			authContextMutex.Lock()
 			delete(authContextCache, key)
+			authContextMutex.Unlock()
 		}
 	}
 }

@@ -34,7 +34,7 @@ access_token_duration = 300
 refresh_token_duration = 2592000
 
 [database]
-dsn = "host=localhost dbname=hy_passport port=5432 sslmode=disable"
+dsn = "host=localhost user=postgres password=password dbname=hy_passport port=5432 sslmode=disable"
 prefix = "passport_"
 
 [permissions.default]

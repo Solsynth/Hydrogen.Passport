@@ -2,10 +2,12 @@ package server
 
 import (
 	"fmt"
+
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
 	"git.solsynth.dev/hydrogen/passport/pkg/services"
 	"github.com/gofiber/contrib/websocket"
 	jsoniter "github.com/json-iterator/go"
+	"github.com/rs/zerolog/log"
 	"github.com/samber/lo"
 )
 
@@ -14,6 +16,7 @@ func listenWebsocket(c *websocket.Conn) {
 
 	// Push connection
 	services.ClientRegister(user, c)
+	log.Debug().Uint("user", user.ID).Msg("New websocket connection established...")
 
 	// Event loop
 	var task models.UnifiedCommand
@@ -76,4 +79,5 @@ func listenWebsocket(c *websocket.Conn) {
 
 	// Pop connection
 	services.ClientUnregister(user, c)
+	log.Debug().Uint("user", user.ID).Msg("A websocket connection disconnected...")
 }
