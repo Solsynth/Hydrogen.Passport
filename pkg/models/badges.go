@@ -1,10 +1,11 @@
 package models
 
+import "gorm.io/datatypes"
+
 type Badge struct {
 	BaseModel
 
-	Type      string `json:"type"`
-	Label     string `json:"label"`
-	Color     string `json:"color"`
-	AccountID uint   `json:"account_id"`
+	Type      string            `json:"type"`
+	Metadata  datatypes.JSONMap `json:"metadata"`
+	AccountID uint              `json:"account_id"`
 }

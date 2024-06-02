@@ -4,10 +4,11 @@ import (
 	"fmt"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/services"
+	"git.solsynth.dev/hydrogen/passport/pkg/utils"
 	"github.com/gofiber/fiber/v2"
 )
 
-func MapUserInterface(A *fiber.App, authFunc func(c *fiber.Ctx, overrides ...string) error) {
+func MapUserInterface(A *fiber.App, authFunc utils.AuthFunc) {
 	authCheckWare := func(c *fiber.Ctx) error {
 		var token string
 		if cookie := c.Cookies(services.CookieAccessKey); len(cookie) > 0 {

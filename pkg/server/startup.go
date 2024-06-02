@@ -1,12 +1,14 @@
 package server
 
 import (
-	"github.com/gofiber/contrib/websocket"
 	"net/http"
 	"strings"
 
+	"github.com/gofiber/contrib/websocket"
+
 	"git.solsynth.dev/hydrogen/passport/pkg"
 	"git.solsynth.dev/hydrogen/passport/pkg/i18n"
+	"git.solsynth.dev/hydrogen/passport/pkg/server/admin"
 	"git.solsynth.dev/hydrogen/passport/pkg/server/ui"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -142,6 +144,7 @@ func NewServer() {
 		URL:        "/favicon.png",
 	}))
 
+	admin.MapAdminEndpoints(A, authFunc)
 	ui.MapUserInterface(A, authFunc)
 }
 
