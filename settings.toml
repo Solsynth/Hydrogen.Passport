@@ -16,9 +16,6 @@ print_routes = false
 endpoint = "http://localhost:8443"
 grpc_endpoint = "localhost:7443"
 
-[external.firebase]
-credentials = "dist/firebase-certs.json"
-
 [mailer]
 name = "Alphabot <alphabot@smartsheep.studio>"
 smtp_host = "smtp.exmail.qq.com"

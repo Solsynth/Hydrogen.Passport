@@ -1,13 +1,13 @@
 package main
 
 import (
-	"git.solsynth.dev/hydrogen/passport/pkg"
-	"git.solsynth.dev/hydrogen/passport/pkg/i18n"
 	"os"
 	"os/signal"
 	"syscall"
 
-	"git.solsynth.dev/hydrogen/passport/pkg/external"
+	"git.solsynth.dev/hydrogen/passport/pkg"
+	"git.solsynth.dev/hydrogen/passport/pkg/i18n"
+
 	"git.solsynth.dev/hydrogen/passport/pkg/grpc"
 	"git.solsynth.dev/hydrogen/passport/pkg/server"
 	"git.solsynth.dev/hydrogen/passport/pkg/services"
@@ -43,14 +43,6 @@ func main() {
 		log.Fatal().Err(err).Msg("An error occurred when connect to database.")
 	} else if err := database.RunMigration(database.C); err != nil {
 		log.Fatal().Err(err).Msg("An error occurred when running database auto migration.")
-	}
-
-	// External
-	// All the things are optional so when error occurred the server won't crash
-	if err := external.SetupFirebase(viper.GetString("external.firebase.credentials")); err != nil {
-		log.Error().Err(err).Msg("An error occurred when starting firebase communicating...")
-	} else {
-		log.Info().Msg("Successfully setup firebase communication.")
 	}
 
 	// Connect other services

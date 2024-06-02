@@ -1,15 +1,18 @@
 package models
 
 import (
-	"gorm.io/datatypes"
 	"time"
+
+	"gorm.io/datatypes"
 )
 
 type Notification struct {
 	BaseModel
 
+	Type        string                                `json:"type"`
 	Subject     string                                `json:"subject"`
 	Content     string                                `json:"content"`
+	Metadata    datatypes.JSONMap                     `json:"metadata"`
 	Links       datatypes.JSONSlice[NotificationLink] `json:"links"`
 	IsImportant bool                                  `json:"is_important"`
 	IsRealtime  bool                                  `json:"is_realtime" gorm:"-"`
@@ -25,7 +28,7 @@ type NotificationLink struct {
 }
 
 const (
-	NotifySubscriberFirebase = "firebase"
+	NotifySubscriberAPN = "apple"
 )
 
 type NotificationSubscriber struct {

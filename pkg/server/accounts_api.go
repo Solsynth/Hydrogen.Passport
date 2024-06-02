@@ -23,6 +23,7 @@ func getUserinfo(c *fiber.Ctx) error {
 		Where(&models.Account{BaseModel: models.BaseModel{ID: user.ID}}).
 		Preload("Profile").
 		Preload("Contacts").
+		Preload("Badges").
 		First(&data).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}

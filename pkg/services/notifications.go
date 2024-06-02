@@ -1,12 +1,9 @@
 package services
 
 import (
-	"context"
 	"reflect"
 
-	"firebase.google.com/go/messaging"
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
-	"git.solsynth.dev/hydrogen/passport/pkg/external"
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
 	"github.com/rs/zerolog/log"
 )
@@ -73,35 +70,7 @@ func PushNotification(notification models.Notification) error {
 
 	for _, subscriber := range subscribers {
 		switch subscriber.Provider {
-		case models.NotifySubscriberFirebase:
-			if external.Fire == nil {
-				// Didn't configure for firebase support
-				break
-			}
-
-			ctx := context.Background()
-			client, err := external.Fire.Messaging(ctx)
-			if err != nil {
-				log.Warn().Err(err).Msg("An error occurred when getting firebase FCM client...")
-				break
-			}
-
-			message := &messaging.Message{
-				Notification: &messaging.Notification{
-					Title: notification.Subject,
-					Body:  notification.Content,
-				},
-				Token: subscriber.DeviceToken,
-			}
-
-			if response, err := client.Send(ctx, message); err != nil {
-				log.Warn().Err(err).Msg("An error occurred when notify subscriber though firebase FCM...")
-			} else {
-				log.Debug().
-					Str("response", response).
-					Int("subscriber", int(subscriber.ID)).
-					Msg("Notified to subscriber though firebase FCM.")
-			}
+		case models.NotifySubscriberAPN:
 		}
 	}
 
