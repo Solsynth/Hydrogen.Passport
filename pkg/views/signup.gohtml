@@ -1,67 +1,47 @@
 <div class="left-part">
-    <img class="logo" alt="Logo" src="/favicon.png" width="64" height="64"/>
+  <img class="logo" alt="Logo" src="/favicon.png" width="64" height="64" />
 
-    <h1 class="title">{{.i18n.title}}</h1>
-    <p class="caption">{{.i18n.caption}}</p>
+  <h1 class="title">{{.i18n.title}}</h1>
+  <p class="caption">{{.i18n.caption}}</p>
 </div>
 
 <div class="right-part">
-    <div class="responsive-title-gap"></div>
+  <div class="responsive-title-gap"></div>
 
-    <form class="action-form" action="/sign-up" method="POST">
-        <div class="columns-two">
-            <md-outlined-text-field
-                    class="block-field"
-                    name="name"
-                    type="text"
-                    autocomplete="username"
-                    label={{.i18n.username}}
-            >
-            </md-outlined-text-field>
+  <form class="action-form" action="/sign-up" method="POST">
+    <div class="columns-two">
+      <div class="mb-1">
+        <label for="name" class="form-label">{{.i18n.username}}</label>
+        <input type="text" class="form-control" id="name" name="name">
+      </div>
 
-            <md-outlined-text-field
-                    class="block-field"
-                    name="nick"
-                    type="text"
-                    autocomplete="nickname"
-                    label={{.i18n.nickname}}
-            >
-            </md-outlined-text-field>
-        </div>
+      <div class="mb-1">
+        <label for="nick" class="form-label">{{.i18n.nickname}}</label>
+        <input type="text" class="form-control" id="nick" name="nick">
+      </div>
+    </div>
 
 
-        <md-outlined-text-field
-                class="block-field"
-                name="email"
-                type="email"
-                autocomplete="email"
-                label={{.i18n.email}}
-        >
-        </md-outlined-text-field>
+    <div class="mb-1 block-field">
+      <label for="email" class="form-label">{{.i18n.email}}</label>
+      <input type="email" class="form-control" id="email" name="email">
+    </div>
 
-        <md-outlined-text-field
-                class="block-field"
-                name="password"
-                type="password"
-                autocomplete="new-password"
-                label={{.i18n.password}}
-        >
-        </md-outlined-text-field>
+    <div class="mb-1">
+      <label for="password" class="form-label">{{.i18n.password}}</label>
+      <input type="password" class="form-control" id="password" name="password" autocomplete="new-password">
+    </div>
 
-        {{if eq .use_magic_token true}}
-            <md-outlined-text-field
-                    class="block-field"
-                    name="magic_token"
-                    type="password"
-                    autocomplete="off"
-                    label={{.i18n.magic_token}}
-            >
-            </md-outlined-text-field>
-        {{end}}
+    {{if eq .use_magic_token true}}
+    <div class="mb-1">
+      <label for="token" class="form-label">{{.i18n.password}}</label>
+      <input type="password" class="form-control" id="token" name="magic_token" autocomplete="new-password">
+    </div>
+    {{end}}
 
-        <div class="action-form-buttons">
-            <md-text-button type="button" href="/sign-in">{{.i18n.signin}}</md-text-button>
-            <md-filled-button type="submit">{{.i18n.next}}</md-filled-button>
-        </div>
-    </form>
+    <div class="action-form-buttons">
+      <a class="btn btn-secondary" href="/sign-in">{{.i18n.signin}}</a>
+      <button class="btn btn-primary" type="submit">{{.i18n.next}}</button>
+    </div>
+  </form>
 </div>

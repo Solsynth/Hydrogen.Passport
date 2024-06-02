@@ -144,7 +144,7 @@ func NewServer() {
 		URL:        "/favicon.png",
 	}))
 
-	admin.MapAdminEndpoints(A, authFunc)
+	admin.MapAdminEndpoints(A, authMiddleware)
 	ui.MapUserInterface(A, authFunc)
 }
 
