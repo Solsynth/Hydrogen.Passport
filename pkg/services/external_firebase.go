@@ -7,6 +7,7 @@ import (
 	"google.golang.org/api/option"
 )
 
+// ExtFire is the firebase app client
 var ExtFire *firebase.App
 
 func SetupFirebase() error {

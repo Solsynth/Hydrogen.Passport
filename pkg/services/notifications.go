@@ -3,11 +3,12 @@ package services
 import (
 	"context"
 	"firebase.google.com/go/messaging"
-	"reflect"
-
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
 	"github.com/rs/zerolog/log"
+	"github.com/sideshow/apns2"
+	payload2 "github.com/sideshow/apns2/payload"
+	"reflect"
 )
 
 func AddNotifySubscriber(user models.Account, provider, id, tk, ua string) (models.NotificationSubscriber, error) {
@@ -103,6 +104,27 @@ func PushNotification(notification models.Notification) error {
 						Str("response", response).
 						Int("subscriber", int(subscriber.ID)).
 						Msg("Notified subscriber via FCM.")
+				}
+			}
+		case models.NotifySubscriberAPNs:
+			if ExtAPNS != nil {
+				data, err := payload2.
+					NewPayload().
+					AlertTitle(notification.Subject).
+					AlertBody(notification.Content).
+					MarshalJSON()
+				if err != nil {
+					log.Warn().Err(err).Msg("An error occurred when preparing to notify subscriber via APNs...")
+				}
+				payload := &apns2.Notification{
+					DeviceToken: subscriber.DeviceToken,
+					Topic:       "dev.solsynth.solian.UniversalNotification",
+					Payload:     data,
+				}
+
+				_, err = ExtAPNS.Push(payload)
+				if err != nil {
+					log.Warn().Err(err).Msg("An error occurred when notify subscriber via APNs...")
 				}
 			}
 		}

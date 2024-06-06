@@ -29,6 +29,7 @@ type NotificationLink struct {
 
 const (
 	NotifySubscriberFirebase = "firebase"
+	NotifySubscriberAPNs     = "apple"
 )
 
 type NotificationSubscriber struct {
