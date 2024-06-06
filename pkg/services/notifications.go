@@ -1,6 +1,8 @@
 package services
 
 import (
+	"context"
+	"firebase.google.com/go/messaging"
 	"reflect"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/database"
@@ -54,11 +56,18 @@ func NewNotification(notification models.Notification) error {
 }
 
 func PushNotification(notification models.Notification) error {
+	frontendAvailable := false
 	for conn := range wsConn[notification.RecipientID] {
+		frontendAvailable = true
 		_ = conn.WriteMessage(1, models.UnifiedCommand{
 			Action:  "notifications.new",
 			Payload: notification,
 		}.Marshal())
+	}
+
+	// Skip push notification when frontend notify is available
+	if frontendAvailable {
+		return nil
 	}
 
 	var subscribers []models.NotificationSubscriber
@@ -70,7 +79,32 @@ func PushNotification(notification models.Notification) error {
 
 	for _, subscriber := range subscribers {
 		switch subscriber.Provider {
-		case models.NotifySubscriberAPN:
+		case models.NotifySubscriberFirebase:
+			if ExtFire != nil {
+				ctx := context.Background()
+				client, err := ExtFire.Messaging(ctx)
+				if err != nil {
+					log.Warn().Err(err).Msg("An error occurred when creating FCM client...")
+					break
+				}
+
+				message := &messaging.Message{
+					Notification: &messaging.Notification{
+						Title: notification.Subject,
+						Body:  notification.Content,
+					},
+					Token: subscriber.DeviceToken,
+				}
+
+				if response, err := client.Send(ctx, message); err != nil {
+					log.Warn().Err(err).Msg("An error occurred when notify subscriber via FCM...")
+				} else {
+					log.Debug().
+						Str("response", response).
+						Int("subscriber", int(subscriber.ID)).
+						Msg("Notified subscriber via FCM.")
+				}
+			}
 		}
 	}
 

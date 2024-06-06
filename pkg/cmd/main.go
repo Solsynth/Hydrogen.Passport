@@ -46,6 +46,9 @@ func main() {
 	}
 
 	// Connect other services
+	if err := services.SetupFirebase(); err != nil {
+		log.Error().Err(err).Msg("An error occurred when connecting firebase...")
+	}
 	if err := grpc.ConnectPaperclip(); err != nil {
 		log.Fatal().Err(err).Msg("An error occurred when connecting to paperclip...")
 	}
