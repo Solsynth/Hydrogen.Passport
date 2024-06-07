@@ -11,10 +11,12 @@ func notifyUser(c *fiber.Ctx) error {
 	var data struct {
 		ClientID     string                    `json:"client_id" validate:"required"`
 		ClientSecret string                    `json:"client_secret" validate:"required"`
+		Type         string                    `json:"type" validate:"required"`
 		Subject      string                    `json:"subject" validate:"required,max=1024"`
-		Content      string                    `json:"content" validate:"required,max=3072"`
+		Content      string                    `json:"content" validate:"required,max=4096"`
+		Metadata     map[string]any            `json:"metadata"`
 		Links        []models.NotificationLink `json:"links"`
-		IsImportant  bool                      `json:"is_important"`
+		IsForcePush  bool                      `json:"is_force_push"`
 		IsRealtime   bool                      `json:"is_realtime"`
 		UserID       uint                      `json:"user_id" validate:"required"`
 	}
@@ -34,12 +36,12 @@ func notifyUser(c *fiber.Ctx) error {
 	}
 
 	notification := models.Notification{
+		Type:        data.Type,
 		Subject:     data.Subject,
 		Content:     data.Content,
 		Links:       data.Links,
-		IsImportant: data.IsImportant,
 		IsRealtime:  data.IsRealtime,
-		ReadAt:      nil,
+		IsForcePush: data.IsForcePush,
 		RecipientID: user.ID,
 		SenderID:    &client.ID,
 	}

@@ -14,14 +14,16 @@ message NotifyLink {
 }
 
 message NotifyRequest {
-  string subject = 1;
-  string content = 2;
-  repeated NotifyLink links = 3;
-  bool is_important = 4;
-  uint64 recipient_id = 5;
-  string client_id = 6;
-  string client_secret = 7;
-  bool is_realtime = 8;
+  string type = 1;
+  string subject = 2;
+  string content = 3;
+  bytes metadata = 4;
+  repeated NotifyLink links = 5;
+  uint64 recipient_id = 6;
+  string client_id = 7;
+  string client_secret = 8;
+  bool is_realtime = 9;
+  bool is_force_push = 10;
 }
 
 message NotifyReply {

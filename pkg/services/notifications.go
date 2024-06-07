@@ -67,7 +67,7 @@ func PushNotification(notification models.Notification) error {
 	}
 
 	// Skip push notification when frontend notify is available
-	if frontendAvailable {
+	if frontendAvailable && !notification.IsForcePush {
 		return nil
 	}
 

@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	jsoniter "github.com/json-iterator/go"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/grpc/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/models"
@@ -20,6 +21,9 @@ func (v *Server) NotifyUser(_ context.Context, in *proto.NotifyRequest) (*proto.
 		return nil, err
 	}
 
+	var metadata map[string]any
+	_ = jsoniter.Unmarshal(in.GetMetadata(), &metadata)
+
 	links := lo.Map(in.GetLinks(), func(item *proto.NotifyLink, index int) models.NotificationLink {
 		return models.NotificationLink{
 			Label: item.Label,
@@ -28,12 +32,13 @@ func (v *Server) NotifyUser(_ context.Context, in *proto.NotifyRequest) (*proto.
 	})
 
 	notification := models.Notification{
+		Type:        in.GetType(),
 		Subject:     in.GetSubject(),
 		Content:     in.GetContent(),
+		Metadata:    metadata,
 		Links:       links,
-		IsImportant: in.GetIsImportant(),
 		IsRealtime:  in.GetIsRealtime(),
-		ReadAt:      nil,
+		IsForcePush: in.GetIsForcePush(),
 		RecipientID: user.ID,
 		SenderID:    &client.ID,
 	}
