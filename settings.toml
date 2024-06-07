@@ -6,6 +6,7 @@ grpc_bind = "0.0.0.0:7444"
 domain = "localhost"
 secret = "LtTjzAGFLshwXhN4ZD4nG5KlMv1MWcsvfv03TSZYnT1VhiAnLIZFTnHUwR0XhGgi"
 
+apns_topic = "dev.solsynth.solian.Runner"
 apns_credentials = ""
 apns_credentials_team = "000000000"
 apns_credentials_key = "000000000"

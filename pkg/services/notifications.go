@@ -8,6 +8,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/sideshow/apns2"
 	payload2 "github.com/sideshow/apns2/payload"
+	"github.com/spf13/viper"
 	"reflect"
 )
 
@@ -112,13 +113,15 @@ func PushNotification(notification models.Notification) error {
 					NewPayload().
 					AlertTitle(notification.Subject).
 					AlertBody(notification.Content).
+					Badge(1).
 					MarshalJSON()
 				if err != nil {
 					log.Warn().Err(err).Msg("An error occurred when preparing to notify subscriber via APNs...")
 				}
 				payload := &apns2.Notification{
+					ApnsID:      subscriber.DeviceID,
 					DeviceToken: subscriber.DeviceToken,
-					Topic:       "dev.solsynth.solian",
+					Topic:       viper.GetString("apns_topic"),
 					Payload:     data,
 				}
 
