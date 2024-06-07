@@ -32,7 +32,7 @@ func (v *Server) NotifyUser(_ context.Context, in *proto.NotifyRequest) (*proto.
 	})
 
 	notification := models.Notification{
-		Type:        in.GetType(),
+		Type:        lo.Ternary(len(in.GetType()) > 0, in.GetType(), "common"),
 		Subject:     in.GetSubject(),
 		Content:     in.GetContent(),
 		Metadata:    metadata,

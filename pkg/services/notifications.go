@@ -118,13 +118,18 @@ func PushNotification(notification models.Notification) error {
 				}
 				payload := &apns2.Notification{
 					DeviceToken: subscriber.DeviceToken,
-					Topic:       "dev.solsynth.solian.UniversalNotification",
+					Topic:       "dev.solsynth.solian",
 					Payload:     data,
 				}
 
-				_, err = ExtAPNS.Push(payload)
-				if err != nil {
+				if resp, err := ExtAPNS.Push(payload); err != nil {
 					log.Warn().Err(err).Msg("An error occurred when notify subscriber via APNs...")
+				} else {
+					log.Debug().
+						Str("reason", resp.Reason).
+						Int("status", resp.StatusCode).
+						Int("subscriber", int(subscriber.ID)).
+						Msg("Notified subscriber via APNs.")
 				}
 			}
 		}

@@ -7,12 +7,6 @@
     <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Apple push notification services">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/grpc/notify.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/grpc/notify.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/grpc/proto/notify.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/grpc/proto/notify.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/grpc/proto/notify.proto" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/grpc/proto/notify.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/grpc/proto/notify_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/grpc/proto/notify_grpc.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/models/notifications.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/models/notifications.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/notifications_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/notifications_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/notify_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/notify_api.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/services/notifications.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/notifications.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
