@@ -19,7 +19,7 @@ func SetupAPNS() error {
 		AuthKey: authKey,
 		KeyID:   viper.GetString("apns_credentials_key"),
 		TeamID:  viper.GetString("apns_credentials_team"),
-	})
+	}).Production()
 
 	return nil
 }

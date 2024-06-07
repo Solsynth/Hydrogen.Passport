@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Bug fixes">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Bug fix and fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/notifications.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/notifications.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.toml" beforeDir="false" afterPath="$PROJECT_DIR$/settings.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/external_apns.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/external_apns.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +141,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Bug fixes of risk detection&#10;:lipstick: Optimized UI" />
     <MESSAGE value=":sparkles: Realm in passport" />
     <MESSAGE value=":sparkles: Realm GRPC" />
     <MESSAGE value=":sparkles: Realm Member GRPC" />
@@ -167,7 +165,8 @@
     <MESSAGE value=":sparkles: Firebase is back" />
     <MESSAGE value=":sparkles: Apple push notification services" />
     <MESSAGE value=":bug: Bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Bug fixes" />
+    <MESSAGE value=":bug: Bug fix and fix" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Bug fix and fix" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
