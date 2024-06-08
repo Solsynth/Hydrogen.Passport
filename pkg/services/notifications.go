@@ -113,7 +113,8 @@ func PushNotification(notification models.Notification) error {
 					NewPayload().
 					AlertTitle(notification.Subject).
 					AlertBody(notification.Content).
-					SoundName("default").
+					Sound("default").
+					Category(notification.Type).
 					MarshalJSON()
 				if err != nil {
 					log.Warn().Err(err).Msg("An error occurred when preparing to notify subscriber via APNs...")
