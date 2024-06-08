@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix APNs pushes no sound (again)">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":fire: Remove ws connected does not push notify feature">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/notifications.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/notifications.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/realm_members_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/realm_members_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/startup.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/startup.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,8 +110,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-gosdk-33c477a475b1-b97fc8a1e17c-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-241.14494.238" />
-        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-GO-241.14494.238" />
+        <option value="bundled-gosdk-33c477a475b1-e0158606a674-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-241.17011.92" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-GO-241.17011.92" />
       </set>
     </attachedChunks>
   </component>
@@ -141,7 +143,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Bug fix on missing id in realm" />
     <MESSAGE value=":bug: Bug fixes on realm missing member on creation" />
     <MESSAGE value=":bug: Dumb man make dumb mistake again" />
     <MESSAGE value=":bug: Fix new realm owner missing permissions" />
@@ -166,7 +167,8 @@
     <MESSAGE value=":bug: Bug fixes on notification badges for APNs" />
     <MESSAGE value=":bug: Fix APNs pushes no sound" />
     <MESSAGE value=":bug: Fix APNs pushes no sound (again)" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix APNs pushes no sound (again)" />
+    <MESSAGE value=":fire: Remove ws connected does not push notify feature" />
+    <option name="LAST_COMMIT_MESSAGE" value=":fire: Remove ws connected does not push notify feature" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

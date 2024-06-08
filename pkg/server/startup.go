@@ -122,6 +122,7 @@ func NewServer() {
 			realms.Get("/me/available", authMiddleware, listAvailableRealm)
 			realms.Get("/:realm", getRealm)
 			realms.Get("/:realm/members", listRealmMembers)
+			realms.Get("/:realm/members/me", authMiddleware, getMyRealmMember)
 			realms.Post("/", authMiddleware, createRealm)
 			realms.Put("/:realmId", authMiddleware, editRealm)
 			realms.Delete("/:realmId", authMiddleware, deleteRealm)

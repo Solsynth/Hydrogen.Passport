@@ -10,12 +10,26 @@ import (
 
 func listRealmMembers(c *fiber.Ctx) error {
 	alias := c.Params("realm")
+
 	if realm, err := services.GetRealmWithAlias(alias); err != nil {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	} else if members, err := services.ListRealmMember(realm.ID); err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	} else {
 		return c.JSON(members)
+	}
+}
+
+func getMyRealmMember(c *fiber.Ctx) error {
+	alias := c.Params("realm")
+	user := c.Locals("principal").(models.Account)
+
+	if realm, err := services.GetRealmWithAlias(alias); err != nil {
+		return fiber.NewError(fiber.StatusNotFound, err.Error())
+	} else if member, err := services.GetRealmMember(user.ID, realm.ID); err != nil {
+		return fiber.NewError(fiber.StatusNotFound, err.Error())
+	} else {
+		return c.JSON(member)
 	}
 }
 
