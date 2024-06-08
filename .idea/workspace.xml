@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix APNs pushes no sound">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix APNs pushes no sound (again)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/services/notifications.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/notifications.go" afterDir="false" />
     </list>
@@ -141,7 +141,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Bug fixes on forgot add realm members for account" />
     <MESSAGE value=":bug: Bug fix on missing id in realm" />
     <MESSAGE value=":bug: Bug fixes on realm missing member on creation" />
     <MESSAGE value=":bug: Dumb man make dumb mistake again" />
@@ -166,7 +165,8 @@
     <MESSAGE value=":bug: Fix APNs non-production" />
     <MESSAGE value=":bug: Bug fixes on notification badges for APNs" />
     <MESSAGE value=":bug: Fix APNs pushes no sound" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix APNs pushes no sound" />
+    <MESSAGE value=":bug: Fix APNs pushes no sound (again)" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix APNs pushes no sound (again)" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

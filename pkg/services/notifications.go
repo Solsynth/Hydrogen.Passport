@@ -58,19 +58,14 @@ func NewNotification(notification models.Notification) error {
 }
 
 func PushNotification(notification models.Notification) error {
-	frontendAvailable := false
 	for conn := range wsConn[notification.RecipientID] {
-		frontendAvailable = true
 		_ = conn.WriteMessage(1, models.UnifiedCommand{
 			Action:  "notifications.new",
 			Payload: notification,
 		}.Marshal())
 	}
 
-	// Skip push notification when frontend notify is available
-	if frontendAvailable && !notification.IsForcePush {
-		return nil
-	}
+	// TODO Detect the push notification is turned off (still push when IsForcePush is on)
 
 	var subscribers []models.NotificationSubscriber
 	if err := database.C.Where(&models.NotificationSubscriber{
