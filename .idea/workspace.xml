@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Bug fix and fix">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix APNs non-production">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/external_apns.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/external_apns.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +140,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":sparkles: Realm in passport" />
     <MESSAGE value=":sparkles: Realm GRPC" />
     <MESSAGE value=":sparkles: Realm Member GRPC" />
     <MESSAGE value=":bug: Bug fixes on forgot add realm members for account" />
@@ -166,7 +164,8 @@
     <MESSAGE value=":sparkles: Apple push notification services" />
     <MESSAGE value=":bug: Bug fixes" />
     <MESSAGE value=":bug: Bug fix and fix" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Bug fix and fix" />
+    <MESSAGE value=":bug: Fix APNs non-production" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix APNs non-production" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
