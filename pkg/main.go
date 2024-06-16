@@ -65,11 +65,9 @@ func main() {
 	go server.Listen()
 
 	// Grpc Server
-	go func() {
-		if err := grpc.StartGrpc(); err != nil {
-			log.Fatal().Err(err).Msg("An message occurred when starting grpc server.")
-		}
-	}()
+	if err := grpc.StartGrpc(); err != nil {
+		log.Fatal().Err(err).Msg("An message occurred when starting grpc server.")
+	}
 
 	// Configure timed tasks
 	quartz := cron.New(cron.WithLogger(cron.VerbosePrintfLogger(&log.Logger)))
