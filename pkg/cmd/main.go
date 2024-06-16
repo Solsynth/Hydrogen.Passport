@@ -1,6 +1,7 @@
 package main
 
 import (
+	"git.solsynth.dev/hydrogen/passport/pkg/gap"
 	"os"
 	"os/signal"
 	"syscall"
@@ -46,6 +47,9 @@ func main() {
 	}
 
 	// Connect other services
+	if err := gap.Register(); err != nil {
+		log.Error().Err(err).Msg("An error occurred when registering service to gateway...")
+	}
 	if err := services.SetupFirebase(); err != nil {
 		log.Error().Err(err).Msg("An error occurred when connecting firebase...")
 	}

@@ -1,3 +1,4 @@
+id = "passport01"
 name = "Goatpass"
 maintainer = "Solsynth LLC"
 
@@ -17,6 +18,11 @@ use_registration_magic_token = false
 [debug]
 database = false
 print_routes = false
+
+[consul]
+addr = "127.0.0.1:8500"
+srv_serve = "127.0.0.1:8444"
+srv_http = "http://192.168.50.83:8444" # Uses host LAN ip so that can accessed by consul in the container
 
 [paperclip]
 endpoint = "http://localhost:8443"
