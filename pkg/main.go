@@ -1,20 +1,20 @@
 package main
 
 import (
-	"git.solsynth.dev/hydrogen/passport/pkg/gap"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
 	"os"
 	"os/signal"
 	"syscall"
 
-	"git.solsynth.dev/hydrogen/passport/pkg"
-	"git.solsynth.dev/hydrogen/passport/pkg/i18n"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/i18n"
 
-	"git.solsynth.dev/hydrogen/passport/pkg/grpc"
-	"git.solsynth.dev/hydrogen/passport/pkg/server"
-	"git.solsynth.dev/hydrogen/passport/pkg/services"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/grpc"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/robfig/cron/v3"
 
-	"git.solsynth.dev/hydrogen/passport/pkg/database"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"

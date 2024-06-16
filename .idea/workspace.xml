@@ -5,13 +5,109 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Consul registration">
-      <change afterPath="$PROJECT_DIR$/pkg/gap/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/cmd/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.toml" beforeDir="false" afterPath="$PROJECT_DIR$/settings.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/database/migrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/database/migrator.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/database/source.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/database/source.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/embed.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/embed.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/gap/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/gap/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/auth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/client.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/friendships.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/friendships.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/notify.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/notify.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/proto/auth.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/proto/auth.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/proto/auth.proto" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/proto/auth.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/proto/auth_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/proto/auth_grpc.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/proto/friendships.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/proto/friendships.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/proto/friendships.proto" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/proto/friendships.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/proto/friendships_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/proto/friendships_grpc.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/proto/notify.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/proto/notify.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/proto/notify.proto" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/proto/notify.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/proto/notify_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/proto/notify_grpc.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/proto/realms.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/proto/realms.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/proto/realms.proto" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/proto/realms.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/proto/realms_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/proto/realms_grpc.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/realms.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/realms.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/grpc/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/i18n/bundle.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/i18n/bundle.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/i18n/embed.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/i18n/embed.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/i18n/locale.en.json" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/i18n/locale.en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/i18n/locale.zh.json" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/i18n/locale.zh.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/i18n/middleware.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/i18n/middleware.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/meta.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/meta.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/models/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/accounts.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/models/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/auth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/models/badges.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/badges.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/models/base.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/base.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/models/clients.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/clients.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/models/events.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/events.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/models/friendships.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/friendships.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/models/notifications.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/notifications.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/models/profiles.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/profiles.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/models/realms.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/realms.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/models/tokens.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/tokens.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/models/unified.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/unified.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/accounts_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/accounts_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/admin/badges_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/admin/badges_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/admin/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/admin/index.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/auth_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/auth_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/auth_middleware.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/auth_middleware.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/avatar_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/avatar_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/factors_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/factors_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/friendships_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/friendships_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/notifications_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/notifications_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/notify_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/notify_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/page_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/page_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/realm_members_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/realm_members_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/realms_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/realms_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/security_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/security_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/startup.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/startup.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/ui/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/ui/accounts.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/ui/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/ui/index.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/ui/mfa.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/ui/mfa.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/ui/oauth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/ui/oauth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/ui/signin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/ui/signin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/ui/signup.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/ui/signup.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/userinfo_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/userinfo_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/well_known_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/well_known_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/ws.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/ws.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/accounts.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/auth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/badges.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/badges.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/cleaner.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/cleaner.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/clients.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/clients.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/connections.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/connections.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/e2ee.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/e2ee.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/encryptor.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/encryptor.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/events.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/events.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/external_apns.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/external_apns.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/external_firebase.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/external_firebase.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/factors.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/factors.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/friendships.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/friendships.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/jwt.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/mailer.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/mailer.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/mfa.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/mfa.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/notifications.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/notifications.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/perms.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/perms.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/realms.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/realms.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/ticker_maintainer.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/ticker_maintainer.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/ticket.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/ticket.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/ticket_queries.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/ticket_queries.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/ticket_token.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/ticket_token.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/tokens.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/tokens.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/utils/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/utils/auth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/utils/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/utils/request.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/authorize.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/views/authorize.gohtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/favicon.png" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/views/favicon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/index.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/views/index.gohtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/layouts/auth.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/views/layouts/auth.gohtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/layouts/user-center.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/views/layouts/user-center.gohtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/mfa-apply.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/views/mfa-apply.gohtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/mfa.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/views/mfa.gohtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/partials/header.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/views/partials/header.gohtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/signin.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/views/signin.gohtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/signup.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/views/signup.gohtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/views/users/me.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/views/users/me.gohtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,33 +142,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultGoTemplateProperty": "Go File",
-    "Go Build.Backend.executor": "Run",
-    "Go 构建.Backend.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "RunOnceActivity.go.modules.automatic.dependencies.download": "true",
-    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "git-widget-placeholder": "features/consul",
-    "go.import.settings.migrated": "true",
-    "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "/Users/littlesheep/Documents/Projects/Hydrogen/Passport/pkg/services",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
+    &quot;Go Build.Backend.executor&quot;: &quot;Run&quot;,
+    &quot;Go 构建.Backend.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.automatic.dependencies.download&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;features/consul&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/littlesheep/Documents/Projects/Hydrogen/Passport/pkg/services&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/pkg/services" />
@@ -82,10 +178,11 @@
       <recent name="$PROJECT_DIR$/pkg" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pkg/internal" />
+      <recent name="$PROJECT_DIR$/pkg" />
       <recent name="$PROJECT_DIR$/pkg/views/users/directory" />
       <recent name="$PROJECT_DIR$/pkg/views/users" />
       <recent name="$PROJECT_DIR$/pkg/utils" />
-      <recent name="$PROJECT_DIR$/pkg/services" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -104,8 +201,9 @@
       <module name="Passport" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="FILE" />
+      <package value="git.solsynth.dev/hydrogen/passport" />
       <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/pkg/cmd/main.go" />
+      <filePath value="$PROJECT_DIR$/pkg/main.go" />
       <output_directory value="$PROJECT_DIR$/dist" />
       <method v="2" />
     </configuration>
