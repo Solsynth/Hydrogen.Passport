@@ -65,6 +65,7 @@ func NewServer() {
 
 	A.Get("/.well-known", getMetadata)
 	A.Get("/.well-known/openid-configuration", getOidcConfiguration)
+	A.Get("/.well-known/status", getStatus)
 
 	api := A.Group("/api").Name("API")
 	{

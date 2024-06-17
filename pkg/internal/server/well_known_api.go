@@ -32,3 +32,7 @@ func getOidcConfiguration(c *fiber.Ctx) error {
 		"token_endpoint_auth_signing_alg_values_supported": []string{"HS512"},
 	})
 }
+
+func getStatus(c *fiber.Ctx) error {
+	return c.SendStatus(fiber.StatusOK)
+}
