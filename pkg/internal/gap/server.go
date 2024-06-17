@@ -17,21 +17,23 @@ func Register() error {
 		return err
 	}
 
-	bind := strings.SplitN(viper.GetString("consul.srv_serve"), ":", 2)
-	baseAddr := viper.GetString("consul.srv_http")
+	httpBind := strings.SplitN(viper.GetString("bind"), ":", 2)
+	grpcBind := strings.SplitN(viper.GetString("grpc_bind"), ":", 2)
 
-	port, _ := strconv.Atoi(bind[1])
+	outboundIp, _ := GetOutboundIP()
+	port, _ := strconv.Atoi(httpBind[1])
 
 	registration := new(api.AgentServiceRegistration)
 	registration.ID = viper.GetString("id")
 	registration.Name = "Hydrogen.Passport"
-	registration.Address = bind[0]
+	registration.Address = outboundIp.String()
 	registration.Port = port
 	registration.Check = &api.AgentServiceCheck{
-		HTTP:                           fmt.Sprintf("%s/.well-known", baseAddr),
+		GRPC:                           fmt.Sprintf("%s:%s", outboundIp, grpcBind[1]),
+		HTTP:                           fmt.Sprintf("%s:%s/.well-known", outboundIp, httpBind[1]),
 		Timeout:                        "5s",
-		Interval:                       "5s",
-		DeregisterCriticalServiceAfter: "10s",
+		Interval:                       "1m",
+		DeregisterCriticalServiceAfter: "3m",
 	}
 
 	return client.Agent().ServiceRegister(registration)

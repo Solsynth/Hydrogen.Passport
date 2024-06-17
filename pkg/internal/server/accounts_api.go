@@ -5,11 +5,11 @@ import (
 	"strconv"
 	"time"
 
-	"git.solsynth.dev/hydrogen/passport/pkg/utils"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/utils"
 
-	"git.solsynth.dev/hydrogen/passport/pkg/database"
-	"git.solsynth.dev/hydrogen/passport/pkg/models"
-	"git.solsynth.dev/hydrogen/passport/pkg/services"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/gofiber/fiber/v2"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/spf13/viper"

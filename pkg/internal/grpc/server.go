@@ -1,35 +1,43 @@
 package grpc
 
 import (
+	"google.golang.org/grpc/reflection"
 	"net"
 
-	"git.solsynth.dev/hydrogen/passport/pkg/grpc/proto"
+	"git.solsynth.dev/hydrogen/passport/pkg/proto"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
 )
+
+import health "google.golang.org/grpc/health/grpc_health_v1"
 
 type Server struct {
 	proto.UnimplementedAuthServer
 	proto.UnimplementedNotifyServer
 	proto.UnimplementedFriendshipsServer
 	proto.UnimplementedRealmsServer
+	health.UnimplementedHealthServer
 }
 
-func StartGrpc() error {
+var S *grpc.Server
+
+func NewGRPC() {
+	S = grpc.NewServer()
+
+	proto.RegisterAuthServer(S, &Server{})
+	proto.RegisterNotifyServer(S, &Server{})
+	proto.RegisterFriendshipsServer(S, &Server{})
+	proto.RegisterRealmsServer(S, &Server{})
+	health.RegisterHealthServer(S, &Server{})
+
+	reflection.Register(S)
+}
+
+func ListenGRPC() error {
 	listen, err := net.Listen("tcp", viper.GetString("grpc_bind"))
 	if err != nil {
 		return err
 	}
 
-	server := grpc.NewServer()
-
-	proto.RegisterAuthServer(server, &Server{})
-	proto.RegisterNotifyServer(server, &Server{})
-	proto.RegisterFriendshipsServer(server, &Server{})
-	proto.RegisterRealmsServer(server, &Server{})
-
-	reflection.Register(server)
-
-	return server.Serve(listen)
+	return S.Serve(listen)
 }

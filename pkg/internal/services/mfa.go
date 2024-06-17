@@ -1,7 +1,7 @@
 package services
 
 import (
-	"git.solsynth.dev/hydrogen/passport/pkg/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
 )
 

@@ -51,13 +51,13 @@ func main() {
 		log.Error().Err(err).Msg("An error occurred when registering service to gateway...")
 	}
 	if err := services.SetupFirebase(); err != nil {
-		log.Error().Err(err).Msg("An error occurred when connecting firebase...")
+		log.Error().Err(err).Msg("An error occurred when connecting Firebase...")
 	}
 	if err := services.SetupAPNS(); err != nil {
 		log.Error().Err(err).Msg("An error occurred when connecting APNs...")
 	}
 	if err := grpc.ConnectPaperclip(); err != nil {
-		log.Fatal().Err(err).Msg("An error occurred when connecting to paperclip...")
+		log.Fatal().Err(err).Msg("An error occurred when connecting to Paperclip...")
 	}
 
 	// Server
@@ -65,9 +65,8 @@ func main() {
 	go server.Listen()
 
 	// Grpc Server
-	if err := grpc.StartGrpc(); err != nil {
-		log.Fatal().Err(err).Msg("An message occurred when starting grpc server.")
-	}
+	grpc.NewGRPC()
+	go grpc.ListenGRPC()
 
 	// Configure timed tasks
 	quartz := cron.New(cron.WithLogger(cron.VerbosePrintfLogger(&log.Logger)))

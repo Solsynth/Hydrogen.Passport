@@ -1,9 +1,9 @@
 package server
 
 import (
-	"git.solsynth.dev/hydrogen/passport/pkg/database"
-	"git.solsynth.dev/hydrogen/passport/pkg/models"
-	"git.solsynth.dev/hydrogen/passport/pkg/utils"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/utils"
 	"github.com/gofiber/fiber/v2"
 )
 

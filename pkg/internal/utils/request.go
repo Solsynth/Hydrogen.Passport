@@ -2,7 +2,7 @@ package utils
 
 import (
 	"fmt"
-	"git.solsynth.dev/hydrogen/passport/pkg/services"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/samber/lo"

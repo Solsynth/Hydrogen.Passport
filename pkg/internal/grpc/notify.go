@@ -4,9 +4,9 @@ import (
 	"context"
 	jsoniter "github.com/json-iterator/go"
 
-	"git.solsynth.dev/hydrogen/passport/pkg/grpc/proto"
-	"git.solsynth.dev/hydrogen/passport/pkg/models"
-	"git.solsynth.dev/hydrogen/passport/pkg/services"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
+	"git.solsynth.dev/hydrogen/passport/pkg/proto"
 	"github.com/samber/lo"
 )
 

@@ -3,7 +3,7 @@ package services
 import (
 	"sync"
 
-	"git.solsynth.dev/hydrogen/passport/pkg/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"github.com/gofiber/contrib/websocket"
 )
 

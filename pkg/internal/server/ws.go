@@ -3,8 +3,8 @@ package server
 import (
 	"fmt"
 
-	"git.solsynth.dev/hydrogen/passport/pkg/models"
-	"git.solsynth.dev/hydrogen/passport/pkg/services"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/gofiber/contrib/websocket"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/rs/zerolog/log"

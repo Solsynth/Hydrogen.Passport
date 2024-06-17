@@ -7,7 +7,7 @@ import (
 
 	jsoniter "github.com/json-iterator/go"
 
-	"git.solsynth.dev/hydrogen/passport/pkg/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog/log"
 )

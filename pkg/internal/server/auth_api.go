@@ -2,12 +2,12 @@ package server
 
 import (
 	"fmt"
-	"git.solsynth.dev/hydrogen/passport/pkg/utils"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/utils"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 
-	"git.solsynth.dev/hydrogen/passport/pkg/services"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 )
 
 func doAuthenticate(c *fiber.Ctx) error {

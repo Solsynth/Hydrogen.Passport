@@ -3,8 +3,8 @@ package services
 import (
 	"context"
 	"firebase.google.com/go/messaging"
-	"git.solsynth.dev/hydrogen/passport/pkg/database"
-	"git.solsynth.dev/hydrogen/passport/pkg/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"github.com/rs/zerolog/log"
 	"github.com/sideshow/apns2"
 	payload2 "github.com/sideshow/apns2/payload"

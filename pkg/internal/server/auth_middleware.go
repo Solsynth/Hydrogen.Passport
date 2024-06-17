@@ -3,7 +3,7 @@ package server
 import (
 	"strings"
 
-	"git.solsynth.dev/hydrogen/passport/pkg/services"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/gofiber/fiber/v2"
 )
 

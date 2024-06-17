@@ -6,8 +6,8 @@ import (
 	"gorm.io/datatypes"
 	"time"
 
-	"git.solsynth.dev/hydrogen/passport/pkg/database"
-	"git.solsynth.dev/hydrogen/passport/pkg/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"github.com/google/uuid"
 	"github.com/samber/lo"
 	"gorm.io/gorm"

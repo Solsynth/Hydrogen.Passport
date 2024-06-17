@@ -6,10 +6,10 @@ import (
 
 	"github.com/gofiber/contrib/websocket"
 
-	"git.solsynth.dev/hydrogen/passport/pkg"
-	"git.solsynth.dev/hydrogen/passport/pkg/i18n"
-	"git.solsynth.dev/hydrogen/passport/pkg/server/admin"
-	"git.solsynth.dev/hydrogen/passport/pkg/server/ui"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/i18n"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/admin"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/ui"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/favicon"

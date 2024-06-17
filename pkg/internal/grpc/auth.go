@@ -3,8 +3,8 @@ package grpc
 import (
 	"context"
 
-	"git.solsynth.dev/hydrogen/passport/pkg/grpc/proto"
-	"git.solsynth.dev/hydrogen/passport/pkg/services"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
+	"git.solsynth.dev/hydrogen/passport/pkg/proto"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/samber/lo"
 )
