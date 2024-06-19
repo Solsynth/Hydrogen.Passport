@@ -7,7 +7,7 @@
     <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Consul registration">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/gap/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/gap/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/startup.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/server/well_known_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/well_known_api.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

@@ -30,7 +30,6 @@ func Register() error {
 	registration.Port = port
 	registration.Check = &api.AgentServiceCheck{
 		GRPC:                           fmt.Sprintf("%s:%s", outboundIp, grpcBind[1]),
-		HTTP:                           fmt.Sprintf("http://%s:%s/.well-known/status", outboundIp, httpBind[1]),
 		Timeout:                        "5s",
 		Interval:                       "1m",
 		DeregisterCriticalServiceAfter: "3m",
