@@ -3,10 +3,9 @@ package server
 import (
 	"context"
 	"fmt"
-
 	pcpb "git.solsynth.dev/hydrogen/paperclip/pkg/grpc/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/grpc"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/utils"
@@ -25,7 +24,11 @@ func setAvatar(c *fiber.Ctx) error {
 		return err
 	}
 
-	if _, err := grpc.Attachments.CheckAttachmentExists(context.Background(), &pcpb.AttachmentLookupRequest{
+	pc, err := gap.DiscoverPaperclip()
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "attachments services was not available")
+	}
+	if _, err := pcpb.NewAttachmentsClient(pc).CheckAttachmentExists(context.Background(), &pcpb.AttachmentLookupRequest{
 		Id:    lo.ToPtr(uint64(data.AttachmentID)),
 		Usage: lo.ToPtr("p.avatar"),
 	}); err != nil {
@@ -54,7 +57,11 @@ func setBanner(c *fiber.Ctx) error {
 		return err
 	}
 
-	if _, err := grpc.Attachments.CheckAttachmentExists(context.Background(), &pcpb.AttachmentLookupRequest{
+	pc, err := gap.DiscoverPaperclip()
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "attachments services was not available")
+	}
+	if _, err := pcpb.NewAttachmentsClient(pc).CheckAttachmentExists(context.Background(), &pcpb.AttachmentLookupRequest{
 		Id:    lo.ToPtr(uint64(data.AttachmentID)),
 		Usage: lo.ToPtr("p.banner"),
 	}); err != nil {

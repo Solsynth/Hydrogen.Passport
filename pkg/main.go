@@ -56,9 +56,6 @@ func main() {
 	if err := services.SetupAPNS(); err != nil {
 		log.Error().Err(err).Msg("An error occurred when connecting APNs...")
 	}
-	if err := grpc.ConnectPaperclip(); err != nil {
-		log.Fatal().Err(err).Msg("An error occurred when connecting to Paperclip...")
-	}
 
 	// Server
 	server.NewServer()

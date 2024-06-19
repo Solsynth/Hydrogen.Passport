@@ -4,9 +4,15 @@ import (
 	"fmt"
 	"github.com/hashicorp/consul/api"
 	"github.com/spf13/viper"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 	"strconv"
 	"strings"
+
+	_ "github.com/mbobakov/grpc-consul-resolver"
 )
+
+var C *api.Client
 
 func Register() error {
 	cfg := api.DefaultConfig()
@@ -35,5 +41,18 @@ func Register() error {
 		DeregisterCriticalServiceAfter: "3m",
 	}
 
-	return client.Agent().ServiceRegister(registration)
+	if err := client.Agent().ServiceRegister(registration); err != nil {
+		return err
+	} else {
+		C = client
+		return nil
+	}
+}
+
+func DiscoverPaperclip() (*grpc.ClientConn, error) {
+	return grpc.NewClient(
+		"consul://127.0.0.1:8500/Hydrogen.Paperclip",
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy": "round_robin"}`),
+	)
 }

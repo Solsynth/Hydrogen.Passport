@@ -34,10 +34,10 @@ func NewGRPC() {
 }
 
 func ListenGRPC() error {
-	listen, err := net.Listen("tcp", viper.GetString("grpc_bind"))
+	listener, err := net.Listen("tcp", viper.GetString("grpc_bind"))
 	if err != nil {
 		return err
 	}
 
-	return S.Serve(listen)
+	return S.Serve(listener)
 }

@@ -4,11 +4,16 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Consul registration">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":wastebasket: Remove HTTP provision to consul">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/gap/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/gap/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/well_known_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/well_known_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/client.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/avatar_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/avatar_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.toml" beforeDir="false" afterPath="$PROJECT_DIR$/settings.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,7 +150,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Fix new realm owner missing permissions" />
     <MESSAGE value=":zap: Use map to improve message delivery time" />
     <MESSAGE value=":recycle: Improved the notification subscriber API" />
     <MESSAGE value=":sparkles: E2EE Key Exchange" />
@@ -170,7 +174,8 @@
     <MESSAGE value=":fire: Remove ws connected does not push notify feature" />
     <MESSAGE value=":sparkles: Able to read current user's realm profile" />
     <MESSAGE value=":sparkles: Consul registration" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Consul registration" />
+    <MESSAGE value=":wastebasket: Remove HTTP provision to consul" />
+    <option name="LAST_COMMIT_MESSAGE" value=":wastebasket: Remove HTTP provision to consul" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

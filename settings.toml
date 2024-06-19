@@ -22,10 +22,6 @@ print_routes = false
 [consul]
 addr = "127.0.0.1:8500"
 
-[paperclip]
-endpoint = "http://localhost:8443"
-grpc_endpoint = "localhost:7443"
-
 [mailer]
 name = "Alphabot <alphabot@smartsheep.studio>"
 smtp_host = "smtp.exmail.qq.com"
