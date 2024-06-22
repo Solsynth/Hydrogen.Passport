@@ -7,14 +7,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-func getMetadata(c *fiber.Ctx) error {
-	return c.JSON(fiber.Map{
-		"name":              viper.GetString("name"),
-		"domain":            viper.GetString("domain"),
-		"open_registration": !viper.GetBool("use_registration_magic_token"),
-	})
-}
-
 func getOidcConfiguration(c *fiber.Ctx) error {
 	domain := viper.GetString("domain")
 	basepath := fmt.Sprintf("https://%s", domain)

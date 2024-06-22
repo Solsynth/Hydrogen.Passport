@@ -7,7 +7,6 @@ import (
 )
 
 func MapAPIs(app *fiber.App) {
-	app.Get("/.well-known", getMetadata)
 	app.Get("/.well-known/openid-configuration", getOidcConfiguration)
 
 	api := app.Group("/api").Name("API")
