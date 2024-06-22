@@ -2,17 +2,16 @@ package gap
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
+
 	"github.com/hashicorp/consul/api"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	"strconv"
-	"strings"
 
 	_ "github.com/mbobakov/grpc-consul-resolver"
 )
-
-var C *api.Client
 
 func Register() error {
 	cfg := api.DefaultConfig()
@@ -41,17 +40,13 @@ func Register() error {
 		DeregisterCriticalServiceAfter: "3m",
 	}
 
-	if err := client.Agent().ServiceRegister(registration); err != nil {
-		return err
-	} else {
-		C = client
-		return nil
-	}
+	return client.Agent().ServiceRegister(registration)
 }
 
 func DiscoverPaperclip() (*grpc.ClientConn, error) {
+	target := fmt.Sprintf("consul://%s/Hydrogen.Paperclip", viper.GetString("consul.addr"))
 	return grpc.NewClient(
-		"consul://127.0.0.1:8500/Hydrogen.Paperclip",
+		target,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy": "round_robin"}`),
 	)

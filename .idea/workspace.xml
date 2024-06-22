@@ -4,16 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":wastebasket: Remove HTTP provision to consul">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Drop direct connection and uses consul">
+      <change afterPath="$PROJECT_DIR$/pkg/hyper/auth.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/hyper/auth_adaptor.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/hyper/conn.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/gap/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/gap/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/client.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/avatar_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/avatar_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.toml" beforeDir="false" afterPath="$PROJECT_DIR$/settings.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,8 +114,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-gosdk-33c477a475b1-e0158606a674-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-241.17890.21" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-GO-241.17890.21" />
+        <option value="bundled-gosdk-33c477a475b1-e0158606a674-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-241.18034.61" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-GO-241.18034.61" />
       </set>
     </attachedChunks>
   </component>
@@ -150,7 +147,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":zap: Use map to improve message delivery time" />
     <MESSAGE value=":recycle: Improved the notification subscriber API" />
     <MESSAGE value=":sparkles: E2EE Key Exchange" />
     <MESSAGE value=":bug: Bug fixes on E2EE" />
@@ -175,7 +171,8 @@
     <MESSAGE value=":sparkles: Able to read current user's realm profile" />
     <MESSAGE value=":sparkles: Consul registration" />
     <MESSAGE value=":wastebasket: Remove HTTP provision to consul" />
-    <option name="LAST_COMMIT_MESSAGE" value=":wastebasket: Remove HTTP provision to consul" />
+    <MESSAGE value=":sparkles: Drop direct connection and uses consul" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Drop direct connection and uses consul" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
