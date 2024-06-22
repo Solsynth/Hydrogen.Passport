@@ -11,8 +11,8 @@ func DoAuthRedirect(c *fiber.Ctx) error {
 	return c.Redirect(fmt.Sprintf("/sign-in?redirect_uri=%s", string(uri)))
 }
 
-func MapUserInterface(A *fiber.App) {
-	pages := A.Group("/").Name("Pages")
+func MapUserInterface(app *fiber.App) {
+	pages := app.Group("/").Name("Pages")
 
 	pages.Get("/", func(c *fiber.Ctx) error {
 		return c.Redirect("/users/me")

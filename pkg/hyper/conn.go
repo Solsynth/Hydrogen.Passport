@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+
+	_ "github.com/mbobakov/grpc-consul-resolver"
 )
 
 type HyperConn struct {

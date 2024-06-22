@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":recycle: Improve code structure and much easier to read&#10;:bug: Fix auth middleware">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/avatar_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/avatar_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/index.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/well_known_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/well_known_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.toml" beforeDir="false" afterPath="$PROJECT_DIR$/settings.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/hyper/conn.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/hyper/conn.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/admin/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/admin/index.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/ui/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/ui/index.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
