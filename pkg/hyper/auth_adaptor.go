@@ -20,10 +20,14 @@ func (v *HyperConn) AuthMiddleware(c *fiber.Ctx) error {
 		tk := strings.Replace(header, "Bearer", "", 1)
 		atk = strings.TrimSpace(tk)
 	}
+	if tk := c.Query("tk"); len(tk) > 0 {
+		atk = strings.TrimSpace(tk)
+	}
 
 	c.Locals("p_token", atk)
 
-	if user, newAtk, newRtk, err := v.DoAuthenticate(atk, c.Cookies(CookieRtk)); err == nil {
+	rtk := c.Cookies(CookieRtk)
+	if user, newAtk, newRtk, err := v.DoAuthenticate(atk, rtk); err == nil {
 		if newAtk != atk {
 			c.Cookie(&fiber.Cookie{
 				Name:     CookieAtk,

@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":recycle: Improve code structure and much easier to read&#10;:bug: Fix auth middleware">
-      <change beforePath="$PROJECT_DIR$/pkg/hyper/conn.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/hyper/conn.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/admin/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/admin/index.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/ui/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/ui/index.go" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: FIx cannot resolve service">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/hyper/auth_adaptor.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/hyper/auth_adaptor.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,7 +143,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Bug fixes on E2EE" />
     <MESSAGE value=":bug: Fix key exchange cause echo" />
     <MESSAGE value=":bug: Fix notification push issue" />
     <MESSAGE value=":sparkles: Basis perm nodes feature" />
@@ -169,7 +167,8 @@
     <MESSAGE value=":sparkles: Drop direct connection and uses consul" />
     <MESSAGE value=":technologist: Add the server side Hyper SDK" />
     <MESSAGE value=":recycle: Improve code structure and much easier to read&#10;:bug: Fix auth middleware" />
-    <option name="LAST_COMMIT_MESSAGE" value=":recycle: Improve code structure and much easier to read&#10;:bug: Fix auth middleware" />
+    <MESSAGE value=":bug: FIx cannot resolve service" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: FIx cannot resolve service" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
