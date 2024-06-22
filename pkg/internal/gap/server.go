@@ -22,11 +22,10 @@ func Register() error {
 		return err
 	}
 
-	httpBind := strings.SplitN(viper.GetString("bind"), ":", 2)
 	grpcBind := strings.SplitN(viper.GetString("grpc_bind"), ":", 2)
 
 	outboundIp, _ := GetOutboundIP()
-	port, _ := strconv.Atoi(httpBind[1])
+	port, _ := strconv.Atoi(grpcBind[1])
 
 	registration := new(api.AgentServiceRegistration)
 	registration.ID = viper.GetString("id")

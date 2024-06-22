@@ -54,7 +54,6 @@ func (v *HyperConn) EnsureAuthenticated(c *fiber.Ctx) error {
 	if _, ok := c.Locals("p_user").(*proto.Userinfo); !ok {
 		return fiber.NewError(fiber.StatusUnauthorized)
 	}
-
 	return nil
 }
 
