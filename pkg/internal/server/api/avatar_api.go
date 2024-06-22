@@ -1,4 +1,4 @@
-package server
+package api
 
 import (
 	"context"
@@ -7,20 +7,27 @@ import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/samber/lo"
 )
 
 func setAvatar(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
+
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
 
 	var data struct {
 		AttachmentID uint `json:"attachment" validate:"required"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 
@@ -47,13 +54,16 @@ func setAvatar(c *fiber.Ctx) error {
 }
 
 func setBanner(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 
 	var data struct {
 		AttachmentID uint `json:"attachment" validate:"required"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 

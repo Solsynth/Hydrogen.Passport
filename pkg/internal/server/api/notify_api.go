@@ -1,9 +1,9 @@
-package server
+package api
 
 import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/utils"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -21,7 +21,7 @@ func notifyUser(c *fiber.Ctx) error {
 		UserID       uint                      `json:"user_id" validate:"required"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 

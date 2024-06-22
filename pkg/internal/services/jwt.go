@@ -2,15 +2,11 @@ package services
 
 import (
 	"fmt"
-	"github.com/gofiber/fiber/v2"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/spf13/viper"
 )
-
-var CookieAccessKey = "passport_auth_key"
-var CookieRefreshKey = "passport_refresh_key"
 
 type PayloadClaims struct {
 	jwt.RegisteredClaims
@@ -59,23 +55,4 @@ func DecodeJwt(str string) (PayloadClaims, error) {
 	} else {
 		return claims, fmt.Errorf("unexpected token payload: not payload claims type")
 	}
-}
-
-func SetJwtCookieSet(c *fiber.Ctx, access, refresh string) {
-	c.Cookie(&fiber.Cookie{
-		Name:     CookieAccessKey,
-		Value:    access,
-		Domain:   viper.GetString("security.cookie_domain"),
-		SameSite: viper.GetString("security.cookie_samesite"),
-		Expires:  time.Now().Add(60 * time.Minute),
-		Path:     "/",
-	})
-	c.Cookie(&fiber.Cookie{
-		Name:     CookieRefreshKey,
-		Value:    refresh,
-		Domain:   viper.GetString("security.cookie_domain"),
-		SameSite: viper.GetString("security.cookie_samesite"),
-		Expires:  time.Now().Add(24 * 30 * time.Hour),
-		Path:     "/",
-	})
 }

@@ -2,8 +2,8 @@ package ui
 
 import (
 	"fmt"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"github.com/samber/lo"
@@ -47,7 +47,7 @@ func signinAction(c *fiber.Ctx) error {
 		Password string `form:"password" validate:"required"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return flash.WithInfo(c, fiber.Map{
 			"message": err.Error(),
 		}).Redirect("/sign-in")
@@ -76,7 +76,7 @@ func signinAction(c *fiber.Ctx) error {
 
 	if ticket.IsAvailable() != nil {
 		return flash.WithData(c, fiber.Map{
-			"redirect_uri": utils.GetRedirectUri(c),
+			"redirect_uri": exts.GetRedirectUri(c),
 		}).Redirect(fmt.Sprintf("/mfa?ticket=%d", ticket.ID))
 	}
 
@@ -86,8 +86,8 @@ func signinAction(c *fiber.Ctx) error {
 			"message": fmt.Sprintf("failed to exchange token: %v", err.Error()),
 		}).Redirect("/sign-in")
 	} else {
-		services.SetJwtCookieSet(c, access, refresh)
+		exts.SetAuthCookies(c, access, refresh)
 	}
 
-	return c.Redirect(lo.FromPtr(utils.GetRedirectUri(c, "/users/me")))
+	return c.Redirect(lo.FromPtr(exts.GetRedirectUri(c, "/users/me")))
 }

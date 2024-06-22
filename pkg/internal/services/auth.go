@@ -17,23 +17,23 @@ var (
 	authContextCache = make(map[string]models.AuthContext)
 )
 
-func Authenticate(access, refresh string, depth int) (ctx models.AuthContext, perms map[string]any, newAccess, newRefresh string, err error) {
+func Authenticate(atk, rtk string, rty int) (ctx models.AuthContext, perms map[string]any, newAtk, newRtk string, err error) {
 	var claims PayloadClaims
-	claims, err = DecodeJwt(access)
+	claims, err = DecodeJwt(atk)
 	if err != nil {
-		if len(refresh) > 0 && depth < 1 {
+		if len(rtk) > 0 && rty < 1 {
 			// Auto refresh and retry
-			newAccess, newRefresh, err = RefreshToken(refresh)
+			newAtk, newRtk, err = RefreshToken(rtk)
 			if err == nil {
-				return Authenticate(newAccess, newRefresh, depth+1)
+				return Authenticate(newAtk, newRtk, rty+1)
 			}
 		}
 		err = fiber.NewError(fiber.StatusUnauthorized, fmt.Sprintf("invalid auth key: %v", err))
 		return
 	}
 
-	newAccess = access
-	newRefresh = refresh
+	newAtk = atk
+	newRtk = rtk
 
 	if ctx, err = GetAuthContext(claims.ID); err == nil {
 		var heldPerms map[string]any

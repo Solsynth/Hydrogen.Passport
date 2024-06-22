@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"github.com/samber/lo"
@@ -52,7 +52,7 @@ func signupAction(c *fiber.Ctx) error {
 		MagicToken string `form:"magic_token"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return flash.WithInfo(c, fiber.Map{
 			"message": err.Error(),
 		}).Redirect("/sign-up")
@@ -82,6 +82,6 @@ func signupAction(c *fiber.Ctx) error {
 	} else {
 		return flash.WithInfo(c, fiber.Map{
 			"message": "account has been created. now you can sign in!",
-		}).Redirect(lo.FromPtr(utils.GetRedirectUri(c, "/sign-in")))
+		}).Redirect(lo.FromPtr(exts.GetRedirectUri(c, "/sign-in")))
 	}
 }

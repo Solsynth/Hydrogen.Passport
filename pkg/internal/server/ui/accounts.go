@@ -2,6 +2,7 @@ package ui
 
 import (
 	"fmt"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"html/template"
 	"time"
 
@@ -15,7 +16,10 @@ import (
 )
 
 func selfUserinfoPage(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return DoAuthRedirect(c)
+	}
+	user := c.Locals("user").(models.Account)
 
 	var data models.Account
 	if err := database.C.

@@ -1,8 +1,8 @@
-package server
+package api
 
 import (
 	"fmt"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/utils"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -16,7 +16,7 @@ func doAuthenticate(c *fiber.Ctx) error {
 		Password string `json:"password" validate:"required"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 
@@ -48,7 +48,7 @@ func doMultiFactorAuthenticate(c *fiber.Ctx) error {
 		Code     string `json:"code" validate:"required"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 
@@ -85,7 +85,7 @@ func getToken(c *fiber.Ctx) error {
 		GrantType    string `json:"grant_type" form:"grant_type"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 
@@ -134,7 +134,7 @@ func getToken(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, "unsupported exchange token type")
 	}
 
-	services.SetJwtCookieSet(c, access, refresh)
+	exts.SetAuthCookies(c, access, refresh)
 
 	return c.JSON(fiber.Map{
 		"id_token":      access,

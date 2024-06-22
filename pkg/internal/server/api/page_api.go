@@ -1,9 +1,9 @@
-package server
+package api
 
 import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/utils"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -28,7 +28,10 @@ func getPersonalPage(c *fiber.Ctx) error {
 }
 
 func getOwnPersonalPage(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 
 	var page models.AccountPage
 	if err := database.C.
@@ -41,14 +44,17 @@ func getOwnPersonalPage(c *fiber.Ctx) error {
 }
 
 func editPersonalPage(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 
 	var data struct {
 		Content string                    `json:"content"`
 		Links   []models.AccountPageLinks `json:"links"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 

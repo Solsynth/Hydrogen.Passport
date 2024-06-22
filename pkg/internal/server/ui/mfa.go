@@ -3,8 +3,8 @@ package ui
 import (
 	"fmt"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"github.com/samber/lo"
@@ -68,7 +68,7 @@ func mfaRequestAction(c *fiber.Ctx) error {
 	}
 
 	redirectBackUri := "/sign-in"
-	err := utils.BindAndValidate(c, &data)
+	err := exts.BindAndValidate(c, &data)
 
 	if data.TicketID > 0 {
 		redirectBackUri = fmt.Sprintf("/mfa?ticket=%d", data.TicketID)
@@ -95,7 +95,7 @@ func mfaRequestAction(c *fiber.Ctx) error {
 	}
 
 	return flash.WithData(c, fiber.Map{
-		"redirect_uri": utils.GetRedirectUri(c),
+		"redirect_uri": exts.GetRedirectUri(c),
 	}).Redirect(fmt.Sprintf("/mfa/apply?ticket=%d&factor=%d", data.TicketID, factor.ID))
 }
 
@@ -145,7 +145,7 @@ func mfaApplyAction(c *fiber.Ctx) error {
 	}
 
 	redirectBackUri := "/sign-in"
-	err := utils.BindAndValidate(c, &data)
+	err := exts.BindAndValidate(c, &data)
 
 	if data.TicketID > 0 {
 		redirectBackUri = fmt.Sprintf("/mfa/apply?ticket=%d&factor=%d", data.TicketID, data.FactorID)
@@ -187,8 +187,8 @@ func mfaApplyAction(c *fiber.Ctx) error {
 			"message": fmt.Sprintf("failed to exchange token: %v", err.Error()),
 		}).Redirect("/sign-in")
 	} else {
-		services.SetJwtCookieSet(c, access, refresh)
+		exts.SetAuthCookies(c, access, refresh)
 	}
 
-	return c.Redirect(lo.FromPtr(utils.GetRedirectUri(c, "/users/me")))
+	return c.Redirect(lo.FromPtr(exts.GetRedirectUri(c, "/users/me")))
 }

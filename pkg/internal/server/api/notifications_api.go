@@ -1,17 +1,21 @@
-package server
+package api
 
 import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/utils"
 	"github.com/gofiber/fiber/v2"
 )
 
 func getNotifications(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
 	take := c.QueryInt("take", 0)
 	offset := c.QueryInt("offset", 0)
+
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 
 	tx := database.C.Where(&models.Notification{RecipientID: user.ID}).Model(&models.Notification{})
 
@@ -36,8 +40,15 @@ func getNotifications(c *fiber.Ctx) error {
 }
 
 func markNotificationRead(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 	id, _ := c.ParamsInt("notificationId", 0)
+
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
 
 	var notify models.Notification
 	if err := database.C.Where(&models.Notification{
@@ -55,13 +66,16 @@ func markNotificationRead(c *fiber.Ctx) error {
 }
 
 func markNotificationReadBatch(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 
 	var data struct {
 		MessageIDs []uint `json:"messages"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
@@ -75,7 +89,10 @@ func markNotificationReadBatch(c *fiber.Ctx) error {
 }
 
 func addNotifySubscriber(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 
 	var data struct {
 		Provider    string `json:"provider" validate:"required"`
@@ -83,7 +100,7 @@ func addNotifySubscriber(c *fiber.Ctx) error {
 		DeviceID    string `json:"device_id" validate:"required"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 

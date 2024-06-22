@@ -1,8 +1,6 @@
-package utils
+package exts
 
 import (
-	"fmt"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/samber/lo"
@@ -18,17 +16,6 @@ func BindAndValidate(c *fiber.Ctx, out any) error {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
-	return nil
-}
-
-func GetPermissions(c *fiber.Ctx) map[string]any {
-	return c.Locals("permissions").(map[string]any)
-}
-
-func CheckPermissions(c *fiber.Ctx, key string, val any) error {
-	if !services.HasPermNode(GetPermissions(c), key, val) {
-		return fiber.NewError(fiber.StatusForbidden, fmt.Sprintf("requires permission: %s = %v", key, val))
-	}
 	return nil
 }
 

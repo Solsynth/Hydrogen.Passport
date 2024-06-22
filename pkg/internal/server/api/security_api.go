@@ -1,13 +1,17 @@
-package server
+package api
 
 import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"github.com/gofiber/fiber/v2"
 )
 
 func getTickets(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 	take := c.QueryInt("take", 0)
 	offset := c.QueryInt("offset", 0)
 

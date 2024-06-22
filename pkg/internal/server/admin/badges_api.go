@@ -2,16 +2,16 @@ package admin
 
 import (
 	"fmt"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/utils"
 	"github.com/gofiber/fiber/v2"
 )
 
 func grantBadge(c *fiber.Ctx) error {
-	if err := utils.CheckPermissions(c, "AdminGrantBadges", true); err != nil {
+	if err := exts.EnsureGrantedPerm(c, "AdminGrantBadges", true); err != nil {
 		return err
 	}
 
@@ -21,7 +21,7 @@ func grantBadge(c *fiber.Ctx) error {
 		AccountID uint           `json:"account_id"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 
@@ -44,7 +44,7 @@ func grantBadge(c *fiber.Ctx) error {
 }
 
 func revokeBadge(c *fiber.Ctx) error {
-	if err := utils.CheckPermissions(c, "AdminRevokeBadges", true); err != nil {
+	if err := exts.EnsureGrantedPerm(c, "AdminRevokeBadges", true); err != nil {
 		return err
 	}
 

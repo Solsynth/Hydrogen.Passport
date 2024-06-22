@@ -1,11 +1,10 @@
-package server
+package api
 
 import (
 	"fmt"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"strconv"
 	"time"
-
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/utils"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
@@ -16,7 +15,10 @@ import (
 )
 
 func getUserinfo(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 
 	var data models.Account
 	if err := database.C.
@@ -47,7 +49,10 @@ func getUserinfo(c *fiber.Ctx) error {
 }
 
 func getEvents(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 	take := c.QueryInt("take", 0)
 	offset := c.QueryInt("offset", 0)
 
@@ -76,7 +81,10 @@ func getEvents(c *fiber.Ctx) error {
 }
 
 func editUserinfo(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 
 	var data struct {
 		Nick        string    `json:"nick" validate:"required,min=4,max=24"`
@@ -86,7 +94,7 @@ func editUserinfo(c *fiber.Ctx) error {
 		Birthday    time.Time `json:"birthday"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 
@@ -116,7 +124,10 @@ func editUserinfo(c *fiber.Ctx) error {
 }
 
 func killSession(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 	id, _ := c.ParamsInt("ticketId", 0)
 
 	if err := database.C.Delete(&models.AuthTicket{}, &models.AuthTicket{
@@ -138,7 +149,7 @@ func doRegister(c *fiber.Ctx) error {
 		MagicToken string `json:"magic_token"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
 	} else if viper.GetBool("use_registration_magic_token") && len(data.MagicToken) <= 0 {
 		return fmt.Errorf("missing magic token in request")
@@ -167,7 +178,7 @@ func doRegisterConfirm(c *fiber.Ctx) error {
 		Code string `json:"code" validate:"required"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 

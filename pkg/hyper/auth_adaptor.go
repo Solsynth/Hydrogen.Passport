@@ -12,7 +12,6 @@ const CookieAtk = "__hydrogen_atk"
 const CookieRtk = "__hydrogen_rtk"
 
 func (v *HyperConn) AuthMiddleware(c *fiber.Ctx) error {
-	// Detect token
 	var atk string
 	if cookie := c.Cookies(CookieAtk); len(cookie) > 0 {
 		atk = cookie
@@ -42,7 +41,6 @@ func (v *HyperConn) AuthMiddleware(c *fiber.Ctx) error {
 			})
 		}
 		c.Locals("p_user", user)
-		return nil
 	}
 
 	return c.Next()

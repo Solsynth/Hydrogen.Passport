@@ -1,4 +1,4 @@
-package server
+package api
 
 import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"

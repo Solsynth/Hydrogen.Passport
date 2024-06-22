@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/gofiber/fiber/v2"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
@@ -16,7 +17,11 @@ import (
 
 func authorizePage(c *fiber.Ctx) error {
 	localizer := c.Locals("localizer").(*i18n.Localizer)
-	user := c.Locals("principal").(models.Account)
+
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return DoAuthRedirect(c)
+	}
+	user := c.Locals("user").(models.Account)
 
 	id := c.Query("client_id")
 	redirect := c.Query("redirect_uri")
@@ -81,11 +86,18 @@ func authorizePage(c *fiber.Ctx) error {
 }
 
 func authorizeAction(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 	id := c.Query("client_id")
 	response := c.Query("response_type")
 	redirect := c.Query("redirect_uri")
 	scope := c.Query("scope")
+
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return DoAuthRedirect(c)
+	}
 
 	redirectBackUri := "/authorize?" + string(c.Request().URI().QueryString())
 

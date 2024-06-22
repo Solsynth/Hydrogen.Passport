@@ -1,10 +1,10 @@
-package server
+package api
 
 import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/utils"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -22,7 +22,10 @@ func listRealmMembers(c *fiber.Ctx) error {
 
 func getMyRealmMember(c *fiber.Ctx) error {
 	alias := c.Params("realm")
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 
 	if realm, err := services.GetRealmWithAlias(alias); err != nil {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
@@ -34,14 +37,17 @@ func getMyRealmMember(c *fiber.Ctx) error {
 }
 
 func addRealmMember(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 	alias := c.Params("realm")
 
 	var data struct {
 		Target string `json:"target" validate:"required"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 
@@ -65,14 +71,17 @@ func addRealmMember(c *fiber.Ctx) error {
 }
 
 func removeRealmMember(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 	alias := c.Params("realm")
 
 	var data struct {
 		Target string `json:"target" validate:"required"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 
@@ -96,7 +105,10 @@ func removeRealmMember(c *fiber.Ctx) error {
 }
 
 func leaveRealm(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 	alias := c.Params("realm")
 
 	realm, err := services.GetRealmWithAlias(alias)

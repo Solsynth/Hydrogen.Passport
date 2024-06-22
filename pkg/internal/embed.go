@@ -2,5 +2,5 @@ package pkg
 
 import "embed"
 
-//go:embed views/*
+//go:embed all:views/*
 var FS embed.FS

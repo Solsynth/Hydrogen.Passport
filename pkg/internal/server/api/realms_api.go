@@ -1,10 +1,10 @@
-package server
+package api
 
 import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/utils"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -27,7 +27,10 @@ func listCommunityRealm(c *fiber.Ctx) error {
 }
 
 func listOwnedRealm(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 	if realms, err := services.ListOwnedRealm(user); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else {
@@ -36,7 +39,10 @@ func listOwnedRealm(c *fiber.Ctx) error {
 }
 
 func listAvailableRealm(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 	if realms, err := services.ListAvailableRealm(user); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else {
@@ -45,10 +51,10 @@ func listAvailableRealm(c *fiber.Ctx) error {
 }
 
 func createRealm(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
-	if err := utils.CheckPermissions(c, "CreateRealms", true); err != nil {
+	if err := exts.EnsureGrantedPerm(c, "CreateRealms", true); err != nil {
 		return err
 	}
+	user := c.Locals("user").(models.Account)
 
 	var data struct {
 		Alias       string `json:"alias" validate:"required,lowercase,min=4,max=32"`
@@ -58,7 +64,7 @@ func createRealm(c *fiber.Ctx) error {
 		IsCommunity bool   `json:"is_community"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 
@@ -78,7 +84,10 @@ func createRealm(c *fiber.Ctx) error {
 }
 
 func editRealm(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 	id, _ := c.ParamsInt("realmId", 0)
 
 	var data struct {
@@ -89,7 +98,7 @@ func editRealm(c *fiber.Ctx) error {
 		IsCommunity bool   `json:"is_community"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 
@@ -116,7 +125,10 @@ func editRealm(c *fiber.Ctx) error {
 }
 
 func deleteRealm(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 	id, _ := c.ParamsInt("realmId", 0)
 
 	var realm models.Realm

@@ -1,8 +1,7 @@
-package server
+package api
 
 import (
 	"fmt"
-
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/gofiber/contrib/websocket"
@@ -12,7 +11,7 @@ import (
 )
 
 func listenWebsocket(c *websocket.Conn) {
-	user := c.Locals("principal").(models.Account)
+	user := c.Locals("user").(models.Account)
 
 	// Push connection
 	services.ClientRegister(user, c)

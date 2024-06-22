@@ -1,14 +1,17 @@
-package server
+package api
 
 import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/utils"
 	"github.com/gofiber/fiber/v2"
 )
 
 func listFriendship(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 	status := c.QueryInt("status", -1)
 
 	var err error
@@ -27,7 +30,10 @@ func listFriendship(c *fiber.Ctx) error {
 }
 
 func getFriendship(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 	relatedId, _ := c.ParamsInt("relatedId", 0)
 
 	related, err := services.GetAccount(uint(relatedId))
@@ -43,7 +49,10 @@ func getFriendship(c *fiber.Ctx) error {
 }
 
 func makeFriendship(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 	relatedName := c.Query("related")
 	relatedId, _ := c.ParamsInt("relatedId", 0)
 
@@ -72,14 +81,17 @@ func makeFriendship(c *fiber.Ctx) error {
 }
 
 func editFriendship(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 	relatedId, _ := c.ParamsInt("relatedId", 0)
 
 	var data struct {
 		Status uint8 `json:"status"`
 	}
 
-	if err := utils.BindAndValidate(c, &data); err != nil {
+	if err := exts.BindAndValidate(c, &data); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
@@ -103,7 +115,10 @@ func editFriendship(c *fiber.Ctx) error {
 }
 
 func deleteFriendship(c *fiber.Ctx) error {
-	user := c.Locals("principal").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
 	relatedId, _ := c.ParamsInt("relatedId", 0)
 
 	related, err := services.GetAccount(uint(relatedId))
