@@ -18,7 +18,11 @@ type HyperConn struct {
 }
 
 func NewHyperConn(addr string) *HyperConn {
-	return &HyperConn{Addr: addr}
+	return &HyperConn{
+		Addr: addr,
+
+		cacheGrpcConn: make(map[string]*grpc.ClientConn),
+	}
 }
 
 func (v *HyperConn) DiscoverServiceGRPC(name string) (*grpc.ClientConn, error) {

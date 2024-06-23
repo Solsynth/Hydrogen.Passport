@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix avatar url missing endpoint prefix">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":ambulance: Fix query services too much 429">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/hyper/conn.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/hyper/conn.go" afterDir="false" />
     </list>
@@ -143,7 +143,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":sparkles: Permission check" />
     <MESSAGE value=":zap: In memory auth context cache" />
     <MESSAGE value=":sparkles: Bug fixes of permission check" />
     <MESSAGE value=":sparkles: Check permissions GRPC method" />
@@ -168,7 +167,8 @@
     <MESSAGE value=":sparkles: Accepts token in querystring" />
     <MESSAGE value=":bug: Fix registration service issue" />
     <MESSAGE value=":bug: Fix avatar url missing endpoint prefix" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix avatar url missing endpoint prefix" />
+    <MESSAGE value=":ambulance: Fix query services too much 429" />
+    <option name="LAST_COMMIT_MESSAGE" value=":ambulance: Fix query services too much 429" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
