@@ -85,5 +85,9 @@ func MapAPIs(app *fiber.App) {
 			}
 			return c.Next()
 		}).Get("/ws", websocket.New(listenWebsocket))
+
+		api.All("/*", func(c *fiber.Ctx) error {
+			return fiber.ErrNotFound
+		})
 	}
 }

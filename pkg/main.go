@@ -58,12 +58,10 @@ func main() {
 	}
 
 	// Server
-	server.NewServer()
-	go server.Listen()
+	go server.NewServer().Listen()
 
 	// Grpc Server
-	grpc.NewGRPC()
-	go grpc.ListenGRPC()
+	go grpc.NewServer().Listen()
 
 	// Configure timed tasks
 	quartz := cron.New(cron.WithLogger(cron.VerbosePrintfLogger(&log.Logger)))
