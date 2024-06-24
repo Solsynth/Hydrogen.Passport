@@ -8,14 +8,18 @@ const router = createRouter({
   routes: [
     {
       path: "/",
+      redirect: { name: "dashboard" },
+    },
+    {
+      path: "/",
       component: MasterLayout,
       children: [
         {
-          path: "/",
+          path: "/users",
           component: UserCenterLayout,
           children: [
             {
-              path: "/",
+              path: "/me",
               name: "dashboard",
               component: () => import("@/views/dashboard.vue"),
               meta: { title: "Your account" },
@@ -43,33 +47,32 @@ const router = createRouter({
       ],
     },
     {
-      path: "/auth",
+      path: "/",
       children: [
         {
-          path: "sign-in",
+          path: "/sign-in",
           name: "auth.sign-in",
           component: () => import("@/views/auth/sign-in.vue"),
           meta: { public: true, title: "Sign in" },
         },
         {
-          path: "sign-up",
+          path: "/sign-up",
           name: "auth.sign-up",
           component: () => import("@/views/auth/sign-up.vue"),
           meta: { public: true, title: "Sign up" },
         },
         {
-          path: "o/connect",
-          name: "openid.connect",
-          component: () => import("@/views/auth/connect.vue"),
-        },
-
-        {
-          path: "/me/confirm",
-          name: "callback.confirm",
-          component: () => import("@/views/confirm.vue"),
-          meta: { public: true, title: "Confirm registration" },
+          path: "authorize",
+          name: "oauth.authorize",
+          component: () => import("@/views/auth/authorize.vue"),
         },
       ],
+    },
+    {
+      path: "/users/me/confirm",
+      name: "callback.confirm",
+      component: () => import("@/views/confirm.vue"),
+      meta: { public: true, title: "Confirm registration" },
     },
   ],
 })

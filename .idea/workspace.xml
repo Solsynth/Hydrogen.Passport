@@ -5,70 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":ambulance: Fix nil map panic">
-      <change afterPath="$PROJECT_DIR$/web/.eslintrc.cjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/.prettierrc.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/env.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/public/favicon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/assets/utils.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/components/Copyright.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/components/NotificationList.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/components/UserMenu.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/components/auth/AccountLocator.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/components/auth/CallbackNotify.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/components/auth/FactorApplicator.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/components/auth/FactorPicker.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/layouts/master.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/layouts/user-center.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/main.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/router/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/scripts/request.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/stores/notifications.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/stores/userinfo.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/views/auth/claims.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/views/auth/connect.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/views/auth/sign-in.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/views/auth/sign-up.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/views/confirm.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/views/dashboard.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/views/personal-page.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/views/personalize.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/views/security.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/tsconfig.app.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/tsconfig.node.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/uno.config.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/vite.config.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/src/components/auth/AuthenticateCompleted.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/embed.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/auth_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/auth_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/factors_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/factors_api.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/index.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/ui/accounts.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/ui/index.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/ui/mfa.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/ui/oauth.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/ui/signin.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/ui/signup.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/views/authorize.gohtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/views/favicon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/views/index.gohtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/views/layouts/auth.gohtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/views/layouts/user-center.gohtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/views/mfa-apply.gohtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/views/mfa.gohtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/views/partials/header.gohtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/views/signin.gohtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/views/signup.gohtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/views/users/me.gohtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.toml" beforeDir="false" afterPath="$PROJECT_DIR$/settings.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/components/Copyright.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/components/Copyright.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/components/auth/AccountLocator.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/components/auth/Authenticate.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/components/auth/FactorApplicator.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/components/auth/FactorApplicator.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/components/auth/FactorPicker.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/components/auth/FactorPicker.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/router/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/views/auth/connect.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/views/auth/authorize.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/views/auth/sign-in.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/views/auth/sign-in.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/views/confirm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/views/confirm.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

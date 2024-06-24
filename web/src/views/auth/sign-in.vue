@@ -7,24 +7,14 @@
         <div>
           <v-avatar color="accent" icon="mdi-login-variant" size="large" class="card-rounded mb-2" />
           <h1 class="text-2xl">Sign in</h1>
-          <div v-if="challenge" class="flex items-center gap-4">
-            <v-tooltip>
-              <template v-slot:activator="{ props }">
-                <v-progress-circular v-bind="props" size="large"
-                  :model-value="(challenge?.progress / challenge?.requirements) * 100" />
-              </template>
-              <p><b>Risk: </b> {{ challenge?.risk_level }}</p>
-              <p><b>Progress: </b> {{ challenge?.progress }}/{{ challenge?.requirements }}</p>
-            </v-tooltip>
-            <p>We need to verify that the person trying to access your account is you.</p>
-          </div>
+          <p v-if="ticket">We need to verify that the person trying to access your account is you.</p>
           <p v-else>Sign in via your Solar ID to access the entire Solar Network.</p>
         </div>
 
         <v-window :touch="false" :model-value="panel" class="pa-2 mx-[-0.5rem]">
-          <v-window-item v-for="k in Object.keys(panels)" :value="k">
+          <v-window-item v-for="(k, idx) in Object.keys(panels)" :key="idx" :value="k">
             <component :is="panels[k]" @swap="(val: string) => (panel = val)" v-model:loading="loading"
-              v-model:factors="factors" v-model:currentFactor="currentFactor" v-model:challenge="challenge" />
+                       v-model:currentFactor="currentFactor" v-model:ticket="ticket" />
           </v-window-item>
         </v-window>
       </v-card-text>
@@ -35,25 +25,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref, type Component } from "vue"
+import { type Component, ref } from "vue"
 import Copyright from "@/components/Copyright.vue"
 import CallbackNotify from "@/components/auth/CallbackNotify.vue"
-import AccountLocator from "@/components/auth/AccountLocator.vue"
 import FactorPicker from "@/components/auth/FactorPicker.vue"
 import FactorApplicator from "@/components/auth/FactorApplicator.vue"
+import AccountAuthenticate from "@/components/auth/Authenticate.vue"
+import AuthenticateCompleted from "@/components/auth/AuthenticateCompleted.vue"
 
 const loading = ref(false)
 
-const factors = ref<any>(null)
 const currentFactor = ref<any>(null)
-const challenge = ref<any>(null)
+const ticket = ref<any>(null)
 
-const panel = ref("locate")
+const panel = ref("authenticate")
 
 const panels: { [id: string]: Component } = {
-  locate: AccountLocator,
-  pick: FactorPicker,
+  authenticate: AccountAuthenticate,
+  mfa: FactorPicker,
   applicator: FactorApplicator,
+  completed: AuthenticateCompleted,
 }
 </script>
 

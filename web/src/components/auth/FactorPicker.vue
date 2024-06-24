@@ -4,7 +4,8 @@
       <v-card class="mb-3">
         <v-list density="compact" color="primary">
           <v-list-item
-            v-for="item in props.factors ?? []"
+            v-for="(item, idx) in factors ?? []"
+            :key="idx"
             :prepend-icon="getFactorType(item)?.icon"
             :title="getFactorType(item)?.label"
             :active="focus === item.id"
@@ -30,18 +31,32 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { onMounted, ref } from "vue"
 import { request } from "@/scripts/request"
 
 const focus = ref<number | null>(null)
+const factors = ref<any[]>([])
 
 const error = ref<string | null>(null)
 
-const props = defineProps<{ factors?: any[]; challenge?: any }>()
+const props = defineProps<{ ticket?: any }>()
 const emits = defineEmits(["swap", "update:loading", "update:currentFactor"])
 
+async function load() {
+  emits("update:loading", true)
+  const res = await request(`/api/auth/factors?ticketId=${props.ticket.ticketId}`)
+  if (res.status !== 200) {
+    error.value = await res.text()
+  } else {
+    factors.value = await res.json()
+  }
+  emits("update:loading", false)
+}
+
+onMounted(() => load())
+
 async function submit() {
-  if (!focus) return
+  if (!focus.value) return
 
   emits("update:loading", true)
   const res = await request(`/api/auth/factors/${focus.value}`, {
@@ -50,7 +65,7 @@ async function submit() {
   if (res.status !== 200 && res.status !== 204) {
     error.value = await res.text()
   } else {
-    const item = props.factors?.find((item: any) => item.id === focus.value)
+    const item = factors.value.find((item: any) => item.id === focus.value)
     emits("update:currentFactor", item)
     emits("swap", "applicator")
     error.value = null
@@ -61,15 +76,13 @@ async function submit() {
 
 function getFactorType(item: any) {
   switch (item.type) {
-    case 0:
-      return { icon: "mdi-form-textbox-password", label: "Password Validation" }
     case 1:
-      return { icon: "mdi-email-fast", label: "Email One Time Password" }
+      return { icon: "mdi-email-fast", label: "Email Validation" }
   }
 }
 
 function getFactorAvailable(factor: any) {
-  const blacklist: number[] = props.challenge?.blacklist_factors ?? []
+  const blacklist: number[] = props.ticket?.blacklist_factors ?? []
   return blacklist.includes(factor.id)
 }
 </script>

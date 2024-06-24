@@ -36,7 +36,7 @@ func doAuthenticate(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(fiber.Map{
-		"is_finished": ticket.IsAvailable(),
+		"is_finished": ticket.IsAvailable() == nil,
 		"ticket":      ticket,
 	})
 }
@@ -68,7 +68,7 @@ func doMultiFactorAuthenticate(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(fiber.Map{
-		"is_finished": ticket.IsAvailable(),
+		"is_finished": ticket.IsAvailable() == nil,
 		"ticket":      ticket,
 	})
 }

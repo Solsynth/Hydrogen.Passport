@@ -47,75 +47,37 @@
 
 <script setup lang="ts">
 import { request } from "@/scripts/request"
-import { useUserinfo } from "@/stores/userinfo"
 import { computed, ref } from "vue"
-import { useRoute, useRouter } from "vue-router"
 
 const password = ref("")
 
 const error = ref<string | null>(null)
 
-const props = defineProps<{ loading?: boolean; currentFactor?: any; challenge?: any }>()
-const emits = defineEmits(["swap", "update:challenge"])
-
-const route = useRoute()
-const router = useRouter()
-
-const { readProfiles } = useUserinfo()
+const props = defineProps<{ loading?: boolean; currentFactor?: any; ticket?: any }>()
+const emits = defineEmits(["swap", "update:ticket", "update:loading"])
 
 async function submit() {
-  const res = await request(`/api/auth`, {
+  emits("update:loading", true)
+  const res = await request(`/api/auth/mfa`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      challenge_id: props.challenge?.id,
+      ticket_id: props.ticket?.id,
       factor_id: props.currentFactor?.id,
-      secret: password.value,
+      code: password.value,
     }),
   })
   if (res.status !== 200) {
     error.value = await res.text()
   } else {
     const data = await res.json()
-    if (data["is_finished"]) {
-      await getToken(data["session"]["grant_token"])
-      await readProfiles()
-      callback()
-    } else {
-      emits("swap", "pick")
-      emits("update:challenge", data["challenge"])
-      error.value = null
-      password.value = ""
-    }
-  }
-}
-
-async function getToken(tk: string) {
-  const res = await request("/api/auth/token", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      code: tk,
-      grant_type: "grant_token",
-    }),
-  })
-  if (res.status !== 200) {
-    const err = await res.text()
-    error.value = err
-    throw new Error(err)
-  } else {
     error.value = null
+    password.value = ""
+    emits("update:ticket", data["ticket"])
+    if (data["is_finished"]) emits("swap", "completed")
+    else emits("swap", "mfa")
   }
-}
-
-function callback() {
-  if (route.query["closable"]) {
-    window.close()
-  } else if (route.query["redirect_uri"]) {
-    window.open((route.query["redirect_uri"] as string) ?? "/", "_self")
-  } else {
-    router.push({ name: "dashboard" })
-  }
+  emits("update:loading", false)
 }
 
 const inputType = computed(() => {
@@ -124,6 +86,8 @@ const inputType = computed(() => {
       return "text"
     case 1:
       return "one-time-password"
+    default:
+      return "unknown"
   }
 })
 </script>

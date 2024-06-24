@@ -28,7 +28,7 @@
               <v-icon icon="mdi-fire" size="32" color="grey-darken-3" class="mb-3" />
 
               <h1 class="font-bold text-xl">Confirmed</h1>
-              <p>You're done! We sucessfully confirmed your account.</p>
+              <p>You're done! We successfully confirmed your account.</p>
 
               <p class="mt-3">Now you can continue use Solarpass, we will redirect to dashboard you soon.</p>
             </div>

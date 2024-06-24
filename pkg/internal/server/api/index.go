@@ -55,7 +55,10 @@ func MapAPIs(app *fiber.App) {
 		api.Post("/users", doRegister)
 
 		api.Post("/auth", doAuthenticate)
+		api.Post("/auth/mfa", doMultiFactorAuthenticate)
 		api.Post("/auth/token", getToken)
+
+		api.Get("/auth/factors", getAvailableFactors)
 		api.Post("/auth/factors/:factorId", requestFactorToken)
 
 		realms := api.Group("/realms").Name("Realms API")
