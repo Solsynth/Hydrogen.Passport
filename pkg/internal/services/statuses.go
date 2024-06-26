@@ -21,7 +21,7 @@ func GetStatus(uid uint) (models.Status, error) {
 	var status models.Status
 	if err := database.C.
 		Where("account_id = ?", uid).
-		Where("clear_at < ?", time.Now()).
+		Where("clear_at > ?", time.Now()).
 		First(&status).Error; err != nil {
 		return status, err
 	} else {
@@ -77,7 +77,7 @@ func EditStatus(user models.Account, status models.Status) (models.Status, error
 func ClearStatus(user models.Account) error {
 	if err := database.C.
 		Where("account_id = ?", user.ID).
-		Where("clear_at < ?", time.Now()).
+		Where("clear_at > ?", time.Now()).
 		Updates(models.Status{ClearAt: lo.ToPtr(time.Now())}).Error; err != nil {
 		return err
 	} else {
