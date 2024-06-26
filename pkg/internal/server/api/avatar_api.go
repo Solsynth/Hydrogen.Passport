@@ -94,7 +94,7 @@ func getAvatar(c *fiber.Ctx) error {
 	if content := user.GetAvatar(); content == nil {
 		return c.SendStatus(fiber.StatusNotFound)
 	} else {
-		return c.Redirect(*content, fiber.StatusNotFound)
+		return c.Redirect(*content, fiber.StatusFound)
 	}
 }
 
@@ -107,6 +107,6 @@ func getBanner(c *fiber.Ctx) error {
 	if content := user.GetBanner(); content == nil {
 		return c.SendStatus(fiber.StatusNotFound)
 	} else {
-		return c.Redirect(*content, fiber.StatusNotFound)
+		return c.Redirect(*content, fiber.StatusFound)
 	}
 }

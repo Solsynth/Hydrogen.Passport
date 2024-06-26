@@ -2,7 +2,7 @@
   <v-menu>
     <template #activator="{ props }">
       <v-btn flat exact v-bind="props" icon>
-        <v-avatar color="transparent" icon="mdi-account-circle" :image="'/api/avatar/' + id.userinfo.data?.avatar" />
+        <v-avatar color="transparent" icon="mdi-account-circle" image="/api/users/me/avatar" />
       </v-btn>
     </template>
 
