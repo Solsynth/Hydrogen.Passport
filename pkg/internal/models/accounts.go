@@ -20,8 +20,10 @@ type Account struct {
 	ConfirmedAt *time.Time        `json:"confirmed_at"`
 	PermNodes   datatypes.JSONMap `json:"perm_nodes"`
 
-	Profile         AccountProfile   `json:"profile"`
-	Badges          []Badge          `json:"badges"`
+	Profile  AccountProfile `json:"profile"`
+	Statuses []Status       `json:"statuses"`
+	Badges   []Badge        `json:"badges"`
+
 	Contacts        []AccountContact `json:"contacts"`
 	RealmIdentities []RealmMember    `json:"realm_identities"`
 

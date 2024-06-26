@@ -11,6 +11,7 @@ var AutoMaintainRange = []any{
 	&models.AccountProfile{},
 	&models.AccountContact{},
 	&models.AccountFriendship{},
+	&models.Status{},
 	&models.Badge{},
 	&models.Realm{},
 	&models.RealmMember{},
