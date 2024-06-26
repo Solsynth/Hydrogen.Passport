@@ -21,7 +21,6 @@ type Account struct {
 	PermNodes   datatypes.JSONMap `json:"perm_nodes"`
 
 	Profile         AccountProfile   `json:"profile"`
-	PersonalPage    AccountPage      `json:"personal_page"`
 	Badges          []Badge          `json:"badges"`
 	Contacts        []AccountContact `json:"contacts"`
 	RealmIdentities []RealmMember    `json:"realm_identities"`

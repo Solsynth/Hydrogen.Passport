@@ -12,22 +12,13 @@ import (
 )
 
 func DetectRisk(user models.Account, ip, ua string) bool {
-	var availableFactor int64
-	if err := database.C.
-		Where(models.AuthFactor{AccountID: user.ID}).
-		Where("type != ?", models.PasswordAuthFactor).
-		Model(models.AuthFactor{}).
-		Where(&availableFactor); err != nil || availableFactor <= 0 {
-		return false
-	}
-
-	var secureFactor int64
+	var clue int64
 	if err := database.C.
 		Where(models.AuthTicket{AccountID: user.ID, IpAddress: ip}).
 		Where("available_at IS NOT NULL").
 		Model(models.AuthTicket{}).
-		Count(&secureFactor).Error; err == nil {
-		if secureFactor >= 1 {
+		Count(&clue).Error; err == nil {
+		if clue >= 1 {
 			return false
 		}
 	}
@@ -81,7 +72,7 @@ func NewOauthTicket(
 		AccessToken:  lo.ToPtr(uuid.NewString()),
 		RefreshToken: lo.ToPtr(uuid.NewString()),
 		AvailableAt:  lo.ToPtr(time.Now()),
-		ExpiredAt:    lo.ToPtr(time.Now()),
+		ExpiredAt:    lo.ToPtr(time.Now().Add(7 * 24 * time.Hour)),
 		ClientID:     &client.ID,
 		AccountID:    user.ID,
 	}

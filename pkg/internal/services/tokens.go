@@ -47,7 +47,7 @@ func NewMagicToken(mode models.MagicTokenType, assignTo *models.Account, expired
 	token := models.MagicToken{
 		Code:      strings.Replace(uuid.NewString(), "-", "", -1),
 		Type:      mode,
-		AssignTo:  &uid,
+		AccountID: &uid,
 		ExpiredAt: expiredAt,
 	}
 
@@ -59,13 +59,13 @@ func NewMagicToken(mode models.MagicTokenType, assignTo *models.Account, expired
 }
 
 func NotifyMagicToken(token models.MagicToken) error {
-	if token.AssignTo == nil {
+	if token.AccountID == nil {
 		return fmt.Errorf("could notify a non-assign magic token")
 	}
 
 	var user models.Account
 	if err := database.C.Where(&models.Account{
-		BaseModel: models.BaseModel{ID: *token.AssignTo},
+		BaseModel: models.BaseModel{ID: *token.AccountID},
 	}).Preload("Contacts").First(&user).Error; err != nil {
 		return err
 	}

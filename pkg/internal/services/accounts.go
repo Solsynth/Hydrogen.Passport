@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 	"gorm.io/datatypes"
 	"time"
@@ -93,7 +94,7 @@ func ConfirmAccount(code string) error {
 
 	var user models.Account
 	if err := database.C.Where(&models.Account{
-		BaseModel: models.BaseModel{ID: *token.AssignTo},
+		BaseModel: models.BaseModel{ID: *token.AccountID},
 	}).First(&user).Error; err != nil {
 		return err
 	}
@@ -120,4 +121,50 @@ func ConfirmAccount(code string) error {
 
 		return nil
 	})
+}
+
+func DeleteAccount(id uint) error {
+	tx := database.C.Begin()
+
+	for _, model := range []any{
+		&models.Badge{},
+		&models.RealmMember{},
+		&models.AccountContact{},
+		&models.AuthFactor{},
+		&models.AuthTicket{},
+		&models.MagicToken{},
+		&models.ThirdClient{},
+		&models.Notification{},
+		&models.NotificationSubscriber{},
+		&models.AccountFriendship{},
+	} {
+		if err := tx.Delete(model, "account_id = ?", id).Error; err != nil {
+			tx.Rollback()
+			return err
+		}
+	}
+
+	if err := tx.Delete(&models.Account{}, "id = ?", id).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	return tx.Commit().Error
+}
+
+func RecycleUnConfirmAccount() {
+	var hitList []models.Account
+	if err := database.C.Where("confirmed_at IS NULL").Find(&hitList).Error; err != nil {
+		log.Error().Err(err).Msg("An error occurred while recycling accounts...")
+		return
+	}
+
+	if len(hitList) > 0 {
+		log.Info().Int("count", len(hitList)).Msg("Going to recycle those un-confirmed accounts...")
+		for _, entry := range hitList {
+			if err := DeleteAccount(entry.ID); err != nil {
+				log.Error().Err(err).Msg("An error occurred while recycling accounts...")
+			}
+		}
+	}
 }

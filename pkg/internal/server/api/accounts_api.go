@@ -123,7 +123,7 @@ func editUserinfo(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusOK)
 }
 
-func killSession(c *fiber.Ctx) error {
+func killTicket(c *fiber.Ctx) error {
 	if err := exts.EnsureAuthenticated(c); err != nil {
 		return err
 	}

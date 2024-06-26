@@ -26,12 +26,10 @@ func MapAPIs(app *fiber.App) {
 			me.Put("/banner", setBanner)
 
 			me.Get("/", getUserinfo)
-			me.Get("/page", getOwnPersonalPage)
 			me.Put("/", editUserinfo)
-			me.Put("/page", editPersonalPage)
 			me.Get("/events", getEvents)
 			me.Get("/tickets", getTickets)
-			me.Delete("/tickets/:ticketId", killSession)
+			me.Delete("/tickets/:ticketId", killTicket)
 
 			me.Post("/confirm", doRegisterConfirm)
 
@@ -49,14 +47,22 @@ func MapAPIs(app *fiber.App) {
 		directory := api.Group("/users/:alias").Name("User Directory")
 		{
 			directory.Get("/", getOtherUserinfo)
-			directory.Get("/page", getPersonalPage)
 		}
 
 		api.Post("/users", doRegister)
 
-		api.Post("/auth", doAuthenticate)
-		api.Post("/auth/token", getToken)
-		api.Post("/auth/factors/:factorId", requestFactorToken)
+		auth := api.Group("/auth").Name("Auth")
+		{
+			auth.Post("/", doAuthenticate)
+			auth.Post("/mfa", doMultiFactorAuthenticate)
+			auth.Post("/token", getToken)
+
+			auth.Get("/factors", getAvailableFactors)
+			auth.Post("/factors/:factorId", requestFactorToken)
+
+			auth.Get("/o/authorize", tryAuthorizeThirdClient)
+			auth.Post("/o/authorize", authorizeThirdClient)
+		}
 
 		realms := api.Group("/realms").Name("Realms API")
 		{
@@ -85,5 +91,9 @@ func MapAPIs(app *fiber.App) {
 			}
 			return c.Next()
 		}).Get("/ws", websocket.New(listenWebsocket))
+
+		api.All("/*", func(c *fiber.Ctx) error {
+			return fiber.ErrNotFound
+		})
 	}
 }

@@ -58,18 +58,17 @@ func main() {
 	}
 
 	// Server
-	server.NewServer()
-	go server.Listen()
+	go server.NewServer().Listen()
 
 	// Grpc Server
-	grpc.NewGRPC()
-	go grpc.ListenGRPC()
+	go grpc.NewServer().Listen()
 
 	// Configure timed tasks
 	quartz := cron.New(cron.WithLogger(cron.VerbosePrintfLogger(&log.Logger)))
 	quartz.AddFunc("@every 60m", services.DoAutoSignoff)
 	quartz.AddFunc("@every 60m", services.DoAutoDatabaseCleanup)
 	quartz.AddFunc("@every 60s", services.RecycleAuthContext)
+	quartz.AddFunc("@every 60m", services.RecycleUnConfirmAccount)
 	quartz.AddFunc("@every 5m", services.KexCleanup)
 	quartz.Start()
 
