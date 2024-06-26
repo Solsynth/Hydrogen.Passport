@@ -6,7 +6,6 @@
           <v-list density="comfortable">
             <v-list-item title="Dashboard" prepend-icon="mdi-view-dashboard" :to="{ name: 'dashboard' }" exact />
             <v-list-item title="Personalize" prepend-icon="mdi-card-bulleted-outline" :to="{ name: 'personalize' }" />
-            <v-list-item title="Personal Page" prepend-icon="mdi-sitemap" :to="{ name: 'personal-page' }" />
             <v-list-item title="Security" prepend-icon="mdi-security" :to="{ name: 'security' }" />
           </v-list>
         </v-card>

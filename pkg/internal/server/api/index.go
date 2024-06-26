@@ -26,9 +26,7 @@ func MapAPIs(app *fiber.App) {
 			me.Put("/banner", setBanner)
 
 			me.Get("/", getUserinfo)
-			me.Get("/page", getOwnPersonalPage)
 			me.Put("/", editUserinfo)
-			me.Put("/page", editPersonalPage)
 			me.Get("/events", getEvents)
 			me.Get("/tickets", getTickets)
 			me.Delete("/tickets/:ticketId", killSession)
@@ -49,7 +47,6 @@ func MapAPIs(app *fiber.App) {
 		directory := api.Group("/users/:alias").Name("User Directory")
 		{
 			directory.Get("/", getOtherUserinfo)
-			directory.Get("/page", getPersonalPage)
 		}
 
 		api.Post("/users", doRegister)
