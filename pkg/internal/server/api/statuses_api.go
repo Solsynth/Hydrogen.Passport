@@ -55,10 +55,10 @@ func getMyselfStatus(c *fiber.Ctx) error {
 }
 
 func setStatus(c *fiber.Ctx) error {
-	user := c.Locals("user").(models.Account)
 	if err := exts.EnsureAuthenticated(c); err != nil {
 		return err
 	}
+	user := c.Locals("user").(models.Account)
 
 	var req struct {
 		Type        string     `json:"type" validate:"required"`
@@ -97,10 +97,10 @@ func setStatus(c *fiber.Ctx) error {
 }
 
 func editStatus(c *fiber.Ctx) error {
-	user := c.Locals("user").(models.Account)
 	if err := exts.EnsureAuthenticated(c); err != nil {
 		return err
 	}
+	user := c.Locals("user").(models.Account)
 
 	var req struct {
 		Type        string     `json:"type" validate:"required"`
@@ -135,10 +135,10 @@ func editStatus(c *fiber.Ctx) error {
 }
 
 func clearStatus(c *fiber.Ctx) error {
-	user := c.Locals("user").(models.Account)
 	if err := exts.EnsureAuthenticated(c); err != nil {
 		return err
 	}
+	user := c.Locals("user").(models.Account)
 
 	if err := services.ClearStatus(user); err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
