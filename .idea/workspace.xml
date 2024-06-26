@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":recycle: OAuth authenticate">
-      <change afterPath="$PROJECT_DIR$/web/src/components/GoUseSolian.vue" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Recommend app component">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/components/navigation/AppBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/components/navigation/AppBar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/layouts/user-center.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/layouts/user-center.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/personalize.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/views/personalize.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/ticket.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/ticket.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.toml" beforeDir="false" afterPath="$PROJECT_DIR$/settings.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/components/UserMenu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/components/UserMenu.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/components/auth/FactorPicker.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/components/auth/FactorPicker.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/router/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/stores/userinfo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/stores/userinfo.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,7 +149,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Bug fixes in update avatar" />
     <MESSAGE value=":sparkles: Firebase is back" />
     <MESSAGE value=":sparkles: Apple push notification services" />
     <MESSAGE value=":bug: Bug fixes" />
@@ -172,7 +173,8 @@
     <MESSAGE value=":recycle: Update the sign in web page to the latest API" />
     <MESSAGE value=":wastebasket: Remove the personal page" />
     <MESSAGE value=":recycle: OAuth authenticate" />
-    <option name="LAST_COMMIT_MESSAGE" value=":recycle: OAuth authenticate" />
+    <MESSAGE value=":sparkles: Recommend app component" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Recommend app component" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

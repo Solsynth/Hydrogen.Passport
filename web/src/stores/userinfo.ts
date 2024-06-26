@@ -9,7 +9,7 @@ export interface Userinfo {
   data: any
 }
 
-const defaultUserinfo: Userinfo = {
+export const defaultUserinfo: Userinfo = {
   isLoggedIn: false,
   displayName: "Citizen",
   data: null,

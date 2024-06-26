@@ -8,6 +8,7 @@ const router = createRouter({
     {
       path: "/",
       redirect: { name: "dashboard" },
+      meta: { public: true },
     },
     {
       path: "/users",

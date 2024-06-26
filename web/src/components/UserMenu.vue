@@ -15,14 +15,16 @@
 
       <v-divider class="border-opacity-50 my-2" />
 
-      <v-list-item title="User Center" prepend-icon="mdi-account-supervisor" exact :to="{ name: 'dashboard' }" />
+      <v-list-item title="Dashboard" prepend-icon="mdi-account-supervisor" exact :to="{ name: 'dashboard' }" />
+      <v-list-item title="Sign out" prepend-icon="mdi-logout" @click="signout"></v-list-item>
     </v-list>
   </v-menu>
 </template>
 
 <script setup lang="ts">
-import { useUserinfo } from "@/stores/userinfo"
+import { defaultUserinfo, useUserinfo } from "@/stores/userinfo"
 import { computed } from "vue"
+import Cookie from "universal-cookie"
 
 const id = useUserinfo()
 
@@ -30,7 +32,7 @@ const username = computed(() => {
   if (id.userinfo.isLoggedIn) {
     return "@" + id.userinfo.data?.name
   } else {
-    return "@vistor"
+    return "@visitor"
   }
 })
 const nickname = computed(() => {
@@ -40,4 +42,12 @@ const nickname = computed(() => {
     return "Anonymous"
   }
 })
+
+function signout() {
+  const ck = new Cookie();
+  ck.remove("__hydrogen_atk");
+  ck.remove("__hydrogen_rtk")
+  id.userinfo = defaultUserinfo
+  window.location.reload()
+}
 </script>

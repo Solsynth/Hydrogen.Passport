@@ -44,11 +44,11 @@ const emits = defineEmits(["swap", "update:loading", "update:currentFactor"])
 
 async function load() {
   emits("update:loading", true)
-  const res = await request(`/api/auth/factors?ticketId=${props.ticket.ticketId}`)
+  const res = await request(`/api/auth/factors?ticketId=${props.ticket.id}`)
   if (res.status !== 200) {
     error.value = await res.text()
   } else {
-    factors.value = await res.json()
+    factors.value = (await res.json()).filter((e: any) => e.type != 0)
   }
   emits("update:loading", false)
 }
