@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Last seen at">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/index.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/statuses_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/statuses_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/statuses.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/statuses.go" afterDir="false" />
-    </list>
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Edit, delete current status" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -154,7 +149,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":technologist: Add the server side Hyper SDK" />
     <MESSAGE value=":recycle: Improve code structure and much easier to read&#10;:bug: Fix auth middleware" />
     <MESSAGE value=":bug: FIx cannot resolve service" />
     <MESSAGE value=":sparkles: Accepts token in querystring" />
@@ -179,7 +173,8 @@
     <MESSAGE value=":bug: Fix status expired in cache" />
     <MESSAGE value=":bug: Fix online condition" />
     <MESSAGE value=":sparkles: Last seen at" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Last seen at" />
+    <MESSAGE value=":sparkles: Edit, delete current status" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Edit, delete current status" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
