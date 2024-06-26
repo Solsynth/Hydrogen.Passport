@@ -1,14 +1,14 @@
 <template>
   <div>
     <v-card>
-      <v-img cover class="bg-grey-lighten-2" :height="240" src="/api/users/me/avatar" />
+      <v-img cover class="bg-grey-lighten-2" :height="240" src="/api/users/me/banner" />
 
       <v-card-text class="flex gap-3.5 px-5 pb-5">
         <v-avatar
           color="grey-lighten-2"
           icon="mdi-account-circle"
           class="rounded-card"
-          image="/api/users/me/banner"
+          image="/api/users/me/avatar"
           :size="54"
         />
         <div>

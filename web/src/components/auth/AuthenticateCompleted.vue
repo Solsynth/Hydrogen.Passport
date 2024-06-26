@@ -32,8 +32,7 @@ async function load() {
   emits("update:loading", true)
   await getToken(props.ticket.grant_token)
   await userinfo.readProfiles()
-  emits("update:loading", false)
-  setTimeout(() => callback(), 3000)
+  setTimeout(() => callback(), 1850)
 }
 
 onMounted(() => load())
