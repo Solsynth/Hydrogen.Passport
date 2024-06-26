@@ -20,7 +20,11 @@ func NewStatus(user models.Account, status models.Status) (models.Status, error)
 
 func GetStatus(uid uint) (models.Status, error) {
 	if status, ok := statusCache[uid]; ok {
-		return status, nil
+		if status.ClearAt != nil && status.ClearAt.Before(time.Now()) {
+			delete(statusCache, uid)
+		} else {
+			return status, nil
+		}
 	}
 	var status models.Status
 	if err := database.C.
