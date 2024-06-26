@@ -40,7 +40,7 @@ func GetStatus(uid uint) (models.Status, error) {
 
 func GetStatusDisturbable(uid uint) error {
 	status, err := GetStatus(uid)
-	isOnline := wsConn[uid] == nil || len(wsConn[uid]) < 0
+	isOnline := wsConn[uid] != nil && len(wsConn[uid]) > 0
 	if isOnline && err != nil {
 		return nil
 	} else if err == nil && status.IsNoDisturb {
@@ -52,7 +52,7 @@ func GetStatusDisturbable(uid uint) error {
 
 func GetStatusOnline(uid uint) error {
 	status, err := GetStatus(uid)
-	isOnline := wsConn[uid] == nil || len(wsConn[uid]) < 0
+	isOnline := wsConn[uid] != nil && len(wsConn[uid]) > 0
 	if isOnline && err != nil {
 		return nil
 	} else if err == nil && status.IsInvisible {
