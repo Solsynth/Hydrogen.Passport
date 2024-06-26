@@ -33,6 +33,24 @@ func getStatus(c *fiber.Ctx) error {
 	})
 }
 
+func getMyselfStatus(c *fiber.Ctx) error {
+	user := c.Locals("user").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+
+	status, err := services.GetStatus(user.ID)
+	disturbable := services.GetStatusDisturbable(user.ID) == nil
+	online := services.GetStatusOnline(user.ID) == nil
+
+	return c.JSON(fiber.Map{
+		"status":         lo.Ternary(err == nil, &status, nil),
+		"last_seen_at":   user.Profile.LastSeenAt,
+		"is_disturbable": disturbable,
+		"is_online":      online,
+	})
+}
+
 func setStatus(c *fiber.Ctx) error {
 	user := c.Locals("user").(models.Account)
 	if err := exts.EnsureAuthenticated(c); err != nil {

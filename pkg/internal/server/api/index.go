@@ -35,6 +35,7 @@ func MapAPIs(app *fiber.App) {
 
 			me.Post("/confirm", doRegisterConfirm)
 
+			me.Get("/status", getStatus)
 			me.Post("/status", setStatus)
 			me.Put("/status", editStatus)
 			me.Delete("/status", clearStatus)
