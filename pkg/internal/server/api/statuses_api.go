@@ -68,3 +68,54 @@ func setStatus(c *fiber.Ctx) error {
 		return c.JSON(status)
 	}
 }
+
+func editStatus(c *fiber.Ctx) error {
+	user := c.Locals("user").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+
+	var req struct {
+		Type        string     `json:"type" validate:"required"`
+		Label       string     `json:"label" validate:"required"`
+		Attitude    uint       `json:"attitude" validate:"required"`
+		IsNoDisturb bool       `json:"is_no_disturb"`
+		IsInvisible bool       `json:"is_invisible"`
+		ClearAt     *time.Time `json:"clear_at"`
+	}
+
+	if err := exts.BindAndValidate(c, &req); err != nil {
+		return err
+	}
+
+	status, err := services.GetStatus(user.ID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "you must set a status first and then can edit it")
+	}
+
+	status.Type = req.Type
+	status.Label = req.Label
+	status.Attitude = models.StatusAttitude(req.Attitude)
+	status.IsNoDisturb = req.IsNoDisturb
+	status.IsInvisible = req.IsInvisible
+	status.ClearAt = req.ClearAt
+
+	if status, err := services.EditStatus(user, status); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	} else {
+		return c.JSON(status)
+	}
+}
+
+func clearStatus(c *fiber.Ctx) error {
+	user := c.Locals("user").(models.Account)
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+
+	if err := services.ClearStatus(user); err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+
+	return c.SendStatus(fiber.StatusOK)
+}

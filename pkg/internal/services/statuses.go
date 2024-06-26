@@ -4,19 +4,11 @@ import (
 	"fmt"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
+	"github.com/samber/lo"
 	"time"
 )
 
 var statusCache = make(map[uint]models.Status)
-
-func NewStatus(user models.Account, status models.Status) (models.Status, error) {
-	if err := database.C.Save(&status).Error; err != nil {
-		return status, err
-	} else {
-		statusCache[user.ID] = status
-	}
-	return status, nil
-}
 
 func GetStatus(uid uint) (models.Status, error) {
 	if status, ok := statusCache[uid]; ok {
@@ -60,4 +52,32 @@ func GetStatusOnline(uid uint) error {
 	} else {
 		return fmt.Errorf("offline")
 	}
+}
+
+func NewStatus(user models.Account, status models.Status) (models.Status, error) {
+	if err := database.C.Save(&status).Error; err != nil {
+		return status, err
+	} else {
+		statusCache[user.ID] = status
+	}
+	return status, nil
+}
+
+func EditStatus(user models.Account, status models.Status) (models.Status, error) {
+	if err := database.C.Save(&status).Error; err != nil {
+		return status, err
+	} else {
+		statusCache[user.ID] = status
+	}
+	return status, nil
+}
+
+func ClearStatus(user models.Account) error {
+	if err := database.C.
+		Where("account_id = ?", user.ID).
+		Updates(models.Status{ClearAt: lo.ToPtr(time.Now())}).Error; err != nil {
+		return err
+	}
+
+	return nil
 }

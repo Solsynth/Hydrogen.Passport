@@ -36,6 +36,8 @@ func MapAPIs(app *fiber.App) {
 			me.Post("/confirm", doRegisterConfirm)
 
 			me.Post("/status", setStatus)
+			me.Put("/status", editStatus)
+			me.Delete("/status", clearStatus)
 
 			friends := me.Group("/friends").Name("Friends")
 			{
