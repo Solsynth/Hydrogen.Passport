@@ -5024,6 +5024,7 @@ true posixrules
     </table>
     <table id="292" parent="267" name="passport_notifications">
       <ObjectId>16445</ObjectId>
+      <Outdated>1</Outdated>
       <StateNumber>25751</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>

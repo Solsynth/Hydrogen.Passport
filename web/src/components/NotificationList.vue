@@ -1,23 +1,17 @@
 <template>
-  <v-menu eager :close-on-content-click="false">
-    <template #activator="{ props }">
-      <v-btn v-bind="props" icon size="small" variant="text" :loading="loading">
-        <v-badge v-if="notify.total > 0" color="error" :content="notify.total">
-          <v-icon icon="mdi-bell" />
-        </v-badge>
+  <v-navigation-drawer :model-value="props.open" @update:model-value="val => emits('update:open', val)" location="right"
+                       temporary order="0" width="400">
+    <v-list-item prepend-icon="mdi-bell" title="Notifications" class="py-3"></v-list-item>
 
-        <v-icon v-else icon="mdi-bell" />
-      </v-btn>
-    </template>
+    <v-divider color="black" class="mb-1" />
 
-    <v-list v-if="notify.notifications.length <= 0" class="w-[380px]" density="compact">
-      <v-list-item>
-        <v-alert class="text-sm" variant="tonal" type="info">You are done! There is no unread notifications for you.</v-alert>
-      </v-list-item>
+    <v-list v-if="notify.notifications.length <= 0" density="compact">
+      <v-list-item color="secondary" prepend-icon="mdi-check" title="All notifications read"
+                   subtitle="There is no more new things for you..." />
     </v-list>
 
     <v-list v-else class="w-[380px]" density="compact" lines="three">
-      <v-list-item v-for="(item, idx) in notify.notifications">
+      <v-list-item v-for="(item, idx) in notify.notifications" :key="idx">
         <template #title>{{ item.subject }}</template>
         <template #subtitle>{{ item.content }}</template>
 
@@ -26,11 +20,12 @@
         </template>
 
         <div class="flex text-xs gap-1">
-          <a v-for="link in item.links" class="mt-1 underline" target="_blank" :href="link.url">{{ link.label }}</a>
+          <a v-for="(link, idx) in item.links" :key="idx" class="mt-1 underline" target="_blank"
+             :href="link.url">{{ link.label }}</a>
         </div>
       </v-list-item>
     </v-list>
-  </v-menu>
+  </v-navigation-drawer>
 
   <!-- @vue-ignore -->
   <v-snackbar v-model="error" :timeout="5000">Something went wrong... {{ error }}</v-snackbar>
@@ -39,8 +34,11 @@
 <script setup lang="ts">
 import { request } from "@/scripts/request"
 import { getAtk } from "@/stores/userinfo"
-import { computed, onMounted, onUnmounted, ref } from "vue";
-import { useNotifications } from "@/stores/notifications";
+import { computed, onMounted, onUnmounted, ref } from "vue"
+import { useNotifications } from "@/stores/notifications"
+
+const props = defineProps<{ open: boolean }>()
+const emits = defineEmits(["update:open"])
 
 const notify = useNotifications()
 

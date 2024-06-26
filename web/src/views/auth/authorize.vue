@@ -31,7 +31,7 @@
                   <p class="opacity-80 text-xs">Permissions they requested</p>
                   <v-card variant="tonal" class="mt-1 mx-[-4px]">
                     <v-list density="compact">
-                      <v-list-item v-for="claim in requestedClaims" lines="two">
+                      <v-list-item v-for="(claim, key) in requestedClaims" :key="key" lines="two">
                         <template #title>
                           <span class="capitalize">{{ getClaimDescription(claim)?.name }}</span>
                         </template>
@@ -106,8 +106,8 @@ const requestedClaims = computed(() => {
 
 const panel = ref("confirm")
 
-async function preconnect() {
-  const res = await request(`/api/auth/o/connect${location.search}`, {
+async function tryAuthorize() {
+  const res = await request(`/api/auth/o/authorize${location.search}`, {
     headers: { Authorization: `Bearer ${getAtk()}` },
   })
 
@@ -116,9 +116,9 @@ async function preconnect() {
   } else {
     const data = await res.json()
 
-    if (data["session"]) {
+    if (data["ticket"]) {
       panel.value = "callback"
-      callback(data["session"])
+      callback(data["ticket"])
     } else {
       document.title = `Solarpass | Connect to ${data["client"]?.name}`
       metadata.value = data["client"]
@@ -127,7 +127,7 @@ async function preconnect() {
   }
 }
 
-preconnect()
+tryAuthorize()
 
 function decline() {
   if (window.history.length > 0) {
@@ -140,7 +140,7 @@ function decline() {
 async function approve() {
   loading.value = true
   const res = await request(
-    "/api/auth/o/connect?" +
+    "/api/auth/o/authorize?" +
     new URLSearchParams({
       client_id: route.query["client_id"] as string,
       redirect_uri: encodeURIComponent(route.query["redirect_uri"] as string),
@@ -159,17 +159,21 @@ async function approve() {
   } else {
     const data = await res.json()
     panel.value = "callback"
-    setTimeout(() => callback(data["session"]), 1850)
+    setTimeout(() => callback(data["ticket"]), 1850)
   }
 }
 
-function callback(session: any) {
-  const url = `${route.query["redirect_uri"]}?code=${session["grant_token"]}&state=${route.query["state"]}`
+function callback(ticket: any) {
+  const url = `${route.query["redirect_uri"]}?code=${ticket["grant_token"]}&state=${route.query["state"]}`
   window.open(url, "_self")
 }
 
 function getClaimDescription(key: string): ClaimType {
-  return claims.hasOwnProperty(key) ? claims[key] : { icon: "mdi-asterisk", name: key, description: "Unknown claim..." }
+  return Object.prototype.hasOwnProperty.call(claims, key) ? claims[key] : {
+    icon: "mdi-asterisk",
+    name: key,
+    description: "Unknown claim...",
+  }
 }
 </script>
 

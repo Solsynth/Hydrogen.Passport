@@ -39,7 +39,7 @@ export const useNotifications = defineStore("notifications", () => {
   async function connect() {
     if (!(checkLoggedIn())) return;
 
-    const uri = `ws://${window.location.host}/api/notifications/listen`;
+    const uri = `ws://${window.location.host}/api/ws`;
 
     socket = new WebSocket(uri + `?tk=${getAtk() as string}`);
 

@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router"
 import { useUserinfo } from "@/stores/userinfo"
-import MasterLayout from "@/layouts/master.vue"
 import UserCenterLayout from "@/layouts/user-center.vue"
 
 const router = createRouter({
@@ -11,32 +10,26 @@ const router = createRouter({
       redirect: { name: "dashboard" },
     },
     {
-      path: "/",
-      component: MasterLayout,
+      path: "/users",
+      component: UserCenterLayout,
       children: [
         {
-          path: "/users",
-          component: UserCenterLayout,
-          children: [
-            {
-              path: "/me",
-              name: "dashboard",
-              component: () => import("@/views/dashboard.vue"),
-              meta: { title: "Your account" },
-            },
-            {
-              path: "/me/personalize",
-              name: "personalize",
-              component: () => import("@/views/personalize.vue"),
-              meta: { title: "Your personality" },
-            },
-            {
-              path: "/me/security",
-              name: "security",
-              component: () => import("@/views/security.vue"),
-              meta: { title: "Your security" },
-            },
-          ],
+          path: "/me",
+          name: "dashboard",
+          component: () => import("@/views/dashboard.vue"),
+          meta: { title: "Your account" },
+        },
+        {
+          path: "/me/personalize",
+          name: "personalize",
+          component: () => import("@/views/personalize.vue"),
+          meta: { title: "Your personality" },
+        },
+        {
+          path: "/me/security",
+          name: "security",
+          component: () => import("@/views/security.vue"),
+          meta: { title: "Your security" },
         },
       ],
     },

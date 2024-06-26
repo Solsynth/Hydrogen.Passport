@@ -81,7 +81,7 @@ func NewOauthTicket(
 		AccessToken:  lo.ToPtr(uuid.NewString()),
 		RefreshToken: lo.ToPtr(uuid.NewString()),
 		AvailableAt:  lo.ToPtr(time.Now()),
-		ExpiredAt:    lo.ToPtr(time.Now()),
+		ExpiredAt:    lo.ToPtr(time.Now().Add(7 * 24 * time.Hour)),
 		ClientID:     &client.ID,
 		AccountID:    user.ID,
 	}

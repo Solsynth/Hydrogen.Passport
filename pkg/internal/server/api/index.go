@@ -29,7 +29,7 @@ func MapAPIs(app *fiber.App) {
 			me.Put("/", editUserinfo)
 			me.Get("/events", getEvents)
 			me.Get("/tickets", getTickets)
-			me.Delete("/tickets/:ticketId", killSession)
+			me.Delete("/tickets/:ticketId", killTicket)
 
 			me.Post("/confirm", doRegisterConfirm)
 
@@ -51,12 +51,18 @@ func MapAPIs(app *fiber.App) {
 
 		api.Post("/users", doRegister)
 
-		api.Post("/auth", doAuthenticate)
-		api.Post("/auth/mfa", doMultiFactorAuthenticate)
-		api.Post("/auth/token", getToken)
+		auth := api.Group("/auth").Name("Auth")
+		{
+			auth.Post("/", doAuthenticate)
+			auth.Post("/mfa", doMultiFactorAuthenticate)
+			auth.Post("/token", getToken)
 
-		api.Get("/auth/factors", getAvailableFactors)
-		api.Post("/auth/factors/:factorId", requestFactorToken)
+			auth.Get("/factors", getAvailableFactors)
+			auth.Post("/factors/:factorId", requestFactorToken)
+
+			auth.Get("/o/authorize", tryAuthorizeThirdClient)
+			auth.Post("/o/authorize", authorizeThirdClient)
+		}
 
 		realms := api.Group("/realms").Name("Realms API")
 		{

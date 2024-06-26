@@ -1,21 +1,30 @@
 <template>
-  <v-container class="pt-6 px-6">
-    <v-row>
-      <v-col :cols="12" :xs="12" :sm="12" :md="4" :lg="3">
-        <v-card title="Navigation">
-          <v-list density="comfortable">
-            <v-list-item title="Dashboard" prepend-icon="mdi-view-dashboard" :to="{ name: 'dashboard' }" exact />
-            <v-list-item title="Personalize" prepend-icon="mdi-card-bulleted-outline" :to="{ name: 'personalize' }" />
-            <v-list-item title="Security" prepend-icon="mdi-security" :to="{ name: 'security' }" />
-          </v-list>
-        </v-card>
-      </v-col>
+  <AppBar>
+    <template #extension>
+      <v-tabs align-tabs="title" color="white">
+        <v-tab text="Dashboard" prepend-icon="mdi-view-dashboard" :to="{ name: 'dashboard' }" exact />
+        <v-tab text="Personalize" prepend-icon="mdi-card-bulleted-outline" :to="{ name: 'personalize' }" exact />
+        <v-tab text="Security" prepend-icon="mdi-security" :to="{ name: 'security' }" exact />
+      </v-tabs>
+    </template>
+  </AppBar>
 
-      <v-col :cols="12" :xs="12" :sm="12" :md="8" :lg="9">
-        <router-view />
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-main>
+    <v-container class="pt-6 px-6 p-container">
+      <router-view />
+    </v-container>
+
+    <Copyright />
+  </v-main>
 </template>
+
 <script setup lang="ts">
+import AppBar from "@/components/navigation/AppBar.vue"
+import Copyright from "@/components/Copyright.vue"
 </script>
+
+<style scoped>
+.p-container {
+  max-width: 64rem;
+}
+</style>
