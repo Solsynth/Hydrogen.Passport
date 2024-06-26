@@ -23,6 +23,8 @@ func doAuthenticate(c *fiber.Ctx) error {
 	user, err := services.LookupAccount(data.Username)
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("account was not found: %v", err.Error()))
+	} else if user.ConfirmedAt == nil {
+		return fiber.NewError(fiber.StatusForbidden, "account was not confirmed")
 	}
 
 	ticket, err := services.NewTicket(user, c.IP(), c.Get(fiber.HeaderUserAgent))

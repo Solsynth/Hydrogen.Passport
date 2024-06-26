@@ -14,6 +14,6 @@ type MagicToken struct {
 
 	Code      string     `json:"code"`
 	Type      int8       `json:"type"`
-	AssignTo  *uint      `json:"assign_to"`
+	AccountID *uint      `json:"account_id"`
 	ExpiredAt *time.Time `json:"expired_at"`
 }

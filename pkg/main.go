@@ -68,6 +68,7 @@ func main() {
 	quartz.AddFunc("@every 60m", services.DoAutoSignoff)
 	quartz.AddFunc("@every 60m", services.DoAutoDatabaseCleanup)
 	quartz.AddFunc("@every 60s", services.RecycleAuthContext)
+	quartz.AddFunc("@every 60m", services.RecycleUnConfirmAccount)
 	quartz.AddFunc("@every 5m", services.KexCleanup)
 	quartz.Start()
 
