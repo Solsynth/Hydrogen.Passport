@@ -73,6 +73,12 @@ func setStatus(c *fiber.Ctx) error {
 		return err
 	}
 
+	// End the status already exists
+	if status, err := services.GetStatus(user.ID); err == nil {
+		status.ClearAt = lo.ToPtr(time.Now())
+		database.C.Save(&status)
+	}
+
 	status := models.Status{
 		Type:        req.Type,
 		Label:       req.Label,

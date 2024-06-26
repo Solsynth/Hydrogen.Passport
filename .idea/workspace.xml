@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Invisible status is visible to others">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":ambulance: Fix nil pointer panic">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/statuses_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/statuses_api.go" afterDir="false" />
     </list>
@@ -152,7 +152,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":ambulance: Fix nil map panic" />
     <MESSAGE value=":recycle: Update the sign in web page to the latest API" />
     <MESSAGE value=":wastebasket: Remove the personal page" />
     <MESSAGE value=":recycle: OAuth authenticate" />
@@ -177,7 +176,8 @@
     <MESSAGE value=":bug: Fix miscall function" />
     <MESSAGE value=":bug: Fix ws security blocked" />
     <MESSAGE value=":bug: Invisible status is visible to others" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Invisible status is visible to others" />
+    <MESSAGE value=":ambulance: Fix nil pointer panic" />
+    <option name="LAST_COMMIT_MESSAGE" value=":ambulance: Fix nil pointer panic" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
