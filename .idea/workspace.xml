@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix clear status affected the statutes cleared before">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Get myself current status API">
       <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/index.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/statuses_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/statuses_api.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,8 +151,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: FIx cannot resolve service" />
-    <MESSAGE value=":sparkles: Accepts token in querystring" />
     <MESSAGE value=":bug: Fix registration service issue" />
     <MESSAGE value=":bug: Fix avatar url missing endpoint prefix" />
     <MESSAGE value=":ambulance: Fix query services too much 429" />
@@ -178,7 +174,9 @@
     <MESSAGE value=":sparkles: Last seen at" />
     <MESSAGE value=":sparkles: Edit, delete current status" />
     <MESSAGE value=":bug: Fix clear status affected the statutes cleared before" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix clear status affected the statutes cleared before" />
+    <MESSAGE value=":sparkles: Get self-current status API" />
+    <MESSAGE value=":sparkles: Get myself current status API" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Get myself current status API" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
