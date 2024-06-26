@@ -37,10 +37,10 @@ func getStatus(c *fiber.Ctx) error {
 }
 
 func getMyselfStatus(c *fiber.Ctx) error {
-	user := c.Locals("user").(models.Account)
 	if err := exts.EnsureAuthenticated(c); err != nil {
 		return err
 	}
+	user := c.Locals("user").(models.Account)
 
 	status, err := services.GetStatus(user.ID)
 	disturbable := services.GetStatusDisturbable(user.ID) == nil
