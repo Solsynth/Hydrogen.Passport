@@ -39,7 +39,8 @@ export const useNotifications = defineStore("notifications", () => {
   async function connect() {
     if (!(checkLoggedIn())) return
 
-    const uri = `ws://${window.location.host}/api/ws`
+    const protocol = location.protocol.replace("http", "ws")
+    const uri = `${protocol}//${window.location.host}/api/ws`
 
     socket = new WebSocket(uri + `?tk=${getAtk() as string}`)
 
