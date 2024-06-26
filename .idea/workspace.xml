@@ -4,16 +4,15 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Authenticate wrong payload hotfix">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/74bcf3ef-a2b9-435b-b9e5-f32902a33b25.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/74bcf3ef-a2b9-435b-b9e5-f32902a33b25.xml" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Can pick up mfa request">
+      <change afterPath="$PROJECT_DIR$/pkg/internal/server/api/statuses_api.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/internal/services/statuses.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/auth_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/auth_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/models/statuses.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/statuses.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/index.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/layouts/master.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/layouts/master.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/layouts/user-center.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/layouts/user-center.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/router/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/auth/sign-in.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/views/auth/sign-in.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/personalize.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/views/personalize.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/accounts.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/factors.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/factors.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/notifications.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/notifications.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +150,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":fire: Remove ws connected does not push notify feature" />
     <MESSAGE value=":sparkles: Able to read current user's realm profile" />
     <MESSAGE value=":sparkles: Consul registration" />
     <MESSAGE value=":wastebasket: Remove HTTP provision to consul" />
@@ -176,7 +174,8 @@
     <MESSAGE value=":bug: Fix frontend" />
     <MESSAGE value=":card_file_box: Add the status model" />
     <MESSAGE value=":bug: Authenticate wrong payload hotfix" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Authenticate wrong payload hotfix" />
+    <MESSAGE value=":sparkles: Can pick up mfa request" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Can pick up mfa request" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

@@ -25,6 +25,17 @@ func GetAccount(id uint) (models.Account, error) {
 	return account, nil
 }
 
+func GetAccountWithName(alias string) (models.Account, error) {
+	var account models.Account
+	if err := database.C.Where(models.Account{
+		Name: alias,
+	}).First(&account).Error; err != nil {
+		return account, err
+	}
+
+	return account, nil
+}
+
 func LookupAccount(probe string) (models.Account, error) {
 	var account models.Account
 	if err := database.C.Where(models.Account{Name: probe}).First(&account).Error; err == nil {

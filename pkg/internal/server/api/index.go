@@ -35,6 +35,8 @@ func MapAPIs(app *fiber.App) {
 
 			me.Post("/confirm", doRegisterConfirm)
 
+			me.Post("/status", setStatus)
+
 			friends := me.Group("/friends").Name("Friends")
 			{
 				friends.Get("/", listFriendship)
@@ -49,6 +51,7 @@ func MapAPIs(app *fiber.App) {
 		directory := api.Group("/users/:alias").Name("User Directory")
 		{
 			directory.Get("/", getOtherUserinfo)
+			directory.Get("/status", getStatus)
 		}
 
 		api.Post("/users", doRegister)

@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"github.com/rs/zerolog/log"
 	"github.com/samber/lo"
 	"strings"
 
@@ -81,7 +82,8 @@ func GetFactorCode(factor models.AuthFactor) (bool, error) {
 		subject := fmt.Sprintf("[%s] Login verification code", viper.GetString("name"))
 		content := fmt.Sprintf(EmailPasswordTemplate, user.Name, factor.Secret, viper.GetString("maintainer"))
 		if err := SendMail(user.GetPrimaryEmail().Content, subject, content); err != nil {
-			return true, err
+			log.Warn().Err(err).Uint("factor", factor.ID).Msg("Failed to delivery one-time-password via mail...")
+			return true, nil
 		}
 		return true, nil
 

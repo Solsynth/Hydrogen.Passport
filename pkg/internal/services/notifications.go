@@ -65,7 +65,10 @@ func PushNotification(notification models.Notification) error {
 		}.Marshal())
 	}
 
-	// TODO Detect the push notification is turned off (still push when IsForcePush is on)
+	// Skip push notify
+	if GetStatusDisturbable(notification.RecipientID) != nil {
+		return nil
+	}
 
 	var subscribers []models.NotificationSubscriber
 	if err := database.C.Where(&models.NotificationSubscriber{
