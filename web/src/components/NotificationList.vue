@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer :model-value="props.open" @update:model-value="val => emits('update:open', val)" location="right"
+  <v-navigation-drawer :model-value="props.open" @update:model-value="(val: any) => emits('update:open', val)" location="right"
                        temporary order="0" width="400">
     <v-list-item prepend-icon="mdi-bell" title="Notifications" class="py-3"></v-list-item>
 

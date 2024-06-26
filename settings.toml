@@ -1,7 +1,7 @@
 id = "passport01"
 name = "Solarpass"
 
-frontend_app = "web/dist"
+frontend_app = "/passport/web"
 
 bind = "0.0.0.0:8444"
 grpc_bind = "0.0.0.0:7444"
