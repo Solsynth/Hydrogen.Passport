@@ -49,8 +49,10 @@ func GetStatusOnline(uid uint) error {
 		return nil
 	} else if err == nil && status.IsInvisible {
 		return fmt.Errorf("invisible")
-	} else {
+	} else if !isOnline {
 		return fmt.Errorf("offline")
+	} else {
+		return nil
 	}
 }
 
@@ -78,6 +80,8 @@ func ClearStatus(user models.Account) error {
 		Where("clear_at < ?", time.Now()).
 		Updates(models.Status{ClearAt: lo.ToPtr(time.Now())}).Error; err != nil {
 		return err
+	} else {
+		delete(statusCache, user.ID)
 	}
 
 	return nil
