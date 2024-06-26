@@ -25,6 +25,6 @@ import Copyright from "@/components/Copyright.vue"
 
 <style scoped>
 .p-container {
-  max-width: 64rem;
+  max-width: 40rem;
 }
 </style>

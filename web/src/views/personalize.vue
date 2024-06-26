@@ -1,6 +1,8 @@
 <template>
   <div>
-    <v-card class="mb-3" title="Information" prepend-icon="mdi-face-man-profile" :loading="loading">
+    <GoUseSolian class="mb-3" />
+
+    <v-card title="Information" prepend-icon="mdi-face-man-profile" :loading="loading">
       <template #text>
         <v-form class="mt-1" @submit.prevent="submit">
           <v-row dense>
@@ -37,22 +39,6 @@
       </template>
     </v-card>
 
-    <v-card>
-      <v-card-text class="flex items-center gap-3">
-        <v-avatar color="grey-lighten-2" icon="mdi-account-circle" class="rounded-card" size="large"
-          :image="'/api/avatar/' + id.userinfo.data.avatar" />
-        <v-file-input clearable hide-details label="Upload another avatar" variant="outlined" density="comfortable"
-          accept="image/*" prepend-icon="" append-icon="mdi-upload" v-model="avatar" @click:append="applyAvatar" />
-      </v-card-text>
-
-      <v-img cover class="bg-grey-lighten-2" :height="320" :src="'/api/avatar/' + id.userinfo.data.banner" />
-
-      <v-card-text>
-        <v-file-input clearable hide-details label="Update your banner" variant="outlined" density="comfortable"
-          accept="image/*" prepend-icon="" append-icon="mdi-upload" v-model="banner" @click:append="applyBanner" />
-      </v-card-text>
-    </v-card>
-
     <v-snackbar v-model="done" :timeout="3000"> Your personal information has been updated. </v-snackbar>
 
     <!-- @vue-ignore -->
@@ -64,6 +50,7 @@
 import { ref, watch } from "vue"
 import { useUserinfo, getAtk } from "@/stores/userinfo"
 import { request } from "@/scripts/request"
+import GoUseSolian from "@/components/GoUseSolian.vue"
 
 const id = useUserinfo()
 
