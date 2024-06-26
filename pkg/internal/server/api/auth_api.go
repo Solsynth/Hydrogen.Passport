@@ -10,6 +10,20 @@ import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 )
 
+func getTicket(c *fiber.Ctx) error {
+	ticketId, err := c.ParamsInt("ticketId")
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "ticket id is required")
+	}
+
+	ticket, err := services.GetTicket(uint(ticketId))
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("ticket %d not found", ticketId))
+	} else {
+		return c.JSON(ticket)
+	}
+}
+
 func doAuthenticate(c *fiber.Ctx) error {
 	var data struct {
 		Username string `json:"username" validate:"required"`

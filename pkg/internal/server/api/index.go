@@ -59,6 +59,8 @@ func MapAPIs(app *fiber.App) {
 			auth.Post("/mfa", doMultiFactorAuthenticate)
 			auth.Post("/token", getToken)
 
+			auth.Get("/tickets/:ticketId", getTicket)
+
 			auth.Get("/factors", getAvailableFactors)
 			auth.Post("/factors/:factorId", requestFactorToken)
 

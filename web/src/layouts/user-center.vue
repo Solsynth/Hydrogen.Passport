@@ -1,5 +1,5 @@
 <template>
-  <AppBar>
+  <app-bar>
     <template #extension>
       <v-tabs align-tabs="title" color="white">
         <v-tab text="Dashboard" prepend-icon="mdi-view-dashboard" :to="{ name: 'dashboard' }" exact />
@@ -7,7 +7,7 @@
         <v-tab text="Security" prepend-icon="mdi-security" :to="{ name: 'security' }" exact />
       </v-tabs>
     </template>
-  </AppBar>
+  </app-bar>
 
   <v-main>
     <v-container class="pt-6 px-6 p-container">

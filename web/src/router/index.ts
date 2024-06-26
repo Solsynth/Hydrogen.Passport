@@ -39,6 +39,7 @@ const router = createRouter({
       children: [
         {
           path: "/sign-in",
+          alias: ["/mfa"],
           name: "auth.sign-in",
           component: () => import("@/views/auth/sign-in.vue"),
           meta: { public: true, title: "Sign in" },

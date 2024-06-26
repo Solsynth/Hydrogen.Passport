@@ -1,6 +1,6 @@
 <template>
   <div>
-    <GoUseSolian class="mb-3" />
+    <go-use-solian class="mb-3" />
 
     <v-card title="Information" prepend-icon="mdi-face-man-profile" :loading="loading">
       <template #text>

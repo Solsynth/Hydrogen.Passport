@@ -25,7 +25,8 @@
 </template>
 
 <script setup lang="ts">
-import { type Component, ref } from "vue"
+import { type Component, onMounted, ref } from "vue"
+import { useRoute } from "vue-router"
 import Copyright from "@/components/Copyright.vue"
 import CallbackNotify from "@/components/auth/CallbackNotify.vue"
 import FactorPicker from "@/components/auth/FactorPicker.vue"
@@ -33,10 +34,27 @@ import FactorApplicator from "@/components/auth/FactorApplicator.vue"
 import AccountAuthenticate from "@/components/auth/Authenticate.vue"
 import AuthenticateCompleted from "@/components/auth/AuthenticateCompleted.vue"
 
+const route = useRoute()
+
 const loading = ref(false)
 
 const currentFactor = ref<any>(null)
 const ticket = ref<any>(null)
+
+async function pickUpTicket() {
+  if (route.query["ticketId"]) {
+    loading.value = true
+    const res = await fetch(`/api/auth/tickets/${route.query["ticketId"]}`)
+    if (res.status == 200) {
+      ticket.value = await res.json()
+      if (ticket.value["available_at"] != null) panel.value = "completed"
+      else panel.value = "mfa"
+    }
+    loading.value = false
+  }
+}
+
+onMounted(() => pickUpTicket())
 
 const panel = ref("authenticate")
 
