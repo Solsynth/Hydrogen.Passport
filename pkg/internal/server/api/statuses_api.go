@@ -63,7 +63,7 @@ func setStatus(c *fiber.Ctx) error {
 	var req struct {
 		Type        string     `json:"type" validate:"required"`
 		Label       string     `json:"label" validate:"required"`
-		Attitude    uint       `json:"attitude" validate:"required"`
+		Attitude    uint       `json:"attitude"`
 		IsNoDisturb bool       `json:"is_no_disturb"`
 		IsInvisible bool       `json:"is_invisible"`
 		ClearAt     *time.Time `json:"clear_at"`
@@ -105,7 +105,7 @@ func editStatus(c *fiber.Ctx) error {
 	var req struct {
 		Type        string     `json:"type" validate:"required"`
 		Label       string     `json:"label" validate:"required"`
-		Attitude    uint       `json:"attitude" validate:"required"`
+		Attitude    uint       `json:"attitude"`
 		IsNoDisturb bool       `json:"is_no_disturb"`
 		IsInvisible bool       `json:"is_invisible"`
 		ClearAt     *time.Time `json:"clear_at"`
