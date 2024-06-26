@@ -29,7 +29,7 @@ type Account struct {
 	Factors []AuthFactor `json:"factors"`
 
 	Events      []ActionEvent `json:"events"`
-	MagicTokens []MagicToken  `json:"-" gorm:"foreignKey:AssignTo"`
+	MagicTokens []MagicToken  `json:"-"`
 
 	ThirdClients []ThirdClient `json:"clients"`
 
