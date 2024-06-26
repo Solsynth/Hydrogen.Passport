@@ -1,15 +1,15 @@
 <template>
   <div>
     <v-card>
-      <v-img cover class="bg-grey-lighten-2" :height="240" :src="'/api/avatar/' + id.userinfo.data.banner" />
+      <v-img cover class="bg-grey-lighten-2" :height="240" src="/api/avatar" />
 
       <v-card-text class="flex gap-3.5 px-5 pb-5">
         <v-avatar
           color="grey-lighten-2"
           icon="mdi-account-circle"
           class="rounded-card"
+          image="/api/banner"
           :size="54"
-          :image="'/api/avatar/' + id.userinfo.data.avatar"
         />
         <div>
           <h1 class="text-2xl cursor-pointer" @click="show.realname = !show.realname">{{ displayName }}</h1>

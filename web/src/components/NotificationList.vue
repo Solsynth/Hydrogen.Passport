@@ -10,7 +10,7 @@
                    subtitle="There is no more new things for you..." />
     </v-list>
 
-    <v-list v-else class="w-[380px]" density="compact" lines="three">
+    <v-list v-else density="compact" lines="three">
       <v-list-item v-for="(item, idx) in notify.notifications" :key="idx">
         <template #title>{{ item.subject }}</template>
         <template #subtitle>{{ item.content }}</template>

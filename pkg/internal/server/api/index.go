@@ -22,6 +22,8 @@ func MapAPIs(app *fiber.App) {
 		me := api.Group("/users/me").Name("Myself Operations")
 		{
 
+			me.Get("/avatar", getAvatar)
+			me.Get("/banner", getBanner)
 			me.Put("/avatar", setAvatar)
 			me.Put("/banner", setBanner)
 

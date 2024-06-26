@@ -19,10 +19,6 @@ func setAvatar(c *fiber.Ctx) error {
 	}
 	user := c.Locals("user").(models.Account)
 
-	if err := exts.EnsureAuthenticated(c); err != nil {
-		return err
-	}
-
 	var data struct {
 		AttachmentID uint `json:"attachment" validate:"required"`
 	}
@@ -87,4 +83,30 @@ func setBanner(c *fiber.Ctx) error {
 	}
 
 	return c.SendStatus(fiber.StatusOK)
+}
+
+func getAvatar(c *fiber.Ctx) error {
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
+
+	if content := user.GetAvatar(); content == nil {
+		return c.SendStatus(fiber.StatusNotFound)
+	} else {
+		return c.Redirect(*content, fiber.StatusNotFound)
+	}
+}
+
+func getBanner(c *fiber.Ctx) error {
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
+
+	if content := user.GetBanner(); content == nil {
+		return c.SendStatus(fiber.StatusNotFound)
+	} else {
+		return c.Redirect(*content, fiber.StatusNotFound)
+	}
 }

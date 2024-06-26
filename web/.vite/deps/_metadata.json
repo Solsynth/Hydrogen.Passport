@@ -1,8 +1,85 @@
 {
-  "hash": "47c7bee8",
+  "hash": "8b6d0833",
   "configHash": "9db2f33b",
-  "lockfileHash": "e3b0c442",
-  "browserHash": "0938dccf",
-  "optimized": {},
-  "chunks": {}
+  "lockfileHash": "f7feab31",
+  "browserHash": "0decaeb8",
+  "optimized": {
+    "vue": {
+      "src": "../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
+      "file": "vue.js",
+      "fileHash": "1913939b",
+      "needsInterop": false
+    },
+    "pinia": {
+      "src": "../../node_modules/pinia/dist/pinia.mjs",
+      "file": "pinia.js",
+      "fileHash": "4c101c90",
+      "needsInterop": false
+    },
+    "vuetify": {
+      "src": "../../node_modules/vuetify/lib/framework.mjs",
+      "file": "vuetify.js",
+      "fileHash": "3ab2542c",
+      "needsInterop": false
+    },
+    "vuetify/blueprints": {
+      "src": "../../node_modules/vuetify/lib/blueprints/index.mjs",
+      "file": "vuetify_blueprints.js",
+      "fileHash": "b34fe63c",
+      "needsInterop": false
+    },
+    "vuetify/components": {
+      "src": "../../node_modules/vuetify/lib/components/index.mjs",
+      "file": "vuetify_components.js",
+      "fileHash": "42f8a374",
+      "needsInterop": false
+    },
+    "vuetify/labs/components": {
+      "src": "../../node_modules/vuetify/lib/labs/components.mjs",
+      "file": "vuetify_labs_components.js",
+      "fileHash": "a46a672a",
+      "needsInterop": false
+    },
+    "vuetify/directives": {
+      "src": "../../node_modules/vuetify/lib/directives/index.mjs",
+      "file": "vuetify_directives.js",
+      "fileHash": "66c34130",
+      "needsInterop": false
+    },
+    "vue-router": {
+      "src": "../../node_modules/vue-router/dist/vue-router.mjs",
+      "file": "vue-router.js",
+      "fileHash": "56488480",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-WKTZ3I3B": {
+      "file": "chunk-WKTZ3I3B.js"
+    },
+    "chunk-XJKCW2PU": {
+      "file": "chunk-XJKCW2PU.js"
+    },
+    "chunk-VFMM6PD2": {
+      "file": "chunk-VFMM6PD2.js"
+    },
+    "chunk-XREPMAG4": {
+      "file": "chunk-XREPMAG4.js"
+    },
+    "chunk-ZUZRGUJJ": {
+      "file": "chunk-ZUZRGUJJ.js"
+    },
+    "chunk-V6X3YB3T": {
+      "file": "chunk-V6X3YB3T.js"
+    },
+    "chunk-6CN2GOSH": {
+      "file": "chunk-6CN2GOSH.js"
+    },
+    "chunk-AYVSL3LM": {
+      "file": "chunk-AYVSL3LM.js"
+    },
+    "chunk-Q5PGHB6G": {
+      "file": "chunk-Q5PGHB6G.js"
+    }
+  }
 }
