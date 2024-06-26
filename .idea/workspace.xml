@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix miscall function">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix ws security blocked">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/stores/notifications.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/stores/notifications.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/statuses_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/statuses_api.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,7 +152,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Fix avatar url missing endpoint prefix" />
     <MESSAGE value=":ambulance: Fix query services too much 429" />
     <MESSAGE value=":ambulance: Fix nil map panic" />
     <MESSAGE value=":recycle: Update the sign in web page to the latest API" />
@@ -177,7 +176,8 @@
     <MESSAGE value=":sparkles: Get self-current status API" />
     <MESSAGE value=":sparkles: Get myself current status API" />
     <MESSAGE value=":bug: Fix miscall function" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix miscall function" />
+    <MESSAGE value=":bug: Fix ws security blocked" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix ws security blocked" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

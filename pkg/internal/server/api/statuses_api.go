@@ -25,6 +25,9 @@ func getStatus(c *fiber.Ctx) error {
 	disturbable := services.GetStatusDisturbable(user.ID) == nil
 	online := services.GetStatusOnline(user.ID) == nil
 
+	// Always set false to hide from others
+	status.IsInvisible = false
+
 	return c.JSON(fiber.Map{
 		"status":         lo.Ternary(err == nil, &status, nil),
 		"last_seen_at":   user.Profile.LastSeenAt,
