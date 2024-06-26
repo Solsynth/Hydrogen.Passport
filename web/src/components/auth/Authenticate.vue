@@ -49,7 +49,7 @@ async function submit() {
   const res = await request("/api/auth", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id: probe.value, password: password.value }),
+    body: JSON.stringify({ username: probe.value, password: password.value }),
   })
   if (res.status !== 200) {
     error.value = await res.text()

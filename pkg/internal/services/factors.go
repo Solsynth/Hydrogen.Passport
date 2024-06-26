@@ -3,6 +3,7 @@ package services
 import (
 	"fmt"
 	"github.com/samber/lo"
+	"strings"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
@@ -99,7 +100,7 @@ func CheckFactor(factor models.AuthFactor, code string) error {
 		)
 	case models.EmailPasswordFactor:
 		return lo.Ternary(
-			code == factor.Secret,
+			strings.ToUpper(code) == strings.ToUpper(factor.Secret),
 			nil,
 			fmt.Errorf("invalid verification code"),
 		)

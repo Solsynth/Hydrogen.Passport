@@ -12,7 +12,7 @@ import (
 
 func doAuthenticate(c *fiber.Ctx) error {
 	var data struct {
-		Username string `json:"username"`
+		Username string `json:"username" validate:"required"`
 		Password string `json:"password" validate:"required"`
 	}
 
@@ -34,7 +34,7 @@ func doAuthenticate(c *fiber.Ctx) error {
 
 	ticket, err = services.ActiveTicketWithPassword(ticket, data.Password)
 	if err != nil {
-		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("invalid password: %v", err.Error()))
+		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("failed to authenticate: %v", err.Error()))
 	}
 
 	return c.JSON(fiber.Map{
@@ -66,7 +66,7 @@ func doMultiFactorAuthenticate(c *fiber.Ctx) error {
 
 	ticket, err = services.ActiveTicketWithMFA(ticket, factor, data.Code)
 	if err != nil {
-		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("invalid code: %v", err.Error()))
+		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("failed to authenticate: %v", err.Error()))
 	}
 
 	return c.JSON(fiber.Map{
