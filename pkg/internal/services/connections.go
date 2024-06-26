@@ -28,4 +28,10 @@ func ClientUnregister(user models.Account, conn *websocket.Conn) {
 	}
 	delete(wsConn[user.ID], conn)
 	wsMutex.Unlock()
+
+	if status, err := GetStatus(user.ID); err != nil || !status.IsInvisible {
+		if len(wsConn[user.ID]) == 0 {
+			_ = SetAccountLastSeen(user.ID)
+		}
+	}
 }

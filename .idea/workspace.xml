@@ -4,8 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Status system">
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/statuses.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/statuses.go" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix online condition">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/models/profiles.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/profiles.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/statuses_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/statuses_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/accounts.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/connections.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/connections.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,8 +155,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":sparkles: Consul registration" />
-    <MESSAGE value=":wastebasket: Remove HTTP provision to consul" />
     <MESSAGE value=":sparkles: Drop direct connection and uses consul" />
     <MESSAGE value=":technologist: Add the server side Hyper SDK" />
     <MESSAGE value=":recycle: Improve code structure and much easier to read&#10;:bug: Fix auth middleware" />
@@ -176,7 +178,9 @@
     <MESSAGE value=":bug: Authenticate wrong payload hotfix" />
     <MESSAGE value=":sparkles: Can pick up mfa request" />
     <MESSAGE value=":sparkles: Status system" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Status system" />
+    <MESSAGE value=":bug: Fix status expired in cache" />
+    <MESSAGE value=":bug: Fix online condition" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix online condition" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

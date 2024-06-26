@@ -179,3 +179,14 @@ func RecycleUnConfirmAccount() {
 		}
 	}
 }
+
+func SetAccountLastSeen(uid uint) error {
+	var profile models.AccountProfile
+	if err := database.C.Where("account_id = ?", uid).First(&profile).Error; err != nil {
+		return err
+	}
+
+	profile.LastSeenAt = lo.ToPtr(time.Now())
+
+	return database.C.Save(&profile).Error
+}
