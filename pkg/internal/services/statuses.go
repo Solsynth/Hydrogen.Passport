@@ -37,8 +37,10 @@ func GetStatusDisturbable(uid uint) error {
 		return nil
 	} else if err == nil && status.IsNoDisturb {
 		return fmt.Errorf("do not disturb")
-	} else {
+	} else if !isOnline {
 		return fmt.Errorf("offline")
+	} else {
+		return nil
 	}
 }
 

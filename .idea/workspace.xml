@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix bugs in status" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix status query condition">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/statuses.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/statuses.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -149,7 +152,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Bug fixes" />
     <MESSAGE value=":arrow_up: Fix notification listen" />
     <MESSAGE value=":bug: Fix magic token's foreign key" />
     <MESSAGE value=":sparkles: Better avatar and banner APIs" />
@@ -174,7 +176,8 @@
     <MESSAGE value=":ambulance: Fix getting user panic again..." />
     <MESSAGE value=":bug: Fix status validation issue" />
     <MESSAGE value=":bug: Fix bugs in status" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix bugs in status" />
+    <MESSAGE value=":bug: Fix status query condition" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix status query condition" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
