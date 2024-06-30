@@ -14,6 +14,20 @@ import (
 	"github.com/spf13/viper"
 )
 
+func lookupAccount(c *fiber.Ctx) error {
+	probe := c.Query("probe")
+	if len(probe) == 0 {
+		return fiber.NewError(fiber.StatusBadRequest, "you must provide a probe")
+	}
+
+	user, err := services.LookupAccount(probe)
+	if err != nil {
+		return fiber.NewError(fiber.StatusNotFound, err.Error())
+	}
+
+	return c.JSON(user)
+}
+
 func getUserinfo(c *fiber.Ctx) error {
 	if err := exts.EnsureAuthenticated(c); err != nil {
 		return err

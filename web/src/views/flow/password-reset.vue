@@ -3,34 +3,54 @@
     <v-card class="w-full max-w-[720px] overflow-auto" :loading="loading">
       <v-card-text class="card-grid pa-9">
         <div>
-          <v-avatar color="accent" icon="mdi-check-decagram" size="large" class="card-rounded mb-2" />
-          <h1 class="text-2xl">Confirm registration</h1>
-          <p>Confirm your account to keep your account longer than 48 hours.</p>
+          <v-avatar color="accent" icon="mdi-lock-reset" size="large" class="card-rounded mb-2" />
+          <h1 class="text-2xl">Reset password</h1>
+          <p>Reset password to get back access of your account.</p>
         </div>
 
         <v-window :touch="false" :model-value="panel" class="pa-2 mx-[-0.5rem]">
           <v-window-item value="confirm">
-            <div>
-              <v-expand-transition>
-                <v-alert v-show="error" variant="tonal" type="error" class="text-xs mb-3">
-                  Something went wrong... {{ error }}
-                </v-alert>
-              </v-expand-transition>
+            <div class="flex items-center">
+              <v-form class="flex-grow-1" @submit.prevent="confirm">
+                <v-text-field
+                  label="New Password"
+                  type="password"
+                  autocomplete="new-password"
+                  variant="solo"
+                  density="comfortable"
+                  :disabled="loading"
+                  v-model="newPassword"
+                />
 
-              <v-progress-circular v-if="!error" indeterminate size="32" color="grey-darken-3" class="mb-3" />
+                <v-expand-transition>
+                  <v-alert v-show="error" variant="tonal" type="error" class="text-xs mb-3">
+                    Something went wrong... {{ error }}
+                  </v-alert>
+                </v-expand-transition>
 
-              <h1 class="font-bold text-xl">Confirming</h1>
-              <p>We are confirming your account. Please stand by, this won't took a long time...</p>
+                <div class="flex justify-end">
+                  <v-btn
+                    type="submit"
+                    variant="text"
+                    color="primary"
+                    class="justify-self-end"
+                    append-icon="mdi-arrow-right"
+                    :disabled="loading"
+                  >
+                    Next
+                  </v-btn>
+                </div>
+              </v-form>
             </div>
           </v-window-item>
           <v-window-item value="callback">
             <div>
               <v-icon icon="mdi-fire" size="32" color="grey-darken-3" class="mb-3" />
 
-              <h1 class="font-bold text-xl">Confirmed</h1>
-              <p>You're done! We successfully confirmed your account.</p>
+              <h1 class="font-bold text-xl">Applied</h1>
+              <p>The password of your account has updated successfully.</p>
 
-              <p class="mt-3">Now you can continue use Solarpass, we will redirect to dashboard you soon.</p>
+              <p class="mt-3">Now you can continue to use Solarpass, we will redirect you to sign-in soon.</p>
             </div>
           </v-window-item>
         </v-window>
@@ -45,12 +65,10 @@
 import { ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { request } from "@/scripts/request"
-import { useUserinfo } from "@/stores/userinfo"
 import Copyright from "@/components/Copyright.vue"
 
 const route = useRoute()
 const router = useRouter()
-const { readProfiles } = useUserinfo()
 
 const error = ref<string | null>(null)
 
@@ -58,17 +76,20 @@ const loading = ref(false)
 
 const panel = ref("confirm")
 
+const newPassword = ref("")
+
 async function confirm() {
-  if (!route.query["tk"]) {
+  if (!route.query["code"]) {
     error.value = "code was not exists"
     return
   }
 
-  const res = await request("/api/users/me/confirm", {
-    method: "POST",
+  const res = await request("/api/users/me/password-reset", {
+    method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      code: route.query["tk"],
+      code: route.query["code"],
+      new_password: newPassword.value,
     }),
   })
   if (res.status !== 200) {
@@ -76,13 +97,10 @@ async function confirm() {
   } else {
     loading.value = true
     panel.value = "callback"
-    await readProfiles()
-    router.push({ name: "dashboard" })
+    await router.push({ name: "auth.sign-in" })
   }
   loading.value = false
 }
-
-confirm()
 </script>
 
 <style scoped>

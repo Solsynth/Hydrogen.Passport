@@ -141,10 +141,11 @@ func CheckAbleToResetPassword(user models.Account) error {
 	if err := database.C.
 		Where("account_id = ?", user.ID).
 		Where("expired_at < ?", time.Now()).
+		Where("type = ?", models.ResetPasswordMagicToken).
 		Model(&models.MagicToken{}).
 		Count(&count).Error; err != nil {
 		return fmt.Errorf("unable to check reset password ability: %v", err)
-	} else if count == 0 {
+	} else if count > 0 {
 		return fmt.Errorf("you requested reset password recently")
 	}
 

@@ -4,18 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":recycle: Improve notify API">
-      <change afterPath="$PROJECT_DIR$/web/src/views/flow/password-reset.vue" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Reset password APIs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/models/tokens.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/tokens.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/accounts_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/accounts_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/factors_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/factors_api.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/index.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/security_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/security_api.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/services/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/accounts.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/tokens.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/tokens.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/router/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/confirm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/views/flow/confirm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/views/flow/confirm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/views/flow/confirm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/views/flow/password-reset.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/views/flow/password-reset.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,7 +156,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":card_file_box: Add the status model" />
     <MESSAGE value=":bug: Authenticate wrong payload hotfix" />
     <MESSAGE value=":sparkles: Can pick up mfa request" />
     <MESSAGE value=":sparkles: Status system" />
@@ -186,7 +180,8 @@
     <MESSAGE value=":bug: Fix request body validation" />
     <MESSAGE value=":bug: Fix API mapping issue" />
     <MESSAGE value=":recycle: Improve notify API" />
-    <option name="LAST_COMMIT_MESSAGE" value=":recycle: Improve notify API" />
+    <MESSAGE value=":sparkles: Reset password APIs" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Reset password APIs" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

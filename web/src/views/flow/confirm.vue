@@ -5,7 +5,7 @@
         <div>
           <v-avatar color="accent" icon="mdi-check-decagram" size="large" class="card-rounded mb-2" />
           <h1 class="text-2xl">Confirm registration</h1>
-          <p>Confirm your account to keep your account longer than 48 hours.</p>
+          <p>Confirm your account to unlock more abilities.</p>
         </div>
 
         <v-window :touch="false" :model-value="panel" class="pa-2 mx-[-0.5rem]">
@@ -30,7 +30,7 @@
               <h1 class="font-bold text-xl">Confirmed</h1>
               <p>You're done! We successfully confirmed your account.</p>
 
-              <p class="mt-3">Now you can continue use Solarpass, we will redirect to dashboard you soon.</p>
+              <p class="mt-3">Now you can continue to use Solarpass, we will redirect you to dashboard soon.</p>
             </div>
           </v-window-item>
         </v-window>
@@ -77,7 +77,7 @@ async function confirm() {
     loading.value = true
     panel.value = "callback"
     await readProfiles()
-    router.push({ name: "dashboard" })
+    await router.push({ name: "dashboard" })
   }
   loading.value = false
 }

@@ -19,6 +19,8 @@ func MapAPIs(app *fiber.App) {
 			notify.Put("/:notificationId/read", markNotificationRead)
 		}
 
+		api.Get("/users/lookup", lookupAccount)
+
 		me := api.Group("/users/me").Name("Myself Operations")
 		{
 
@@ -34,8 +36,8 @@ func MapAPIs(app *fiber.App) {
 			me.Delete("/tickets/:ticketId", killTicket)
 
 			me.Post("/confirm", doRegisterConfirm)
-			me.Post("/reset-password", requestResetPassword)
-			me.Patch("/reset-password", confirmResetPassword)
+			me.Post("/password-reset", requestResetPassword)
+			me.Patch("/password-reset", confirmResetPassword)
 
 			me.Get("/status", getMyselfStatus)
 			me.Post("/status", setStatus)
