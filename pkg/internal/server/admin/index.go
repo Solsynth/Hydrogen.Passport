@@ -9,5 +9,7 @@ func MapAdminEndpoints(app *fiber.App) {
 	{
 		admin.Post("/badges", grantBadge)
 		admin.Delete("/badges/:badgeId", revokeBadge)
+
+		admin.Post("/notify/all", notifyAllUser)
 	}
 }
