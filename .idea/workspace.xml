@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix disturbable condition">
-      <change afterPath="$PROJECT_DIR$/pkg/internal/server/admin/notify_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/admin/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/admin/index.go" afterDir="false" />
-    </list>
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Admin notify all API" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -153,7 +149,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Fix magic token's foreign key" />
     <MESSAGE value=":sparkles: Better avatar and banner APIs" />
     <MESSAGE value=":bug: Fix avatar and banner APIs" />
     <MESSAGE value=":bug: Fix frontend" />
@@ -178,7 +173,8 @@
     <MESSAGE value=":bug: Fix bugs in status" />
     <MESSAGE value=":bug: Fix status query condition" />
     <MESSAGE value=":bug: Fix disturbable condition" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix disturbable condition" />
+    <MESSAGE value=":sparkles: Admin notify all API" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Admin notify all API" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
