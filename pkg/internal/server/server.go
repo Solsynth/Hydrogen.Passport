@@ -61,8 +61,8 @@ func NewServer() *HTTPApp {
 	app.Use(exts.AuthMiddleware)
 	app.Use(i18n.I18nMiddleware)
 
+	admin.MapAdminAPIs(app)
 	api.MapAPIs(app)
-	admin.MapAdminEndpoints(app)
 
 	app.Use(filesystem.New(filesystem.Config{
 		Root:         http.Dir(viper.GetString("frontend_app")),
