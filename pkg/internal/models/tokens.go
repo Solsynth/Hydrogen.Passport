@@ -7,6 +7,7 @@ type MagicTokenType = int8
 const (
 	ConfirmMagicToken = MagicTokenType(iota)
 	RegistrationMagicToken
+	ResetPasswordMagicToken
 )
 
 type MagicToken struct {

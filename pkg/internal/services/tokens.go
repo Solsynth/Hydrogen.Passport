@@ -27,6 +27,21 @@ Once again, thank you for choosing us. We look forward to serving you and hope y
 Best regards,
 %s`
 
+const ResetPasswordTemplate = `Dear %s,
+
+We received a request to reset the password for your account at %s. If you did not request a password reset, please ignore this email.
+
+To confirm your password reset request and create a new password, please use the link below:
+
+%s
+
+This link will expire in 24 hours. If you do not reset your password within this time frame, you will need to submit a new password reset request.
+
+If you have any questions or need further assistance, please do not hesitate to contact our support team.
+
+Best regards,
+%s`
+
 func ValidateMagicToken(code string, mode models.MagicTokenType) (models.MagicToken, error) {
 	var tk models.MagicToken
 	if err := database.C.Where(models.MagicToken{Code: code, Type: mode}).First(&tk).Error; err != nil {
@@ -74,13 +89,23 @@ func NotifyMagicToken(token models.MagicToken) error {
 	var content string
 	switch token.Type {
 	case models.ConfirmMagicToken:
-		link := fmt.Sprintf("https://%s/me/confirm?tk=%s", viper.GetString("domain"), token.Code)
+		link := fmt.Sprintf("https://%s/flow/confirm?code=%s", viper.GetString("domain"), token.Code)
 		subject = fmt.Sprintf("[%s] Confirm your registration", viper.GetString("name"))
 		content = fmt.Sprintf(
 			ConfirmRegistrationTemplate,
 			user.Name,
 			viper.GetString("name"),
 			viper.GetString("maintainer"),
+			link,
+			viper.GetString("maintainer"),
+		)
+	case models.ResetPasswordMagicToken:
+		link := fmt.Sprintf("https://%s/flow/password-reset?code=%s", viper.GetString("domain"), token.Code)
+		subject = fmt.Sprintf("[%s] Reset your password", viper.GetString("name"))
+		content = fmt.Sprintf(
+			ResetPasswordTemplate,
+			user.Name,
+			viper.GetString("name"),
 			link,
 			viper.GetString("maintainer"),
 		)

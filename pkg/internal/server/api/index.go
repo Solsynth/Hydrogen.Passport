@@ -34,6 +34,8 @@ func MapAPIs(app *fiber.App) {
 			me.Delete("/tickets/:ticketId", killTicket)
 
 			me.Post("/confirm", doRegisterConfirm)
+			me.Post("/reset-password", requestResetPassword)
+			me.Patch("/reset-password", confirmResetPassword)
 
 			me.Get("/status", getMyselfStatus)
 			me.Post("/status", setStatus)

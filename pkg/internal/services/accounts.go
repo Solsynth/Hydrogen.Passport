@@ -101,6 +101,8 @@ func ConfirmAccount(code string) error {
 	token, err := ValidateMagicToken(code, models.ConfirmMagicToken)
 	if err != nil {
 		return err
+	} else if token.AccountID == nil {
+		return fmt.Errorf("magic token didn't assign a valid account")
 	}
 
 	var user models.Account
@@ -132,6 +134,61 @@ func ConfirmAccount(code string) error {
 
 		return nil
 	})
+}
+
+func CheckAbleToResetPassword(user models.Account) error {
+	var count int64
+	if err := database.C.
+		Where("account_id = ?", user.ID).
+		Where("expired_at < ?", time.Now()).
+		Model(&models.MagicToken{}).
+		Count(&count).Error; err != nil {
+		return fmt.Errorf("unable to check reset password ability: %v", err)
+	} else if count == 0 {
+		return fmt.Errorf("you requested reset password recently")
+	}
+
+	return nil
+}
+
+func RequestResetPassword(user models.Account) error {
+	if tk, err := NewMagicToken(
+		models.ResetPasswordMagicToken,
+		&user,
+		lo.ToPtr(time.Now().Add(24*time.Hour)),
+	); err != nil {
+		return err
+	} else if err := NotifyMagicToken(tk); err != nil {
+		log.Error().
+			Err(err).
+			Str("code", tk.Code).
+			Uint("user", user.ID).
+			Msg("Failed to notify password reset magic token...")
+	}
+
+	return nil
+}
+
+func ConfirmResetPassword(code, newPassword string) error {
+	token, err := ValidateMagicToken(code, models.ResetPasswordMagicToken)
+	if err != nil {
+		return err
+	} else if token.AccountID == nil {
+		return fmt.Errorf("magic token didn't assign a valid account")
+	}
+
+	factor, err := GetPasswordTypeFactor(*token.AccountID)
+	if err != nil {
+		factor = models.AuthFactor{
+			Type:      models.PasswordAuthFactor,
+			Secret:    HashPassword(newPassword),
+			AccountID: *token.AccountID,
+		}
+	} else {
+		factor.Secret = HashPassword(newPassword)
+	}
+
+	return database.C.Save(&factor).Error
 }
 
 func DeleteAccount(id uint) error {

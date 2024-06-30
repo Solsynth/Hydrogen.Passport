@@ -123,23 +123,6 @@ func editUserinfo(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusOK)
 }
 
-func killTicket(c *fiber.Ctx) error {
-	if err := exts.EnsureAuthenticated(c); err != nil {
-		return err
-	}
-	user := c.Locals("user").(models.Account)
-	id, _ := c.ParamsInt("ticketId", 0)
-
-	if err := database.C.Delete(&models.AuthTicket{}, &models.AuthTicket{
-		BaseModel: models.BaseModel{ID: uint(id)},
-		AccountID: user.ID,
-	}).Error; err != nil {
-		return fiber.NewError(fiber.StatusNotFound, err.Error())
-	}
-
-	return c.SendStatus(fiber.StatusOK)
-}
-
 func doRegister(c *fiber.Ctx) error {
 	var data struct {
 		Name       string `json:"name" validate:"required,lowercase,alphanum,min=4,max=16"`

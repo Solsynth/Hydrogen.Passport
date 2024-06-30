@@ -38,3 +38,20 @@ func getTickets(c *fiber.Ctx) error {
 		"data":  tickets,
 	})
 }
+
+func killTicket(c *fiber.Ctx) error {
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
+	id, _ := c.ParamsInt("ticketId", 0)
+
+	if err := database.C.Delete(&models.AuthTicket{}, &models.AuthTicket{
+		BaseModel: models.BaseModel{ID: uint(id)},
+		AccountID: user.ID,
+	}).Error; err != nil {
+		return fiber.NewError(fiber.StatusNotFound, err.Error())
+	}
+
+	return c.SendStatus(fiber.StatusOK)
+}
