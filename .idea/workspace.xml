@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix request body validation" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix API mapping issue">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/notifications.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/notifications.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -149,7 +152,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Fix avatar and banner APIs" />
     <MESSAGE value=":bug: Fix frontend" />
     <MESSAGE value=":card_file_box: Add the status model" />
     <MESSAGE value=":bug: Authenticate wrong payload hotfix" />
@@ -174,7 +176,8 @@
     <MESSAGE value=":bug: Fix disturbable condition" />
     <MESSAGE value=":sparkles: Admin notify all API" />
     <MESSAGE value=":bug: Fix request body validation" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix request body validation" />
+    <MESSAGE value=":bug: Fix API mapping issue" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix API mapping issue" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

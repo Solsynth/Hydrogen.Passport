@@ -47,12 +47,9 @@ func NewNotification(notification models.Notification) error {
 		return err
 	}
 
-	go func() {
-		err := PushNotification(notification)
-		if err != nil {
-			log.Error().Err(err).Msg("Unexpected error occurred during the notification.")
-		}
-	}()
+	if err := PushNotification(notification); err != nil {
+		return err
+	}
 
 	return nil
 }
