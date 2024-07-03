@@ -10,6 +10,44 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+func listUser(c *fiber.Ctx) error {
+	take := c.QueryInt("take", 0)
+	offset := c.QueryInt("offset", 0)
+
+	if err := exts.EnsureGrantedPerm(c, "AdminUser", true); err != nil {
+		return err
+	}
+
+	var count int64
+	if err := database.C.Model(&models.Account{}).Count(&count).Error; err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	var items []models.Account
+	if err := database.C.Offset(offset).Limit(take).Find(&items).Error; err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(fiber.Map{
+		"count": count,
+		"data":  items,
+	})
+}
+
+func getUser(c *fiber.Ctx) error {
+	userId, _ := c.ParamsInt("user")
+
+	if err := exts.EnsureGrantedPerm(c, "AdminUser", true); err != nil {
+		return err
+	}
+
+	var user models.Account
+	if err := database.C.Where("id = ?", userId).First(&user).Error; err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("account was not found: %v", err))
+	}
+
+	return c.JSON(user)
+}
+
 func forceConfirmAccount(c *fiber.Ctx) error {
 	userId, _ := c.ParamsInt("user")
 

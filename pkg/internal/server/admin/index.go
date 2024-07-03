@@ -13,6 +13,9 @@ func MapAdminAPIs(app *fiber.App) {
 		admin.Post("/notify/all", notifyAllUser)
 		admin.Post("/notify/:user", notifyOneUser)
 
+		admin.Get("/users", listUser)
+		admin.Get("/users/:user", getUser)
+		admin.Get("/users/:user/factors", getUserAuthFactors)
 		admin.Put("/users/:user/permissions", editUserPermission)
 		admin.Post("/users/:user/confirm", forceConfirmAccount)
 	}

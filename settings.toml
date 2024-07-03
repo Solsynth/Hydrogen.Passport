@@ -44,10 +44,10 @@ dsn = "host=localhost user=postgres password=password dbname=hy_passport port=54
 prefix = "passport_"
 
 [permissions.default]
-CreatePost = true
+CreatePosts = true
 CreateAttachments = 1048576
 
 [permissions.verified]
-CreateRealm = true
-CreateArticle = true
+CreateRealms = true
+CreateArticles = true
 CreateAttachments = 26214400
