@@ -11,5 +11,7 @@ func MapAdminAPIs(app *fiber.App) {
 		admin.Delete("/badges/:badgeId", revokeBadge)
 
 		admin.Post("/notify/all", notifyAllUser)
+
+		admin.Put("/users/:user/permissions", editUserPermission)
 	}
 }
