@@ -11,6 +11,7 @@ func MapAdminAPIs(app *fiber.App) {
 		admin.Delete("/badges/:badgeId", revokeBadge)
 
 		admin.Post("/notify/all", notifyAllUser)
+		admin.Post("/notify/:user", notifyOneUser)
 
 		admin.Put("/users/:user/permissions", editUserPermission)
 		admin.Post("/users/:user/confirm", forceConfirmAccount)

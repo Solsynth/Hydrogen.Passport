@@ -42,6 +42,7 @@ func AddNotifySubscriber(user models.Account, provider, id, tk, ua string) (mode
 	return subscriber, err
 }
 
+// NewNotification will create a notification and push via the push method it
 func NewNotification(notification models.Notification) error {
 	if err := database.C.Save(&notification).Error; err != nil {
 		return err
@@ -54,6 +55,9 @@ func NewNotification(notification models.Notification) error {
 	return nil
 }
 
+// PushNotification will push the notification what ever it is exists record in the database
+// Recommend push another goroutine when you need to push a lot of notification
+// And just use block statement when you just push one notification, the time of create a new sub-process is much more than push notification
 func PushNotification(notification models.Notification) error {
 	for conn := range wsConn[notification.RecipientID] {
 		_ = conn.WriteMessage(1, models.UnifiedCommand{
@@ -62,7 +66,7 @@ func PushNotification(notification models.Notification) error {
 		}.Marshal())
 	}
 
-	// Skip push notify
+	// Skip push notification
 	if GetStatusDisturbable(notification.RecipientID) != nil {
 		return nil
 	}

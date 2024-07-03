@@ -31,7 +31,7 @@ func AddAuditRecord(operator models.Account, act, ip, ua string, metadata map[st
 	})
 }
 
-// SaveEventChanges runs every 60 seconds to save events / audits changes into database
+// SaveEventChanges runs every 60 seconds to save events / audits changes into the database
 func SaveEventChanges() {
 	if len(writeEventQueue) > 0 {
 		count := len(writeEventQueue)
