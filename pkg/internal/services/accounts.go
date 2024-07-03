@@ -11,7 +11,6 @@ import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"github.com/google/uuid"
 	"github.com/samber/lo"
-	"gorm.io/gorm"
 )
 
 func GetAccount(id uint) (models.Account, error) {
@@ -112,28 +111,33 @@ func ConfirmAccount(code string) error {
 		return err
 	}
 
-	return database.C.Transaction(func(tx *gorm.DB) error {
-		user.ConfirmedAt = lo.ToPtr(time.Now())
+	if err = ForceConfirmAccount(user); err != nil {
+		return err
+	} else {
+		database.C.Delete(&token)
+	}
 
-		for k, v := range viper.GetStringMap("permissions.verified") {
-			if val, ok := user.PermNodes[k]; !ok {
-				user.PermNodes[k] = v
-			} else {
-				user.PermNodes[k] = val
-			}
+	return nil
+}
+
+func ForceConfirmAccount(user models.Account) error {
+	user.ConfirmedAt = lo.ToPtr(time.Now())
+
+	for k, v := range viper.GetStringMap("permissions.verified") {
+		if val, ok := user.PermNodes[k]; !ok {
+			user.PermNodes[k] = v
+		} else {
+			user.PermNodes[k] = val
 		}
+	}
 
-		if err := database.C.Delete(&token).Error; err != nil {
-			return err
-		}
-		if err := database.C.Save(&user).Error; err != nil {
-			return err
-		}
+	if err := database.C.Save(&user).Error; err != nil {
+		return err
+	}
 
-		InvalidAuthCacheWithUser(user.ID)
+	InvalidAuthCacheWithUser(user.ID)
 
-		return nil
-	})
+	return nil
 }
 
 func CheckAbleToResetPassword(user models.Account) error {

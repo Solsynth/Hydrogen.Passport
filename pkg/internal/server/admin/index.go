@@ -13,5 +13,6 @@ func MapAdminAPIs(app *fiber.App) {
 		admin.Post("/notify/all", notifyAllUser)
 
 		admin.Put("/users/:user/permissions", editUserPermission)
+		admin.Post("/users/:user/confirm", forceConfirmAccount)
 	}
 }

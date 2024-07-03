@@ -4,14 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":recycle: Optimized the initial permission system">
-      <change afterPath="$PROJECT_DIR$/pkg/internal/models/audit.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/internal/server/admin/permissions_api.go" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":zap: Optimized audit, event logging system&#10;:sparkles: Audit logs&#10;:sparkles: Admin edit user permissions">
+      <change afterPath="$PROJECT_DIR$/pkg/internal/server/admin/user_api.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/database/migrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/database/migrator.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/server/admin/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/admin/index.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/events.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/events.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/admin/permissions_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/admin/permissions_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/accounts.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +155,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":sparkles: Status system" />
     <MESSAGE value=":bug: Fix status expired in cache" />
     <MESSAGE value=":bug: Fix online condition" />
     <MESSAGE value=":sparkles: Last seen at" />
@@ -182,7 +179,8 @@
     <MESSAGE value=":sparkles: Reset password APIs" />
     <MESSAGE value=":sparkles: Password reset &amp; user lookup API" />
     <MESSAGE value=":recycle: Optimized the initial permission system" />
-    <option name="LAST_COMMIT_MESSAGE" value=":recycle: Optimized the initial permission system" />
+    <MESSAGE value=":zap: Optimized audit, event logging system&#10;:sparkles: Audit logs&#10;:sparkles: Admin edit user permissions" />
+    <option name="LAST_COMMIT_MESSAGE" value=":zap: Optimized audit, event logging system&#10;:sparkles: Audit logs&#10;:sparkles: Admin edit user permissions" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
