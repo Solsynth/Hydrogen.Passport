@@ -1,6 +1,6 @@
 <template>
   <v-dialog class="max-w-[720px]" :model-value="props.data != null"
-            @update:model-value="(val) => !val && emits('close')"
+            @update:model-value="(val: boolean) => !val && emits('close')"
             :loading="reverting">
     <template v-slot:default="{ isActive }">
       <v-card title="Auth Factors" :subtitle="`Of user @${props.data?.name}`">

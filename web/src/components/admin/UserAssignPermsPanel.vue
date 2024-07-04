@@ -1,5 +1,6 @@
 <template>
-  <v-dialog class="max-w-[720px]" :model-value="props.data != null" @update:model-value="(val) => !val && emits('close')">
+  <v-dialog class="max-w-[720px]" :model-value="props.data != null"
+            @update:model-value="(val: boolean) => !val && emits('close')">
     <template v-slot:default="{ isActive }">
       <v-card title="Assign permissions" :subtitle="`To user @${props.data?.name}`" :loading="submitting">
         <v-card-text>
@@ -144,13 +145,13 @@ const submitting = ref(false)
 async function saveNode() {
   submitting.value = true
   const res = await request(`/api/admin/users/${props.data.id}/permissions`, {
-    method: 'PUT',
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${getAtk()}`,
     },
     body: JSON.stringify({
-      'perm_nodes': perms.value,
+      "perm_nodes": perms.value,
     }),
   })
   if (res.status !== 200) {

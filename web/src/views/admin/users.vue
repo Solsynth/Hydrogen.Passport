@@ -72,10 +72,11 @@
     <user-detail-panel :data="viewingUser" @close="viewingUser = null" />
     <user-assign-perms-panel :data="assigningPermUser" @close="assigningPermUser = null"
                              @success="readUsers(pagination)"
-                             @error="val => error = val" />
-    <user-factor-panel :data="viewingFactorUser" @close="viewingFactorUser = null" @error="val => error = val" />
+                             @error="(val: string) => error = val" />
+    <user-factor-panel :data="viewingFactorUser" @close="viewingFactorUser = null"
+                       @error="(val: string) => error = val" />
 
-    <v-snackbar :timeout="3000" :model-value="error != null" @update:model-value="_ => error = null">
+    <v-snackbar :timeout="3000" :model-value="error != null" @update:model-value="() => error = null">
       {{ error }}
     </v-snackbar>
   </div>
