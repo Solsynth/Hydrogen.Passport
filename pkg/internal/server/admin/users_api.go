@@ -1,6 +1,5 @@
 package admin
 
-import "C"
 import (
 	"fmt"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
