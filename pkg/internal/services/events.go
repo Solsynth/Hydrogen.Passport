@@ -37,12 +37,12 @@ func SaveEventChanges() {
 		count := len(writeEventQueue)
 		database.C.CreateInBatches(writeEventQueue, min(count, 1000))
 		log.Info().Int("count", count).Msg("Saved action events changes into database...")
-		clear(writeEventQueue)
+		writeEventQueue = nil
 	}
 	if len(writeAuditQueue) > 0 {
 		count := len(writeAuditQueue)
 		database.C.CreateInBatches(writeAuditQueue, min(count, 1000))
 		log.Info().Int("count", count).Msg("Saved audit records changes into database...")
-		clear(writeAuditQueue)
+		writeAuditQueue = nil
 	}
 }
