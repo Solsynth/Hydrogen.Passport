@@ -4,12 +4,17 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Admin notify one user">
-      <change afterPath="$PROJECT_DIR$/pkg/internal/server/admin/factors_api.go" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Admin check users' auth factor">
+      <change afterPath="$PROJECT_DIR$/web/src/components/admin/UserAssignPermsPanel.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/src/components/admin/UserDetailPanel.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/src/layouts/administrator.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/src/views/admin/dashboard.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/src/views/admin/users.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/admin/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/admin/index.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/admin/user_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/admin/users_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.toml" beforeDir="false" afterPath="$PROJECT_DIR$/settings.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/components/navigation/AppBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/components/navigation/AppBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/layouts/user-center.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/layouts/user-center.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/router/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/views/security.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/views/security.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,7 +160,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":sparkles: Last seen at" />
     <MESSAGE value=":sparkles: Edit, delete current status" />
     <MESSAGE value=":bug: Fix clear status affected the statutes cleared before" />
     <MESSAGE value=":sparkles: Get self-current status API" />
@@ -180,7 +184,8 @@
     <MESSAGE value=":zap: Optimized audit, event logging system&#10;:sparkles: Audit logs&#10;:sparkles: Admin edit user permissions" />
     <MESSAGE value=":sparkles: Admin force confirm account" />
     <MESSAGE value=":sparkles: Admin notify one user" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Admin notify one user" />
+    <MESSAGE value=":sparkles: Admin check users' auth factor" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Admin check users' auth factor" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

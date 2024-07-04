@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router"
 import { useUserinfo } from "@/stores/userinfo"
 import UserCenterLayout from "@/layouts/user-center.vue"
+import AdministratorLayout from "@/layouts/administrator.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -74,6 +75,22 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: "/admin",
+      component: AdministratorLayout,
+      children: [
+        {
+          path: "",
+          name: "admin.dashboard",
+          component: () => import("@/views/admin/dashboard.vue"),
+        },
+        {
+          path: "users",
+          name: "admin.users",
+          component: () => import("@/views/admin/users.vue"),
+        },
+      ]
+    }
   ],
 })
 

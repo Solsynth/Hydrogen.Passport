@@ -3,7 +3,7 @@
     <div class="max-md:px-5 md:px-12 flex flex-grow-1 items-center">
       <router-link :to="{ name: 'dashboard' }" class="flex gap-1 ms-0.5">
         <img src="/favicon.png" alt="logo" width="27" height="24" class="icon-filter" />
-        <h2 class="ml-2 text-lg font-500">Solarpass</h2>
+        <h2 class="ml-2 text-lg font-500">{{ props.title ?? "Solarpass" }}</h2>
       </router-link>
 
       <v-spacer />
@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <template #extension>
+    <template v-if="slots.extension" #extension>
       <slot name="extension" />
     </template>
   </v-app-bar>
@@ -35,9 +35,12 @@
 import NotificationList from "@/components/NotificationList.vue"
 import UserMenu from "@/components/UserMenu.vue"
 import { useNotifications } from "@/stores/notifications"
-import { ref } from "vue"
+import { ref, useSlots } from "vue"
 
 const notify = useNotifications()
+
+const slots = useSlots()
+const props = defineProps<{ title?: String }>()
 
 const openNotify = ref(false)
 </script>

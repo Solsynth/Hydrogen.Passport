@@ -29,7 +29,7 @@
                   </td>
                   <td>{{ new Date(item.created_at).toLocaleString() }}</td>
                   <td>
-                    <v-tooltip text="Sign out">
+                    <v-tooltip text="Sign Out">
                       <template #activator="{ props }">
                         <v-btn
                           v-bind="props"
