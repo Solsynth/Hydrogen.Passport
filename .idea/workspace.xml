@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":rotating_light: Fix ts lint issue">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":poop: Remove mis-imported cgo">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/admin/users_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/admin/users_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/views/admin/users.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/views/admin/users.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +153,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Fix ws security blocked" />
     <MESSAGE value=":bug: Invisible status is visible to others" />
     <MESSAGE value=":ambulance: Fix nil pointer panic" />
     <MESSAGE value=":bug: Not supposed to appear to status at the same time" />
@@ -176,7 +177,8 @@
     <MESSAGE value=":sparkles: View auth factors" />
     <MESSAGE value=":sparkles: View auth factors in admin panel" />
     <MESSAGE value=":rotating_light: Fix ts lint issue" />
-    <option name="LAST_COMMIT_MESSAGE" value=":rotating_light: Fix ts lint issue" />
+    <MESSAGE value=":poop: Remove mis-imported cgo" />
+    <option name="LAST_COMMIT_MESSAGE" value=":poop: Remove mis-imported cgo" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

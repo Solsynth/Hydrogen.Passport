@@ -22,7 +22,7 @@ func listUser(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 	var items []models.Account
-	if err := database.C.Offset(offset).Limit(take).Find(&items).Error; err != nil {
+	if err := database.C.Offset(offset).Limit(take).Order("id ASC").Find(&items).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 

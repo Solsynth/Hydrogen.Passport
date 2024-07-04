@@ -114,6 +114,9 @@ const pagination = reactive({
 })
 
 async function readUsers({ page, itemsPerPage }: { page?: number; itemsPerPage?: number }) {
+  if (itemsPerPage) pagination.pageSize = itemsPerPage
+  if (page) pagination.page = page
+
   reverting.value = true
   const res = await request(
     "/api/admin/users?" +
