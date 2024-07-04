@@ -52,6 +52,18 @@
                 />
               </template>
             </v-tooltip>
+            <v-tooltip text="View Auth Factors">
+              <template #activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  variant="text"
+                  size="x-small"
+                  color="warning"
+                  icon="mdi-lock"
+                  @click="viewingFactorUser = item"
+                />
+              </template>
+            </v-tooltip>
           </td>
         </tr>
       </template>
@@ -61,6 +73,7 @@
     <user-assign-perms-panel :data="assigningPermUser" @close="assigningPermUser = null"
                              @success="readUsers(pagination)"
                              @error="val => error = val" />
+    <user-factor-panel :data="viewingFactorUser" @close="viewingFactorUser = null" @error="val => error = val" />
 
     <v-snackbar :timeout="3000" :model-value="error != null" @update:model-value="_ => error = null">
       {{ error }}
@@ -74,12 +87,14 @@ import { request } from "@/scripts/request"
 import { getAtk } from "@/stores/userinfo"
 import UserDetailPanel from "@/components/admin/UserDetailPanel.vue"
 import UserAssignPermsPanel from "@/components/admin/UserAssignPermsPanel.vue"
+import UserFactorPanel from "@/components/admin/UserFactorPanel.vue"
 
 const error = ref<string | null>(null)
 
 const users = ref<any[]>([])
 
 const viewingUser = ref<any>(null)
+const viewingFactorUser = ref<any>(null)
 const assigningPermUser = ref<any>(null)
 
 const dataDefinitions: { [id: string]: any[] } = {

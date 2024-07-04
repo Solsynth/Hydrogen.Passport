@@ -1,5 +1,5 @@
 <template>
-  <v-dialog class="max-w-[720px]" :model-value="data != null" @update:model-value="(val) => !val && emits('close')">
+  <v-dialog class="max-w-[720px]" :model-value="props.data != null" @update:model-value="(val) => !val && emits('close')">
     <template v-slot:default="{ isActive }">
       <v-card :title="`User @${props.data?.name}`">
         <v-card-text>
