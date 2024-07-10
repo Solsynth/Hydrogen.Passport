@@ -2,10 +2,11 @@ package services
 
 import (
 	"fmt"
+	"time"
+
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"github.com/samber/lo"
-	"time"
 )
 
 var statusCache = make(map[uint]models.Status)
@@ -30,15 +31,17 @@ func GetStatus(uid uint) (models.Status, error) {
 	return status, nil
 }
 
+func GetUserOnline(uid uint) bool {
+	return wsConn[uid] != nil && len(wsConn[uid]) > 0
+}
+
 func GetStatusDisturbable(uid uint) error {
 	status, err := GetStatus(uid)
-	isOnline := wsConn[uid] != nil && len(wsConn[uid]) > 0
+	isOnline := GetUserOnline(uid)
 	if isOnline && err != nil {
 		return nil
 	} else if err == nil && status.IsNoDisturb {
 		return fmt.Errorf("do not disturb")
-	} else if !isOnline {
-		return fmt.Errorf("offline")
 	} else {
 		return nil
 	}

@@ -2,6 +2,8 @@ package services
 
 import (
 	"context"
+	"reflect"
+
 	"firebase.google.com/go/messaging"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
@@ -9,7 +11,6 @@ import (
 	"github.com/sideshow/apns2"
 	payload2 "github.com/sideshow/apns2/payload"
 	"github.com/spf13/viper"
-	"reflect"
 )
 
 func AddNotifySubscriber(user models.Account, provider, id, tk, ua string) (models.NotificationSubscriber, error) {
