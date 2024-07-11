@@ -40,7 +40,7 @@ func doAuthenticate(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("account was not found: %v", err.Error()))
 	} else if user.ConfirmedAt == nil {
 		return fiber.NewError(fiber.StatusForbidden, "account was not confirmed")
-	} else if user.SuspendedAt == nil {
+	} else if user.SuspendedAt != nil {
 		return fiber.NewError(fiber.StatusForbidden, "account was suspended")
 	}
 
