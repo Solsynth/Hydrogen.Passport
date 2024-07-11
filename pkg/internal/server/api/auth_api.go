@@ -2,8 +2,9 @@ package api
 
 import (
 	"fmt"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"time"
+
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 
 	"github.com/gofiber/fiber/v2"
 
@@ -39,6 +40,8 @@ func doAuthenticate(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("account was not found: %v", err.Error()))
 	} else if user.ConfirmedAt == nil {
 		return fiber.NewError(fiber.StatusForbidden, "account was not confirmed")
+	} else if user.SuspendedAt == nil {
+		return fiber.NewError(fiber.StatusForbidden, "account was suspended")
 	}
 
 	ticket, err := services.NewTicket(user, c.IP(), c.Get(fiber.HeaderUserAgent))

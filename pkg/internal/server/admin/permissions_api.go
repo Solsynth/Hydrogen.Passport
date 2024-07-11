@@ -2,6 +2,7 @@ package admin
 
 import (
 	"fmt"
+
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
@@ -32,6 +33,8 @@ func editUserPermission(c *fiber.Ctx) error {
 
 	prev := user.PermNodes
 	user.PermNodes = data.PermNodes
+
+	services.InvalidAuthCacheWithUser(user.ID)
 
 	if err := database.C.Save(&user).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())

@@ -18,6 +18,7 @@ type Account struct {
 	Avatar      *uint             `json:"avatar"`
 	Banner      *uint             `json:"banner"`
 	ConfirmedAt *time.Time        `json:"confirmed_at"`
+	SuspendedAt *time.Time        `json:"suspended_at"`
 	PermNodes   datatypes.JSONMap `json:"perm_nodes"`
 
 	Profile  AccountProfile `json:"profile"`
