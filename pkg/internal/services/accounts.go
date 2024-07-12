@@ -2,10 +2,11 @@ package services
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 	"gorm.io/datatypes"
-	"time"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
@@ -207,7 +208,6 @@ func DeleteAccount(id uint) error {
 		&models.AuthTicket{},
 		&models.MagicToken{},
 		&models.ThirdClient{},
-		&models.Notification{},
 		&models.NotificationSubscriber{},
 		&models.AccountFriendship{},
 	} {
@@ -215,6 +215,11 @@ func DeleteAccount(id uint) error {
 			tx.Rollback()
 			return err
 		}
+	}
+
+	if err := tx.Delete(&models.Notification{}, "recipient_id = ?", id).Error; err != nil {
+		tx.Rollback()
+		return err
 	}
 
 	if err := tx.Delete(&models.Account{}, "id = ?", id).Error; err != nil {
