@@ -3,18 +3,16 @@ package services
 import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"github.com/rs/zerolog/log"
-	"time"
 )
 
 func DoAutoDatabaseCleanup() {
-	deadline := time.Now().Add(60 * time.Minute)
-	log.Debug().Time("deadline", deadline).Msg("Now cleaning up entire database...")
+	log.Debug().Msg("Now cleaning up entire database...")
 
 	var count int64
 	for _, model := range database.AutoMaintainRange {
-		tx := database.C.Unscoped().Delete(model, "deleted_at >= ?", deadline)
+		tx := database.C.Unscoped().Delete(model, "deleted_at IS NOT NULL")
 		if tx.Error != nil {
-			log.Error().Err(tx.Error).Msg("An error occurred when running auth context cleanup...")
+			log.Error().Err(tx.Error).Msg("An error occurred when running cleaning up entire database...")
 		}
 		count += tx.RowsAffected
 	}

@@ -1,21 +1,21 @@
 package services
 
 import (
+	"time"
+
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"github.com/rs/zerolog/log"
-	"github.com/spf13/viper"
-	"time"
 )
 
 func DoAutoSignoff() {
-	duration := time.Duration(viper.GetInt64("security.auto_signoff_duration")) * time.Second
-	divider := time.Now().Add(-duration)
+	duration := 7 * 24 * time.Hour
+	deadline := time.Now().Add(-duration)
 
-	log.Debug().Time("before", divider).Msg("Now signing off tickets...")
+	log.Debug().Time("before", deadline).Msg("Now signing off tickets...")
 
 	if tx := database.C.
-		Where("last_grant_at < ?", divider).
+		Where("last_grant_at < ?", deadline).
 		Delete(&models.AuthTicket{}); tx.Error != nil {
 		log.Error().Err(tx.Error).Msg("An error occurred when running auto sign off...")
 	} else {
