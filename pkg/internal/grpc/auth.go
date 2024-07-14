@@ -46,7 +46,7 @@ func (v *Server) Authenticate(_ context.Context, in *exproto.AuthRequest) (*expr
 	}
 }
 
-func (v *Server) CheckPerm(_ context.Context, in *exproto.CheckPermRequest) (*exproto.CheckPermReply, error) {
+func (v *Server) EnsurePermGranted(_ context.Context, in *exproto.CheckPermRequest) (*exproto.CheckPermReply, error) {
 	claims, err := services.DecodeJwt(in.GetToken())
 	if err != nil {
 		return nil, err
