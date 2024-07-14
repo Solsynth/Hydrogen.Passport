@@ -67,7 +67,6 @@ func NewOauthTicket(
 		Audiences:    audiences,
 		IpAddress:    ip,
 		UserAgent:    ua,
-		RequireMFA:   DetectRisk(user, ip, ua),
 		GrantToken:   lo.ToPtr(uuid.NewString()),
 		AccessToken:  lo.ToPtr(uuid.NewString()),
 		RefreshToken: lo.ToPtr(uuid.NewString()),
