@@ -2,7 +2,11 @@ package services
 
 import (
 	"context"
+	"fmt"
+	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
 	"reflect"
+	"time"
 
 	"firebase.google.com/go/messaging"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
@@ -56,15 +60,23 @@ func NewNotification(notification models.Notification) error {
 	return nil
 }
 
-// PushNotification will push the notification what ever it is exists record in the database
-// Recommend push another goroutine when you need to push a lot of notification
-// And just use block statement when you just push one notification, the time of create a new sub-process is much more than push notification
+// PushNotification will push the notification whatever it exists record in the
+// database Recommend push another goroutine when you need to push a lot of
+// notifications And just use a block statement when you just push one
+// notification, the time of create a new subprocess is much more than push
+// notification
 func PushNotification(notification models.Notification) error {
-	for conn := range wsConn[notification.RecipientID] {
-		_ = conn.WriteMessage(1, models.UnifiedCommand{
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	_, err := proto.NewStreamControllerClient(gap.H.GetDealerGrpcConn()).PushStream(ctx, &proto.PushStreamRequest{
+		UserId: uint64(notification.RecipientID),
+		Body: models.UnifiedCommand{
 			Action:  "notifications.new",
 			Payload: notification,
-		}.Marshal())
+		}.Marshal(),
+	})
+	if err != nil {
+		return fmt.Errorf("failed to push via websocket: %v", err)
 	}
 
 	// Skip push notification

@@ -4,6 +4,7 @@ import (
 	"google.golang.org/grpc/reflection"
 	"net"
 
+	exproto "git.solsynth.dev/hydrogen/dealer/pkg/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/proto"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
@@ -12,7 +13,7 @@ import (
 import health "google.golang.org/grpc/health/grpc_health_v1"
 
 type Server struct {
-	proto.UnimplementedAuthServer
+	exproto.UnimplementedAuthServer
 	proto.UnimplementedNotifyServer
 	proto.UnimplementedFriendshipsServer
 	proto.UnimplementedRealmsServer
@@ -26,7 +27,7 @@ func NewServer() *Server {
 		srv: grpc.NewServer(),
 	}
 
-	proto.RegisterAuthServer(server.srv, &Server{})
+	exproto.RegisterAuthServer(server.srv, &Server{})
 	proto.RegisterNotifyServer(server.srv, &Server{})
 	proto.RegisterFriendshipsServer(server.srv, &Server{})
 	proto.RegisterRealmsServer(server.srv, &Server{})

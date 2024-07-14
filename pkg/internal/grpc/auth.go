@@ -3,23 +3,22 @@ package grpc
 import (
 	"context"
 
+	exproto "git.solsynth.dev/hydrogen/dealer/pkg/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
-	"git.solsynth.dev/hydrogen/passport/pkg/proto"
 	jsoniter "github.com/json-iterator/go"
-	"github.com/samber/lo"
 )
 
-func (v *Server) Authenticate(_ context.Context, in *proto.AuthRequest) (*proto.AuthReply, error) {
+func (v *Server) Authenticate(_ context.Context, in *exproto.AuthRequest) (*exproto.AuthReply, error) {
 	ctx, perms, atk, rtk, err := services.Authenticate(in.GetAccessToken(), in.GetRefreshToken(), 0)
 	if err != nil {
-		return &proto.AuthReply{
+		return &exproto.AuthReply{
 			IsValid: false,
 		}, nil
 	} else {
 		user := ctx.Account
 		rawPerms, _ := jsoniter.Marshal(perms)
 
-		userinfo := &proto.Userinfo{
+		userinfo := &exproto.UserInfo{
 			Id:          uint64(user.ID),
 			Name:        user.Name,
 			Nick:        user.Nick,
@@ -34,18 +33,20 @@ func (v *Server) Authenticate(_ context.Context, in *proto.AuthRequest) (*proto.
 			userinfo.Banner = *user.GetBanner()
 		}
 
-		return &proto.AuthReply{
-			IsValid:      true,
-			AccessToken:  &atk,
-			RefreshToken: &rtk,
-			Permissions:  rawPerms,
-			TicketId:     lo.ToPtr(uint64(ctx.Ticket.ID)),
-			Userinfo:     userinfo,
+		return &exproto.AuthReply{
+			IsValid: true,
+			Info: &exproto.AuthInfo{
+				NewAccessToken:  &atk,
+				NewRefreshToken: &rtk,
+				Permissions:     rawPerms,
+				TicketId:        uint64(ctx.Ticket.ID),
+				Info:            userinfo,
+			},
 		}, nil
 	}
 }
 
-func (v *Server) CheckPerm(_ context.Context, in *proto.CheckPermRequest) (*proto.CheckPermReply, error) {
+func (v *Server) CheckPerm(_ context.Context, in *exproto.CheckPermRequest) (*exproto.CheckPermReply, error) {
 	claims, err := services.DecodeJwt(in.GetToken())
 	if err != nil {
 		return nil, err
@@ -64,7 +65,7 @@ func (v *Server) CheckPerm(_ context.Context, in *proto.CheckPermRequest) (*prot
 	perms := services.FilterPermNodes(heldPerms, ctx.Ticket.Claims)
 	valid := services.HasPermNode(perms, in.GetKey(), value)
 
-	return &proto.CheckPermReply{
+	return &exproto.CheckPermReply{
 		IsValid: valid,
 	}, nil
 }

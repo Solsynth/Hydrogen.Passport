@@ -1,7 +1,10 @@
 package services
 
 import (
+	"context"
 	"fmt"
+	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
 	"time"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
@@ -32,7 +35,16 @@ func GetStatus(uid uint) (models.Status, error) {
 }
 
 func GetUserOnline(uid uint) bool {
-	return wsConn[uid] != nil && len(wsConn[uid]) > 0
+	pc := proto.NewStreamControllerClient(gap.H.GetDealerGrpcConn())
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	resp, err := pc.CountStreamConnection(ctx, &proto.CountConnectionRequest{
+		UserId: uint64(uid),
+	})
+	if err != nil {
+		return false
+	}
+	return resp.Count > 0
 }
 
 func GetStatusDisturbable(uid uint) error {
@@ -49,7 +61,7 @@ func GetStatusDisturbable(uid uint) error {
 
 func GetStatusOnline(uid uint) error {
 	status, err := GetStatus(uid)
-	isOnline := wsConn[uid] != nil && len(wsConn[uid]) > 0
+	isOnline := GetUserOnline(uid)
 	if isOnline && err != nil {
 		return nil
 	} else if err == nil && status.IsInvisible {

@@ -2,7 +2,7 @@ package exts
 
 import (
 	"fmt"
-	"git.solsynth.dev/hydrogen/passport/pkg/hyper"
+	"git.solsynth.dev/hydrogen/dealer/pkg/hyper"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/gofiber/fiber/v2"

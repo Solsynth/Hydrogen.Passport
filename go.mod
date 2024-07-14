@@ -42,6 +42,7 @@ require (
 	cloud.google.com/go/iam v1.1.8 // indirect
 	cloud.google.com/go/longrunning v0.5.7 // indirect
 	cloud.google.com/go/storage v1.41.0 // indirect
+	git.solsynth.dev/hydrogen/dealer v0.0.0-20240714155615-ad83100677ab // indirect
 	github.com/andybalholm/brotli v1.1.0 // indirect
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/fasthttp/websocket v1.5.8 // indirect
