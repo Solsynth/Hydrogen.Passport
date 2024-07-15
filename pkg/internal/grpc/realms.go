@@ -3,23 +3,22 @@ package grpc
 import (
 	"context"
 	"fmt"
+	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
-	"git.solsynth.dev/hydrogen/passport/pkg/proto"
 	"github.com/samber/lo"
-	"google.golang.org/protobuf/types/known/emptypb"
 )
 
-func (v *Server) ListCommunityRealm(ctx context.Context, empty *emptypb.Empty) (*proto.ListRealmResponse, error) {
+func (v *Server) ListCommunityRealm(ctx context.Context, empty *proto.ListRealmRequest) (*proto.ListRealmResponse, error) {
 	realms, err := services.ListCommunityRealm()
 	if err != nil {
 		return nil, err
 	}
 
 	return &proto.ListRealmResponse{
-		Data: lo.Map(realms, func(item models.Realm, index int) *proto.RealmResponse {
-			return &proto.RealmResponse{
+		Data: lo.Map(realms, func(item models.Realm, index int) *proto.RealmInfo {
+			return &proto.RealmInfo{
 				Id:          uint64(item.ID),
 				Alias:       item.Alias,
 				Name:        item.Name,
@@ -31,7 +30,7 @@ func (v *Server) ListCommunityRealm(ctx context.Context, empty *emptypb.Empty) (
 	}, nil
 }
 
-func (v *Server) ListAvailableRealm(ctx context.Context, request *proto.RealmLookupWithUserRequest) (*proto.ListRealmResponse, error) {
+func (v *Server) ListAvailableRealm(ctx context.Context, request *proto.LookupUserRealmRequest) (*proto.ListRealmResponse, error) {
 	account, err := services.GetAccount(uint(request.GetUserId()))
 	if err != nil {
 		return nil, fmt.Errorf("unable to find target account: %v", err)
@@ -42,8 +41,8 @@ func (v *Server) ListAvailableRealm(ctx context.Context, request *proto.RealmLoo
 	}
 
 	return &proto.ListRealmResponse{
-		Data: lo.Map(realms, func(item models.Realm, index int) *proto.RealmResponse {
-			return &proto.RealmResponse{
+		Data: lo.Map(realms, func(item models.Realm, index int) *proto.RealmInfo {
+			return &proto.RealmInfo{
 				Id:          uint64(item.ID),
 				Alias:       item.Alias,
 				Name:        item.Name,
@@ -55,7 +54,7 @@ func (v *Server) ListAvailableRealm(ctx context.Context, request *proto.RealmLoo
 	}, nil
 }
 
-func (v *Server) ListOwnedRealm(ctx context.Context, request *proto.RealmLookupWithUserRequest) (*proto.ListRealmResponse, error) {
+func (v *Server) ListOwnedRealm(ctx context.Context, request *proto.LookupUserRealmRequest) (*proto.ListRealmResponse, error) {
 	account, err := services.GetAccount(uint(request.GetUserId()))
 	if err != nil {
 		return nil, fmt.Errorf("unable to find target account: %v", err)
@@ -66,8 +65,8 @@ func (v *Server) ListOwnedRealm(ctx context.Context, request *proto.RealmLookupW
 	}
 
 	return &proto.ListRealmResponse{
-		Data: lo.Map(realms, func(item models.Realm, index int) *proto.RealmResponse {
-			return &proto.RealmResponse{
+		Data: lo.Map(realms, func(item models.Realm, index int) *proto.RealmInfo {
+			return &proto.RealmInfo{
 				Id:          uint64(item.ID),
 				Alias:       item.Alias,
 				Name:        item.Name,
@@ -79,7 +78,7 @@ func (v *Server) ListOwnedRealm(ctx context.Context, request *proto.RealmLookupW
 	}, nil
 }
 
-func (v *Server) GetRealm(ctx context.Context, request *proto.RealmLookupRequest) (*proto.RealmResponse, error) {
+func (v *Server) GetRealm(ctx context.Context, request *proto.LookupRealmRequest) (*proto.RealmInfo, error) {
 	var realm models.Realm
 
 	tx := database.C.Model(&models.Realm{})
@@ -100,7 +99,7 @@ func (v *Server) GetRealm(ctx context.Context, request *proto.RealmLookupRequest
 		return nil, err
 	}
 
-	return &proto.RealmResponse{
+	return &proto.RealmInfo{
 		Id:          uint64(realm.ID),
 		Alias:       realm.Alias,
 		Name:        realm.Name,
@@ -122,8 +121,8 @@ func (v *Server) ListRealmMember(ctx context.Context, request *proto.RealmMember
 	}
 
 	return &proto.ListRealmMemberResponse{
-		Data: lo.Map(members, func(item models.RealmMember, index int) *proto.RealmMemberResponse {
-			return &proto.RealmMemberResponse{
+		Data: lo.Map(members, func(item models.RealmMember, index int) *proto.MemberInfo {
+			return &proto.MemberInfo{
 				RealmId:    uint64(item.RealmID),
 				UserId:     uint64(item.AccountID),
 				PowerLevel: int32(item.PowerLevel),
@@ -132,7 +131,7 @@ func (v *Server) ListRealmMember(ctx context.Context, request *proto.RealmMember
 	}, nil
 }
 
-func (v *Server) GetRealmMember(ctx context.Context, request *proto.RealmMemberLookupRequest) (*proto.RealmMemberResponse, error) {
+func (v *Server) GetRealmMember(ctx context.Context, request *proto.RealmMemberLookupRequest) (*proto.MemberInfo, error) {
 	var member models.RealmMember
 	tx := database.C.Where("realm_id = ?", request.GetRealmId())
 	if request.UserId != nil {
@@ -143,9 +142,26 @@ func (v *Server) GetRealmMember(ctx context.Context, request *proto.RealmMemberL
 		return nil, err
 	}
 
-	return &proto.RealmMemberResponse{
+	return &proto.MemberInfo{
 		RealmId:    uint64(member.RealmID),
 		UserId:     uint64(member.AccountID),
 		PowerLevel: int32(member.PowerLevel),
+	}, nil
+}
+
+func (v *Server) CheckRealmMemberPerm(ctx context.Context, request *proto.CheckRealmPermRequest) (*proto.CheckRealmPermResponse, error) {
+	var member models.RealmMember
+	tx := database.C.
+		Where("realm_id = ?", request.GetRealmId()).
+		Where("account_id = ?", request.GetUserId())
+
+	if err := tx.First(&member).Error; err != nil {
+		return &proto.CheckRealmPermResponse{
+			IsSuccess: false,
+		}, nil
+	}
+
+	return &proto.CheckRealmPermResponse{
+		IsSuccess: member.PowerLevel >= int(request.GetPowerLevel()),
 	}, nil
 }

@@ -7,7 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func listFriendship(c *fiber.Ctx) error {
+func listRelationship(c *fiber.Ctx) error {
 	if err := exts.EnsureAuthenticated(c); err != nil {
 		return err
 	}
@@ -15,13 +15,13 @@ func listFriendship(c *fiber.Ctx) error {
 	status := c.QueryInt("status", -1)
 
 	var err error
-	var friends []models.AccountFriendship
+	var friends []models.AccountRelationship
 	if status < 0 {
-		if friends, err = services.ListAllFriend(user); err != nil {
+		if friends, err = services.ListAllRelationship(user); err != nil {
 			return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 		}
 	} else {
-		if friends, err = services.ListFriend(user, models.FriendshipStatus(status)); err != nil {
+		if friends, err = services.ListRelationshipWithFilter(user, models.RelationshipStatus(status)); err != nil {
 			return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 		}
 	}
@@ -29,7 +29,7 @@ func listFriendship(c *fiber.Ctx) error {
 	return c.JSON(friends)
 }
 
-func getFriendship(c *fiber.Ctx) error {
+func getRelationship(c *fiber.Ctx) error {
 	if err := exts.EnsureAuthenticated(c); err != nil {
 		return err
 	}
@@ -41,7 +41,7 @@ func getFriendship(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	}
 
-	if friend, err := services.GetFriendWithTwoSides(user.ID, related.ID); err != nil {
+	if friend, err := services.GetRelationWithTwoNode(user.ID, related.ID); err != nil {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	} else {
 		return c.JSON(friend)
@@ -72,7 +72,7 @@ func makeFriendship(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, "must one of username or user id")
 	}
 
-	friend, err := services.NewFriend(user, related, models.FriendshipPending)
+	friend, err := services.NewFriend(user, related)
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else {
@@ -80,7 +80,7 @@ func makeFriendship(c *fiber.Ctx) error {
 	}
 }
 
-func editFriendship(c *fiber.Ctx) error {
+func editRelationship(c *fiber.Ctx) error {
 	if err := exts.EnsureAuthenticated(c); err != nil {
 		return err
 	}
@@ -88,33 +88,30 @@ func editFriendship(c *fiber.Ctx) error {
 	relatedId, _ := c.ParamsInt("relatedId", 0)
 
 	var data struct {
-		Status uint8 `json:"status"`
+		Status    uint8          `json:"status"`
+		PermNodes map[string]any `json:"perm_nodes"`
 	}
 
 	if err := exts.BindAndValidate(c, &data); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
-	related, err := services.GetAccount(uint(relatedId))
-	if err != nil {
-		return fiber.NewError(fiber.StatusNotFound, err.Error())
-	}
-	friendship, err := services.GetFriendWithTwoSides(user.ID, related.ID)
+	relationship, err := services.GetRelationWithTwoNode(user.ID, uint(relatedId))
 	if err != nil {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	}
 
-	originalStatus := friendship.Status
-	friendship.Status = models.FriendshipStatus(data.Status)
+	relationship.Status = models.RelationshipStatus(data.Status)
+	relationship.PermNodes = data.PermNodes
 
-	if friendship, err := services.EditFriendWithCheck(friendship, user, originalStatus); err != nil {
+	if friendship, err := services.EditRelationship(relationship); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else {
 		return c.JSON(friendship)
 	}
 }
 
-func deleteFriendship(c *fiber.Ctx) error {
+func deleteRelationship(c *fiber.Ctx) error {
 	if err := exts.EnsureAuthenticated(c); err != nil {
 		return err
 	}
@@ -125,14 +122,14 @@ func deleteFriendship(c *fiber.Ctx) error {
 	if err != nil {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	}
-	friendship, err := services.GetFriendWithTwoSides(user.ID, related.ID)
+	relationship, err := services.GetRelationWithTwoNode(user.ID, related.ID)
 	if err != nil {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	}
 
-	if err := services.DeleteFriend(friendship); err != nil {
+	if err := services.DeleteRelationship(relationship); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else {
-		return c.JSON(friendship)
+		return c.JSON(relationship)
 	}
 }

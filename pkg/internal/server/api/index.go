@@ -42,14 +42,14 @@ func MapAPIs(app *fiber.App) {
 			me.Put("/status", editStatus)
 			me.Delete("/status", clearStatus)
 
-			friends := me.Group("/friends").Name("Friends")
+			friends := me.Group("/relations").Name("Relations")
 			{
-				friends.Get("/", listFriendship)
-				friends.Get("/:relatedId", getFriendship)
+				friends.Get("/", listRelationship)
+				friends.Get("/:relatedId", getRelationship)
 				friends.Post("/", makeFriendship)
 				friends.Post("/:relatedId", makeFriendship)
-				friends.Put("/:relatedId", editFriendship)
-				friends.Delete("/:relatedId", deleteFriendship)
+				friends.Put("/:relatedId", editRelationship)
+				friends.Delete("/:relatedId", deleteRelationship)
 			}
 		}
 

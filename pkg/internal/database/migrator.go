@@ -10,7 +10,7 @@ var AutoMaintainRange = []any{
 	&models.AuthFactor{},
 	&models.AccountProfile{},
 	&models.AccountContact{},
-	&models.AccountFriendship{},
+	&models.AccountRelationship{},
 	&models.Status{},
 	&models.Badge{},
 	&models.Realm{},

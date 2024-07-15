@@ -61,15 +61,15 @@ func NewNotification(notification models.Notification) error {
 }
 
 // PushNotification will push the notification whatever it exists record in the
-// database Recommend push another goroutine when you need to push a lot of
+// database Recommend pushing another goroutine when you need to push a lot of
 // notifications And just use a block statement when you just push one
-// notification, the time of create a new subprocess is much more than push
-// notification
+// notification.
+// The time of creating a new subprocess is much more than push notification.
 func PushNotification(notification models.Notification) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	_, err := proto.NewStreamControllerClient(gap.H.GetDealerGrpcConn()).PushStream(ctx, &proto.PushStreamRequest{
-		UserId: uint64(notification.RecipientID),
+		UserId: uint64(notification.UserID),
 		Body: models.UnifiedCommand{
 			Action:  "notifications.new",
 			Payload: notification,
@@ -80,13 +80,13 @@ func PushNotification(notification models.Notification) error {
 	}
 
 	// Skip push notification
-	if GetStatusDisturbable(notification.RecipientID) != nil {
+	if GetStatusDisturbable(notification.UserID) != nil {
 		return nil
 	}
 
 	var subscribers []models.NotificationSubscriber
 	if err := database.C.Where(&models.NotificationSubscriber{
-		AccountID: notification.RecipientID,
+		AccountID: notification.UserID,
 	}).Find(&subscribers).Error; err != nil {
 		return err
 	}
@@ -104,8 +104,8 @@ func PushNotification(notification models.Notification) error {
 
 				message := &messaging.Message{
 					Notification: &messaging.Notification{
-						Title: notification.Subject,
-						Body:  notification.Content,
+						Title: notification.Title,
+						Body:  notification.Body,
 					},
 					Token: subscriber.DeviceToken,
 				}
@@ -123,10 +123,10 @@ func PushNotification(notification models.Notification) error {
 			if ExtAPNS != nil {
 				data, err := payload2.
 					NewPayload().
-					AlertTitle(notification.Subject).
-					AlertBody(notification.Content).
+					AlertTitle(notification.Title).
+					AlertBody(notification.Body).
 					Sound("default").
-					Category(notification.Type).
+					Category(notification.Topic).
 					MarshalJSON()
 				if err != nil {
 					log.Warn().Err(err).Msg("An error occurred when preparing to notify subscriber via APNs...")
