@@ -7,13 +7,13 @@ import (
 type Notification struct {
 	BaseModel
 
-	Topic    string            `json:"topic"`
-	Title    string            `json:"title"`
-	Subtitle *string           `json:"subtitle"`
-	Body     string            `json:"body"`
-	Metadata datatypes.JSONMap `json:"metadata"`
-	UserID   uint              `json:"user_id"`
-	SenderID *uint             `json:"sender_id"`
+	Topic     string            `json:"topic"`
+	Title     string            `json:"title"`
+	Subtitle  *string           `json:"subtitle"`
+	Body      string            `json:"body"`
+	Metadata  datatypes.JSONMap `json:"metadata"`
+	AccountID uint              `json:"account_id"`
+	SenderID  *uint             `json:"sender_id"`
 
 	IsRealtime  bool `json:"is_realtime" gorm:"-"`
 	IsForcePush bool `json:"is_force_push" gorm:"-"`

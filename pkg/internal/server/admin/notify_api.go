@@ -47,7 +47,7 @@ func notifyAllUser(c *fiber.Ctx) error {
 				Body:        data.Body,
 				IsRealtime:  data.IsRealtime,
 				IsForcePush: data.IsForcePush,
-				UserID:      user.ID,
+				AccountID:   user.ID,
 			}
 
 			if data.IsRealtime {
@@ -103,7 +103,7 @@ func notifyOneUser(c *fiber.Ctx) error {
 		Body:        data.Body,
 		IsRealtime:  data.IsRealtime,
 		IsForcePush: data.IsForcePush,
-		UserID:      user.ID,
+		AccountID:   user.ID,
 	}
 
 	if data.IsRealtime {

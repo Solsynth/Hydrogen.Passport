@@ -28,7 +28,7 @@ func (v *Server) NotifyUser(_ context.Context, in *proto.NotifyUserRequest) (*pr
 		Metadata:    metadata,
 		IsRealtime:  in.GetNotify().GetIsRealtime(),
 		IsForcePush: in.GetNotify().GetIsForcePush(),
-		UserID:      user.ID,
+		AccountID:   user.ID,
 	}
 
 	if notification.IsRealtime {

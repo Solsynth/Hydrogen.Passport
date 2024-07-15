@@ -94,9 +94,9 @@ func NewFriend(userA models.Account, userB models.Account, skipPending ...bool) 
 		return relA, err
 	} else {
 		_ = NewNotification(models.Notification{
-			Title:  fmt.Sprintf("New friend request from %s", userA.Name),
-			Body:   fmt.Sprintf("You got a new friend request from %s. Go to your settings and decide how to deal it.", userA.Nick),
-			UserID: userB.ID,
+			Title:     fmt.Sprintf("New friend request from %s", userA.Name),
+			Body:      fmt.Sprintf("You got a new friend request from %s. Go to your settings and decide how to deal it.", userA.Nick),
+			AccountID: userB.ID,
 		})
 	}
 

@@ -69,7 +69,7 @@ func PushNotification(notification models.Notification) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	_, err := proto.NewStreamControllerClient(gap.H.GetDealerGrpcConn()).PushStream(ctx, &proto.PushStreamRequest{
-		UserId: uint64(notification.UserID),
+		UserId: uint64(notification.AccountID),
 		Body: models.UnifiedCommand{
 			Action:  "notifications.new",
 			Payload: notification,
@@ -80,13 +80,13 @@ func PushNotification(notification models.Notification) error {
 	}
 
 	// Skip push notification
-	if GetStatusDisturbable(notification.UserID) != nil {
+	if GetStatusDisturbable(notification.AccountID) != nil {
 		return nil
 	}
 
 	var subscribers []models.NotificationSubscriber
 	if err := database.C.Where(&models.NotificationSubscriber{
-		AccountID: notification.UserID,
+		AccountID: notification.AccountID,
 	}).Find(&subscribers).Error; err != nil {
 		return err
 	}

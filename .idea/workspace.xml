@@ -5,39 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":recycle: Refactored relation system&#10;:arrow_up: Support new realm &amp; relation api">
-      <change afterPath="$PROJECT_DIR$/pkg/internal/services/relationships.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/database/migrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/database/migrator.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/auth.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/friendships.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/notify.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/notifier.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/realms.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/realms.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/models/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/accounts.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/models/clients.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/clients.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/models/friendships.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/relationships.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/notifier.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/notifier.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/models/notifications.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/notifications.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/server/admin/notify_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/admin/notify_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/friendships_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/relationships_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/index.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/notifications_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/notifications_api.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/notify_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/notify_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/accounts.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/friendships.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/services/notifications.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/notifications.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/perms.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/perms.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/realms.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/realms.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/proto/friendships.pb.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/proto/friendships.proto" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/proto/friendships_grpc.pb.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/proto/notify.pb.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/proto/notify.proto" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/proto/notify_grpc.pb.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/proto/realms.pb.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/proto/realms.proto" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/proto/realms_grpc.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/relationships.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/relationships.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

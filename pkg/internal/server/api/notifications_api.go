@@ -17,7 +17,7 @@ func getNotifications(c *fiber.Ctx) error {
 	}
 	user := c.Locals("user").(models.Account)
 
-	tx := database.C.Where(&models.Notification{UserID: user.ID}).Model(&models.Notification{})
+	tx := database.C.Where(&models.Notification{AccountID: user.ID}).Model(&models.Notification{})
 
 	var count int64
 	var notifications []models.Notification
@@ -53,7 +53,7 @@ func markNotificationRead(c *fiber.Ctx) error {
 	var notify models.Notification
 	if err := database.C.Where(&models.Notification{
 		BaseModel: models.BaseModel{ID: uint(id)},
-		UserID:    user.ID,
+		AccountID: user.ID,
 	}).First(&notify).Error; err != nil {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	}
