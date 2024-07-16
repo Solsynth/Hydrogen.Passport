@@ -58,7 +58,6 @@ func GetAuthContext(jti string) (models.AuthContext, error) {
 		authContextMutex.Lock()
 		authContextCache[jti] = ctx
 		authContextMutex.Unlock()
-		log.Debug().Str("jti", jti).Msg("Used an auth context cache")
 	} else {
 		ctx, err = CacheAuthContext(jti)
 		log.Debug().Str("jti", jti).Msg("Created a new auth context cache")

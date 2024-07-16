@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix model relation issue">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":arrow_up: Upgrade dealer" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -152,7 +150,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Fix bugs in status" />
     <MESSAGE value=":bug: Fix status query condition" />
     <MESSAGE value=":bug: Fix disturbable condition" />
     <MESSAGE value=":sparkles: Admin notify all API" />
@@ -177,7 +174,8 @@
     <MESSAGE value=":arrow_up: Support new auth api" />
     <MESSAGE value=":recycle: Refactored relation system&#10;:arrow_up: Support new realm &amp; relation api" />
     <MESSAGE value=":bug: Fix model relation issue" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix model relation issue" />
+    <MESSAGE value=":arrow_up: Upgrade dealer" />
+    <option name="LAST_COMMIT_MESSAGE" value=":arrow_up: Upgrade dealer" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
