@@ -44,14 +44,14 @@ type Account struct {
 
 func (v Account) GetAvatar() *string {
 	if v.Avatar != nil {
-		return lo.ToPtr(fmt.Sprintf("%s/api/attachments/%d", viper.GetString("content_endpoint"), *v.Avatar))
+		return lo.ToPtr(fmt.Sprintf("%s/%d", viper.GetString("content_endpoint"), *v.Avatar))
 	}
 	return nil
 }
 
 func (v Account) GetBanner() *string {
 	if v.Banner != nil {
-		return lo.ToPtr(fmt.Sprintf("%s/api/attachments/%d", viper.GetString("content_endpoint"), *v.Banner))
+		return lo.ToPtr(fmt.Sprintf("%s/%d", viper.GetString("content_endpoint"), *v.Banner))
 	}
 	return nil
 }
