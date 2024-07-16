@@ -2,11 +2,11 @@ package grpc
 
 import (
 	"context"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 
+	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
-	"git.solsynth.dev/hydrogen/passport/pkg/proto"
 	jsoniter "github.com/json-iterator/go"
-	"github.com/samber/lo"
 )
 
 func (v *Server) Authenticate(_ context.Context, in *proto.AuthRequest) (*proto.AuthReply, error) {
@@ -19,7 +19,7 @@ func (v *Server) Authenticate(_ context.Context, in *proto.AuthRequest) (*proto.
 		user := ctx.Account
 		rawPerms, _ := jsoniter.Marshal(perms)
 
-		userinfo := &proto.Userinfo{
+		userinfo := &proto.UserInfo{
 			Id:          uint64(user.ID),
 			Name:        user.Name,
 			Nick:        user.Nick,
@@ -35,17 +35,19 @@ func (v *Server) Authenticate(_ context.Context, in *proto.AuthRequest) (*proto.
 		}
 
 		return &proto.AuthReply{
-			IsValid:      true,
-			AccessToken:  &atk,
-			RefreshToken: &rtk,
-			Permissions:  rawPerms,
-			TicketId:     lo.ToPtr(uint64(ctx.Ticket.ID)),
-			Userinfo:     userinfo,
+			IsValid: true,
+			Info: &proto.AuthInfo{
+				NewAccessToken:  &atk,
+				NewRefreshToken: &rtk,
+				Permissions:     rawPerms,
+				TicketId:        uint64(ctx.Ticket.ID),
+				Info:            userinfo,
+			},
 		}, nil
 	}
 }
 
-func (v *Server) CheckPerm(_ context.Context, in *proto.CheckPermRequest) (*proto.CheckPermReply, error) {
+func (v *Server) EnsurePermGranted(_ context.Context, in *proto.CheckPermRequest) (*proto.CheckPermResponse, error) {
 	claims, err := services.DecodeJwt(in.GetToken())
 	if err != nil {
 		return nil, err
@@ -64,7 +66,26 @@ func (v *Server) CheckPerm(_ context.Context, in *proto.CheckPermRequest) (*prot
 	perms := services.FilterPermNodes(heldPerms, ctx.Ticket.Claims)
 	valid := services.HasPermNode(perms, in.GetKey(), value)
 
-	return &proto.CheckPermReply{
+	return &proto.CheckPermResponse{
+		IsValid: valid,
+	}, nil
+}
+
+func (v *Server) EnsureUserPermGranted(_ context.Context, in *proto.CheckUserPermRequest) (*proto.CheckUserPermResponse, error) {
+	relation, err := services.GetRelationWithTwoNode(uint(in.GetUserId()), uint(in.GetOtherId()))
+	if err != nil {
+		return &proto.CheckUserPermResponse{
+			IsValid: false,
+		}, nil
+	}
+
+	defaultPerm := relation.Status == models.RelationshipFriend
+
+	var value any
+	_ = jsoniter.Unmarshal(in.GetValue(), &value)
+	valid := services.HasPermNodeWithDefault(relation.PermNodes, in.GetKey(), value, defaultPerm)
+
+	return &proto.CheckUserPermResponse{
 		IsValid: valid,
 	}, nil
 }

@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Bug fixes">
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/ticket.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/ticket.go" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix model relation issue">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="features/kex" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -50,7 +50,7 @@
     &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.modules.automatic.dependencies.download&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;refactor/dealer&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/littlesheep/Documents/Projects/Hydrogen/Passport/web/src/components/admin&quot;,
@@ -88,6 +88,7 @@
     <myKeys>
       <visibility group="Grunt" flag="true" />
       <visibility group="Gulp" flag="true" />
+      <visibility group="HTTP Requests" flag="true" />
       <visibility group="HTTP 请求" flag="true" />
       <visibility group="Recent projects" flag="true" />
       <visibility group="Run configurations" flag="true" />
@@ -151,10 +152,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":ambulance: Fix nil pointer panic" />
-    <MESSAGE value=":bug: Not supposed to appear to status at the same time" />
-    <MESSAGE value=":ambulance: Fix getting user panic again..." />
-    <MESSAGE value=":bug: Fix status validation issue" />
     <MESSAGE value=":bug: Fix bugs in status" />
     <MESSAGE value=":bug: Fix status query condition" />
     <MESSAGE value=":bug: Fix disturbable condition" />
@@ -176,7 +173,11 @@
     <MESSAGE value=":rotating_light: Fix ts lint issue" />
     <MESSAGE value=":poop: Remove mis-imported cgo" />
     <MESSAGE value=":bug: Bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Bug fixes" />
+    <MESSAGE value=":bug: Fix oauth ticket need mfa" />
+    <MESSAGE value=":arrow_up: Support new auth api" />
+    <MESSAGE value=":recycle: Refactored relation system&#10;:arrow_up: Support new realm &amp; relation api" />
+    <MESSAGE value=":bug: Fix model relation issue" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix model relation issue" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

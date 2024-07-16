@@ -22,8 +22,8 @@ use_registration_magic_token = false
 database = false
 print_routes = false
 
-[consul]
-addr = "127.0.0.1:8500"
+[dealer]
+addr = "127.0.0.1:7442"
 
 [mailer]
 name = "Alphabot <alphabot@smartsheep.studio>"

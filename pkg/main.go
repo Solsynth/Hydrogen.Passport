@@ -7,8 +7,6 @@ import (
 	"os/signal"
 	"syscall"
 
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/i18n"
-
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/grpc"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
@@ -37,8 +35,6 @@ func main() {
 		log.Panic().Err(err).Msg("An error occurred when loading settings.")
 	}
 
-	i18n.InitInternationalization()
-
 	// Connect to database
 	if err := database.NewGorm(); err != nil {
 		log.Fatal().Err(err).Msg("An error occurred when connect to database.")
@@ -47,7 +43,7 @@ func main() {
 	}
 
 	// Connect other services
-	if err := gap.Register(); err != nil {
+	if err := gap.RegisterService(); err != nil {
 		log.Error().Err(err).Msg("An error occurred when registering service to gateway...")
 	}
 	if err := services.SetupFirebase(); err != nil {
@@ -69,7 +65,6 @@ func main() {
 	quartz.AddFunc("@every 60m", services.DoAutoDatabaseCleanup)
 	quartz.AddFunc("@every 60s", services.RecycleAuthContext)
 	quartz.AddFunc("@every 60m", services.RecycleUnConfirmAccount)
-	quartz.AddFunc("@every 5m", services.KexCleanup)
 	quartz.AddFunc("@every 60s", services.SaveEventChanges)
 	quartz.Start()
 

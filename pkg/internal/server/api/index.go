@@ -1,8 +1,6 @@
 package api
 
 import (
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
-	"github.com/gofiber/contrib/websocket"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -44,14 +42,14 @@ func MapAPIs(app *fiber.App) {
 			me.Put("/status", editStatus)
 			me.Delete("/status", clearStatus)
 
-			friends := me.Group("/friends").Name("Friends")
+			friends := me.Group("/relations").Name("Relations")
 			{
-				friends.Get("/", listFriendship)
-				friends.Get("/:relatedId", getFriendship)
+				friends.Get("/", listRelationship)
+				friends.Get("/:relatedId", getRelationship)
 				friends.Post("/", makeFriendship)
 				friends.Post("/:relatedId", makeFriendship)
-				friends.Put("/:relatedId", editFriendship)
-				friends.Delete("/:relatedId", deleteFriendship)
+				friends.Put("/:relatedId", editRelationship)
+				friends.Delete("/:relatedId", deleteRelationship)
 			}
 		}
 
@@ -98,13 +96,6 @@ func MapAPIs(app *fiber.App) {
 		{
 			developers.Post("/notify", notifyUser)
 		}
-
-		api.Use(func(c *fiber.Ctx) error {
-			if err := exts.EnsureAuthenticated(c); err != nil {
-				return err
-			}
-			return c.Next()
-		}).Get("/ws", websocket.New(listenWebsocket))
 
 		api.All("/*", func(c *fiber.Ctx) error {
 			return fiber.ErrNotFound

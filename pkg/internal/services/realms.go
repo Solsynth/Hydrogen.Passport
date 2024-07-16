@@ -97,9 +97,14 @@ func AddRealmMember(user models.Account, affected models.Account, target models.
 		} else if member.PowerLevel < 50 {
 			return fmt.Errorf("only realm moderator can add people")
 		}
-		friendship, err := GetFriendWithTwoSides(affected.ID, user.ID)
-		if err != nil || friendship.Status != models.FriendshipActive {
-			return fmt.Errorf("you only can add your friends to your realm")
+		rel, err := GetRelationWithTwoNode(affected.ID, user.ID)
+		if err != nil || HasPermNodeWithDefault(
+			rel.PermNodes,
+			"RealmAdd",
+			true,
+			rel.Status == models.RelationshipFriend,
+		) {
+			return fmt.Errorf("you unable to add this user to your realm")
 		}
 	}
 

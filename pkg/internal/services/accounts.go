@@ -209,7 +209,7 @@ func DeleteAccount(id uint) error {
 		&models.MagicToken{},
 		&models.ThirdClient{},
 		&models.NotificationSubscriber{},
-		&models.AccountFriendship{},
+		&models.AccountRelationship{},
 	} {
 		if err := tx.Delete(model, "account_id = ?", id).Error; err != nil {
 			tx.Rollback()

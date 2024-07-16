@@ -9,7 +9,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/i18n"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/favicon"
@@ -59,7 +58,6 @@ func NewServer() *HTTPApp {
 	}))
 
 	app.Use(exts.AuthMiddleware)
-	app.Use(i18n.I18nMiddleware)
 
 	admin.MapAdminAPIs(app)
 	api.MapAPIs(app)

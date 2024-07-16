@@ -9,16 +9,16 @@ import (
 
 func notifyUser(c *fiber.Ctx) error {
 	var data struct {
-		ClientID     string                    `json:"client_id" validate:"required"`
-		ClientSecret string                    `json:"client_secret" validate:"required"`
-		Type         string                    `json:"type" validate:"required"`
-		Subject      string                    `json:"subject" validate:"required,max=1024"`
-		Content      string                    `json:"content" validate:"required,max=4096"`
-		Metadata     map[string]any            `json:"metadata"`
-		Links        []models.NotificationLink `json:"links"`
-		IsForcePush  bool                      `json:"is_force_push"`
-		IsRealtime   bool                      `json:"is_realtime"`
-		UserID       uint                      `json:"user_id" validate:"required"`
+		ClientID     string         `json:"client_id" validate:"required"`
+		ClientSecret string         `json:"client_secret" validate:"required"`
+		Topic        string         `json:"type" validate:"required"`
+		Title        string         `json:"subject" validate:"required,max=1024"`
+		Subtitle     *string        `json:"subtitle" validate:"max=1024"`
+		Body         string         `json:"content" validate:"required,max=4096"`
+		Metadata     map[string]any `json:"metadata"`
+		IsForcePush  bool           `json:"is_force_push"`
+		IsRealtime   bool           `json:"is_realtime"`
+		UserID       uint           `json:"user_id" validate:"required"`
 	}
 
 	if err := exts.BindAndValidate(c, &data); err != nil {
@@ -36,13 +36,13 @@ func notifyUser(c *fiber.Ctx) error {
 	}
 
 	notification := models.Notification{
-		Type:        data.Type,
-		Subject:     data.Subject,
-		Content:     data.Content,
-		Links:       data.Links,
+		Topic:       data.Topic,
+		Subtitle:    data.Subtitle,
+		Title:       data.Title,
+		Body:        data.Body,
 		IsRealtime:  data.IsRealtime,
 		IsForcePush: data.IsForcePush,
-		RecipientID: user.ID,
+		AccountID:   user.ID,
 		SenderID:    &client.ID,
 	}
 

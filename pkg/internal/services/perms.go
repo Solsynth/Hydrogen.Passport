@@ -14,6 +14,13 @@ func HasPermNode(perms map[string]any, requiredKey string, requiredValue any) bo
 	return false
 }
 
+func HasPermNodeWithDefault(perms map[string]any, requiredKey string, requiredValue any, defaultValue any) bool {
+	if heldValue, ok := perms[requiredKey]; ok {
+		return ComparePermNode(heldValue, requiredValue)
+	}
+	return ComparePermNode(defaultValue, requiredValue)
+}
+
 func ComparePermNode(held any, required any) bool {
 	heldValue := reflect.ValueOf(held)
 	requiredValue := reflect.ValueOf(required)

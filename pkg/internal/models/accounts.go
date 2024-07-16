@@ -21,26 +21,25 @@ type Account struct {
 	SuspendedAt *time.Time        `json:"suspended_at"`
 	PermNodes   datatypes.JSONMap `json:"perm_nodes"`
 
-	Profile  AccountProfile `json:"profile"`
-	Statuses []Status       `json:"statuses"`
-	Badges   []Badge        `json:"badges"`
+	Profile  AccountProfile   `json:"profile,omitempty"`
+	Contacts []AccountContact `json:"contacts,omitempty"`
+	Statuses []Status         `json:"statuses,omitempty"`
+	Badges   []Badge          `json:"badges,omitempty"`
 
-	Contacts        []AccountContact `json:"contacts"`
-	RealmIdentities []RealmMember    `json:"realm_identities"`
+	Identities []RealmMember `json:"identities,omitempty"`
 
-	Tickets []AuthTicket `json:"tickets"`
-	Factors []AuthFactor `json:"factors"`
+	Tickets []AuthTicket `json:"tickets,omitempty"`
+	Factors []AuthFactor `json:"factors,omitempty"`
 
-	Events      []ActionEvent `json:"events"`
+	Events      []ActionEvent `json:"events,omitempty"`
 	MagicTokens []MagicToken  `json:"-"`
 
-	ThirdClients []ThirdClient `json:"clients"`
+	ThirdClients []ThirdClient `json:"clients,omitempty"`
 
-	Notifications     []Notification           `json:"notifications" gorm:"foreignKey:RecipientID"`
-	NotifySubscribers []NotificationSubscriber `json:"notify_subscribers"`
+	Notifications     []Notification           `json:"notifications,omitempty"`
+	NotifySubscribers []NotificationSubscriber `json:"notify_subscribers,omitempty"`
 
-	Friendships        []AccountFriendship `json:"friendships" gorm:"foreignKey:AccountID"`
-	RelatedFriendships []AccountFriendship `json:"related_friendships" gorm:"foreignKey:RelatedID"`
+	Relations []AccountRelationship `json:"relations,omitempty" gorm:"foreignKey:AccountID"`
 }
 
 func (v Account) GetAvatar() *string {

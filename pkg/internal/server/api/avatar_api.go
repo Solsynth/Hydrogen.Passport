@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"fmt"
+	"git.solsynth.dev/hydrogen/dealer/pkg/hyper"
 	"git.solsynth.dev/hydrogen/paperclip/pkg/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
@@ -27,7 +28,7 @@ func setAvatar(c *fiber.Ctx) error {
 		return err
 	}
 
-	pc, err := gap.DiscoverPaperclip()
+	pc, err := gap.H.GetServiceGrpcConn(hyper.ServiceTypeFileProvider)
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, "attachments services was not available")
 	}
@@ -63,7 +64,7 @@ func setBanner(c *fiber.Ctx) error {
 		return err
 	}
 
-	pc, err := gap.DiscoverPaperclip()
+	pc, err := gap.H.GetServiceGrpcConn(hyper.ServiceTypeFileProvider)
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, "attachments services was not available")
 	}

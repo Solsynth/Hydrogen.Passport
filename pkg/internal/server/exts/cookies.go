@@ -1,7 +1,7 @@
 package exts
 
 import (
-	"git.solsynth.dev/hydrogen/passport/pkg/hyper"
+	"git.solsynth.dev/hydrogen/dealer/pkg/hyper"
 	"github.com/gofiber/fiber/v2"
 	"github.com/spf13/viper"
 	"time"

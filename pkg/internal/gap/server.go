@@ -2,51 +2,41 @@ package gap
 
 import (
 	"fmt"
-	"strconv"
+	"git.solsynth.dev/hydrogen/dealer/pkg/hyper"
+	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
+	"github.com/rs/zerolog/log"
 	"strings"
 
-	"github.com/hashicorp/consul/api"
 	"github.com/spf13/viper"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
-
-	_ "github.com/mbobakov/grpc-consul-resolver"
 )
 
-func Register() error {
-	cfg := api.DefaultConfig()
-	cfg.Address = viper.GetString("consul.addr")
+var H *hyper.HyperConn
 
-	client, err := api.NewClient(cfg)
-	if err != nil {
-		return err
-	}
-
+func RegisterService() error {
 	grpcBind := strings.SplitN(viper.GetString("grpc_bind"), ":", 2)
+	httpBind := strings.SplitN(viper.GetString("bind"), ":", 2)
 
 	outboundIp, _ := GetOutboundIP()
-	port, _ := strconv.Atoi(grpcBind[1])
 
-	registration := new(api.AgentServiceRegistration)
-	registration.ID = viper.GetString("id")
-	registration.Name = "Hydrogen.Passport"
-	registration.Address = outboundIp.String()
-	registration.Port = port
-	registration.Check = &api.AgentServiceCheck{
-		GRPC:                           fmt.Sprintf("%s:%s", outboundIp, grpcBind[1]),
-		Timeout:                        "5s",
-		Interval:                       "1m",
-		DeregisterCriticalServiceAfter: "3m",
+	grpcOutbound := fmt.Sprintf("%s:%s", outboundIp, grpcBind[1])
+	httpOutbound := fmt.Sprintf("%s:%s", outboundIp, httpBind[1])
+
+	var err error
+	H, err = hyper.NewHyperConn(viper.GetString("dealer.addr"), &proto.ServiceInfo{
+		Id:       viper.GetString("id"),
+		Type:     hyper.ServiceTypeAuthProvider,
+		Label:    "Passport",
+		GrpcAddr: grpcOutbound,
+		HttpAddr: &httpOutbound,
+	})
+	if err == nil {
+		go func() {
+			err := H.KeepRegisterService()
+			if err != nil {
+				log.Error().Err(err).Msg("An error occurred while registering service...")
+			}
+		}()
 	}
 
-	return client.Agent().ServiceRegister(registration)
-}
-
-func DiscoverPaperclip() (*grpc.ClientConn, error) {
-	target := fmt.Sprintf("consul://%s/Hydrogen.Paperclip", viper.GetString("consul.addr"))
-	return grpc.NewClient(
-		target,
-		grpc.WithTransportCredentials(insecure.NewCredentials()),
-		grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy": "round_robin"}`),
-	)
+	return err
 }
