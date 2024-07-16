@@ -121,8 +121,8 @@ func (v *Server) ListRealmMember(ctx context.Context, request *proto.RealmMember
 	}
 
 	return &proto.ListRealmMemberResponse{
-		Data: lo.Map(members, func(item models.RealmMember, index int) *proto.MemberInfo {
-			return &proto.MemberInfo{
+		Data: lo.Map(members, func(item models.RealmMember, index int) *proto.RealmMemberInfo {
+			return &proto.RealmMemberInfo{
 				RealmId:    uint64(item.RealmID),
 				UserId:     uint64(item.AccountID),
 				PowerLevel: int32(item.PowerLevel),
@@ -131,7 +131,7 @@ func (v *Server) ListRealmMember(ctx context.Context, request *proto.RealmMember
 	}, nil
 }
 
-func (v *Server) GetRealmMember(ctx context.Context, request *proto.RealmMemberLookupRequest) (*proto.MemberInfo, error) {
+func (v *Server) GetRealmMember(ctx context.Context, request *proto.RealmMemberLookupRequest) (*proto.RealmMemberInfo, error) {
 	var member models.RealmMember
 	tx := database.C.Where("realm_id = ?", request.GetRealmId())
 	if request.UserId != nil {
@@ -142,7 +142,7 @@ func (v *Server) GetRealmMember(ctx context.Context, request *proto.RealmMemberL
 		return nil, err
 	}
 
-	return &proto.MemberInfo{
+	return &proto.RealmMemberInfo{
 		RealmId:    uint64(member.RealmID),
 		UserId:     uint64(member.AccountID),
 		PowerLevel: int32(member.PowerLevel),

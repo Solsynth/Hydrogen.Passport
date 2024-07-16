@@ -29,6 +29,8 @@ git.solsynth.dev/hydrogen/dealer v0.0.0-20240715154526-59bda7a4117a h1:ozV2DWlcS
 git.solsynth.dev/hydrogen/dealer v0.0.0-20240715154526-59bda7a4117a/go.mod h1:eZwAwP7ahL7TO8GWBlYFYDdjlna+8zHYbDfNabnuUEU=
 git.solsynth.dev/hydrogen/dealer v0.0.0-20240715154745-ab0b491f45ff h1:Bzcu+n1YFD09SGoGxuFnqT56u3kK66sQ/vF8PEhbPJQ=
 git.solsynth.dev/hydrogen/dealer v0.0.0-20240715154745-ab0b491f45ff/go.mod h1:eZwAwP7ahL7TO8GWBlYFYDdjlna+8zHYbDfNabnuUEU=
+git.solsynth.dev/hydrogen/dealer v0.0.0-20240716024524-cfb73fde1951 h1:RgZJK4PXhrjhUX75BclBCg2xfetMkswcMwMqfTBtryQ=
+git.solsynth.dev/hydrogen/dealer v0.0.0-20240716024524-cfb73fde1951/go.mod h1:eZwAwP7ahL7TO8GWBlYFYDdjlna+8zHYbDfNabnuUEU=
 git.solsynth.dev/hydrogen/paperclip v0.0.0-20240622051057-0f56dba45745 h1:40BUsQMNXjqHyytkyF9py1HjTAWlRgO6R57YXUrHNy4=
 git.solsynth.dev/hydrogen/paperclip v0.0.0-20240622051057-0f56dba45745/go.mod h1:FsQGSLTl0gvo+9Jmbot02S72suyF9tFTrzDj70Xhifo=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
