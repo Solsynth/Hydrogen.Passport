@@ -1,13 +1,14 @@
 package server
 
 import (
+	"net/http"
+	"path/filepath"
+	"strings"
+
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/admin"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/api"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
-	"net/http"
-	"path/filepath"
-	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -59,8 +60,8 @@ func NewServer() *HTTPApp {
 
 	app.Use(exts.AuthMiddleware)
 
-	admin.MapAdminAPIs(app)
-	api.MapAPIs(app)
+	admin.MapAdminAPIs(app, "/api/admin")
+	api.MapAPIs(app, "/api")
 
 	app.Use(filesystem.New(filesystem.Config{
 		Root:         http.Dir(viper.GetString("frontend_app")),

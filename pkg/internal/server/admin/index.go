@@ -4,8 +4,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func MapAdminAPIs(app *fiber.App) {
-	admin := app.Group("/api/admin")
+func MapAdminAPIs(app *fiber.App, baseURL string) {
+	admin := app.Group(baseURL)
 	{
 		admin.Post("/badges", grantBadge)
 		admin.Delete("/badges/:badgeId", revokeBadge)

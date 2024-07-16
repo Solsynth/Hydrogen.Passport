@@ -4,10 +4,10 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func MapAPIs(app *fiber.App) {
+func MapAPIs(app *fiber.App, baseURL string) {
 	app.Get("/.well-known/openid-configuration", getOidcConfiguration)
 
-	api := app.Group("/api").Name("API")
+	api := app.Group(baseURL).Name("API")
 	{
 		notify := api.Group("/notifications").Name("Notifications API")
 		{
