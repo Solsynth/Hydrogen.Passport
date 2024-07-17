@@ -12,10 +12,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-var (
-	authContextMutex sync.Mutex
-	authContextCache = make(map[string]models.AuthContext)
-)
+var authContextCache sync.Map
 
 func Authenticate(atk, rtk string, rty int) (ctx models.AuthContext, perms map[string]any, newAtk, newRtk string, err error) {
 	var claims PayloadClaims
@@ -52,12 +49,10 @@ func GetAuthContext(jti string) (models.AuthContext, error) {
 	var err error
 	var ctx models.AuthContext
 
-	if val, ok := authContextCache[jti]; ok {
-		ctx = val
+	if val, ok := authContextCache.Load(jti); ok {
+		ctx = val.(models.AuthContext)
 		ctx.LastUsedAt = time.Now()
-		authContextMutex.Lock()
-		authContextCache[jti] = ctx
-		authContextMutex.Unlock()
+		authContextCache.Store(jti, ctx)
 	} else {
 		ctx, err = CacheAuthContext(jti)
 		log.Debug().Str("jti", jti).Msg("Created a new auth context cache")
@@ -89,36 +84,32 @@ func CacheAuthContext(jti string) (models.AuthContext, error) {
 	}
 
 	// Put the data into memory for cache
-	authContextMutex.Lock()
-	authContextCache[jti] = ctx
-	authContextMutex.Unlock()
+	authContextCache.Store(jti, ctx)
 
 	return ctx, nil
 }
 
 func RecycleAuthContext() {
-	if len(authContextCache) == 0 {
-		return
-	}
-
 	affected := 0
-	for key, val := range authContextCache {
+
+	authContextCache.Range(func(key, value any) bool {
+		val := value.(models.AuthContext)
 		if val.LastUsedAt.Add(60*time.Second).Unix() < time.Now().Unix() {
 			affected++
-			authContextMutex.Lock()
-			delete(authContextCache, key)
-			authContextMutex.Unlock()
+			authContextCache.Delete(key)
 		}
-	}
+		return true
+	})
+
 	log.Debug().Int("affected", affected).Msg("Recycled auth context...")
 }
 
 func InvalidAuthCacheWithUser(userId uint) {
-	for key, val := range authContextCache {
+	authContextCache.Range(func(key, value any) bool {
+		val := value.(models.AuthContext)
 		if val.Account.ID == userId {
-			authContextMutex.Lock()
-			delete(authContextCache, key)
-			authContextMutex.Unlock()
+			authContextCache.Delete(key)
 		}
-	}
+		return true
+	})
 }
