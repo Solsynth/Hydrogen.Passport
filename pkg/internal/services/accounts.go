@@ -25,6 +25,15 @@ func GetAccount(id uint) (models.Account, error) {
 	return account, nil
 }
 
+func GetAccountList(id []uint) ([]models.Account, error) {
+	var accounts []models.Account
+	if err := database.C.Where("id IN ?", id).Find(&accounts).Error; err != nil {
+		return accounts, err
+	}
+
+	return accounts, nil
+}
+
 func GetAccountWithName(alias string) (models.Account, error) {
 	var account models.Account
 	if err := database.C.Where(models.Account{

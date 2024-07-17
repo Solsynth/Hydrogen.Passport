@@ -6,6 +6,7 @@ import (
 	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
 	"reflect"
+	"sync"
 	"time"
 
 	"firebase.google.com/go/messaging"
@@ -57,6 +58,15 @@ func NewNotification(notification models.Notification) error {
 		return err
 	}
 
+	return nil
+}
+
+func NewNotificationBatch(notifications []models.Notification) error {
+	if err := database.C.CreateInBatches(notifications, 1000).Error; err != nil {
+		return err
+	}
+
+	PushNotificationBatch(notifications)
 	return nil
 }
 
@@ -152,4 +162,16 @@ func PushNotification(notification models.Notification) error {
 	}
 
 	return nil
+}
+
+func PushNotificationBatch(notifications []models.Notification) {
+	var wg sync.WaitGroup
+	for _, notification := range notifications {
+		wg.Add(1)
+		item := notification
+		go func() {
+			_ = PushNotification(item)
+			wg.Done()
+		}()
+	}
 }
