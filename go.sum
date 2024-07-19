@@ -19,6 +19,8 @@ firebase.google.com/go v3.13.0+incompatible h1:3TdYC3DDi6aHn20qoRkxwGqNgdjtblwVA
 firebase.google.com/go v3.13.0+incompatible/go.mod h1:xlah6XbEyW6tbfSklcfe5FHJIwjt8toICdV5Wh9ptHs=
 git.solsynth.dev/hydrogen/dealer v0.0.0-20240717054512-da433c88615a h1:08YaBgZtkrPfiw08l4RjtKI1fdt6wlHc3Ea7NDFtLPg=
 git.solsynth.dev/hydrogen/dealer v0.0.0-20240717054512-da433c88615a/go.mod h1:oPdUxLy6TFeRxiRC/BoNb3YUNcnSiOnJrzFTnCPSoCA=
+git.solsynth.dev/hydrogen/dealer v0.0.0-20240719153055-607eba001f65 h1:p9PIsp5RyrLdlOR7MXyeGBx04v3+1IMEEBBV22fJZPo=
+git.solsynth.dev/hydrogen/dealer v0.0.0-20240719153055-607eba001f65/go.mod h1:oPdUxLy6TFeRxiRC/BoNb3YUNcnSiOnJrzFTnCPSoCA=
 git.solsynth.dev/hydrogen/paperclip v0.0.0-20240622051057-0f56dba45745 h1:40BUsQMNXjqHyytkyF9py1HjTAWlRgO6R57YXUrHNy4=
 git.solsynth.dev/hydrogen/paperclip v0.0.0-20240622051057-0f56dba45745/go.mod h1:FsQGSLTl0gvo+9Jmbot02S72suyF9tFTrzDj70Xhifo=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=

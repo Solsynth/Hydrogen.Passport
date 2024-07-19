@@ -3,6 +3,7 @@ package grpc
 import (
 	"context"
 	"fmt"
+
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/samber/lo"
@@ -28,6 +29,8 @@ func (v *Server) NotifyUser(_ context.Context, in *proto.NotifyUserRequest) (*pr
 		Subtitle:    in.GetNotify().Subtitle,
 		Body:        in.GetNotify().GetBody(),
 		Metadata:    metadata,
+		Avatar:      in.GetNotify().Avatar,
+		Picture:     in.GetNotify().Picture,
 		IsRealtime:  in.GetNotify().GetIsRealtime(),
 		IsForcePush: in.GetNotify().GetIsForcePush(),
 		AccountID:   user.ID,
@@ -68,6 +71,8 @@ func (v *Server) NotifyUserBatch(_ context.Context, in *proto.NotifyUserBatchReq
 			Subtitle:    in.GetNotify().Subtitle,
 			Body:        in.GetNotify().GetBody(),
 			Metadata:    metadata,
+			Avatar:      in.GetNotify().Avatar,
+			Picture:     in.GetNotify().Picture,
 			IsRealtime:  in.GetNotify().GetIsRealtime(),
 			IsForcePush: in.GetNotify().GetIsForcePush(),
 			AccountID:   user.ID,
@@ -106,6 +111,8 @@ func (v *Server) NotifyAllUser(_ context.Context, in *proto.NotifyRequest) (*pro
 			Subtitle:    in.Subtitle,
 			Body:        in.GetBody(),
 			Metadata:    metadata,
+			Avatar:      in.Avatar,
+			Picture:     in.Picture,
 			IsRealtime:  in.GetIsRealtime(),
 			IsForcePush: in.GetIsForcePush(),
 			AccountID:   user.ID,

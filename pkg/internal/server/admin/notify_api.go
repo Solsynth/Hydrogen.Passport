@@ -16,6 +16,8 @@ func notifyAllUser(c *fiber.Ctx) error {
 		Subtitle    *string        `json:"subtitle" validate:"max=1024"`
 		Body        string         `json:"content" validate:"required,max=4096"`
 		Metadata    map[string]any `json:"metadata"`
+		Avatar      *string        `json:"avatar"`
+		Picture     *string        `json:"picture"`
 		IsForcePush bool           `json:"is_force_push"`
 		IsRealtime  bool           `json:"is_realtime"`
 	}
@@ -45,6 +47,9 @@ func notifyAllUser(c *fiber.Ctx) error {
 				Subtitle:    data.Subtitle,
 				Title:       data.Title,
 				Body:        data.Body,
+				Metadata:    data.Metadata,
+				Avatar:      data.Avatar,
+				Picture:     data.Picture,
 				IsRealtime:  data.IsRealtime,
 				IsForcePush: data.IsForcePush,
 				AccountID:   user.ID,
