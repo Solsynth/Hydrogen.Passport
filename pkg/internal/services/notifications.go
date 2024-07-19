@@ -3,11 +3,12 @@ package services
 import (
 	"context"
 	"fmt"
-	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
 	"reflect"
 	"sync"
 	"time"
+
+	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
 
 	"firebase.google.com/go/messaging"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
@@ -112,10 +113,15 @@ func PushNotification(notification models.Notification) error {
 					break
 				}
 
+				var image string
+				if notification.Picture != nil {
+					image = *notification.Picture
+				}
 				message := &messaging.Message{
 					Notification: &messaging.Notification{
-						Title: notification.Title,
-						Body:  notification.Body,
+						Title:    notification.Title,
+						Body:     notification.Body,
+						ImageURL: image,
 					},
 					Token: subscriber.DeviceToken,
 				}
@@ -131,13 +137,20 @@ func PushNotification(notification models.Notification) error {
 			}
 		case models.NotifySubscriberAPNs:
 			if ExtAPNS != nil {
-				data, err := payload2.
+				data := payload2.
 					NewPayload().
 					AlertTitle(notification.Title).
 					AlertBody(notification.Body).
 					Sound("default").
 					Category(notification.Topic).
-					MarshalJSON()
+					MutableContent()
+				if notification.Avatar != nil {
+					data = data.Custom("avatar_url", *notification.Avatar)
+				}
+				if notification.Picture != nil {
+					data = data.Custom("picture_url", *notification.Picture)
+				}
+				rawData, err := data.MarshalJSON()
 				if err != nil {
 					log.Warn().Err(err).Msg("An error occurred when preparing to notify subscriber via APNs...")
 				}
@@ -145,7 +158,7 @@ func PushNotification(notification models.Notification) error {
 					ApnsID:      subscriber.DeviceID,
 					DeviceToken: subscriber.DeviceToken,
 					Topic:       viper.GetString("apns_topic"),
-					Payload:     data,
+					Payload:     rawData,
 				}
 
 				if resp, err := ExtAPNS.Push(payload); err != nil {

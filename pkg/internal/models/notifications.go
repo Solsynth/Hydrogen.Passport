@@ -12,17 +12,13 @@ type Notification struct {
 	Subtitle  *string           `json:"subtitle"`
 	Body      string            `json:"body"`
 	Metadata  datatypes.JSONMap `json:"metadata"`
+	Avatar    *string           `json:"avatar"`
+	Picture   *string           `json:"picture"`
 	AccountID uint              `json:"account_id"`
 	SenderID  *uint             `json:"sender_id"`
 
 	IsRealtime  bool `json:"is_realtime" gorm:"-"`
 	IsForcePush bool `json:"is_force_push" gorm:"-"`
-}
-
-// NotificationLink Used to embed into notify and render actions
-type NotificationLink struct {
-	Label string `json:"label"`
-	Url   string `json:"url"`
 }
 
 const (

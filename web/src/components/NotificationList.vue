@@ -1,27 +1,38 @@
 <template>
-  <v-navigation-drawer :model-value="props.open" @update:model-value="(val: any) => emits('update:open', val)" location="right"
-                       temporary order="0" width="400">
+  <v-navigation-drawer
+    :model-value="props.open"
+    @update:model-value="(val: any) => emits('update:open', val)"
+    location="right"
+    temporary
+    order="0"
+    width="400"
+  >
     <v-list-item prepend-icon="mdi-bell" title="Notifications" class="py-3"></v-list-item>
 
     <v-divider color="black" class="mb-1" />
 
     <v-list v-if="notify.notifications.length <= 0" density="compact">
-      <v-list-item color="secondary" prepend-icon="mdi-check" title="All notifications read"
-                   subtitle="There is no more new things for you..." />
+      <v-list-item
+        color="secondary"
+        prepend-icon="mdi-check"
+        title="All notifications read"
+        subtitle="There is no more new things for you..."
+      />
     </v-list>
 
     <v-list v-else density="compact" lines="three">
       <v-list-item v-for="(item, idx) in notify.notifications" :key="idx">
-        <template #title>{{ item.subject }}</template>
-        <template #subtitle>{{ item.content }}</template>
+        <template #title>{{ item.title }}</template>
+        <template #subtitle>{{ item.subtitle }}<br v-if="item.subtitle" />{{ item.body }}</template>
 
         <template #append>
           <v-btn icon="mdi-check" size="x-small" variant="text" :disabled="loading" @click="markAsRead(item, idx)" />
         </template>
 
         <div class="flex text-xs gap-1">
-          <a v-for="(link, idx) in item.links" :key="idx" class="mt-1 underline" target="_blank"
-             :href="link.url">{{ link.label }}</a>
+          <a v-for="(link, idx) in item.links" :key="idx" class="mt-1 underline" target="_blank" :href="link.url">{{
+            link.label
+          }}</a>
         </div>
       </v-list-item>
     </v-list>
