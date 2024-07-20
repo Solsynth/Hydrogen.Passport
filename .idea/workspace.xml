@@ -4,8 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":arrow_up: Upgrade dealer">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Support stream controller event emit">
+      <change afterPath="$PROJECT_DIR$/pkg/internal/grpc/stream.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,7 +156,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Fix status query condition" />
     <MESSAGE value=":bug: Fix disturbable condition" />
     <MESSAGE value=":sparkles: Admin notify all API" />
     <MESSAGE value=":bug: Fix request body validation" />
@@ -177,7 +180,8 @@
     <MESSAGE value=":recycle: Refactored relation system&#10;:arrow_up: Support new realm &amp; relation api" />
     <MESSAGE value=":bug: Fix model relation issue" />
     <MESSAGE value=":arrow_up: Upgrade dealer" />
-    <option name="LAST_COMMIT_MESSAGE" value=":arrow_up: Upgrade dealer" />
+    <MESSAGE value=":sparkles: Support stream controller event emit" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Support stream controller event emit" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
