@@ -2,13 +2,14 @@ package api
 
 import (
 	"fmt"
+	"time"
+
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/gofiber/fiber/v2"
 	"github.com/samber/lo"
-	"time"
 )
 
 func getStatus(c *fiber.Ctx) error {
@@ -24,9 +25,6 @@ func getStatus(c *fiber.Ctx) error {
 	status, err := services.GetStatus(user.ID)
 	disturbable := services.GetStatusDisturbable(user.ID) == nil
 	online := services.GetStatusOnline(user.ID) == nil
-
-	// Always set false to hide from others
-	status.IsInvisible = false
 
 	return c.JSON(fiber.Map{
 		"status":         lo.Ternary(err == nil, &status, nil),
