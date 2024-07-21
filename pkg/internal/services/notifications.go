@@ -148,7 +148,9 @@ func PushNotificationBatch(notifications []models.Notification) {
 
 		var providers []string
 		var tokens []string
-		for _, subscriber := range subscribers {
+		for _, subscriber := range lo.Filter(subscribers, func(item models.NotificationSubscriber, index int) bool {
+			return item.AccountID == notification.AccountID
+		}) {
 			providers = append(providers, subscriber.Provider)
 			tokens = append(tokens, subscriber.DeviceToken)
 		}
