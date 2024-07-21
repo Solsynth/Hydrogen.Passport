@@ -6,7 +6,7 @@ toolchain go1.22.1
 
 require (
 	firebase.google.com/go v3.13.0+incompatible
-	git.solsynth.dev/hydrogen/dealer v0.0.0-20240720114704-037fc8a18c60
+	git.solsynth.dev/hydrogen/dealer v0.0.0-20240721055146-d74cdddbaf49
 	git.solsynth.dev/hydrogen/paperclip v0.0.0-20240622051057-0f56dba45745
 	github.com/go-playground/validator/v10 v10.17.0
 	github.com/gofiber/fiber/v2 v2.52.4

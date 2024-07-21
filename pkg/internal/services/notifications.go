@@ -3,20 +3,16 @@ package services
 import (
 	"context"
 	"fmt"
+	jsoniter "github.com/json-iterator/go"
+	"github.com/samber/lo"
 	"reflect"
-	"sync"
 	"time"
 
 	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
 
-	"firebase.google.com/go/messaging"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
-	"github.com/rs/zerolog/log"
-	"github.com/sideshow/apns2"
-	payload2 "github.com/sideshow/apns2/payload"
-	"github.com/spf13/viper"
 )
 
 func AddNotifySubscriber(user models.Account, provider, id, tk, ua string) (models.NotificationSubscriber, error) {
@@ -54,7 +50,6 @@ func NewNotification(notification models.Notification) error {
 	if err := database.C.Save(&notification).Error; err != nil {
 		return err
 	}
-
 	if err := PushNotification(notification); err != nil {
 		return err
 	}
@@ -71,11 +66,6 @@ func NewNotificationBatch(notifications []models.Notification) error {
 	return nil
 }
 
-// PushNotification will push the notification whatever it exists record in the
-// database Recommend pushing another goroutine when you need to push a lot of
-// notifications And just use a block statement when you just push one
-// notification.
-// The time of creating a new subprocess is much more than push notification.
 func PushNotification(notification models.Notification) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -102,89 +92,85 @@ func PushNotification(notification models.Notification) error {
 		return err
 	}
 
+	var providers []string
+	var tokens []string
 	for _, subscriber := range subscribers {
-		switch subscriber.Provider {
-		case models.NotifySubscriberFirebase:
-			if ExtFire != nil {
-				ctx := context.Background()
-				client, err := ExtFire.Messaging(ctx)
-				if err != nil {
-					log.Warn().Err(err).Msg("An error occurred when creating FCM client...")
-					break
-				}
-
-				var image string
-				if notification.Picture != nil {
-					image = *notification.Picture
-				}
-				message := &messaging.Message{
-					Notification: &messaging.Notification{
-						Title:    notification.Title,
-						Body:     notification.Body,
-						ImageURL: image,
-					},
-					Token: subscriber.DeviceToken,
-				}
-
-				if response, err := client.Send(ctx, message); err != nil {
-					log.Warn().Err(err).Msg("An error occurred when notify subscriber via FCM...")
-				} else {
-					log.Debug().
-						Str("response", response).
-						Int("subscriber", int(subscriber.ID)).
-						Msg("Notified subscriber via FCM.")
-				}
-			}
-		case models.NotifySubscriberAPNs:
-			if ExtAPNS != nil {
-				data := payload2.
-					NewPayload().
-					AlertTitle(notification.Title).
-					AlertBody(notification.Body).
-					Sound("default").
-					Category(notification.Topic).
-					MutableContent()
-				if notification.Avatar != nil {
-					data = data.Custom("avatar_url", *notification.Avatar)
-				}
-				if notification.Picture != nil {
-					data = data.Custom("picture_url", *notification.Picture)
-				}
-				rawData, err := data.MarshalJSON()
-				if err != nil {
-					log.Warn().Err(err).Msg("An error occurred when preparing to notify subscriber via APNs...")
-				}
-				payload := &apns2.Notification{
-					ApnsID:      subscriber.DeviceID,
-					DeviceToken: subscriber.DeviceToken,
-					Topic:       viper.GetString("apns_topic"),
-					Payload:     rawData,
-				}
-
-				if resp, err := ExtAPNS.Push(payload); err != nil {
-					log.Warn().Err(err).Msg("An error occurred when notify subscriber via APNs...")
-				} else {
-					log.Debug().
-						Str("reason", resp.Reason).
-						Int("status", resp.StatusCode).
-						Int("subscriber", int(subscriber.ID)).
-						Msg("Notified subscriber via APNs.")
-				}
-			}
-		}
+		providers = append(providers, subscriber.Provider)
+		tokens = append(tokens, subscriber.DeviceToken)
 	}
 
-	return nil
+	metadata, _ := jsoniter.Marshal(notification.Metadata)
+
+	ctx, cancel = context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	_, err = proto.NewPostmanClient(gap.H.GetDealerGrpcConn()).DeliverNotificationBatch(ctx, &proto.DeliverNotificationBatchRequest{
+		Providers:    providers,
+		DeviceTokens: tokens,
+		Notify: &proto.NotifyRequest{
+			Topic:       notification.Topic,
+			Title:       notification.Title,
+			Subtitle:    notification.Subtitle,
+			Body:        notification.Body,
+			Metadata:    metadata,
+			Avatar:      notification.Avatar,
+			Picture:     notification.Picture,
+			IsRealtime:  notification.IsRealtime,
+			IsForcePush: notification.IsForcePush,
+		},
+	})
+
+	return err
 }
 
 func PushNotificationBatch(notifications []models.Notification) {
-	var wg sync.WaitGroup
+	accountIdx := lo.Map(notifications, func(item models.Notification, index int) uint {
+		return item.AccountID
+	})
+	var subscribers []models.NotificationSubscriber
+	database.C.Where("account_id IN ?", accountIdx).Find(&subscribers)
+
+	stream := proto.NewStreamControllerClient(gap.H.GetDealerGrpcConn())
 	for _, notification := range notifications {
-		wg.Add(1)
-		item := notification
-		go func() {
-			_ = PushNotification(item)
-			wg.Done()
-		}()
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		_, _ = stream.PushStream(ctx, &proto.PushStreamRequest{
+			UserId: uint64(notification.AccountID),
+			Body: models.UnifiedCommand{
+				Action:  "notifications.new",
+				Payload: notification,
+			}.Marshal(),
+		})
+		cancel()
+
+		// Skip push notification
+		if GetStatusDisturbable(notification.AccountID) != nil {
+			continue
+		}
+
+		var providers []string
+		var tokens []string
+		for _, subscriber := range subscribers {
+			providers = append(providers, subscriber.Provider)
+			tokens = append(tokens, subscriber.DeviceToken)
+		}
+
+		metadata, _ := jsoniter.Marshal(notification.Metadata)
+
+		ctx, cancel = context.WithTimeout(context.Background(), 5*time.Second)
+		_, _ = proto.NewPostmanClient(gap.H.GetDealerGrpcConn()).DeliverNotificationBatch(ctx, &proto.DeliverNotificationBatchRequest{
+			Providers:    providers,
+			DeviceTokens: tokens,
+			Notify: &proto.NotifyRequest{
+				Topic:       notification.Topic,
+				Title:       notification.Title,
+				Subtitle:    notification.Subtitle,
+				Body:        notification.Body,
+				Metadata:    metadata,
+				Avatar:      notification.Avatar,
+				Picture:     notification.Picture,
+				IsRealtime:  notification.IsRealtime,
+				IsForcePush: notification.IsForcePush,
+			},
+		})
+		cancel()
 	}
 }

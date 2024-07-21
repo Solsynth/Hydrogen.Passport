@@ -46,12 +46,6 @@ func main() {
 	if err := gap.RegisterService(); err != nil {
 		log.Error().Err(err).Msg("An error occurred when registering service to gateway...")
 	}
-	if err := services.SetupFirebase(); err != nil {
-		log.Error().Err(err).Msg("An error occurred when connecting Firebase...")
-	}
-	if err := services.SetupAPNS(); err != nil {
-		log.Error().Err(err).Msg("An error occurred when connecting APNs...")
-	}
 
 	// Server
 	go server.NewServer().Listen()

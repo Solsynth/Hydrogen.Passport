@@ -1,10 +1,14 @@
 package services
 
 import (
+	"context"
 	"fmt"
+	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
 	"github.com/rs/zerolog/log"
 	"github.com/samber/lo"
 	"strings"
+	"time"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
@@ -81,7 +85,17 @@ func GetFactorCode(factor models.AuthFactor) (bool, error) {
 
 		subject := fmt.Sprintf("[%s] Login verification code", viper.GetString("name"))
 		content := fmt.Sprintf(EmailPasswordTemplate, user.Name, factor.Secret, viper.GetString("maintainer"))
-		if err := SendMail(user.GetPrimaryEmail().Content, subject, content); err != nil {
+
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		_, err := proto.NewPostmanClient(gap.H.GetDealerGrpcConn()).DeliverEmail(ctx, &proto.DeliverEmailRequest{
+			To: user.GetPrimaryEmail().Content,
+			Email: &proto.EmailRequest{
+				Subject:  subject,
+				TextBody: &content,
+			},
+		})
+		if err != nil {
 			log.Warn().Err(err).Uint("factor", factor.ID).Msg("Failed to delivery one-time-password via mail...")
 			return true, nil
 		}

@@ -9,12 +9,6 @@ domain = "localhost"
 
 content_endpoint = "https://usercontent.solsynth.dev"
 
-apns_topic = "dev.solsynth.solian.Runner"
-apns_credentials = ""
-apns_credentials_team = "000000000"
-apns_credentials_key = "000000000"
-firebase_credentials = ""
-
 use_registration_magic_token = false
 
 [debug]
@@ -23,13 +17,6 @@ print_routes = false
 
 [dealer]
 addr = "127.0.0.1:7442"
-
-[mailer]
-name = "Alphabot <alphabot@smartsheep.studio>"
-smtp_host = "smtp.exmail.qq.com"
-smtp_port = 465
-username = "alphabot@smartsheep.studio"
-password = "gz937Zxxzfcd9SeH"
 
 [security]
 cookie_domain = "localhost"
