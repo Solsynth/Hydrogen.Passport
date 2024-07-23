@@ -80,7 +80,7 @@ func markNotificationReadBatch(c *fiber.Ctx) error {
 	}
 
 	if err := database.C.Model(&models.Notification{}).
-		Where("recipient_id = ? AND id IN ?", user.ID, data.MessageIDs).
+		Where("account_id = ? AND id IN ?", user.ID, data.MessageIDs).
 		Delete(&models.Notification{}).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	} else {
