@@ -13,8 +13,8 @@ func MapAPIs(app *fiber.App, baseURL string) {
 		{
 			notify.Get("/", getNotifications)
 			notify.Post("/subscribe", addNotifySubscriber)
-			notify.Put("/batch/read", markNotificationReadBatch)
-			notify.Put("/:notificationId/read", markNotificationRead)
+			notify.Put("/read", markNotificationReadBatch)
+			notify.Put("/read/:notificationId", markNotificationRead)
 		}
 
 		api.Get("/users/lookup", lookupAccount)
@@ -42,14 +42,14 @@ func MapAPIs(app *fiber.App, baseURL string) {
 			me.Put("/status", editStatus)
 			me.Delete("/status", clearStatus)
 
-			friends := me.Group("/relations").Name("Relations")
+			relations := me.Group("/relations").Name("Relations")
 			{
-				friends.Get("/", listRelationship)
-				friends.Get("/:relatedId", getRelationship)
-				friends.Post("/", makeFriendship)
-				friends.Post("/:relatedId", makeFriendship)
-				friends.Put("/:relatedId", editRelationship)
-				friends.Delete("/:relatedId", deleteRelationship)
+				relations.Get("/", listRelationship)
+				relations.Get("/:relatedId", getRelationship)
+				relations.Post("/", makeFriendship)
+				relations.Post("/:relatedId", makeFriendship)
+				relations.Put("/:relatedId", editRelationship)
+				relations.Delete("/:relatedId", deleteRelationship)
 			}
 		}
 

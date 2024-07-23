@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":recycle: Use dealer postman instead of built-in feature to deliver email and notify">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/notifications.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/notifications.go" afterDir="false" />
-    </list>
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix push notification to wrong person" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -153,7 +150,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":sparkles: Admin notify all API" />
     <MESSAGE value=":bug: Fix request body validation" />
     <MESSAGE value=":bug: Fix API mapping issue" />
     <MESSAGE value=":recycle: Improve notify API" />
@@ -178,7 +174,8 @@
     <MESSAGE value=":arrow_up: Upgrade dealer" />
     <MESSAGE value=":sparkles: Support stream controller event emit" />
     <MESSAGE value=":recycle: Use dealer postman instead of built-in feature to deliver email and notify" />
-    <option name="LAST_COMMIT_MESSAGE" value=":recycle: Use dealer postman instead of built-in feature to deliver email and notify" />
+    <MESSAGE value=":bug: Fix push notification to wrong person" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix push notification to wrong person" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
