@@ -6,6 +6,7 @@ import (
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
+	"github.com/samber/lo"
 	"gorm.io/gorm"
 )
 
@@ -66,43 +67,6 @@ func GetRelationWithTwoNode(userId, relatedId uint, noPreload ...bool) (models.A
 	return relationship, nil
 }
 
-func NewFriend(userA models.Account, userB models.Account, skipPending ...bool) (models.AccountRelationship, error) {
-	relA := models.AccountRelationship{
-		AccountID: userA.ID,
-		RelatedID: userB.ID,
-		Status:    models.RelationshipFriend,
-	}
-	relB := models.AccountRelationship{
-		AccountID: userB.ID,
-		RelatedID: userA.ID,
-		Status:    models.RelationshipPending,
-	}
-
-	if len(skipPending) > 0 && skipPending[0] {
-		relB.Status = models.RelationshipFriend
-	}
-
-	if userA.ID == userB.ID {
-		return relA, fmt.Errorf("you cannot make friendship with yourself")
-	} else if _, err := GetRelationWithTwoNode(userA.ID, userB.ID, true); err == nil || !errors.Is(err, gorm.ErrRecordNotFound) {
-		return relA, fmt.Errorf("you already have a friendship with him or her")
-	}
-
-	if err := database.C.Save(&relA).Error; err != nil {
-		return relA, err
-	} else if err = database.C.Save(&relB).Error; err != nil {
-		return relA, err
-	} else {
-		_ = NewNotification(models.Notification{
-			Title:     fmt.Sprintf("New friend request from %s", userA.Name),
-			Body:      fmt.Sprintf("You got a new friend request from %s. Go to your settings and decide how to deal it.", userA.Nick),
-			AccountID: userB.ID,
-		})
-	}
-
-	return relA, nil
-}
-
 func EditRelationship(relationship models.AccountRelationship) (models.AccountRelationship, error) {
 	if err := database.C.Save(&relationship).Error; err != nil {
 		return relationship, err
@@ -114,5 +78,80 @@ func DeleteRelationship(relationship models.AccountRelationship) error {
 	if err := database.C.Delete(&relationship).Error; err != nil {
 		return err
 	}
+	return nil
+}
+
+func NewFriend(userA models.Account, userB models.Account, skipPending ...bool) (models.AccountRelationship, error) {
+	relA := models.AccountRelationship{
+		AccountID: userA.ID,
+		RelatedID: userB.ID,
+		Status:    models.RelationshipWaiting,
+	}
+	relB := models.AccountRelationship{
+		AccountID: userB.ID,
+		RelatedID: userA.ID,
+		Status:    models.RelationshipPending,
+	}
+
+	if len(skipPending) > 0 && skipPending[0] {
+		relA.Status = models.RelationshipFriend
+		relB.Status = models.RelationshipFriend
+	}
+
+	if userA.ID == userB.ID {
+		return relA, fmt.Errorf("unable to make relationship with yourself")
+	} else if _, err := GetRelationWithTwoNode(userA.ID, userB.ID, true); err == nil || !errors.Is(err, gorm.ErrRecordNotFound) {
+		return relA, fmt.Errorf("unable to recreate a relationship with that user")
+	}
+
+	if err := database.C.Save(&relA).Error; err != nil {
+		return relA, err
+	} else if err = database.C.Save(&relB).Error; err != nil {
+		return relA, err
+	} else {
+		_ = NewNotification(models.Notification{
+			Title:     "New Friend Request",
+			Subtitle:  lo.ToPtr(fmt.Sprintf("New friend request from %s", userA.Name)),
+			Body:      fmt.Sprintf("You got a new friend request from %s. Go to your account page and decide how to deal it.", userA.Nick),
+			AccountID: userB.ID,
+		})
+	}
+
+	return relA, nil
+}
+
+func HandleFriend(userA models.Account, userB models.Account, isAccept bool) error {
+	relA, err := GetRelationWithTwoNode(userA.ID, userB.ID, true)
+	if err != nil {
+		return fmt.Errorf("relationship was not found: %v", err)
+	} else if relA.Status != models.RelationshipPending {
+		return fmt.Errorf("relationship already handled")
+	}
+
+	if isAccept {
+		relA.Status = models.RelationshipFriend
+	} else {
+		relA.Status = models.RelationshipBlocked
+	}
+
+	if err := database.C.Save(&relA).Error; err != nil {
+		return err
+	}
+
+	relB, err := GetRelationWithTwoNode(userB.ID, userA.ID, true)
+	if err == nil && relB.Status == models.RelationshipWaiting {
+		relB.Status = models.RelationshipFriend
+		if err := database.C.Save(&relB).Error; err != nil {
+			return err
+		}
+
+		_ = NewNotification(models.Notification{
+			Title:     "Friend Request Processed",
+			Subtitle:  lo.ToPtr(fmt.Sprintf("Your friend request to %s has been processsed.", userA.Name)),
+			Body:      fmt.Sprintf("Your relationship status with %s has been updated, go check it out!", userA.Nick),
+			AccountID: userB.ID,
+		})
+	}
+
 	return nil
 }

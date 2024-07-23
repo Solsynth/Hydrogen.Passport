@@ -48,38 +48,6 @@ func getRelationship(c *fiber.Ctx) error {
 	}
 }
 
-func makeFriendship(c *fiber.Ctx) error {
-	if err := exts.EnsureAuthenticated(c); err != nil {
-		return err
-	}
-	user := c.Locals("user").(models.Account)
-	relatedName := c.Query("related")
-	relatedId, _ := c.ParamsInt("relatedId", 0)
-
-	var err error
-	var related models.Account
-	if relatedId > 0 {
-		related, err = services.GetAccount(uint(relatedId))
-		if err != nil {
-			return fiber.NewError(fiber.StatusNotFound, err.Error())
-		}
-	} else if len(relatedName) > 0 {
-		related, err = services.LookupAccount(relatedName)
-		if err != nil {
-			return fiber.NewError(fiber.StatusNotFound, err.Error())
-		}
-	} else {
-		return fiber.NewError(fiber.StatusBadRequest, "must one of username or user id")
-	}
-
-	friend, err := services.NewFriend(user, related)
-	if err != nil {
-		return fiber.NewError(fiber.StatusBadRequest, err.Error())
-	} else {
-		return c.JSON(friend)
-	}
-}
-
 func editRelationship(c *fiber.Ctx) error {
 	if err := exts.EnsureAuthenticated(c); err != nil {
 		return err
@@ -131,5 +99,77 @@ func deleteRelationship(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else {
 		return c.JSON(relationship)
+	}
+}
+
+// Friends stuff
+
+func makeFriendship(c *fiber.Ctx) error {
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
+	relatedName := c.Query("related")
+	relatedId, _ := c.ParamsInt("relatedId", 0)
+
+	var err error
+	var related models.Account
+	if relatedId > 0 {
+		related, err = services.GetAccount(uint(relatedId))
+		if err != nil {
+			return fiber.NewError(fiber.StatusNotFound, err.Error())
+		}
+	} else if len(relatedName) > 0 {
+		related, err = services.LookupAccount(relatedName)
+		if err != nil {
+			return fiber.NewError(fiber.StatusNotFound, err.Error())
+		}
+	} else {
+		return fiber.NewError(fiber.StatusBadRequest, "must one of username or user id")
+	}
+
+	friend, err := services.NewFriend(user, related)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	} else {
+		return c.JSON(friend)
+	}
+}
+
+func acceptFriend(c *fiber.Ctx) error {
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
+	relatedId, _ := c.ParamsInt("relatedId", 0)
+
+	related, err := services.GetAccount(uint(relatedId))
+	if err != nil {
+		return fiber.NewError(fiber.StatusNotFound, err.Error())
+	}
+
+	if err := services.HandleFriend(user, related, true); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	} else {
+		return c.SendStatus(fiber.StatusOK)
+	}
+}
+
+func declineFriend(c *fiber.Ctx) error {
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
+	relatedId, _ := c.ParamsInt("relatedId", 0)
+
+	related, err := services.GetAccount(uint(relatedId))
+	if err != nil {
+		return fiber.NewError(fiber.StatusNotFound, err.Error())
+	}
+
+	if err := services.HandleFriend(user, related, false); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	} else {
+		return c.SendStatus(fiber.StatusOK)
 	}
 }

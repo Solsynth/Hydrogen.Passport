@@ -2,9 +2,10 @@ package api
 
 import (
 	"fmt"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"strconv"
 	"time"
+
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
@@ -139,8 +140,8 @@ func editUserinfo(c *fiber.Ctx) error {
 
 func doRegister(c *fiber.Ctx) error {
 	var data struct {
-		Name       string `json:"name" validate:"required,lowercase,alphanum,min=4,max=16"`
-		Nick       string `json:"nick" validate:"required,min=4,max=24"`
+		Name       string `json:"name" validate:"required,lowercase,alphanum,min=2,max=16"`
+		Nick       string `json:"nick" validate:"required,min=2,max=24"`
 		Email      string `json:"email" validate:"required,email"`
 		Password   string `json:"password" validate:"required,min=4,max=32"`
 		MagicToken string `json:"magic_token"`

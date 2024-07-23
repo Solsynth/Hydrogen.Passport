@@ -8,6 +8,7 @@ const (
 	RelationshipPending = RelationshipStatus(iota)
 	RelationshipFriend
 	RelationshipBlocked
+	RelationshipWaiting
 )
 
 type AccountRelationship struct {
