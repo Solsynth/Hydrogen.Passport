@@ -43,6 +43,8 @@ func getUserinfo(c *fiber.Ctx) error {
 		Preload("Badges").
 		First(&data).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	} else {
+		data.PermNodes = c.Locals("permissions").(map[string]any)
 	}
 
 	var resp fiber.Map

@@ -1,8 +1,10 @@
 package api
 
 import (
+	"fmt"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -17,6 +19,18 @@ func getOtherUserinfo(c *fiber.Ctx) error {
 		Preload("Badges").
 		First(&account).Error; err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	}
+
+	groups, err := services.GetUserAccountGroup(account)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, fmt.Sprintf("unable to get account groups: %v", err))
+	}
+	for _, group := range groups {
+		for k, v := range group.PermNodes {
+			if _, ok := account.PermNodes[k]; !ok {
+				account.PermNodes[k] = v
+			}
+		}
 	}
 
 	return c.JSON(account)

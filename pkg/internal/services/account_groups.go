@@ -15,8 +15,8 @@ func GetUserAccountGroup(user models.Account) ([]models.AccountGroup, error) {
 	}
 
 	var groups []models.AccountGroup
-	if err := database.C.Where("id IN ?", lo.Map(groups, func(item models.AccountGroup, index int) uint {
-		return item.ID
+	if err := database.C.Where("id IN ?", lo.Map(members, func(item models.AccountGroupMember, index int) uint {
+		return item.GroupID
 	})).Find(&groups).Error; err != nil {
 		return nil, err
 	}

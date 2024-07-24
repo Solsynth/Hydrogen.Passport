@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Account groups">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Default user group">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/accounts.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.toml" beforeDir="false" afterPath="$PROJECT_DIR$/settings.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/accounts_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/accounts_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/userinfo_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/userinfo_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/account_groups.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/account_groups.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +155,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Fix API mapping issue" />
     <MESSAGE value=":recycle: Improve notify API" />
     <MESSAGE value=":sparkles: Reset password APIs" />
     <MESSAGE value=":sparkles: Password reset &amp; user lookup API" />
@@ -179,7 +179,8 @@
     <MESSAGE value=":recycle: Use dealer postman instead of built-in feature to deliver email and notify" />
     <MESSAGE value=":bug: Fix push notification to wrong person" />
     <MESSAGE value=":sparkles: Account groups" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Account groups" />
+    <MESSAGE value=":sparkles: Default user group" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Default user group" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
