@@ -76,6 +76,18 @@ func CacheAuthContext(jti string) (models.AuthContext, error) {
 	if err != nil {
 		return ctx, fmt.Errorf("invalid account: %v", err)
 	}
+	groups, err := GetUserAccountGroup(user)
+	if err != nil {
+		return ctx, fmt.Errorf("unable to get account groups: %v", err)
+	}
+
+	for _, group := range groups {
+		for k, v := range group.PermNodes {
+			if _, ok := user.PermNodes[k]; !ok {
+				user.PermNodes[k] = v
+			}
+		}
+	}
 
 	ctx = models.AuthContext{
 		Ticket:     ticket,

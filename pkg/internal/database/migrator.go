@@ -7,6 +7,8 @@ import (
 
 var AutoMaintainRange = []any{
 	&models.Account{},
+	&models.AccountGroup{},
+	&models.AccountGroupMember{},
 	&models.AuthFactor{},
 	&models.AccountProfile{},
 	&models.AccountContact{},

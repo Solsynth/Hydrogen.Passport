@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"gorm.io/gorm/clause"
 	"time"
 
 	"github.com/rs/zerolog/log"
@@ -209,29 +210,7 @@ func ConfirmResetPassword(code, newPassword string) error {
 func DeleteAccount(id uint) error {
 	tx := database.C.Begin()
 
-	for _, model := range []any{
-		&models.Badge{},
-		&models.RealmMember{},
-		&models.AccountContact{},
-		&models.AuthFactor{},
-		&models.AuthTicket{},
-		&models.MagicToken{},
-		&models.ThirdClient{},
-		&models.NotificationSubscriber{},
-		&models.AccountRelationship{},
-	} {
-		if err := tx.Delete(model, "account_id = ?", id).Error; err != nil {
-			tx.Rollback()
-			return err
-		}
-	}
-
-	if err := tx.Delete(&models.Notification{}, "recipient_id = ?", id).Error; err != nil {
-		tx.Rollback()
-		return err
-	}
-
-	if err := tx.Delete(&models.Account{}, "id = ?", id).Error; err != nil {
+	if err := tx.Select(clause.Associations).Delete(&models.Account{}, "id = ?", id).Error; err != nil {
 		tx.Rollback()
 		return err
 	}
