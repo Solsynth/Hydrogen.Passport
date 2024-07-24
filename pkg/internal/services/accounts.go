@@ -90,12 +90,17 @@ func CreateAccount(name, nick, email, password string) (models.Account, error) {
 				VerifiedAt: nil,
 			},
 		},
-		PermNodes:   datatypes.JSONMap(viper.GetStringMap("permissions.default")),
+		PermNodes:   datatypes.JSONMap{},
 		ConfirmedAt: nil,
 	}
 
 	if err := database.C.Create(&user).Error; err != nil {
 		return user, err
+	} else if viper.GetInt("default_user_group") > 0 {
+		database.C.Create(&models.AccountGroupMember{
+			AccountID: user.ID,
+			GroupID:   uint(viper.GetInt("default_user_group")),
+		})
 	}
 
 	if tk, err := NewMagicToken(models.ConfirmMagicToken, &user, nil); err != nil {

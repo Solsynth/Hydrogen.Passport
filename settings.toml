@@ -9,6 +9,8 @@ domain = "localhost"
 
 content_endpoint = "https://usercontent.solsynth.dev"
 
+default_user_group = 1
+
 use_registration_magic_token = false
 
 [debug]
@@ -27,12 +29,3 @@ refresh_token_duration = 2592000
 [database]
 dsn = "host=localhost user=postgres password=password dbname=hy_passport port=5432 sslmode=disable"
 prefix = "passport_"
-
-[permissions.default]
-CreatePosts = true
-CreateAttachments = 1048576
-
-[permissions.verified]
-CreateRealms = true
-CreateArticles = true
-CreateAttachments = 26214400
