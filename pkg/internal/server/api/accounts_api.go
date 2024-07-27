@@ -104,7 +104,7 @@ func editUserinfo(c *fiber.Ctx) error {
 	user := c.Locals("user").(models.Account)
 
 	var data struct {
-		Nick        string    `json:"nick" validate:"required,min=4,max=24"`
+		Nick        string    `json:"nick" validate:"required,min=2,max=24"`
 		Description string    `json:"description"`
 		FirstName   string    `json:"first_name"`
 		LastName    string    `json:"last_name"`
