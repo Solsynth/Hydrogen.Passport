@@ -109,17 +109,17 @@ func getToken(c *fiber.Ctx) error {
 	}
 
 	var err error
-	var access, refresh string
+	var idk, atk, rtk string
 	switch data.GrantType {
 	case "refresh_token":
 		// Refresh Token
-		access, refresh, err = services.RefreshToken(data.RefreshToken)
+		atk, rtk, err = services.RefreshToken(data.RefreshToken)
 		if err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, err.Error())
 		}
 	case "authorization_code":
 		// Authorization Code Mode
-		access, refresh, err = services.ExchangeOauthToken(data.ClientID, data.ClientSecret, data.RedirectUri, data.Code)
+		idk, atk, rtk, err = services.ExchangeOauthToken(data.ClientID, data.ClientSecret, data.RedirectUri, data.Code)
 		if err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, err.Error())
 		}
@@ -139,13 +139,13 @@ func getToken(c *fiber.Ctx) error {
 		} else if err := ticket.IsAvailable(); err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("risk detected: %v (ticketId=%d)", err, ticket.ID))
 		}
-		access, refresh, err = services.ExchangeOauthToken(data.ClientID, data.ClientSecret, data.RedirectUri, *ticket.GrantToken)
+		idk, atk, rtk, err = services.ExchangeOauthToken(data.ClientID, data.ClientSecret, data.RedirectUri, *ticket.GrantToken)
 		if err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, err.Error())
 		}
 	case "grant_token":
 		// Internal Usage
-		access, refresh, err = services.ExchangeToken(data.Code)
+		atk, rtk, err = services.ExchangeToken(data.Code)
 		if err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, err.Error())
 		}
@@ -153,12 +153,16 @@ func getToken(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, "unsupported exchange token type")
 	}
 
-	exts.SetAuthCookies(c, access, refresh)
+	if len(idk) == 0 {
+		idk = atk
+	}
+
+	exts.SetAuthCookies(c, atk, rtk)
 
 	return c.JSON(fiber.Map{
-		"id_token":      access,
-		"access_token":  access,
-		"refresh_token": refresh,
+		"id_token":      idk,
+		"access_token":  atk,
+		"refresh_token": rtk,
 		"token_type":    "Bearer",
 		"expires_in":    (30 * time.Minute).Seconds(),
 	})

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/spf13/viper"
 )
@@ -11,8 +12,16 @@ import (
 type PayloadClaims struct {
 	jwt.RegisteredClaims
 
+	// Internal Stuff
+	SessionID string `json:"sed"`
+
+	// ID Token Stuff
+	Name  string `json:"name,omitempty"`
+	Nick  string `json:"preferred_username,omitempty"`
+	Email string `json:"email,omitempty"`
+
+	// Additonal Stuff
 	AuthorizedParties string `json:"azp,omitempty"`
-	SessionID         string `json:"sed"`
 	Type              string `json:"typ"`
 }
 
@@ -21,7 +30,7 @@ const (
 	JwtRefreshType = "refresh"
 )
 
-func EncodeJwt(id string, typ, sub, sed string, aud []string, exp time.Time) (string, error) {
+func EncodeJwt(id string, typ, sub, sed string, aud []string, exp time.Time, idTokenUser ...models.Account) (string, error) {
 	var azp string
 	for _, item := range aud {
 		if item != InternalTokenAudience {
@@ -30,7 +39,7 @@ func EncodeJwt(id string, typ, sub, sed string, aud []string, exp time.Time) (st
 		}
 	}
 
-	tk := jwt.NewWithClaims(jwt.SigningMethodHS512, PayloadClaims{
+	claims := PayloadClaims{
 		RegisteredClaims: jwt.RegisteredClaims{
 			Subject:   sub,
 			Audience:  aud,
@@ -43,7 +52,16 @@ func EncodeJwt(id string, typ, sub, sed string, aud []string, exp time.Time) (st
 		AuthorizedParties: azp,
 		SessionID:         sed,
 		Type:              typ,
-	})
+	}
+
+	if len(idTokenUser) > 0 {
+		user := idTokenUser[0]
+		claims.Name = user.Name
+		claims.Nick = user.Nick
+		claims.Email = user.GetPrimaryEmail().Content
+	}
+
+	tk := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)
 
 	return tk.SignedString([]byte(viper.GetString("secret")))
 }

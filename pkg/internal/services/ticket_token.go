@@ -2,96 +2,119 @@ package services
 
 import (
 	"fmt"
+	"strconv"
+	"time"
+
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"github.com/samber/lo"
 	"github.com/spf13/viper"
-	"strconv"
-	"time"
 )
 
-func GetToken(ticket models.AuthTicket) (string, string, error) {
-	var refresh, access string
-	if err := ticket.IsAvailable(); err != nil {
-		return refresh, access, err
+func GetToken(ticket models.AuthTicket) (atk, rtk string, err error) {
+	if err = ticket.IsAvailable(); err != nil {
+		return
 	}
 	if ticket.AccessToken == nil || ticket.RefreshToken == nil {
-		return refresh, access, fmt.Errorf("unable to encode token, access or refresh token id missing")
+		err = fmt.Errorf("unable to encode token, access or refresh token id missing")
+		return
 	}
 
-	accessDuration := time.Duration(viper.GetInt64("security.access_token_duration")) * time.Second
-	refreshDuration := time.Duration(viper.GetInt64("security.refresh_token_duration")) * time.Second
+	atkDeadline := time.Duration(viper.GetInt64("security.access_token_duration")) * time.Second
+	rtkDeadline := time.Duration(viper.GetInt64("security.refresh_token_duration")) * time.Second
 
-	var err error
 	sub := strconv.Itoa(int(ticket.AccountID))
 	sed := strconv.Itoa(int(ticket.ID))
-	access, err = EncodeJwt(*ticket.AccessToken, JwtAccessType, sub, sed, ticket.Audiences, time.Now().Add(accessDuration))
+	atk, err = EncodeJwt(*ticket.AccessToken, JwtAccessType, sub, sed, ticket.Audiences, time.Now().Add(atkDeadline))
 	if err != nil {
-		return refresh, access, err
+		return
 	}
-	refresh, err = EncodeJwt(*ticket.RefreshToken, JwtRefreshType, sub, sed, ticket.Audiences, time.Now().Add(refreshDuration))
+	rtk, err = EncodeJwt(*ticket.RefreshToken, JwtRefreshType, sub, sed, ticket.Audiences, time.Now().Add(rtkDeadline))
 	if err != nil {
-		return refresh, access, err
+		return
 	}
 
 	ticket.LastGrantAt = lo.ToPtr(time.Now())
 	database.C.Save(&ticket)
 
-	return access, refresh, nil
+	return
 }
 
-func ExchangeToken(token string) (string, string, error) {
+func ExchangeToken(token string) (atk, rtk string, err error) {
 	var ticket models.AuthTicket
-	if err := database.C.Where(models.AuthTicket{GrantToken: &token}).First(&ticket).Error; err != nil {
-		return "", "", err
+	if err = database.C.Where(models.AuthTicket{GrantToken: &token}).First(&ticket).Error; err != nil {
+		return
 	} else if ticket.LastGrantAt != nil {
-		return "", "", fmt.Errorf("ticket was granted the first token, use refresh token instead")
+		err = fmt.Errorf("ticket was granted the first token, use refresh token instead")
+		return
 	} else if len(ticket.Audiences) > 1 {
-		return "", "", fmt.Errorf("should use authorization code grant type")
+		err = fmt.Errorf("should use authorization code grant type")
+		return
 	}
 
 	return GetToken(ticket)
 }
 
-func ExchangeOauthToken(clientId, clientSecret, redirectUri, token string) (string, string, error) {
+func ExchangeOauthToken(clientId, clientSecret, redirectUri, token string) (idk, atk, rtk string, err error) {
 	var client models.ThirdClient
-	if err := database.C.Where(models.ThirdClient{Alias: clientId}).First(&client).Error; err != nil {
-		return "", "", err
+	if err = database.C.Where(models.ThirdClient{Alias: clientId}).First(&client).Error; err != nil {
+		return
 	} else if client.Secret != clientSecret {
-		return "", "", fmt.Errorf("invalid client secret")
+		err = fmt.Errorf("invalid client secret")
+		return
 	} else if !client.IsDraft && !lo.Contains(client.Callbacks, redirectUri) {
-		return "", "", fmt.Errorf("invalid redirect uri")
+		err = fmt.Errorf("invalid redirect uri")
+		return
 	}
 
 	var ticket models.AuthTicket
-	if err := database.C.Where(models.AuthTicket{GrantToken: &token}).First(&ticket).Error; err != nil {
-		return "", "", err
+	if err = database.C.Where(models.AuthTicket{GrantToken: &token}).First(&ticket).Error; err != nil {
+		return
 	} else if ticket.LastGrantAt != nil {
-		return "", "", fmt.Errorf("ticket was granted the first token, use refresh token instead")
+		err = fmt.Errorf("ticket was granted the first token, use refresh token instead")
+		return
 	}
 
-	return GetToken(ticket)
+	atk, rtk, err = GetToken(ticket)
+	if err != nil {
+		return
+	}
+
+	var user models.Account
+	if err = database.C.Where(models.Account{
+		BaseModel: models.BaseModel{ID: ticket.AccountID},
+	}).Preload("Contacts").First(&user).Error; err != nil {
+		return
+	}
+
+	sub := strconv.Itoa(int(ticket.AccountID))
+	sed := strconv.Itoa(int(ticket.ID))
+	idk, err = EncodeJwt(*ticket.AccessToken, JwtAccessType, sub, sed, ticket.Audiences, time.Now().Add(24*time.Minute), user)
+
+	return
 }
 
-func RefreshToken(token string) (string, string, error) {
+func RefreshToken(token string) (atk, rtk string, err error) {
 	parseInt := func(str string) int {
 		val, _ := strconv.Atoi(str)
 		return val
 	}
 
 	var ticket models.AuthTicket
-	if claims, err := DecodeJwt(token); err != nil {
-		return "404", "403", err
+	var claims PayloadClaims
+	if claims, err = DecodeJwt(token); err != nil {
+		return
 	} else if claims.Type != JwtRefreshType {
-		return "404", "403", fmt.Errorf("invalid token type, expected refresh token")
-	} else if err := database.C.Where(models.AuthTicket{
+		err = fmt.Errorf("invalid token type, expected refresh token")
+		return
+	} else if err = database.C.Where(models.AuthTicket{
 		BaseModel: models.BaseModel{ID: uint(parseInt(claims.SessionID))},
 	}).First(&ticket).Error; err != nil {
-		return "404", "403", err
+		return
 	}
 
-	if ticket, err := RegenSession(ticket); err != nil {
-		return "404", "403", err
+	if ticket, err = RegenSession(ticket); err != nil {
+		return
 	} else {
 		return GetToken(ticket)
 	}

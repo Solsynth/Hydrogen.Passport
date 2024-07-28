@@ -23,18 +23,12 @@ type Account struct {
 
 	Profile  AccountProfile   `json:"profile,omitempty"`
 	Contacts []AccountContact `json:"contacts,omitempty"`
-	Statuses []Status         `json:"statuses,omitempty"`
 	Badges   []Badge          `json:"badges,omitempty"`
-
-	Identities []RealmMember `json:"identities,omitempty"`
 
 	Tickets []AuthTicket `json:"tickets,omitempty"`
 	Factors []AuthFactor `json:"factors,omitempty"`
 
-	Events      []ActionEvent `json:"events,omitempty"`
-	MagicTokens []MagicToken  `json:"-"`
-
-	ThirdClients []ThirdClient `json:"clients,omitempty"`
+	Events []ActionEvent `json:"events,omitempty"`
 
 	Notifications     []Notification           `json:"notifications,omitempty"`
 	NotifySubscribers []NotificationSubscriber `json:"notify_subscribers,omitempty"`

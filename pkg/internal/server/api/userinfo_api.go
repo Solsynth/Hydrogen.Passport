@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
@@ -14,7 +15,6 @@ func getOtherUserinfo(c *fiber.Ctx) error {
 	var account models.Account
 	if err := database.C.
 		Where(&models.Account{Name: alias}).
-		Omit("tickets", "challenges", "factors", "events", "clients", "notifications", "notify_subscribers").
 		Preload("Profile").
 		Preload("Badges").
 		First(&account).Error; err != nil {
