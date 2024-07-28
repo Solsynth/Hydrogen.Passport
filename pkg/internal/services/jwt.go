@@ -11,8 +11,9 @@ import (
 type PayloadClaims struct {
 	jwt.RegisteredClaims
 
-	SessionID string `json:"sed"`
-	Type      string `json:"typ"`
+	AuthorizedParties string `json:"azp,omitempty"`
+	SessionID         string `json:"sed"`
+	Type              string `json:"typ"`
 }
 
 const (
@@ -21,8 +22,16 @@ const (
 )
 
 func EncodeJwt(id string, typ, sub, sed string, aud []string, exp time.Time) (string, error) {
+	var azp string
+	for _, item := range aud {
+		if item != InternalTokenAudience {
+			azp = item
+			break
+		}
+	}
+
 	tk := jwt.NewWithClaims(jwt.SigningMethodHS512, PayloadClaims{
-		jwt.RegisteredClaims{
+		RegisteredClaims: jwt.RegisteredClaims{
 			Subject:   sub,
 			Audience:  aud,
 			Issuer:    fmt.Sprintf("https://%s", viper.GetString("domain")),
@@ -31,8 +40,9 @@ func EncodeJwt(id string, typ, sub, sed string, aud []string, exp time.Time) (st
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			ID:        id,
 		},
-		sed,
-		typ,
+		AuthorizedParties: azp,
+		SessionID:         sed,
+		Type:              typ,
 	})
 
 	return tk.SignedString([]byte(viper.GetString("secret")))

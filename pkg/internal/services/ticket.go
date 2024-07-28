@@ -11,6 +11,8 @@ import (
 	"github.com/samber/lo"
 )
 
+const InternalTokenAudience = "passport"
+
 func DetectRisk(user models.Account, ip, ua string) bool {
 	var clue int64
 	if err := database.C.
@@ -41,7 +43,7 @@ func NewTicket(user models.Account, ip, ua string) (models.AuthTicket, error) {
 
 	ticket = models.AuthTicket{
 		Claims:              []string{"*"},
-		Audiences:           []string{"passport"},
+		Audiences:           []string{InternalTokenAudience},
 		IpAddress:           ip,
 		UserAgent:           ua,
 		RequireMFA:          requireMFA,
