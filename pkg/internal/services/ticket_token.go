@@ -25,11 +25,11 @@ func GetToken(ticket models.AuthTicket) (atk, rtk string, err error) {
 
 	sub := strconv.Itoa(int(ticket.AccountID))
 	sed := strconv.Itoa(int(ticket.ID))
-	atk, err = EncodeJwt(*ticket.AccessToken, JwtAccessType, sub, sed, ticket.Audiences, time.Now().Add(atkDeadline))
+	atk, err = EncodeJwt(*ticket.AccessToken, JwtAccessType, sub, sed, nil, ticket.Audiences, time.Now().Add(atkDeadline))
 	if err != nil {
 		return
 	}
-	rtk, err = EncodeJwt(*ticket.RefreshToken, JwtRefreshType, sub, sed, ticket.Audiences, time.Now().Add(rtkDeadline))
+	rtk, err = EncodeJwt(*ticket.RefreshToken, JwtRefreshType, sub, sed, nil, ticket.Audiences, time.Now().Add(rtkDeadline))
 	if err != nil {
 		return
 	}
@@ -89,7 +89,7 @@ func ExchangeOauthToken(clientId, clientSecret, redirectUri, token string) (idk,
 
 	sub := strconv.Itoa(int(ticket.AccountID))
 	sed := strconv.Itoa(int(ticket.ID))
-	idk, err = EncodeJwt(*ticket.AccessToken, JwtAccessType, sub, sed, ticket.Audiences, time.Now().Add(24*time.Minute), user)
+	idk, err = EncodeJwt(*ticket.AccessToken, JwtAccessType, sub, sed, ticket.Nonce, ticket.Audiences, time.Now().Add(24*time.Minute), user)
 
 	return
 }

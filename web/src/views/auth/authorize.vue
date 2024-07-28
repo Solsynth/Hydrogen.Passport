@@ -107,7 +107,7 @@ const requestedClaims = computed(() => {
 const panel = ref("confirm")
 
 async function tryAuthorize() {
-  const res = await request(`/api/auth/o/authorize${location.search}`, {
+  const res = await request("/api/auth/o/authorize" + window.location.search, {
     headers: { Authorization: `Bearer ${getAtk()}` },
   })
 
@@ -139,19 +139,10 @@ function decline() {
 
 async function approve() {
   loading.value = true
-  const res = await request(
-    "/api/auth/o/authorize?" +
-    new URLSearchParams({
-      client_id: route.query["client_id"] as string,
-      redirect_uri: encodeURIComponent(route.query["redirect_uri"] as string),
-      response_type: "code",
-      scope: route.query["scope"] as string,
-    }),
-    {
-      method: "POST",
-      headers: { Authorization: `Bearer ${getAtk()}` },
-    },
-  )
+  const res = await request("/api/auth/o/authorize" + window.location.search, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${getAtk()}` },
+  })
 
   if (res.status !== 200) {
     error.value = await res.text()
@@ -169,11 +160,13 @@ function callback(ticket: any) {
 }
 
 function getClaimDescription(key: string): ClaimType {
-  return Object.prototype.hasOwnProperty.call(claims, key) ? claims[key] : {
-    icon: "mdi-asterisk",
-    name: key,
-    description: "Unknown claim...",
-  }
+  return Object.prototype.hasOwnProperty.call(claims, key)
+    ? claims[key]
+    : {
+        icon: "mdi-asterisk",
+        name: key,
+        description: "Unknown claim...",
+      }
 }
 </script>
 

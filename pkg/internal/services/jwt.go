@@ -22,6 +22,7 @@ type PayloadClaims struct {
 
 	// Additonal Stuff
 	AuthorizedParties string `json:"azp,omitempty"`
+	Nonce             string `json:"nonce,omitempty"`
 	Type              string `json:"typ"`
 }
 
@@ -30,7 +31,7 @@ const (
 	JwtRefreshType = "refresh"
 )
 
-func EncodeJwt(id string, typ, sub, sed string, aud []string, exp time.Time, idTokenUser ...models.Account) (string, error) {
+func EncodeJwt(id string, typ, sub, sed string, nonce *string, aud []string, exp time.Time, idTokenUser ...models.Account) (string, error) {
 	var azp string
 	for _, item := range aud {
 		if item != InternalTokenAudience {
@@ -59,6 +60,10 @@ func EncodeJwt(id string, typ, sub, sed string, aud []string, exp time.Time, idT
 		claims.Name = user.Name
 		claims.Nick = user.Nick
 		claims.Email = user.GetPrimaryEmail().Content
+	}
+
+	if nonce != nil {
+		claims.Nonce = *nonce
 	}
 
 	tk := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)

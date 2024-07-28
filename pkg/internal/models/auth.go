@@ -39,6 +39,7 @@ type AuthTicket struct {
 	ExpiredAt           *time.Time                  `json:"expired_at"`
 	AvailableAt         *time.Time                  `json:"available_at"`
 	LastGrantAt         *time.Time                  `json:"last_grant_at"`
+	Nonce               *string                     `json:"nonce"`
 	ClientID            *uint                       `json:"client_id"`
 	AccountID           uint                        `json:"account_id"`
 }

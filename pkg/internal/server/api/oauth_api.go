@@ -1,9 +1,10 @@
 package api
 
 import (
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"strings"
 	"time"
+
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
@@ -62,6 +63,7 @@ func authorizeThirdClient(c *fiber.Ctx) error {
 	id := c.Query("client_id")
 	response := c.Query("response_type")
 	redirect := c.Query("redirect_uri")
+	nonce := c.Query("nonce")
 	scope := c.Query("scope")
 	if len(scope) <= 0 {
 		return fiber.NewError(fiber.StatusBadRequest, "invalid request params")
@@ -87,6 +89,7 @@ func authorizeThirdClient(c *fiber.Ctx) error {
 			[]string{"passport", client.Alias},
 			c.IP(),
 			c.Get(fiber.HeaderUserAgent),
+			&nonce,
 		)
 
 		if err != nil {
@@ -107,6 +110,7 @@ func authorizeThirdClient(c *fiber.Ctx) error {
 			[]string{"passport", client.Alias},
 			c.IP(),
 			c.Get(fiber.HeaderUserAgent),
+			&nonce,
 		)
 
 		if err != nil {

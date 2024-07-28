@@ -62,8 +62,12 @@ func NewOauthTicket(
 	user models.Account,
 	client models.ThirdClient,
 	claims, audiences []string,
-	ip, ua string,
+	ip, ua string, nonce *string,
 ) (models.AuthTicket, error) {
+	if nonce != nil && len(*nonce) == 0 {
+		nonce = nil
+	}
+
 	ticket := models.AuthTicket{
 		Claims:       claims,
 		Audiences:    audiences,
@@ -74,6 +78,7 @@ func NewOauthTicket(
 		RefreshToken: lo.ToPtr(uuid.NewString()),
 		AvailableAt:  lo.ToPtr(time.Now()),
 		ExpiredAt:    lo.ToPtr(time.Now().Add(7 * 24 * time.Hour)),
+		Nonce:        nonce,
 		ClientID:     &client.ID,
 		AccountID:    user.ID,
 	}
