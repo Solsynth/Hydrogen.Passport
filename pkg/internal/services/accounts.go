@@ -69,7 +69,7 @@ func LookupAccount(probe string) (models.Account, error) {
 func SearchAccount(probe string) ([]models.Account, error) {
 	probe = "%" + probe + "%"
 	var accounts []models.Account
-	if err := database.C.Where("name LIKE ? OR nick LIKE ?", probe).Find(&accounts).Error; err != nil {
+	if err := database.C.Where("name LIKE ? OR nick LIKE ?", probe, probe).Find(&accounts).Error; err != nil {
 		return accounts, err
 	}
 	return accounts, nil
