@@ -18,7 +18,7 @@ import (
 func lookupAccount(c *fiber.Ctx) error {
 	probe := c.Query("probe")
 	if len(probe) == 0 {
-		return fiber.NewError(fiber.StatusBadRequest, "you must provide a probe")
+		return fiber.NewError(fiber.StatusBadRequest, "lookup probe is required")
 	}
 
 	user, err := services.LookupAccount(probe)
@@ -27,6 +27,20 @@ func lookupAccount(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(user)
+}
+
+func searchAccount(c *fiber.Ctx) error {
+	probe := c.Query("probe")
+	if len(probe) == 0 {
+		return fiber.NewError(fiber.StatusBadRequest, "search probe is required")
+	}
+
+	users, err := services.SearchAccount(probe)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(users)
 }
 
 func getUserinfo(c *fiber.Ctx) error {

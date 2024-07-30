@@ -18,6 +18,7 @@ func MapAPIs(app *fiber.App, baseURL string) {
 		}
 
 		api.Get("/users/lookup", lookupAccount)
+		api.Get("/users/search", searchAccount)
 
 		me := api.Group("/users/me").Name("Myself Operations")
 		{

@@ -2,8 +2,9 @@ package services
 
 import (
 	"fmt"
-	"gorm.io/gorm/clause"
 	"time"
+
+	"gorm.io/gorm/clause"
 
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
@@ -63,6 +64,15 @@ func LookupAccount(probe string) (models.Account, error) {
 	}
 
 	return account, fmt.Errorf("account was not found")
+}
+
+func SearchAccount(probe string) ([]models.Account, error) {
+	probe = "%" + probe + "%"
+	var accounts []models.Account
+	if err := database.C.Where("name LIKE ? OR nick LIKE ?", probe).Find(&accounts).Error; err != nil {
+		return accounts, err
+	}
+	return accounts, nil
 }
 
 func CreateAccount(name, nick, email, password string) (models.Account, error) {
