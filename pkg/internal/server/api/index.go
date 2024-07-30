@@ -63,6 +63,7 @@ func MapAPIs(app *fiber.App, baseURL string) {
 			directory.Get("/status", getStatus)
 		}
 
+		api.Get("/users", getOtherUserinfoBatch)
 		api.Post("/users", doRegister)
 
 		auth := api.Group("/auth").Name("Auth")

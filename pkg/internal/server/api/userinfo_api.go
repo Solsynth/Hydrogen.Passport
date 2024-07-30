@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"strings"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
@@ -34,4 +35,20 @@ func getOtherUserinfo(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(account)
+}
+
+func getOtherUserinfoBatch(c *fiber.Ctx) error {
+	idSet := strings.Split(c.Query("id"), ",")
+	if len(idSet) == 0 {
+		return fiber.NewError(fiber.StatusBadRequest, "id list is required")
+	}
+
+	var accounts []models.Account
+	if err := database.C.
+		Where("id IN ?", idSet).
+		Find(&accounts).Error; err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(accounts)
 }
