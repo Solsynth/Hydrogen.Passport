@@ -1,7 +1,5 @@
 git.solsynth.dev/hydrogen/dealer v0.0.0-20240721055146-d74cdddbaf49 h1:DMmCBcnCO0qcER/p4EQ04CmWleb4YI3Br6QK5F8Q628=
 git.solsynth.dev/hydrogen/dealer v0.0.0-20240721055146-d74cdddbaf49/go.mod h1:IZd94qZZIj+MO9EqjGDqnAD9nWurlNPyhVPKemAY5lw=
-git.solsynth.dev/hydrogen/paperclip v0.0.0-20240622051057-0f56dba45745 h1:40BUsQMNXjqHyytkyF9py1HjTAWlRgO6R57YXUrHNy4=
-git.solsynth.dev/hydrogen/paperclip v0.0.0-20240622051057-0f56dba45745/go.mod h1:FsQGSLTl0gvo+9Jmbot02S72suyF9tFTrzDj70Xhifo=
 github.com/BurntSushi/toml v1.3.2 h1:o7IhLm0Msx3BaB+n3Ag7L8EVlByGnpq14C4YWiu/gL8=
 github.com/BurntSushi/toml v1.3.2/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
 github.com/DataDog/datadog-go v3.2.0+incompatible/go.mod h1:LButxg5PwREeZtORoXG3tL4fMGNddJ+vMq1mwgfaqoQ=

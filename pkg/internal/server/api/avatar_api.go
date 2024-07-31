@@ -1,17 +1,11 @@
 package api
 
 import (
-	"context"
-	"fmt"
-	"git.solsynth.dev/hydrogen/dealer/pkg/hyper"
-	"git.solsynth.dev/hydrogen/paperclip/pkg/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/gofiber/fiber/v2"
-	"github.com/samber/lo"
 )
 
 func setAvatar(c *fiber.Ctx) error {
@@ -26,17 +20,6 @@ func setAvatar(c *fiber.Ctx) error {
 
 	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
-	}
-
-	pc, err := gap.H.GetServiceGrpcConn(hyper.ServiceTypeFileProvider)
-	if err != nil {
-		return fiber.NewError(fiber.StatusInternalServerError, "attachments services was not available")
-	}
-	if _, err := proto.NewAttachmentsClient(pc).CheckAttachmentExists(context.Background(), &proto.AttachmentLookupRequest{
-		Id:    lo.ToPtr(uint64(data.AttachmentID)),
-		Usage: lo.ToPtr("p.avatar"),
-	}); err != nil {
-		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("avatar was not found in repository: %v", err))
 	}
 
 	user.Avatar = &data.AttachmentID
@@ -62,17 +45,6 @@ func setBanner(c *fiber.Ctx) error {
 
 	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
-	}
-
-	pc, err := gap.H.GetServiceGrpcConn(hyper.ServiceTypeFileProvider)
-	if err != nil {
-		return fiber.NewError(fiber.StatusInternalServerError, "attachments services was not available")
-	}
-	if _, err := proto.NewAttachmentsClient(pc).CheckAttachmentExists(context.Background(), &proto.AttachmentLookupRequest{
-		Id:    lo.ToPtr(uint64(data.AttachmentID)),
-		Usage: lo.ToPtr("p.banner"),
-	}); err != nil {
-		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("banner was not found in repository: %v", err))
 	}
 
 	user.Banner = &data.AttachmentID
