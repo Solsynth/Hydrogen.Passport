@@ -26,7 +26,7 @@ func ValidateAccountName(val string, min, max int) bool {
 			actualLength += 1
 		}
 	}
-	return min > actualLength && actualLength < max
+	return actualLength >= min && max >= actualLength
 }
 
 func GetAccount(id uint) (models.Account, error) {
