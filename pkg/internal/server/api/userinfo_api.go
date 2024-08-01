@@ -39,14 +39,25 @@ func getOtherUserinfo(c *fiber.Ctx) error {
 
 func getOtherUserinfoBatch(c *fiber.Ctx) error {
 	idSet := strings.Split(c.Query("id"), ",")
-	if len(idSet) == 0 {
-		return fiber.NewError(fiber.StatusBadRequest, "id list is required")
+	nameSet := strings.Split(c.Query("name"), ",")
+	if len(idSet) == 0 && len(nameSet) == 0 {
+		return fiber.NewError(fiber.StatusBadRequest, "query filter is required")
+	}
+
+	if len(idSet)+len(nameSet) > 100 {
+		return fiber.NewError(fiber.StatusBadRequest, "only support 100 users in a single batch")
+	}
+
+	tx := database.C.Model(&models.Account{}).Limit(100)
+	if len(idSet) > 0 {
+		tx = tx.Where("id IN ?", idSet)
+	}
+	if len(nameSet) > 0 {
+		tx = tx.Where("name IN ?", nameSet)
 	}
 
 	var accounts []models.Account
-	if err := database.C.
-		Where("id IN ?", idSet).
-		Find(&accounts).Error; err != nil {
+	if err := tx.Find(&accounts).Error; err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
