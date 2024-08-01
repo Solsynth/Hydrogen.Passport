@@ -38,8 +38,10 @@ func getOtherUserinfo(c *fiber.Ctx) error {
 }
 
 func getOtherUserinfoBatch(c *fiber.Ctx) error {
-	idSet := strings.Split(c.Query("id"), ",")
-	nameSet := strings.Split(c.Query("name"), ",")
+	idFilter := c.Query("id")
+	nameFilter := c.Query("name")
+	idSet := strings.Split(idFilter, ",")
+	nameSet := strings.Split(nameFilter, ",")
 	if len(idSet) == 0 && len(nameSet) == 0 {
 		return fiber.NewError(fiber.StatusBadRequest, "query filter is required")
 	}
@@ -49,10 +51,10 @@ func getOtherUserinfoBatch(c *fiber.Ctx) error {
 	}
 
 	tx := database.C.Model(&models.Account{}).Limit(100)
-	if len(idSet) > 0 {
+	if len(idFilter) > 0 {
 		tx = tx.Where("id IN ?", idSet)
 	}
-	if len(nameSet) > 0 {
+	if len(nameFilter) > 0 {
 		tx = tx.Where("name IN ?", nameSet)
 	}
 
