@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
@@ -118,7 +119,7 @@ func editUserinfo(c *fiber.Ctx) error {
 	user := c.Locals("user").(models.Account)
 
 	var data struct {
-		Nick        string    `json:"nick" validate:"required,min=2,max=24"`
+		Nick        string    `json:"nick" validate:"required"`
 		Description string    `json:"description"`
 		FirstName   string    `json:"first_name"`
 		LastName    string    `json:"last_name"`
@@ -127,6 +128,11 @@ func editUserinfo(c *fiber.Ctx) error {
 
 	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
+	} else {
+		data.Nick = strings.TrimSpace(data.Nick)
+	}
+	if !services.ValidateAccountName(data.Nick, 4, 24) {
+		return fiber.NewError(fiber.StatusBadRequest, "invalid account nick, length requires 4 to 24")
 	}
 
 	var account models.Account
@@ -156,8 +162,8 @@ func editUserinfo(c *fiber.Ctx) error {
 
 func doRegister(c *fiber.Ctx) error {
 	var data struct {
-		Name       string `json:"name" validate:"required,lowercase,alphanum,min=2,max=16"`
-		Nick       string `json:"nick" validate:"required,min=2,max=24"`
+		Name       string `json:"name" validate:"required,lowercase,alphanum,min=4,max=16"`
+		Nick       string `json:"nick" validate:"required"`
 		Email      string `json:"email" validate:"required,email"`
 		Password   string `json:"password" validate:"required,min=4,max=32"`
 		MagicToken string `json:"magic_token"`
@@ -165,7 +171,15 @@ func doRegister(c *fiber.Ctx) error {
 
 	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
-	} else if viper.GetBool("use_registration_magic_token") && len(data.MagicToken) <= 0 {
+	} else {
+		data.Name = strings.TrimSpace(data.Name)
+		data.Nick = strings.TrimSpace(data.Nick)
+		data.Email = strings.TrimSpace(data.Email)
+	}
+	if !services.ValidateAccountName(data.Nick, 4, 24) {
+		return fiber.NewError(fiber.StatusBadRequest, "invalid account nick, length requires 4 to 24")
+	}
+	if viper.GetBool("use_registration_magic_token") && len(data.MagicToken) <= 0 {
 		return fmt.Errorf("missing magic token in request")
 	} else if viper.GetBool("use_registration_magic_token") {
 		if tk, err := services.ValidateMagicToken(data.MagicToken, models.RegistrationMagicToken); err != nil {

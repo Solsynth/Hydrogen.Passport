@@ -3,6 +3,7 @@ package services
 import (
 	"fmt"
 	"time"
+	"unicode"
 
 	"gorm.io/gorm/clause"
 
@@ -15,6 +16,18 @@ import (
 	"github.com/google/uuid"
 	"github.com/samber/lo"
 )
+
+func ValidateAccountName(val string, min, max int) bool {
+	actualLength := 0
+	for _, r := range val {
+		if unicode.Is(unicode.Han, r) || unicode.Is(unicode.Hiragana, r) || unicode.Is(unicode.Katakana, r) || unicode.Is(unicode.Hangul, r) {
+			actualLength += 2
+		} else {
+			actualLength += 1
+		}
+	}
+	return min > actualLength && actualLength < max
+}
 
 func GetAccount(id uint) (models.Account, error) {
 	var account models.Account
