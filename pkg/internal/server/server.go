@@ -1,18 +1,14 @@
 package server
 
 import (
-	"net/http"
-	"path/filepath"
 	"strings"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/admin"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/api"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
-	"github.com/gofiber/fiber/v2/middleware/filesystem"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/favicon"
 	"github.com/gofiber/fiber/v2/middleware/idempotency"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	jsoniter "github.com/json-iterator/go"
@@ -62,18 +58,6 @@ func NewServer() *HTTPApp {
 
 	admin.MapAdminAPIs(app, "/api/admin")
 	api.MapAPIs(app, "/api")
-
-	app.Use(filesystem.New(filesystem.Config{
-		Root:         http.Dir(viper.GetString("frontend_app")),
-		Index:        "index.html",
-		NotFoundFile: "index.html",
-		MaxAge:       3600,
-	}))
-
-	app.Use(favicon.New(favicon.Config{
-		File: filepath.Join(viper.GetString("frontend_app"), "favicon.png"),
-		URL:  "/favicon.png",
-	}))
 
 	return &HTTPApp{app}
 }
