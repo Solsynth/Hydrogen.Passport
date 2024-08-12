@@ -5,7 +5,7 @@ go 1.21.6
 toolchain go1.22.1
 
 require (
-	git.solsynth.dev/hydrogen/dealer v0.0.0-20240721055146-d74cdddbaf49
+	git.solsynth.dev/hydrogen/dealer v0.0.0-20240801060523-8cf0feb09a27
 	github.com/go-playground/validator/v10 v10.17.0
 	github.com/gofiber/fiber/v2 v2.52.4
 	github.com/golang-jwt/jwt/v5 v5.2.0
