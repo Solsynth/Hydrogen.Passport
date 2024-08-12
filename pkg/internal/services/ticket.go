@@ -11,7 +11,7 @@ import (
 	"github.com/samber/lo"
 )
 
-const InternalTokenAudience = "passport"
+const InternalTokenAudience = "solar-network"
 
 func DetectRisk(user models.Account, ip, ua string) bool {
 	var clue int64
