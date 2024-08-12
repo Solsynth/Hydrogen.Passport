@@ -12,7 +12,7 @@ func getOidcConfiguration(c *fiber.Ctx) error {
 	basepath := fmt.Sprintf("https://%s", domain)
 
 	return c.JSON(fiber.Map{
-		"issuer":                                           basepath,
+		"issuer":                                           viper.GetString("security.issuer"),
 		"authorization_endpoint":                           fmt.Sprintf("%s/authorize", basepath),
 		"token_endpoint":                                   fmt.Sprintf("%s/api/auth/token", basepath),
 		"userinfo_endpoint":                                fmt.Sprintf("%s/api/users/me", basepath),

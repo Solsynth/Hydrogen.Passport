@@ -4,65 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix permissions in groups">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/723637bc-6ce3-4bbe-afb3-d88730c75a1b.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/723637bc-6ce3-4bbe-afb3-d88730c75a1b.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/74bcf3ef-a2b9-435b-b9e5-f32902a33b25.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/74bcf3ef-a2b9-435b-b9e5-f32902a33b25.xml" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":wastebasket: Clean up code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/well_known_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/well_known_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/jwt.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/ticket.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/ticket.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/settings.toml" beforeDir="false" afterPath="$PROJECT_DIR$/settings.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/.eslintrc.cjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/.prettierrc.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/.vite/deps/_metadata.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/.vite/deps/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/bun.lockb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/env.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/public/favicon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/assets/utils.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/components/Copyright.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/components/GoUseSolian.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/components/NotificationList.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/components/UserMenu.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/components/admin/UserAssignPermsPanel.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/components/admin/UserDetailPanel.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/components/admin/UserFactorPanel.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/components/auth/Authenticate.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/components/auth/AuthenticateCompleted.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/components/auth/CallbackNotify.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/components/auth/FactorApplicator.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/components/auth/FactorPicker.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/components/navigation/AppBar.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/index.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/layouts/administrator.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/layouts/master.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/layouts/user-center.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/main.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/router/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/scripts/request.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/stores/notifications.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/stores/userinfo.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/admin/dashboard.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/admin/users.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/auth/authorize.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/auth/claims.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/auth/sign-in.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/auth/sign-up.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/dashboard.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/flow/confirm.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/flow/password-reset.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/personalize.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/security.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/tsconfig.app.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/tsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/tsconfig.node.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/uno.config.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/vite.config.ts" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -209,7 +156,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":sparkles: Reset password APIs" />
     <MESSAGE value=":sparkles: Password reset &amp; user lookup API" />
     <MESSAGE value=":recycle: Optimized the initial permission system" />
     <MESSAGE value=":zap: Optimized audit, event logging system&#10;:sparkles: Audit logs&#10;:sparkles: Admin edit user permissions" />
@@ -234,7 +180,8 @@
     <MESSAGE value=":sparkles: Account groups" />
     <MESSAGE value=":sparkles: Default user group" />
     <MESSAGE value=":bug: Fix permissions in groups" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix permissions in groups" />
+    <MESSAGE value=":wastebasket: Clean up code" />
+    <option name="LAST_COMMIT_MESSAGE" value=":wastebasket: Clean up code" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

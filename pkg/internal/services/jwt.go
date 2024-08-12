@@ -20,7 +20,7 @@ type PayloadClaims struct {
 	Nick  string `json:"preferred_username,omitempty"`
 	Email string `json:"email,omitempty"`
 
-	// Additonal Stuff
+	// Additional Stuff
 	AuthorizedParties string `json:"azp,omitempty"`
 	Nonce             string `json:"nonce,omitempty"`
 	Type              string `json:"typ"`
@@ -44,7 +44,7 @@ func EncodeJwt(id string, typ, sub, sed string, nonce *string, aud []string, exp
 		RegisteredClaims: jwt.RegisteredClaims{
 			Subject:   sub,
 			Audience:  aud,
-			Issuer:    fmt.Sprintf("https://%s", viper.GetString("domain")),
+			Issuer:    viper.GetString("security.issuer"),
 			ExpiresAt: jwt.NewNumericDate(exp),
 			NotBefore: jwt.NewNumericDate(time.Now()),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
