@@ -92,7 +92,7 @@ func NotifyMagicToken(token models.MagicToken) error {
 	var content string
 	switch token.Type {
 	case models.ConfirmMagicToken:
-		link := fmt.Sprintf("https://%s/flow/confirm?code=%s", viper.GetString("domain"), token.Code)
+		link := fmt.Sprintf("%s/flow/accounts/confirm?code=%s", viper.GetString("frontend_app"), token.Code)
 		subject = fmt.Sprintf("[%s] Confirm your registration", viper.GetString("name"))
 		content = fmt.Sprintf(
 			ConfirmRegistrationTemplate,
@@ -103,7 +103,7 @@ func NotifyMagicToken(token models.MagicToken) error {
 			viper.GetString("maintainer"),
 		)
 	case models.ResetPasswordMagicToken:
-		link := fmt.Sprintf("https://%s/flow/password-reset?code=%s", viper.GetString("domain"), token.Code)
+		link := fmt.Sprintf("%s/flow/accounts/password-reset?code=%s", viper.GetString("frontend_app"), token.Code)
 		subject = fmt.Sprintf("[%s] Reset your password", viper.GetString("name"))
 		content = fmt.Sprintf(
 			ResetPasswordTemplate,
