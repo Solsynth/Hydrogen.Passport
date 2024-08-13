@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":recycle: Separate application domain and token issuer">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Use capital to deal with links">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/tokens.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/tokens.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.toml" beforeDir="false" afterPath="$PROJECT_DIR$/settings.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/oauth_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/oauth_api.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +153,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":sparkles: Password reset &amp; user lookup API" />
     <MESSAGE value=":recycle: Optimized the initial permission system" />
     <MESSAGE value=":zap: Optimized audit, event logging system&#10;:sparkles: Audit logs&#10;:sparkles: Admin edit user permissions" />
     <MESSAGE value=":sparkles: Admin force confirm account" />
@@ -179,7 +177,8 @@
     <MESSAGE value=":sparkles: Default user group" />
     <MESSAGE value=":bug: Fix permissions in groups" />
     <MESSAGE value=":wastebasket: Clean up code" />
-    <option name="LAST_COMMIT_MESSAGE" value=":wastebasket: Clean up code" />
+    <MESSAGE value=":sparkles: Use capital to deal with links" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Use capital to deal with links" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
