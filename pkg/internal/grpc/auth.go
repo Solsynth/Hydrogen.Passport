@@ -2,7 +2,9 @@ package grpc
 
 import (
 	"context"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
+	"github.com/samber/lo"
 
 	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
@@ -87,5 +89,55 @@ func (v *Server) EnsureUserPermGranted(_ context.Context, in *proto.CheckUserPer
 
 	return &proto.CheckUserPermResponse{
 		IsValid: valid,
+	}, nil
+}
+
+func (v *Server) ListUserFriends(_ context.Context, in *proto.ListUserRelativeRequest) (*proto.ListUserRelativeResponse, error) {
+	tx := database.C.Preload("Account").Where("status = ?", models.RelationshipFriend)
+
+	if in.GetIsRelated() {
+		tx = tx.Where("related_id = ?", in.GetUserId())
+	} else {
+		tx = tx.Where("account_id = ?", in.GetUserId())
+	}
+
+	var data []models.AccountRelationship
+	if err := tx.Find(&data).Error; err != nil {
+		return nil, err
+	}
+
+	return &proto.ListUserRelativeResponse{
+		Data: lo.Map(data, func(item models.AccountRelationship, index int) *proto.SimpleUserInfo {
+			return &proto.SimpleUserInfo{
+				Id:   uint64(item.AccountID),
+				Name: item.Account.Name,
+				Nick: item.Account.Nick,
+			}
+		}),
+	}, nil
+}
+
+func (v *Server) ListUserBlocklist(_ context.Context, in *proto.ListUserRelativeRequest) (*proto.ListUserRelativeResponse, error) {
+	tx := database.C.Preload("Account").Where("status = ?", models.RelationshipBlocked)
+
+	if in.GetIsRelated() {
+		tx = tx.Where("related_id = ?", in.GetUserId())
+	} else {
+		tx = tx.Where("account_id = ?", in.GetUserId())
+	}
+
+	var data []models.AccountRelationship
+	if err := tx.Find(&data).Error; err != nil {
+		return nil, err
+	}
+
+	return &proto.ListUserRelativeResponse{
+		Data: lo.Map(data, func(item models.AccountRelationship, index int) *proto.SimpleUserInfo {
+			return &proto.SimpleUserInfo{
+				Id:   uint64(item.AccountID),
+				Name: item.Account.Name,
+				Nick: item.Account.Nick,
+			}
+		}),
 	}, nil
 }
