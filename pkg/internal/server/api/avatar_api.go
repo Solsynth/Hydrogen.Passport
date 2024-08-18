@@ -15,7 +15,7 @@ func setAvatar(c *fiber.Ctx) error {
 	user := c.Locals("user").(models.Account)
 
 	var data struct {
-		AttachmentID uint `json:"attachment" validate:"required"`
+		AttachmentID string `json:"attachment" validate:"required"`
 	}
 
 	if err := exts.BindAndValidate(c, &data); err != nil {
@@ -40,7 +40,7 @@ func setBanner(c *fiber.Ctx) error {
 	user := c.Locals("user").(models.Account)
 
 	var data struct {
-		AttachmentID uint `json:"attachment" validate:"required"`
+		AttachmentID string `json:"attachment" validate:"required"`
 	}
 
 	if err := exts.BindAndValidate(c, &data); err != nil {

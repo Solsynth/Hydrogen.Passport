@@ -15,8 +15,8 @@ type Account struct {
 	Name        string            `json:"name" gorm:"uniqueIndex"`
 	Nick        string            `json:"nick"`
 	Description string            `json:"description"`
-	Avatar      *uint             `json:"avatar"`
-	Banner      *uint             `json:"banner"`
+	Avatar      *string           `json:"avatar"`
+	Banner      *string           `json:"banner"`
 	ConfirmedAt *time.Time        `json:"confirmed_at"`
 	SuspendedAt *time.Time        `json:"suspended_at"`
 	PermNodes   datatypes.JSONMap `json:"perm_nodes"`
@@ -38,14 +38,14 @@ type Account struct {
 
 func (v Account) GetAvatar() *string {
 	if v.Avatar != nil {
-		return lo.ToPtr(fmt.Sprintf("%s/%d", viper.GetString("content_endpoint"), *v.Avatar))
+		return lo.ToPtr(fmt.Sprintf("%s/%s", viper.GetString("content_endpoint"), *v.Avatar))
 	}
 	return nil
 }
 
 func (v Account) GetBanner() *string {
 	if v.Banner != nil {
-		return lo.ToPtr(fmt.Sprintf("%s/%d", viper.GetString("content_endpoint"), *v.Banner))
+		return lo.ToPtr(fmt.Sprintf("%s/%s", viper.GetString("content_endpoint"), *v.Banner))
 	}
 	return nil
 }
