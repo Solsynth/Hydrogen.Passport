@@ -70,7 +70,7 @@ func PushNotification(notification models.Notification) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	_, err := proto.NewStreamControllerClient(gap.H.GetDealerGrpcConn()).PushStream(ctx, &proto.PushStreamRequest{
-		UserId: uint64(notification.AccountID),
+		UserId: lo.ToPtr(uint64(notification.AccountID)),
 		Body: models.UnifiedCommand{
 			Action:  "notifications.new",
 			Payload: notification,
@@ -133,7 +133,7 @@ func PushNotificationBatch(notifications []models.Notification) {
 	for _, notification := range notifications {
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		_, _ = stream.PushStream(ctx, &proto.PushStreamRequest{
-			UserId: uint64(notification.AccountID),
+			UserId: lo.ToPtr(uint64(notification.AccountID)),
 			Body: models.UnifiedCommand{
 				Action:  "notifications.new",
 				Payload: notification,
