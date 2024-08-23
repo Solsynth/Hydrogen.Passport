@@ -5,7 +5,7 @@ go 1.21.6
 toolchain go1.22.1
 
 require (
-	git.solsynth.dev/hydrogen/dealer v0.0.0-20240802073919-63ea5e848f6e
+	git.solsynth.dev/hydrogen/dealer v0.0.0-20240823113302-208da7e90fdb
 	github.com/go-playground/validator/v10 v10.17.0
 	github.com/gofiber/fiber/v2 v2.52.4
 	github.com/golang-jwt/jwt/v5 v5.2.0
@@ -17,7 +17,7 @@ require (
 	github.com/samber/lo v1.39.0
 	github.com/spf13/viper v1.18.2
 	github.com/sujit-baniya/flash v0.1.8
-	golang.org/x/crypto v0.25.0
+	golang.org/x/crypto v0.26.0
 	google.golang.org/grpc v1.65.0
 	gorm.io/datatypes v1.2.0
 	gorm.io/driver/postgres v1.5.4
@@ -79,10 +79,10 @@ require (
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/exp v0.0.0-20240613232115-7f521ea00fb8 // indirect
-	golang.org/x/net v0.27.0 // indirect
-	golang.org/x/sync v0.7.0 // indirect
-	golang.org/x/sys v0.22.0 // indirect
-	golang.org/x/text v0.16.0 // indirect
+	golang.org/x/net v0.28.0 // indirect
+	golang.org/x/sync v0.8.0 // indirect
+	golang.org/x/sys v0.23.0 // indirect
+	golang.org/x/text v0.17.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240711142825-46eb208f015d // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
