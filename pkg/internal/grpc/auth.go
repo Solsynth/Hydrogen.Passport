@@ -36,6 +36,13 @@ func (v *Server) Authenticate(_ context.Context, in *proto.AuthRequest) (*proto.
 			userinfo.Banner = *user.GetBanner()
 		}
 
+		if user.AffiliatedID != nil {
+			userinfo.AffiliatedTo = lo.ToPtr(uint64(*user.AffiliatedID))
+		}
+		if user.AutomatedID != nil {
+			userinfo.AutomatedBy = lo.ToPtr(uint64(*user.AutomatedID))
+		}
+
 		return &proto.AuthReply{
 			IsValid: true,
 			Info: &proto.AuthInfo{
@@ -108,11 +115,20 @@ func (v *Server) ListUserFriends(_ context.Context, in *proto.ListUserRelativeRe
 
 	return &proto.ListUserRelativeResponse{
 		Data: lo.Map(data, func(item models.AccountRelationship, index int) *proto.SimpleUserInfo {
-			return &proto.SimpleUserInfo{
+			val := &proto.SimpleUserInfo{
 				Id:   uint64(item.AccountID),
 				Name: item.Account.Name,
 				Nick: item.Account.Nick,
 			}
+
+			if item.Account.AffiliatedID != nil {
+				val.AffiliatedTo = lo.ToPtr(uint64(*item.Account.AffiliatedID))
+			}
+			if item.Account.AutomatedID != nil {
+				val.AutomatedBy = lo.ToPtr(uint64(*item.Account.AutomatedID))
+			}
+
+			return val
 		}),
 	}, nil
 }
@@ -133,11 +149,20 @@ func (v *Server) ListUserBlocklist(_ context.Context, in *proto.ListUserRelative
 
 	return &proto.ListUserRelativeResponse{
 		Data: lo.Map(data, func(item models.AccountRelationship, index int) *proto.SimpleUserInfo {
-			return &proto.SimpleUserInfo{
+			val := &proto.SimpleUserInfo{
 				Id:   uint64(item.AccountID),
 				Name: item.Account.Name,
 				Nick: item.Account.Nick,
 			}
+
+			if item.Account.AffiliatedID != nil {
+				val.AffiliatedTo = lo.ToPtr(uint64(*item.Account.AffiliatedID))
+			}
+			if item.Account.AutomatedID != nil {
+				val.AutomatedBy = lo.ToPtr(uint64(*item.Account.AutomatedID))
+			}
+
+			return val
 		}),
 	}, nil
 }
