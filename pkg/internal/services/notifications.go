@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"fmt"
+	"git.solsynth.dev/hydrogen/dealer/pkg/hyper"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/samber/lo"
 	"reflect"
@@ -71,7 +72,7 @@ func PushNotification(notification models.Notification) error {
 	defer cancel()
 	_, err := proto.NewStreamControllerClient(gap.H.GetDealerGrpcConn()).PushStream(ctx, &proto.PushStreamRequest{
 		UserId: lo.ToPtr(uint64(notification.AccountID)),
-		Body: models.UnifiedCommand{
+		Body: hyper.NetworkPackage{
 			Action:  "notifications.new",
 			Payload: notification,
 		}.Marshal(),
@@ -134,7 +135,7 @@ func PushNotificationBatch(notifications []models.Notification) {
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		_, _ = stream.PushStream(ctx, &proto.PushStreamRequest{
 			UserId: lo.ToPtr(uint64(notification.AccountID)),
-			Body: models.UnifiedCommand{
+			Body: hyper.NetworkPackage{
 				Action:  "notifications.new",
 				Payload: notification,
 			}.Marshal(),
