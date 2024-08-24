@@ -44,7 +44,7 @@ func tryAuthorizeThirdClient(c *fiber.Ctx) error {
 				"ticket": nil,
 			})
 		} else {
-			ticket, err = services.RegenSession(ticket)
+			ticket, err = services.RotateTicket(ticket)
 		}
 
 		return c.JSON(fiber.Map{

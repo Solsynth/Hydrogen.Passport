@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"github.com/rs/zerolog/log"
 	"time"
 
 	"github.com/google/uuid"
@@ -146,10 +147,25 @@ func ActiveTicketWithMFA(ticket models.AuthTicket, factor models.AuthFactor, cod
 	return ticket, nil
 }
 
-func RegenSession(ticket models.AuthTicket) (models.AuthTicket, error) {
+func RotateTicket(ticket models.AuthTicket) (models.AuthTicket, error) {
 	ticket.GrantToken = lo.ToPtr(uuid.NewString())
 	ticket.AccessToken = lo.ToPtr(uuid.NewString())
 	ticket.RefreshToken = lo.ToPtr(uuid.NewString())
 	err := database.C.Save(&ticket).Error
 	return ticket, err
+}
+
+func DoAutoSignoff() {
+	duration := 7 * 24 * time.Hour
+	deadline := time.Now().Add(-duration)
+
+	log.Debug().Time("before", deadline).Msg("Now signing off tickets...")
+
+	if tx := database.C.
+		Where("last_grant_at < ?", deadline).
+		Delete(&models.AuthTicket{}); tx.Error != nil {
+		log.Error().Err(tx.Error).Msg("An error occurred when running auto sign off...")
+	} else {
+		log.Debug().Int64("affected", tx.RowsAffected).Msg("Auto sign off accomplished.")
+	}
 }

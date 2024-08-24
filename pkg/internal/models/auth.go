@@ -46,8 +46,6 @@ type AuthTicket struct {
 
 	Account   Account `json:"account"`
 	AccountID uint    `json:"account_id"`
-
-	IsApiKey bool `json:"is_api_key"`
 }
 
 func (v AuthTicket) IsAvailable() error {

@@ -100,6 +100,16 @@ func MapAPIs(app *fiber.App, baseURL string) {
 		developers := api.Group("/dev").Name("Developers API")
 		{
 			developers.Post("/notify", notifyUser)
+
+			keys := developers.Group("/keys").Name("Keys")
+			{
+				keys.Get("/", listBotKeys)
+				keys.Get("/:id", getBotKey)
+				keys.Post("/", createBotKey)
+				keys.Post("/:id/roll", rollBotKey)
+				keys.Put("/:id", editBotKey)
+				keys.Delete("/:id", revokeBotKey)
+			}
 		}
 
 		api.All("/*", func(c *fiber.Ctx) error {

@@ -113,7 +113,7 @@ func RefreshToken(token string) (atk, rtk string, err error) {
 		return
 	}
 
-	if ticket, err = RegenSession(ticket); err != nil {
+	if ticket, err = RotateTicket(ticket); err != nil {
 		return
 	} else {
 		return GetToken(ticket)
