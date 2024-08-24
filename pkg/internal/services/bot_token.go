@@ -42,7 +42,7 @@ func RollApiKey(key models.ApiKey) (models.ApiKey, error) {
 		return key, err
 	}
 
-	ticket, err := RotateTicket(ticket)
+	ticket, err := RotateTicket(ticket, true)
 	if err != nil {
 		return key, err
 	} else {

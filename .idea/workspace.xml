@@ -4,19 +4,15 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":card_file_box: Update modeling">
-      <change afterPath="$PROJECT_DIR$/pkg/internal/models/bot.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/internal/server/api/bot_token_api.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/internal/services/bot_token.go" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Bot token aka. API token">
+      <change afterPath="$PROJECT_DIR$/pkg/internal/server/api/bots_api.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/internal/services/bots.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/models/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/auth.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/index.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/oauth_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/oauth_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/encryptor.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/encrypt.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/mfa.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/ticker_maintainer.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/notify_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/notify_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/bot_token.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/bot_token.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/clients.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/clients.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/services/ticket.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/ticket.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/ticket_token.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/ticket_token.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -163,7 +159,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":sparkles: Admin check users' auth factor" />
     <MESSAGE value=":sparkles: Admin panel &amp; users, users' permissions management" />
     <MESSAGE value=":bug: Fix clear function doesn't real clear items in slice" />
     <MESSAGE value=":sparkles: View auth factors" />
@@ -188,7 +183,8 @@
     <MESSAGE value=":arrow_up: Implement list user relative grpc function" />
     <MESSAGE value=":alien: Change avatar and banner id to string" />
     <MESSAGE value=":card_file_box: Update modeling" />
-    <option name="LAST_COMMIT_MESSAGE" value=":card_file_box: Update modeling" />
+    <MESSAGE value=":sparkles: Bot token aka. API token" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Bot token aka. API token" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

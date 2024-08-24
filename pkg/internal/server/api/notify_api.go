@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
@@ -8,32 +9,36 @@ import (
 )
 
 func notifyUser(c *fiber.Ctx) error {
+	if err := exts.EnsureGrantedPerm(c, "DevNotifyUser", true); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
+
 	var data struct {
-		ClientID     string         `json:"client_id" validate:"required"`
-		ClientSecret string         `json:"client_secret" validate:"required"`
-		Topic        string         `json:"type" validate:"required"`
-		Title        string         `json:"subject" validate:"required,max=1024"`
-		Subtitle     *string        `json:"subtitle" validate:"max=1024"`
-		Body         string         `json:"content" validate:"required,max=4096"`
-		Metadata     map[string]any `json:"metadata"`
-		Avatar       *string        `json:"avatar"`
-		Picture      *string        `json:"picture"`
-		IsForcePush  bool           `json:"is_force_push"`
-		IsRealtime   bool           `json:"is_realtime"`
-		UserID       uint           `json:"user_id" validate:"required"`
+		ClientID    string         `json:"client_id" validate:"required"`
+		Topic       string         `json:"type" validate:"required"`
+		Title       string         `json:"subject" validate:"required,max=1024"`
+		Subtitle    *string        `json:"subtitle" validate:"max=1024"`
+		Body        string         `json:"content" validate:"required,max=4096"`
+		Metadata    map[string]any `json:"metadata"`
+		Avatar      *string        `json:"avatar"`
+		Picture     *string        `json:"picture"`
+		IsForcePush bool           `json:"is_force_push"`
+		IsRealtime  bool           `json:"is_realtime"`
+		UserID      uint           `json:"user_id" validate:"required"`
 	}
 
 	if err := exts.BindAndValidate(c, &data); err != nil {
 		return err
 	}
 
-	client, err := services.GetThirdClientWithSecret(data.ClientID, data.ClientSecret)
+	client, err := services.GetThirdClientWithUser(data.ClientID, user.ID)
 	if err != nil {
-		return fiber.NewError(fiber.StatusForbidden, err.Error())
+		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("unable to get client: %v", err))
 	}
 
-	var user models.Account
-	if user, err = services.GetAccount(data.UserID); err != nil {
+	var target models.Account
+	if target, err = services.GetAccount(data.UserID); err != nil {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	}
 
@@ -47,7 +52,7 @@ func notifyUser(c *fiber.Ctx) error {
 		Picture:     data.Picture,
 		IsRealtime:  data.IsRealtime,
 		IsForcePush: data.IsForcePush,
-		AccountID:   user.ID,
+		AccountID:   target.ID,
 		SenderID:    &client.ID,
 	}
 

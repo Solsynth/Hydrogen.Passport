@@ -147,10 +147,13 @@ func ActiveTicketWithMFA(ticket models.AuthTicket, factor models.AuthFactor, cod
 	return ticket, nil
 }
 
-func RotateTicket(ticket models.AuthTicket) (models.AuthTicket, error) {
+func RotateTicket(ticket models.AuthTicket, fullyRestart ...bool) (models.AuthTicket, error) {
 	ticket.GrantToken = lo.ToPtr(uuid.NewString())
 	ticket.AccessToken = lo.ToPtr(uuid.NewString())
 	ticket.RefreshToken = lo.ToPtr(uuid.NewString())
+	if len(fullyRestart) > 0 && fullyRestart[0] {
+		ticket.LastGrantAt = nil
+	}
 	err := database.C.Save(&ticket).Error
 	return ticket, err
 }

@@ -18,6 +18,18 @@ func GetThirdClient(id string) (models.ThirdClient, error) {
 	return client, nil
 }
 
+func GetThirdClientWithUser(id string, userId uint) (models.ThirdClient, error) {
+	var client models.ThirdClient
+	if err := database.C.Where(&models.ThirdClient{
+		Alias:     id,
+		AccountID: &userId,
+	}).First(&client).Error; err != nil {
+		return client, err
+	}
+
+	return client, nil
+}
+
 func GetThirdClientWithSecret(id, secret string) (models.ThirdClient, error) {
 	client, err := GetThirdClient(id)
 	if err != nil {
