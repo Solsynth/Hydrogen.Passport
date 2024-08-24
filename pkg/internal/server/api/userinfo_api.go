@@ -2,6 +2,8 @@ package api
 
 import (
 	"fmt"
+	"github.com/spf13/viper"
+	"gorm.io/gorm"
 	"strings"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
@@ -17,7 +19,10 @@ func getOtherUserinfo(c *fiber.Ctx) error {
 	if err := database.C.
 		Where(&models.Account{Name: alias}).
 		Preload("Profile").
-		Preload("Badges").
+		Preload("Badges", func(db *gorm.DB) *gorm.DB {
+			prefix := viper.GetString("database.prefix")
+			return db.Order(fmt.Sprintf("%sbadges.type DESC", prefix))
+		}).
 		First(&account).Error; err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}

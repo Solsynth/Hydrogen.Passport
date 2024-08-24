@@ -2,7 +2,9 @@ package services
 
 import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"github.com/rs/zerolog/log"
+	"time"
 )
 
 func DoAutoDatabaseCleanup() {
@@ -16,6 +18,9 @@ func DoAutoDatabaseCleanup() {
 		}
 		count += tx.RowsAffected
 	}
+
+	deadline := time.Now().Add(-30 * 24 * time.Hour)
+	database.C.Unscoped().Where("created_at <= ?", deadline).Delete(&models.Notification{})
 
 	log.Debug().Int64("affected", count).Msg("Clean up entire database accomplished.")
 }

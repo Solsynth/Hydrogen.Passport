@@ -17,9 +17,11 @@ const (
 type AuthFactor struct {
 	BaseModel
 
-	Type      int8    `json:"type"`
-	Secret    string  `json:"-"`
-	Config    JSONMap `json:"config"`
+	Type   int8    `json:"type"`
+	Secret string  `json:"-"`
+	Config JSONMap `json:"config"`
+
+	Account   Account `json:"account"`
 	AccountID uint    `json:"account_id"`
 }
 
@@ -41,7 +43,11 @@ type AuthTicket struct {
 	LastGrantAt         *time.Time                  `json:"last_grant_at"`
 	Nonce               *string                     `json:"nonce"`
 	ClientID            *uint                       `json:"client_id"`
-	AccountID           uint                        `json:"account_id"`
+
+	Account   Account `json:"account"`
+	AccountID uint    `json:"account_id"`
+
+	IsApiKey bool `json:"is_api_key"`
 }
 
 func (v AuthTicket) IsAvailable() error {

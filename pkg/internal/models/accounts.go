@@ -2,11 +2,11 @@ package models
 
 import (
 	"fmt"
+	"gorm.io/datatypes"
 	"time"
 
 	"github.com/samber/lo"
 	"github.com/spf13/viper"
-	"gorm.io/datatypes"
 )
 
 type Account struct {
@@ -21,17 +21,18 @@ type Account struct {
 	SuspendedAt *time.Time        `json:"suspended_at"`
 	PermNodes   datatypes.JSONMap `json:"perm_nodes"`
 
+	AutomatedBy *Account `json:"automated_by" gorm:"foreignKey:AutomatedID"`
+	AutomatedID *uint    `json:"automated_id"`
+
+	AffiliatedTo *Realm `json:"affiliated_to" gorm:"foreignKey:AffiliatedID"`
+	AffiliatedID *uint  `json:"affiliated_id"`
+
 	Profile  AccountProfile   `json:"profile,omitempty"`
 	Contacts []AccountContact `json:"contacts,omitempty"`
 	Badges   []Badge          `json:"badges,omitempty"`
 
 	Tickets []AuthTicket `json:"tickets,omitempty"`
 	Factors []AuthFactor `json:"factors,omitempty"`
-
-	Events []ActionEvent `json:"events,omitempty"`
-
-	Notifications     []Notification           `json:"notifications,omitempty"`
-	NotifySubscribers []NotificationSubscriber `json:"notify_subscribers,omitempty"`
 
 	Relations []AccountRelationship `json:"relations,omitempty" gorm:"foreignKey:AccountID"`
 }

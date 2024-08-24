@@ -8,5 +8,7 @@ type ActionEvent struct {
 	Location  string `json:"location"`
 	IpAddress string `json:"ip_address"`
 	UserAgent string `json:"user_agent"`
-	AccountID uint   `json:"account_id"`
+
+	Account   Account `json:"account"`
+	AccountID uint    `json:"account_id"`
 }
