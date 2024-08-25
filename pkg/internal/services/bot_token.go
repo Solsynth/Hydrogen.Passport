@@ -9,6 +9,9 @@ import (
 )
 
 func NewApiKey(user models.Account, key models.ApiKey, ip, ua string, claims []string) (models.ApiKey, error) {
+	key.Account = user
+	key.AccountID = user.ID
+
 	var expiredAt *time.Time
 	if key.Lifecycle != nil {
 		expiredAt = lo.ToPtr(time.Now().Add(time.Duration(*key.Lifecycle) * time.Second))

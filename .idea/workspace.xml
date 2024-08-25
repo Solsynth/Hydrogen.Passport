@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix path parameters misplaced">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix api key wasn't in auto maintain range">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/database/migrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/database/migrator.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/models/bot.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/bot.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/bot_token.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/bot_token.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,7 +154,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":recycle: Refactored relation system&#10;:arrow_up: Support new realm &amp; relation api" />
     <MESSAGE value=":bug: Fix model relation issue" />
     <MESSAGE value=":arrow_up: Upgrade dealer" />
     <MESSAGE value=":sparkles: Support stream controller event emit" />
@@ -178,7 +178,8 @@
     <MESSAGE value=":sparkles: Bot related bot key apis" />
     <MESSAGE value=":bug: Fix bot related bot key apis path error" />
     <MESSAGE value=":bug: Fix path parameters misplaced" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix path parameters misplaced" />
+    <MESSAGE value=":bug: Fix api key wasn't in auto maintain range" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix api key wasn't in auto maintain range" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
