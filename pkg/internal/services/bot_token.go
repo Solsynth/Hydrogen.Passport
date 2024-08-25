@@ -41,7 +41,7 @@ func NewApiKey(user models.Account, key models.ApiKey, ip, ua string, claims []s
 
 func RollApiKey(key models.ApiKey) (models.ApiKey, error) {
 	var ticket models.AuthTicket
-	if err := database.C.Where("ticket_id = ?", key.TicketID).First(&ticket).Error; err != nil {
+	if err := database.C.Where("id = ?", key.TicketID).First(&ticket).Error; err != nil {
 		return key, err
 	}
 
