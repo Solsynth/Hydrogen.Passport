@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix bot related bot key apis path error">
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/index.go" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix path parameters misplaced">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/database/migrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/database/migrator.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,7 +153,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":arrow_up: Support new auth api" />
     <MESSAGE value=":recycle: Refactored relation system&#10;:arrow_up: Support new realm &amp; relation api" />
     <MESSAGE value=":bug: Fix model relation issue" />
     <MESSAGE value=":arrow_up: Upgrade dealer" />
@@ -177,7 +177,8 @@
     <MESSAGE value=":bug: Fix compare perm node function" />
     <MESSAGE value=":sparkles: Bot related bot key apis" />
     <MESSAGE value=":bug: Fix bot related bot key apis path error" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix bot related bot key apis path error" />
+    <MESSAGE value=":bug: Fix path parameters misplaced" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix path parameters misplaced" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
