@@ -22,18 +22,28 @@ func HasPermNodeWithDefault(perms map[string]any, requiredKey string, requiredVa
 }
 
 func ComparePermNode(held any, required any) bool {
+	isNumeric := func(val reflect.Value) bool {
+		kind := val.Kind()
+		return kind >= reflect.Int && kind <= reflect.Uint64 || kind >= reflect.Float32 && kind <= reflect.Float64
+	}
+
+	toFloat64 := func(val reflect.Value) float64 {
+		switch val.Kind() {
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+			return float64(val.Int())
+		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+			return float64(val.Uint())
+		case reflect.Float32, reflect.Float64:
+			return val.Float()
+		default:
+			panic(fmt.Sprintf("non-numeric value of kind %s", val.Kind()))
+		}
+	}
+
 	heldValue := reflect.ValueOf(held)
 	requiredValue := reflect.ValueOf(required)
 
 	switch heldValue.Kind() {
-	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-		if heldValue.Int() >= requiredValue.Int() {
-			return true
-		}
-	case reflect.Float32, reflect.Float64:
-		if heldValue.Float() >= requiredValue.Float() {
-			return true
-		}
 	case reflect.String:
 		if heldValue.String() == requiredValue.String() {
 			return true
@@ -45,6 +55,10 @@ func ComparePermNode(held any, required any) bool {
 			}
 		}
 	default:
+		if isNumeric(heldValue) && isNumeric(requiredValue) {
+			return toFloat64(heldValue) >= toFloat64(requiredValue)
+		}
+
 		if reflect.DeepEqual(held, required) {
 			return true
 		}
