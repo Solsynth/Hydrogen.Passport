@@ -18,12 +18,23 @@ func listBots(c *fiber.Ctx) error {
 	}
 	user := c.Locals("user").(models.Account)
 
-	var bots []models.Account
-	if err := database.C.Where("automated_id = ?", user.AutomatedID).Find(&bots).Error; err != nil {
+	tx := database.C.Where("automated_id = ?", user.AutomatedID)
+
+	countTx := tx
+	var count int64
+	if err := countTx.Model(&models.Account{}).Count(&count).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 
-	return c.JSON(bots)
+	var bots []models.Account
+	if err := tx.Find(&bots).Error; err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(fiber.Map{
+		"count": count,
+		"data":  bots,
+	})
 }
 
 func createBot(c *fiber.Ctx) error {

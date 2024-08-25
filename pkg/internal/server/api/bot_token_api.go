@@ -14,12 +14,23 @@ func listBotKeys(c *fiber.Ctx) error {
 	}
 	user := c.Locals("user").(models.Account)
 
-	var keys []models.ApiKey
-	if err := database.C.Where("account_id = ?", user.ID).Find(&keys).Error; err != nil {
+	tx := database.C.Where("account_id = ?", user.ID)
+
+	countTx := tx
+	var count int64
+	if err := countTx.Model(&models.ApiKey{}).Count(&count).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 
-	return c.JSON(keys)
+	var keys []models.ApiKey
+	if err := tx.Find(&keys).Error; err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(fiber.Map{
+		"count": count,
+		"data":  keys,
+	})
 }
 
 func getBotKey(c *fiber.Ctx) error {
