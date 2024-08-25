@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix api key missing account id">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Preload api key's ticket">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/bot_token_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/bot_token_api.go" afterDir="false" />
     </list>
@@ -153,7 +153,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":arrow_up: Upgrade dealer" />
     <MESSAGE value=":sparkles: Support stream controller event emit" />
     <MESSAGE value=":recycle: Use dealer postman instead of built-in feature to deliver email and notify" />
     <MESSAGE value=":bug: Fix push notification to wrong person" />
@@ -178,7 +177,8 @@
     <MESSAGE value=":bug: Fix path parameters misplaced" />
     <MESSAGE value=":bug: Fix api key wasn't in auto maintain range" />
     <MESSAGE value=":bug: Fix api key missing account id" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix api key missing account id" />
+    <MESSAGE value=":sparkles: Preload api key's ticket" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Preload api key's ticket" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

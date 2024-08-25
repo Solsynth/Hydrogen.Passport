@@ -7,6 +7,7 @@ import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 )
 
 func listBotKeys(c *fiber.Ctx) error {
@@ -15,7 +16,7 @@ func listBotKeys(c *fiber.Ctx) error {
 	}
 	user := c.Locals("user").(models.Account)
 
-	tx := database.C.Preload("Ticket")
+	var tx *gorm.DB
 
 	botId, _ := c.ParamsInt("botId", 0)
 	if botId > 0 {
@@ -35,7 +36,7 @@ func listBotKeys(c *fiber.Ctx) error {
 	}
 
 	var keys []models.ApiKey
-	if err := tx.Find(&keys).Error; err != nil {
+	if err := tx.Preload("Ticket").Find(&keys).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 
