@@ -18,7 +18,7 @@ func listBots(c *fiber.Ctx) error {
 	}
 	user := c.Locals("user").(models.Account)
 
-	tx := database.C.Where("automated_id = ?", user.AutomatedID)
+	tx := database.C.Where("automated_id = ?", user.ID)
 
 	countTx := tx
 	var count int64
