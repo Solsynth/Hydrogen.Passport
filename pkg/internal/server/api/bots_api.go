@@ -86,7 +86,7 @@ func deleteBot(c *fiber.Ctx) error {
 	}
 	user := c.Locals("user").(models.Account)
 
-	id, _ := c.ParamsInt("id", 0)
+	id, _ := c.ParamsInt("botId", 0)
 
 	var bot models.Account
 	if err := database.C.Where("id = ? AND automated_id = ?", id, user.ID).First(&bot).Error; err != nil {

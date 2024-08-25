@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix compare perm node panic">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix compare perm node function">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/perms.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/perms.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/bot_token_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/bot_token_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/bots_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/bots_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/index.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,7 +155,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":poop: Remove mis-imported cgo" />
     <MESSAGE value=":bug: Bug fixes" />
     <MESSAGE value=":bug: Fix oauth ticket need mfa" />
     <MESSAGE value=":arrow_up: Support new auth api" />
@@ -178,7 +179,8 @@
     <MESSAGE value=":sparkles: Pagination bots api" />
     <MESSAGE value=":bug: Fix query issue" />
     <MESSAGE value=":bug: Fix compare perm node panic" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix compare perm node panic" />
+    <MESSAGE value=":bug: Fix compare perm node function" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix compare perm node function" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

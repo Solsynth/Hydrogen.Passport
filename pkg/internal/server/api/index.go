@@ -105,10 +105,16 @@ func MapAPIs(app *fiber.App, baseURL string) {
 			{
 				bots.Get("/", listBots)
 				bots.Post("/", createBot)
-				bots.Delete("/:id", deleteBot)
+				bots.Delete("/:botId", deleteBot)
+
+				keys := bots.Group("/keys").Name("Bots' Keys")
+				{
+					keys.Get("/", listBotKeys)
+					keys.Post("/", createBotKey)
+				}
 			}
 
-			keys := developers.Group("/keys").Name("Keys")
+			keys := developers.Group("/keys").Name("Own Bots' Keys")
 			{
 				keys.Get("/", listBotKeys)
 				keys.Get("/:id", getBotKey)

@@ -1,11 +1,13 @@
 package api
 
 import (
+	"fmt"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 )
 
 func listBotKeys(c *fiber.Ctx) error {
@@ -14,7 +16,18 @@ func listBotKeys(c *fiber.Ctx) error {
 	}
 	user := c.Locals("user").(models.Account)
 
-	tx := database.C.Where("account_id = ?", user.ID)
+	var tx *gorm.DB
+
+	botId, _ := c.ParamsInt("botId", 0)
+	if botId > 0 {
+		var bot models.Account
+		if err := database.C.Where("automated_id = ? AND id = ?", user.ID, botId).First(&bot).Error; err != nil {
+			return fiber.NewError(fiber.StatusNotFound, fmt.Sprintf("bot not found: %v", err))
+		}
+		tx = database.C.Where("account_id = ?", bot.ID)
+	} else {
+		tx = database.C.Where("account_id = ?", user.ID)
+	}
 
 	countTx := tx
 	var count int64
@@ -66,7 +79,18 @@ func createBotKey(c *fiber.Ctx) error {
 		return err
 	}
 
-	key, err := services.NewApiKey(user, models.ApiKey{
+	target := user
+
+	botId, _ := c.ParamsInt("botId", 0)
+	if botId > 0 {
+		var bot models.Account
+		if err := database.C.Where("automated_id = ? AND id = ?", user.ID, botId).First(&bot).Error; err != nil {
+			return fiber.NewError(fiber.StatusNotFound, fmt.Sprintf("bot not found: %v", err))
+		}
+		target = bot
+	}
+
+	key, err := services.NewApiKey(target, models.ApiKey{
 		Name:        data.Name,
 		Description: data.Description,
 		Lifecycle:   data.Lifecycle,
