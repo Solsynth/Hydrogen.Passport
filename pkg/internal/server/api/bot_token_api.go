@@ -123,8 +123,21 @@ func editBotKey(c *fiber.Ctx) error {
 
 	id, _ := c.ParamsInt("id", 0)
 
+	var tx *gorm.DB
+
+	botId, _ := c.ParamsInt("botId", 0)
+	if botId > 0 {
+		var bot models.Account
+		if err := database.C.Where("automated_id = ? AND id = ?", user.ID, botId).First(&bot).Error; err != nil {
+			return fiber.NewError(fiber.StatusNotFound, fmt.Sprintf("bot not found: %v", err))
+		}
+		tx = database.C.Where("account_id = ?", bot.ID)
+	} else {
+		tx = database.C.Where("account_id = ?", user.ID)
+	}
+
 	var key models.ApiKey
-	if err := database.C.Where("id = ? AND account_id = ?", id, user.ID).First(&key).Error; err != nil {
+	if err := tx.Where("id = ?", id).First(&key).Error; err != nil {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	}
 
@@ -147,8 +160,21 @@ func rollBotKey(c *fiber.Ctx) error {
 
 	id, _ := c.ParamsInt("id", 0)
 
+	var tx *gorm.DB
+
+	botId, _ := c.ParamsInt("botId", 0)
+	if botId > 0 {
+		var bot models.Account
+		if err := database.C.Where("automated_id = ? AND id = ?", user.ID, botId).First(&bot).Error; err != nil {
+			return fiber.NewError(fiber.StatusNotFound, fmt.Sprintf("bot not found: %v", err))
+		}
+		tx = database.C.Where("account_id = ?", bot.ID)
+	} else {
+		tx = database.C.Where("account_id = ?", user.ID)
+	}
+
 	var key models.ApiKey
-	if err := database.C.Where("id = ? AND account_id = ?", id, user.ID).First(&key).Error; err != nil {
+	if err := tx.Where("id = ?", id).First(&key).Error; err != nil {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	}
 
@@ -167,8 +193,21 @@ func revokeBotKey(c *fiber.Ctx) error {
 
 	id, _ := c.ParamsInt("id", 0)
 
+	var tx *gorm.DB
+
+	botId, _ := c.ParamsInt("botId", 0)
+	if botId > 0 {
+		var bot models.Account
+		if err := database.C.Where("automated_id = ? AND id = ?", user.ID, botId).First(&bot).Error; err != nil {
+			return fiber.NewError(fiber.StatusNotFound, fmt.Sprintf("bot not found: %v", err))
+		}
+		tx = database.C.Where("account_id = ?", bot.ID)
+	} else {
+		tx = database.C.Where("account_id = ?", user.ID)
+	}
+
 	var key models.ApiKey
-	if err := database.C.Where("id = ? AND account_id = ?", id, user.ID).First(&key).Error; err != nil {
+	if err := tx.Where("id = ?", id).First(&key).Error; err != nil {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	}
 

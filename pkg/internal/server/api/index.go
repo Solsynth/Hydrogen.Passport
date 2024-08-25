@@ -111,6 +111,9 @@ func MapAPIs(app *fiber.App, baseURL string) {
 				{
 					keys.Get("/", listBotKeys)
 					keys.Post("/", createBotKey)
+					keys.Post("/:id/roll", rollBotKey)
+					keys.Put("/:id", editBotKey)
+					keys.Delete("/:id", revokeBotKey)
 				}
 			}
 
