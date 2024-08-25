@@ -26,7 +26,11 @@ func ComparePermNode(held any, required any) bool {
 	requiredValue := reflect.ValueOf(required)
 
 	switch heldValue.Kind() {
-	case reflect.Int, reflect.Float64:
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		if heldValue.Int() >= requiredValue.Int() {
+			return true
+		}
+	case reflect.Float32, reflect.Float64:
 		if heldValue.Float() >= requiredValue.Float() {
 			return true
 		}
