@@ -7,11 +7,14 @@ import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"gorm.io/gorm"
 	"math/rand"
+	"time"
 )
 
 func CheckDailyCanSign(user models.Account) error {
+	probe := time.Now().Format("YYYY-MM-DD")
+
 	var record models.SignRecord
-	if err := database.C.Where("account_id = ? AND created_at::date = ?", user.ID).First(&record).Error; err != nil {
+	if err := database.C.Where("account_id = ? AND created_at::date = ?", user.ID, probe).First(&record).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil
 		}
