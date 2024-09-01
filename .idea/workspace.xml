@@ -4,8 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix bot related key api issue">
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/bot_token.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/bot_token.go" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix query statement column issue">
+      <change afterPath="$PROJECT_DIR$/pkg/internal/models/sign_record.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/internal/server/api/sign_api.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/internal/services/sign.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/index.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,8 +116,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-gosdk-5df93f7ad4aa-dfc284eb1eb8-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-242.20224.424" />
-        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-GO-242.20224.424" />
+        <option value="bundled-gosdk-5df93f7ad4aa-df9ad98b711f-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-242.21829.165" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-GO-242.21829.165" />
       </set>
     </attachedChunks>
   </component>
@@ -152,7 +157,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Fix push notification to wrong person" />
     <MESSAGE value=":sparkles: Account groups" />
     <MESSAGE value=":sparkles: Default user group" />
     <MESSAGE value=":bug: Fix permissions in groups" />
@@ -177,7 +181,8 @@
     <MESSAGE value=":sparkles: Preload api key's ticket" />
     <MESSAGE value=":bug: Fix preloading issue" />
     <MESSAGE value=":bug: Fix bot related key api issue" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix bot related key api issue" />
+    <MESSAGE value=":bug: Fix query statement column issue" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix query statement column issue" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
