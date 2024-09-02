@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix daily check issue">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Can get today's daily sign record">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/index.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/sign_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/sign_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/sign.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/sign.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/database/migrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/database/migrator.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,7 +153,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Fix permissions in groups" />
     <MESSAGE value=":wastebasket: Clean up code" />
     <MESSAGE value=":sparkles: Use capital to deal with links" />
     <MESSAGE value=":bug: Fix internal token audience update isn't fully applied" />
@@ -180,7 +177,8 @@
     <MESSAGE value=":bug: Fix query statement column issue" />
     <MESSAGE value=":sparkles: Daily signs" />
     <MESSAGE value=":bug: Fix daily check issue" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix daily check issue" />
+    <MESSAGE value=":sparkles: Can get today's daily sign record" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Can get today's daily sign record" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
