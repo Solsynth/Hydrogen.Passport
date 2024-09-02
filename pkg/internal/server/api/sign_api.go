@@ -40,6 +40,19 @@ func listDailySignRecord(c *fiber.Ctx) error {
 	})
 }
 
+func getTodayDailySign(c *fiber.Ctx) error {
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
+
+	if record, err := services.GetTodayDailySign(user); err != nil {
+		return fiber.NewError(fiber.StatusNotFound, err.Error())
+	} else {
+		return c.JSON(record)
+	}
+}
+
 func doDailySign(c *fiber.Ctx) error {
 	if err := exts.EnsureAuthenticated(c); err != nil {
 		return err

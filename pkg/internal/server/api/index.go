@@ -12,6 +12,7 @@ func MapAPIs(app *fiber.App, baseURL string) {
 		daily := api.Group("/daily").Name("Daily Sign API")
 		{
 			daily.Get("/", listDailySignRecord)
+			daily.Get("/today", getTodayDailySign)
 			daily.Post("/", doDailySign)
 		}
 
