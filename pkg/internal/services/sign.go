@@ -11,7 +11,7 @@ import (
 )
 
 func CheckDailyCanSign(user models.Account) error {
-	probe := time.Now().Format("YYYY-MM-DD")
+	probe := time.Now().Format("2006-01-02")
 
 	var record models.SignRecord
 	if err := database.C.Where("account_id = ? AND created_at::date = ?", user.ID, probe).First(&record).Error; err != nil {
@@ -24,7 +24,7 @@ func CheckDailyCanSign(user models.Account) error {
 }
 
 func GetTodayDailySign(user models.Account) (models.SignRecord, error) {
-	probe := time.Now().Format("YYYY-MM-DD")
+	probe := time.Now().Format("2006-01-02")
 
 	var record models.SignRecord
 	if err := database.C.Where("account_id = ? AND created_at::date = ?", user.ID, probe).First(&record).Error; err != nil {
