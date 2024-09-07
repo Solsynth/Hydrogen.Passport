@@ -19,7 +19,7 @@ func listDailySignRecord(c *fiber.Ctx) error {
 
 	var count int64
 	if err := database.C.
-		Model(&models.Account{}).
+		Model(&models.SignRecord{}).
 		Where("account_id = ?", user.ID).
 		Count(&count).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
