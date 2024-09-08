@@ -6,6 +6,7 @@ import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"gorm.io/gorm"
+	"math"
 	"math/rand"
 	"time"
 )
@@ -37,7 +38,7 @@ func DailySign(user models.Account) (models.SignRecord, error) {
 	tier := rand.Intn(5)
 	record := models.SignRecord{
 		ResultTier:       tier,
-		ResultExperience: rand.Intn(tier*100) + 100,
+		ResultExperience: rand.Intn(int(math.Max(float64(tier), 1)*100)+1-100) + 100,
 		AccountID:        user.ID,
 	}
 
