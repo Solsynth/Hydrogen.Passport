@@ -2,6 +2,8 @@ git.solsynth.dev/hydrogen/dealer v0.0.0-20240823113302-208da7e90fdb h1:dv4uVDMe5
 git.solsynth.dev/hydrogen/dealer v0.0.0-20240823113302-208da7e90fdb/go.mod h1:Q51JPkKnV0UoOT/IRmdBh5CyfSlp7s8BRGzgooYHqkI=
 git.solsynth.dev/hydrogen/dealer v0.0.0-20240824155914-68c6a5565468 h1:DZ1b5WA1FoUE71zyl6OzQ+QbCo4tPJv077ekM1VQ524=
 git.solsynth.dev/hydrogen/dealer v0.0.0-20240824155914-68c6a5565468/go.mod h1:Q51JPkKnV0UoOT/IRmdBh5CyfSlp7s8BRGzgooYHqkI=
+git.solsynth.dev/hydrogen/dealer v0.0.0-20240911145828-d734d617bfc8 h1:kWheneSdSySG5tz9TAXrtr546JdMpQZTyWDFk4jeGwg=
+git.solsynth.dev/hydrogen/dealer v0.0.0-20240911145828-d734d617bfc8/go.mod h1:Q51JPkKnV0UoOT/IRmdBh5CyfSlp7s8BRGzgooYHqkI=
 github.com/BurntSushi/toml v1.3.2 h1:o7IhLm0Msx3BaB+n3Ag7L8EVlByGnpq14C4YWiu/gL8=
 github.com/BurntSushi/toml v1.3.2/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
 github.com/DataDog/datadog-go v3.2.0+incompatible/go.mod h1:LButxg5PwREeZtORoXG3tL4fMGNddJ+vMq1mwgfaqoQ=

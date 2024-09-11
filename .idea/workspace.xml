@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix daily sign random panic">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/models/realms.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/realms.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/realms_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/realms_api.go" afterDir="false" />
-    </list>
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Realm avatar, banner and access policy" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -155,7 +150,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":alien: Change avatar and banner id to string" />
     <MESSAGE value=":card_file_box: Update modeling" />
     <MESSAGE value=":sparkles: Bot token aka. API token" />
     <MESSAGE value=":sparkles: Bots aka. automated accounts" />
@@ -180,7 +174,8 @@
     <MESSAGE value=":bug: Fix date formatting issue on daily signing" />
     <MESSAGE value=":bug: Fix daily sign batch list query issue" />
     <MESSAGE value=":bug: Fix daily sign random panic" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix daily sign random panic" />
+    <MESSAGE value=":sparkles: Realm avatar, banner and access policy" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Realm avatar, banner and access policy" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

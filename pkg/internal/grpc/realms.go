@@ -3,6 +3,7 @@ package grpc
 import (
 	"context"
 	"fmt"
+
 	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
@@ -18,7 +19,7 @@ func (v *Server) ListCommunityRealm(ctx context.Context, empty *proto.ListRealmR
 
 	return &proto.ListRealmResponse{
 		Data: lo.Map(realms, func(item models.Realm, index int) *proto.RealmInfo {
-			return &proto.RealmInfo{
+			info := &proto.RealmInfo{
 				Id:          uint64(item.ID),
 				Alias:       item.Alias,
 				Name:        item.Name,
@@ -26,6 +27,13 @@ func (v *Server) ListCommunityRealm(ctx context.Context, empty *proto.ListRealmR
 				IsPublic:    item.IsPublic,
 				IsCommunity: item.IsCommunity,
 			}
+			if item.Avatar != nil {
+				info.Avatar = *item.Avatar
+			}
+			if item.Banner != nil {
+				info.Banner = *item.Banner
+			}
+			return info
 		}),
 	}, nil
 }
@@ -42,7 +50,7 @@ func (v *Server) ListAvailableRealm(ctx context.Context, request *proto.LookupUs
 
 	return &proto.ListRealmResponse{
 		Data: lo.Map(realms, func(item models.Realm, index int) *proto.RealmInfo {
-			return &proto.RealmInfo{
+			info := &proto.RealmInfo{
 				Id:          uint64(item.ID),
 				Alias:       item.Alias,
 				Name:        item.Name,
@@ -50,6 +58,13 @@ func (v *Server) ListAvailableRealm(ctx context.Context, request *proto.LookupUs
 				IsPublic:    item.IsPublic,
 				IsCommunity: item.IsCommunity,
 			}
+			if item.Avatar != nil {
+				info.Avatar = *item.Avatar
+			}
+			if item.Banner != nil {
+				info.Banner = *item.Banner
+			}
+			return info
 		}),
 	}, nil
 }
@@ -66,7 +81,7 @@ func (v *Server) ListOwnedRealm(ctx context.Context, request *proto.LookupUserRe
 
 	return &proto.ListRealmResponse{
 		Data: lo.Map(realms, func(item models.Realm, index int) *proto.RealmInfo {
-			return &proto.RealmInfo{
+			info := &proto.RealmInfo{
 				Id:          uint64(item.ID),
 				Alias:       item.Alias,
 				Name:        item.Name,
@@ -74,6 +89,13 @@ func (v *Server) ListOwnedRealm(ctx context.Context, request *proto.LookupUserRe
 				IsPublic:    item.IsPublic,
 				IsCommunity: item.IsCommunity,
 			}
+			if item.Avatar != nil {
+				info.Avatar = *item.Avatar
+			}
+			if item.Banner != nil {
+				info.Banner = *item.Banner
+			}
+			return info
 		}),
 	}, nil
 }
@@ -99,14 +121,21 @@ func (v *Server) GetRealm(ctx context.Context, request *proto.LookupRealmRequest
 		return nil, err
 	}
 
-	return &proto.RealmInfo{
+	info := &proto.RealmInfo{
 		Id:          uint64(realm.ID),
 		Alias:       realm.Alias,
 		Name:        realm.Name,
 		Description: realm.Description,
 		IsPublic:    realm.IsPublic,
 		IsCommunity: realm.IsCommunity,
-	}, nil
+	}
+	if realm.Avatar != nil {
+		info.Avatar = *realm.Avatar
+	}
+	if realm.Banner != nil {
+		info.Banner = *realm.Banner
+	}
+	return info, nil
 }
 
 func (v *Server) ListRealmMember(ctx context.Context, request *proto.RealmMemberLookupRequest) (*proto.ListRealmMemberResponse, error) {

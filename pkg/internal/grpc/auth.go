@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"github.com/samber/lo"
