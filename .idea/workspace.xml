@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix daily sign batch list query issue">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix daily sign random panic">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/sign.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/sign.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/models/realms.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/realms.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/realms_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/realms_api.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,8 +114,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-gosdk-5df93f7ad4aa-df9ad98b711f-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-242.21829.165" />
-        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-GO-242.21829.165" />
+        <option value="bundled-gosdk-5df93f7ad4aa-df9ad98b711f-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-242.21829.220" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-GO-242.21829.220" />
       </set>
     </attachedChunks>
   </component>
@@ -153,7 +155,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":arrow_up: Implement list user relative grpc function" />
     <MESSAGE value=":alien: Change avatar and banner id to string" />
     <MESSAGE value=":card_file_box: Update modeling" />
     <MESSAGE value=":sparkles: Bot token aka. API token" />
@@ -178,7 +179,8 @@
     <MESSAGE value=":bug: Fix auto maintain range missing models" />
     <MESSAGE value=":bug: Fix date formatting issue on daily signing" />
     <MESSAGE value=":bug: Fix daily sign batch list query issue" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix daily sign batch list query issue" />
+    <MESSAGE value=":bug: Fix daily sign random panic" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix daily sign random panic" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

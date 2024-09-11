@@ -57,11 +57,14 @@ func createRealm(c *fiber.Ctx) error {
 	user := c.Locals("user").(models.Account)
 
 	var data struct {
-		Alias       string `json:"alias" validate:"required,lowercase,min=4,max=32"`
-		Name        string `json:"name" validate:"required"`
-		Description string `json:"description"`
-		IsPublic    bool   `json:"is_public"`
-		IsCommunity bool   `json:"is_community"`
+		Alias        string         `json:"alias" validate:"required,lowercase,min=4,max=32"`
+		Name         string         `json:"name" validate:"required"`
+		Description  string         `json:"description"`
+		Avatar       *string        `json:"avatar"`
+		Banner       *string        `json:"banner"`
+		AccessPolicy map[string]any `json:"access_policy"`
+		IsPublic     bool           `json:"is_public"`
+		IsCommunity  bool           `json:"is_community"`
 	}
 
 	if err := exts.BindAndValidate(c, &data); err != nil {
@@ -69,12 +72,15 @@ func createRealm(c *fiber.Ctx) error {
 	}
 
 	realm, err := services.NewRealm(models.Realm{
-		Alias:       data.Alias,
-		Name:        data.Name,
-		Description: data.Description,
-		IsPublic:    data.IsPublic,
-		IsCommunity: data.IsCommunity,
-		AccountID:   user.ID,
+		Alias:        data.Alias,
+		Name:         data.Name,
+		Description:  data.Description,
+		Avatar:       data.Avatar,
+		Banner:       data.Banner,
+		AccessPolicy: data.AccessPolicy,
+		IsPublic:     data.IsPublic,
+		IsCommunity:  data.IsCommunity,
+		AccountID:    user.ID,
 	}, user)
 
 	if err != nil {
@@ -91,11 +97,14 @@ func editRealm(c *fiber.Ctx) error {
 	id, _ := c.ParamsInt("realmId", 0)
 
 	var data struct {
-		Alias       string `json:"alias" validate:"required,lowercase,min=4,max=32"`
-		Name        string `json:"name" validate:"required"`
-		Description string `json:"description"`
-		IsPublic    bool   `json:"is_public"`
-		IsCommunity bool   `json:"is_community"`
+		Alias        string         `json:"alias" validate:"required,lowercase,min=4,max=32"`
+		Name         string         `json:"name" validate:"required"`
+		Description  string         `json:"description"`
+		Avatar       *string        `json:"avatar"`
+		Banner       *string        `json:"banner"`
+		AccessPolicy map[string]any `json:"access_policy"`
+		IsPublic     bool           `json:"is_public"`
+		IsCommunity  bool           `json:"is_community"`
 	}
 
 	if err := exts.BindAndValidate(c, &data); err != nil {
@@ -113,6 +122,9 @@ func editRealm(c *fiber.Ctx) error {
 	realm.Alias = data.Alias
 	realm.Name = data.Name
 	realm.Description = data.Description
+	realm.Avatar = data.Avatar
+	realm.Banner = data.Banner
+	realm.AccessPolicy = data.AccessPolicy
 	realm.IsPublic = data.IsPublic
 	realm.IsCommunity = data.IsCommunity
 
