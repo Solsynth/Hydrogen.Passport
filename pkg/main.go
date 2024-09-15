@@ -1,11 +1,12 @@
 package main
 
 import (
-	"git.solsynth.dev/hydrogen/passport/pkg/internal"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
 	"os"
 	"os/signal"
 	"syscall"
+
+	pkg "git.solsynth.dev/hydrogen/passport/pkg/internal"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/grpc"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server"
@@ -58,7 +59,7 @@ func main() {
 	quartz.AddFunc("@every 60m", services.DoAutoSignoff)
 	quartz.AddFunc("@every 60m", services.DoAutoDatabaseCleanup)
 	quartz.AddFunc("@every 60s", services.RecycleAuthContext)
-	quartz.AddFunc("@every 60m", services.RecycleUnConfirmAccount)
+	quartz.AddFunc("@midnight", services.RecycleUnConfirmAccount)
 	quartz.AddFunc("@every 60s", services.SaveEventChanges)
 	quartz.Start()
 

@@ -28,28 +28,28 @@ type AuthFactor struct {
 type AuthTicket struct {
 	BaseModel
 
-	Location            string                      `json:"location"`
-	IpAddress           string                      `json:"ip_address"`
-	UserAgent           string                      `json:"user_agent"`
-	RequireMFA          bool                        `json:"require_mfa"`
-	RequireAuthenticate bool                        `json:"require_authenticate"`
-	Claims              datatypes.JSONSlice[string] `json:"claims"`
-	Audiences           datatypes.JSONSlice[string] `json:"audiences"`
-	GrantToken          *string                     `json:"grant_token"`
-	AccessToken         *string                     `json:"access_token"`
-	RefreshToken        *string                     `json:"refresh_token"`
-	ExpiredAt           *time.Time                  `json:"expired_at"`
-	AvailableAt         *time.Time                  `json:"available_at"`
-	LastGrantAt         *time.Time                  `json:"last_grant_at"`
-	Nonce               *string                     `json:"nonce"`
-	ClientID            *uint                       `json:"client_id"`
+	Location     string                      `json:"location"`
+	IpAddress    string                      `json:"ip_address"`
+	UserAgent    string                      `json:"user_agent"`
+	StepRemain   int                         `json:"step_remain"`
+	Claims       datatypes.JSONSlice[string] `json:"claims"`
+	Audiences    datatypes.JSONSlice[string] `json:"audiences"`
+	FactorTrail  datatypes.JSONSlice[int]    `json:"factor_trail"`
+	GrantToken   *string                     `json:"grant_token"`
+	AccessToken  *string                     `json:"access_token"`
+	RefreshToken *string                     `json:"refresh_token"`
+	ExpiredAt    *time.Time                  `json:"expired_at"`
+	AvailableAt  *time.Time                  `json:"available_at"`
+	LastGrantAt  *time.Time                  `json:"last_grant_at"`
+	Nonce        *string                     `json:"nonce"`
+	ClientID     *uint                       `json:"client_id"`
 
 	Account   Account `json:"account"`
 	AccountID uint    `json:"account_id"`
 }
 
 func (v AuthTicket) IsAvailable() error {
-	if v.RequireMFA || v.RequireAuthenticate {
+	if v.StepRemain > 0 {
 		return fmt.Errorf("ticket isn't authenticated yet")
 	}
 	if v.AvailableAt != nil && time.Now().Unix() < v.AvailableAt.Unix() {
@@ -57,6 +57,14 @@ func (v AuthTicket) IsAvailable() error {
 	}
 	if v.ExpiredAt != nil && time.Now().Unix() > v.ExpiredAt.Unix() {
 		return fmt.Errorf("ticket expired")
+	}
+
+	return nil
+}
+
+func (v AuthTicket) IsCanBeAvailble() error {
+	if v.StepRemain > 0 {
+		return fmt.Errorf("ticket isn't authenticated yet")
 	}
 
 	return nil

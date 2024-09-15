@@ -76,7 +76,7 @@ func MapAPIs(app *fiber.App, baseURL string) {
 		auth := api.Group("/auth").Name("Auth")
 		{
 			auth.Post("/", doAuthenticate)
-			auth.Post("/mfa", doMultiFactorAuthenticate)
+			auth.Patch("/", doAuthTicketCheck)
 			auth.Post("/token", getToken)
 
 			auth.Get("/tickets/:ticketId", getTicket)

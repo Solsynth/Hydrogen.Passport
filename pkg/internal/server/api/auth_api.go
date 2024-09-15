@@ -28,7 +28,6 @@ func getTicket(c *fiber.Ctx) error {
 func doAuthenticate(c *fiber.Ctx) error {
 	var data struct {
 		Username string `json:"username" validate:"required"`
-		Password string `json:"password" validate:"required"`
 	}
 
 	if err := exts.BindAndValidate(c, &data); err != nil {
@@ -39,7 +38,7 @@ func doAuthenticate(c *fiber.Ctx) error {
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("account was not found: %v", err.Error()))
 	} else if user.ConfirmedAt == nil {
-		return fiber.NewError(fiber.StatusForbidden, "account was not confirmed")
+		return fiber.NewError(fiber.StatusForbidden, "account was not confirmed; check your inbox, there will be an email lead you confirm your registration")
 	} else if user.SuspendedAt != nil {
 		return fiber.NewError(fiber.StatusForbidden, "account was suspended")
 	}
@@ -49,18 +48,13 @@ func doAuthenticate(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("unable setup ticket: %v", err.Error()))
 	}
 
-	ticket, err = services.ActiveTicketWithPassword(ticket, data.Password)
-	if err != nil {
-		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("failed to authenticate: %v", err.Error()))
-	}
-
 	return c.JSON(fiber.Map{
 		"is_finished": ticket.IsAvailable() == nil,
 		"ticket":      ticket,
 	})
 }
 
-func doMultiFactorAuthenticate(c *fiber.Ctx) error {
+func doAuthTicketCheck(c *fiber.Ctx) error {
 	var data struct {
 		TicketID uint   `json:"ticket_id" validate:"required"`
 		FactorID uint   `json:"factor_id" validate:"required"`
@@ -81,7 +75,7 @@ func doMultiFactorAuthenticate(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("factor was not found: %v", err.Error()))
 	}
 
-	ticket, err = services.ActiveTicketWithMFA(ticket, factor, data.Code)
+	ticket, err = services.PerformTicketCheck(ticket, factor, data.Code)
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("failed to authenticate: %v", err.Error()))
 	}

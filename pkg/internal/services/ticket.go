@@ -2,8 +2,9 @@ package services
 
 import (
 	"fmt"
-	"github.com/rs/zerolog/log"
 	"time"
+
+	"github.com/rs/zerolog/log"
 
 	"github.com/google/uuid"
 
@@ -14,7 +15,9 @@ import (
 
 const InternalTokenAudience = "solar-network"
 
-func DetectRisk(user models.Account, ip, ua string) bool {
+// DetectRisk is used for detect user environment is suitable for no multi-factor authenticate or not.
+// Return the remaining steps, value is from 1 to 2, may appear 3 if user enabled the third-authentication-factor.
+func DetectRisk(user models.Account, ip, ua string) int {
 	var clue int64
 	if err := database.C.
 		Where(models.AuthTicket{AccountID: user.ID, IpAddress: ip}).
@@ -22,36 +25,47 @@ func DetectRisk(user models.Account, ip, ua string) bool {
 		Model(models.AuthTicket{}).
 		Count(&clue).Error; err == nil {
 		if clue >= 1 {
-			return false
+			return 1
 		}
 	}
 
-	return true
+	return 2
+}
+
+// PickTicketAttempt is trying to pick up the ticket that haven't completed but created by a same client (identify by ip address).
+// Then the client can continue their journey to get ticket actived.
+func PickTicketAttempt(user models.Account, ip string) (models.AuthTicket, error) {
+	var ticket models.AuthTicket
+	if err := database.C.
+		Where("account_id = ? AND ip_address = ? AND expired_at < ? AND available_at IS NULL", user.ID, ip, time.Now()).
+		First(&ticket).Error; err != nil {
+		return ticket, err
+	}
+	return ticket, nil
 }
 
 func NewTicket(user models.Account, ip, ua string) (models.AuthTicket, error) {
 	var ticket models.AuthTicket
-	if err := database.C.
-		Where("account_id = ? AND expired_at < ? AND available_at IS NULL", time.Now(), user.ID).
-		First(&ticket).Error; err == nil {
+	if ticket, err := PickTicketAttempt(user, ip); err == nil {
 		return ticket, nil
 	}
 
-	requireMFA := DetectRisk(user, ip, ua)
-	if count := CountUserFactor(user.ID); count <= 1 {
-		requireMFA = false
+	steps := DetectRisk(user, ip, ua)
+	if count := CountUserFactor(user.ID); count <= 0 {
+		return ticket, fmt.Errorf("specified user didn't enable sign in")
+	} else {
+		steps = min(steps, int(count))
 	}
 
 	ticket = models.AuthTicket{
-		Claims:              []string{"*"},
-		Audiences:           []string{InternalTokenAudience},
-		IpAddress:           ip,
-		UserAgent:           ua,
-		RequireMFA:          requireMFA,
-		RequireAuthenticate: true,
-		ExpiredAt:           nil,
-		AvailableAt:         nil,
-		AccountID:           user.ID,
+		Claims:      []string{"*"},
+		Audiences:   []string{InternalTokenAudience},
+		IpAddress:   ip,
+		UserAgent:   ua,
+		StepRemain:  steps,
+		ExpiredAt:   nil,
+		AvailableAt: nil,
+		AccountID:   user.ID,
 	}
 
 	err := database.C.Save(&ticket).Error
@@ -91,27 +105,17 @@ func NewOauthTicket(
 	return ticket, nil
 }
 
-func ActiveTicketWithPassword(ticket models.AuthTicket, password string) (models.AuthTicket, error) {
+func ActiveTicket(ticket models.AuthTicket) (models.AuthTicket, error) {
 	if ticket.AvailableAt != nil {
 		return ticket, nil
-	} else if !ticket.RequireAuthenticate {
-		return ticket, nil
-	}
-
-	if factor, err := GetPasswordTypeFactor(ticket.AccountID); err != nil {
-		return ticket, fmt.Errorf("unable to active ticket: %v", err)
-	} else if err = CheckFactor(factor, password); err != nil {
+	} else if err := ticket.IsCanBeAvailble(); err != nil {
 		return ticket, err
 	}
 
-	ticket.RequireAuthenticate = false
-
-	if !ticket.RequireAuthenticate && !ticket.RequireMFA {
-		ticket.AvailableAt = lo.ToPtr(time.Now())
-		ticket.GrantToken = lo.ToPtr(uuid.NewString())
-		ticket.AccessToken = lo.ToPtr(uuid.NewString())
-		ticket.RefreshToken = lo.ToPtr(uuid.NewString())
-	}
+	ticket.AvailableAt = lo.ToPtr(time.Now())
+	ticket.GrantToken = lo.ToPtr(uuid.NewString())
+	ticket.AccessToken = lo.ToPtr(uuid.NewString())
+	ticket.RefreshToken = lo.ToPtr(uuid.NewString())
 
 	if err := database.C.Save(&ticket).Error; err != nil {
 		return ticket, err
@@ -120,28 +124,59 @@ func ActiveTicketWithPassword(ticket models.AuthTicket, password string) (models
 	return ticket, nil
 }
 
-func ActiveTicketWithMFA(ticket models.AuthTicket, factor models.AuthFactor, code string) (models.AuthTicket, error) {
+func ActiveTicketWithPassword(ticket models.AuthTicket, password string) (models.AuthTicket, error) {
 	if ticket.AvailableAt != nil {
 		return ticket, nil
-	} else if !ticket.RequireMFA {
+	} else if ticket.StepRemain == 1 {
+		return ticket, fmt.Errorf("multi-factor authentication required")
+	}
+
+	factor, err := GetPasswordTypeFactor(ticket.AccountID)
+	if err != nil {
+		return ticket, fmt.Errorf("unable to authenticate, password factor was not found: %v", err)
+	} else if err := CheckFactor(factor, password); err != nil {
+		return ticket, fmt.Errorf("invalid password: %v", err)
+	}
+
+	ticket.StepRemain--
+	ticket.FactorTrail = append(ticket.FactorTrail, int(factor.ID))
+
+	ticket.AvailableAt = lo.ToPtr(time.Now())
+	ticket.GrantToken = lo.ToPtr(uuid.NewString())
+	ticket.AccessToken = lo.ToPtr(uuid.NewString())
+	ticket.RefreshToken = lo.ToPtr(uuid.NewString())
+
+	if err := database.C.Save(&ticket).Error; err != nil {
+		return ticket, err
+	}
+
+	return ticket, nil
+}
+
+func PerformTicketCheck(ticket models.AuthTicket, factor models.AuthFactor, code string) (models.AuthTicket, error) {
+	if ticket.AvailableAt != nil {
 		return ticket, nil
+	} else if ticket.StepRemain <= 0 {
+		return ticket, nil
+	}
+
+	if lo.Contains(ticket.FactorTrail, int(factor.ID)) {
+		return ticket, fmt.Errorf("already checked this ticket with factor %d", factor.ID)
 	}
 
 	if err := CheckFactor(factor, code); err != nil {
 		return ticket, fmt.Errorf("invalid code: %v", err)
 	}
 
-	ticket.RequireMFA = false
+	ticket.StepRemain--
+	ticket.FactorTrail = append(ticket.FactorTrail, int(factor.ID))
 
-	if !ticket.RequireAuthenticate && !ticket.RequireMFA {
-		ticket.AvailableAt = lo.ToPtr(time.Now())
-		ticket.GrantToken = lo.ToPtr(uuid.NewString())
-		ticket.AccessToken = lo.ToPtr(uuid.NewString())
-		ticket.RefreshToken = lo.ToPtr(uuid.NewString())
-	}
-
-	if err := database.C.Save(&ticket).Error; err != nil {
-		return ticket, err
+	if ticket.IsCanBeAvailble() == nil {
+		return ActiveTicket(ticket)
+	} else {
+		if err := database.C.Save(&ticket).Error; err != nil {
+			return ticket, err
+		}
 	}
 
 	return ticket, nil
