@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"git.solsynth.dev/hydrogen/dealer/pkg/hyper"
 	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
@@ -20,12 +21,13 @@ func (v *Server) ListCommunityRealm(ctx context.Context, empty *proto.ListRealmR
 	return &proto.ListRealmResponse{
 		Data: lo.Map(realms, func(item models.Realm, index int) *proto.RealmInfo {
 			info := &proto.RealmInfo{
-				Id:          uint64(item.ID),
-				Alias:       item.Alias,
-				Name:        item.Name,
-				Description: item.Description,
-				IsPublic:    item.IsPublic,
-				IsCommunity: item.IsCommunity,
+				Id:           uint64(item.ID),
+				Alias:        item.Alias,
+				Name:         item.Name,
+				Description:  item.Description,
+				IsPublic:     item.IsPublic,
+				IsCommunity:  item.IsCommunity,
+				AccessPolicy: hyper.EncodeAccessPolicy(item.AccessPolicy),
 			}
 			if item.Avatar != nil {
 				info.Avatar = *item.Avatar
@@ -51,12 +53,13 @@ func (v *Server) ListAvailableRealm(ctx context.Context, request *proto.LookupUs
 	return &proto.ListRealmResponse{
 		Data: lo.Map(realms, func(item models.Realm, index int) *proto.RealmInfo {
 			info := &proto.RealmInfo{
-				Id:          uint64(item.ID),
-				Alias:       item.Alias,
-				Name:        item.Name,
-				Description: item.Description,
-				IsPublic:    item.IsPublic,
-				IsCommunity: item.IsCommunity,
+				Id:           uint64(item.ID),
+				Alias:        item.Alias,
+				Name:         item.Name,
+				Description:  item.Description,
+				IsPublic:     item.IsPublic,
+				IsCommunity:  item.IsCommunity,
+				AccessPolicy: hyper.EncodeAccessPolicy(item.AccessPolicy),
 			}
 			if item.Avatar != nil {
 				info.Avatar = *item.Avatar
@@ -82,12 +85,13 @@ func (v *Server) ListOwnedRealm(ctx context.Context, request *proto.LookupUserRe
 	return &proto.ListRealmResponse{
 		Data: lo.Map(realms, func(item models.Realm, index int) *proto.RealmInfo {
 			info := &proto.RealmInfo{
-				Id:          uint64(item.ID),
-				Alias:       item.Alias,
-				Name:        item.Name,
-				Description: item.Description,
-				IsPublic:    item.IsPublic,
-				IsCommunity: item.IsCommunity,
+				Id:           uint64(item.ID),
+				Alias:        item.Alias,
+				Name:         item.Name,
+				Description:  item.Description,
+				IsPublic:     item.IsPublic,
+				IsCommunity:  item.IsCommunity,
+				AccessPolicy: hyper.EncodeAccessPolicy(item.AccessPolicy),
 			}
 			if item.Avatar != nil {
 				info.Avatar = *item.Avatar
@@ -122,12 +126,13 @@ func (v *Server) GetRealm(ctx context.Context, request *proto.LookupRealmRequest
 	}
 
 	info := &proto.RealmInfo{
-		Id:          uint64(realm.ID),
-		Alias:       realm.Alias,
-		Name:        realm.Name,
-		Description: realm.Description,
-		IsPublic:    realm.IsPublic,
-		IsCommunity: realm.IsCommunity,
+		Id:           uint64(realm.ID),
+		Alias:        realm.Alias,
+		Name:         realm.Name,
+		Description:  realm.Description,
+		IsPublic:     realm.IsPublic,
+		IsCommunity:  realm.IsCommunity,
+		AccessPolicy: hyper.EncodeAccessPolicy(realm.AccessPolicy),
 	}
 	if realm.Avatar != nil {
 		info.Avatar = *realm.Avatar
