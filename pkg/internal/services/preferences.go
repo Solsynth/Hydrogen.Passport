@@ -28,6 +28,10 @@ func UpdateNotificationPreference(account models.Account, config map[string]bool
 				lo.MapValues(config, func(v bool, k string) any { return v }),
 			),
 		}
+	} else {
+		notification.Config = datatypes.JSONMap(
+			lo.MapValues(config, func(v bool, k string) any { return v }),
+		)
 	}
 
 	err = database.C.Save(&notification).Error
