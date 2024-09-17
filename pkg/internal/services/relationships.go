@@ -113,6 +113,7 @@ func NewFriend(userA models.Account, userB models.Account, skipPending ...bool) 
 			Title:     "New Friend Request",
 			Subtitle:  lo.ToPtr(fmt.Sprintf("New friend request from %s", userA.Name)),
 			Body:      fmt.Sprintf("You got a new friend request from %s. Go to your account page and decide how to deal it.", userA.Nick),
+			Account:   userB,
 			AccountID: userB.ID,
 		})
 	}
@@ -149,6 +150,7 @@ func HandleFriend(userA models.Account, userB models.Account, isAccept bool) err
 			Title:     "Friend Request Processed",
 			Subtitle:  lo.ToPtr(fmt.Sprintf("Your friend request to %s has been processsed.", userA.Name)),
 			Body:      fmt.Sprintf("Your relationship status with %s has been updated, go check it out!", userA.Nick),
+			Account:   userB,
 			AccountID: userB.ID,
 		})
 	}

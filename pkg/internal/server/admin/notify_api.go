@@ -52,6 +52,7 @@ func notifyAllUser(c *fiber.Ctx) error {
 				Picture:     data.Picture,
 				IsRealtime:  data.IsRealtime,
 				IsForcePush: data.IsForcePush,
+				Account:     user,
 				AccountID:   user.ID,
 			}
 

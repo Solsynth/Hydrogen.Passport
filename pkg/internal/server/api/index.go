@@ -24,6 +24,12 @@ func MapAPIs(app *fiber.App, baseURL string) {
 			notify.Put("/read/:notificationId", markNotificationRead)
 		}
 
+		preferences := api.Group("/preferences").Name("Preferences API")
+		{
+			preferences.Get("/notifications", getNotificationPreference)
+			preferences.Put("/notifications", updateNotificationPreference)
+		}
+
 		api.Get("/users/lookup", lookupAccount)
 		api.Get("/users/search", searchAccount)
 

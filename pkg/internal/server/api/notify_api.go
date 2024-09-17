@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
@@ -52,6 +53,7 @@ func notifyUser(c *fiber.Ctx) error {
 		Picture:     data.Picture,
 		IsRealtime:  data.IsRealtime,
 		IsForcePush: data.IsForcePush,
+		Account:     target,
 		AccountID:   target.ID,
 		SenderID:    &client.ID,
 	}

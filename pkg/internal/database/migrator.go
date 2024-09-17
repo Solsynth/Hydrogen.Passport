@@ -26,6 +26,7 @@ var AutoMaintainRange = []any{
 	&models.AuditRecord{},
 	&models.ApiKey{},
 	&models.SignRecord{},
+	&models.PreferenceNotification{},
 }
 
 func RunMigration(source *gorm.DB) error {

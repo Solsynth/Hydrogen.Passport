@@ -3,11 +3,13 @@ package services
 import (
 	"context"
 	"fmt"
-	"git.solsynth.dev/hydrogen/dealer/pkg/hyper"
-	jsoniter "github.com/json-iterator/go"
-	"github.com/samber/lo"
 	"reflect"
 	"time"
+
+	"git.solsynth.dev/hydrogen/dealer/pkg/hyper"
+	jsoniter "github.com/json-iterator/go"
+	"github.com/rs/zerolog/log"
+	"github.com/samber/lo"
 
 	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
@@ -47,7 +49,13 @@ func AddNotifySubscriber(user models.Account, provider, id, tk, ua string) (mode
 }
 
 // NewNotification will create a notification and push via the push method it
+// Please provide the notification with the account field is not empty
 func NewNotification(notification models.Notification) error {
+	if ok := CheckNotificationNotifiable(notification.Account, notification.Topic); !ok {
+		log.Info().Str("topic", notification.Topic).Uint("uid", notification.AccountID).Msg("Notification dismissed by user...")
+		return nil
+	}
+
 	if err := database.C.Save(&notification).Error; err != nil {
 		return err
 	}
@@ -67,7 +75,14 @@ func NewNotificationBatch(notifications []models.Notification) error {
 	return nil
 }
 
+// PushNotification will push a notification to the user, via websocket, firebase, or APNs
+// Please provide the notification with the account field is not empty
 func PushNotification(notification models.Notification) error {
+	if ok := CheckNotificationNotifiable(notification.Account, notification.Topic); !ok {
+		log.Info().Str("topic", notification.Topic).Uint("uid", notification.AccountID).Msg("Notification dismissed by user...")
+		return nil
+	}
+
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	_, err := proto.NewStreamControllerClient(gap.H.GetDealerGrpcConn()).PushStream(ctx, &proto.PushStreamRequest{
@@ -124,9 +139,26 @@ func PushNotification(notification models.Notification) error {
 }
 
 func PushNotificationBatch(notifications []models.Notification) {
-	accountIdx := lo.Map(notifications, func(item models.Notification, index int) uint {
-		return item.AccountID
-	})
+	if len(notifications) == 0 {
+		return
+	}
+
+	notifiable := CheckNotificationNotifiableBatch(lo.Map(notifications, func(item models.Notification, index int) models.Account {
+		return item.Account
+	}), notifications[0].Topic)
+	accountIdx := lo.Map(
+		lo.Filter(notifications, func(item models.Notification, index int) bool {
+			return notifiable[index]
+		}),
+		func(item models.Notification, index int) uint {
+			return item.AccountID
+		},
+	)
+
+	if len(accountIdx) == 0 {
+		return
+	}
+
 	var subscribers []models.NotificationSubscriber
 	database.C.Where("account_id IN ?", accountIdx).Find(&subscribers)
 
