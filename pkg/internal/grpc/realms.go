@@ -140,7 +140,13 @@ func (v *Server) GetRealm(ctx context.Context, request *proto.LookupRealmRequest
 
 func (v *Server) ListRealmMember(ctx context.Context, request *proto.RealmMemberLookupRequest) (*proto.ListRealmMemberResponse, error) {
 	var members []models.RealmMember
-	tx := database.C.Where("realm_id = ?", request.GetRealmId())
+	if request.UserId == nil && request.RealmId == nil {
+		return nil, fmt.Errorf("either user id or realm id must be provided")
+	}
+	tx := database.C
+	if request.RealmId != nil {
+		tx = tx.Where("realm_id = ?", request.GetRealmId())
+	}
 	if request.UserId != nil {
 		tx = tx.Where("account_id = ?", request.GetUserId())
 	}
@@ -162,7 +168,13 @@ func (v *Server) ListRealmMember(ctx context.Context, request *proto.RealmMember
 
 func (v *Server) GetRealmMember(ctx context.Context, request *proto.RealmMemberLookupRequest) (*proto.RealmMemberInfo, error) {
 	var member models.RealmMember
-	tx := database.C.Where("realm_id = ?", request.GetRealmId())
+	if request.UserId == nil && request.RealmId == nil {
+		return nil, fmt.Errorf("either user id or realm id must be provided")
+	}
+	tx := database.C
+	if request.RealmId != nil {
+		tx = tx.Where("realm_id = ?", request.GetRealmId())
+	}
 	if request.UserId != nil {
 		tx = tx.Where("account_id = ?", request.GetUserId())
 	}

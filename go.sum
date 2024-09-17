@@ -1,5 +1,7 @@
 git.solsynth.dev/hydrogen/dealer v0.0.0-20240911145828-d734d617bfc8 h1:kWheneSdSySG5tz9TAXrtr546JdMpQZTyWDFk4jeGwg=
 git.solsynth.dev/hydrogen/dealer v0.0.0-20240911145828-d734d617bfc8/go.mod h1:Q51JPkKnV0UoOT/IRmdBh5CyfSlp7s8BRGzgooYHqkI=
+git.solsynth.dev/hydrogen/dealer v0.0.0-20240917083841-b14c0240a75f h1:3jLpcws4/zmNUA60w1RtAtGNjcQd5NZCcbW5HQcUcvw=
+git.solsynth.dev/hydrogen/dealer v0.0.0-20240917083841-b14c0240a75f/go.mod h1:Q51JPkKnV0UoOT/IRmdBh5CyfSlp7s8BRGzgooYHqkI=
 github.com/DataDog/datadog-go v3.2.0+incompatible/go.mod h1:LButxg5PwREeZtORoXG3tL4fMGNddJ+vMq1mwgfaqoQ=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
