@@ -75,6 +75,7 @@ func (v *Server) NotifyUserBatch(_ context.Context, in *proto.NotifyUserBatchReq
 			Picture:     in.GetNotify().Picture,
 			IsRealtime:  in.GetNotify().GetIsRealtime(),
 			IsForcePush: in.GetNotify().GetIsForcePush(),
+			Account:     user,
 			AccountID:   user.ID,
 		}
 
