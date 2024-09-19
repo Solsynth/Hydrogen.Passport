@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Realm avatar, banner and access policy" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Account deletion">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/models/tokens.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/tokens.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/accounts_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/accounts_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/index.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/accounts.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/tokens.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/tokens.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -56,7 +65,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;ts.external.directory.path&quot;: &quot;/Users/littlesheep/Documents/Projects/Hydrogen/Passport/web/node_modules/typescript/lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
@@ -150,7 +159,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":card_file_box: Update modeling" />
     <MESSAGE value=":sparkles: Bot token aka. API token" />
     <MESSAGE value=":sparkles: Bots aka. automated accounts" />
     <MESSAGE value=":sparkles: Return affiliated to and automated by in userinfo grpc call" />
@@ -175,7 +183,8 @@
     <MESSAGE value=":bug: Fix daily sign batch list query issue" />
     <MESSAGE value=":bug: Fix daily sign random panic" />
     <MESSAGE value=":sparkles: Realm avatar, banner and access policy" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Realm avatar, banner and access policy" />
+    <MESSAGE value=":sparkles: Account deletion" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Account deletion" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

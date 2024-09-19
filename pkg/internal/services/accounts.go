@@ -1,7 +1,10 @@
 package services
 
 import (
+	"context"
 	"fmt"
+	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
 	"time"
 	"unicode"
 
@@ -179,6 +182,61 @@ func ForceConfirmAccount(user models.Account) error {
 	return nil
 }
 
+func CheckAbleToDeleteAccount(user models.Account) error {
+	if user.AutomatedID != nil {
+		return fmt.Errorf("bot cannot request delete account, head to developer portal and dispose bot")
+	}
+
+	var count int64
+	if err := database.C.
+		Where("account_id = ?", user.ID).
+		Where("expired_at < ?", time.Now()).
+		Where("type = ?", models.ResetPasswordMagicToken).
+		Model(&models.MagicToken{}).
+		Count(&count).Error; err != nil {
+		return fmt.Errorf("unable to check delete account ability: %v", err)
+	} else if count > 0 {
+		return fmt.Errorf("you requested delete account recently")
+	}
+
+	return nil
+}
+
+func RequestDeleteAccount(user models.Account) error {
+	if tk, err := NewMagicToken(
+		models.DeleteAccountMagicToken,
+		&user,
+		lo.ToPtr(time.Now().Add(24*time.Hour)),
+	); err != nil {
+		return err
+	} else if err := NotifyMagicToken(tk); err != nil {
+		log.Error().
+			Err(err).
+			Str("code", tk.Code).
+			Uint("user", user.ID).
+			Msg("Failed to notify delete account magic token...")
+	}
+
+	return nil
+}
+
+func ConfirmDeleteAccount(code string) error {
+	token, err := ValidateMagicToken(code, models.DeleteAccountMagicToken)
+	if err != nil {
+		return err
+	} else if token.AccountID == nil {
+		return fmt.Errorf("magic token didn't assign a valid account")
+	}
+
+	if err := DeleteAccount(*token.AccountID); err != nil {
+		return err
+	} else {
+		database.C.Delete(&token)
+	}
+
+	return nil
+}
+
 func CheckAbleToResetPassword(user models.Account) error {
 	var count int64
 	if err := database.C.
@@ -232,7 +290,13 @@ func ConfirmResetPassword(code, newPassword string) error {
 		factor.Secret = HashPassword(newPassword)
 	}
 
-	return database.C.Save(&factor).Error
+	if err = database.C.Save(&factor).Error; err != nil {
+		return err
+	} else {
+		database.C.Delete(&token)
+	}
+
+	return nil
 }
 
 func DeleteAccount(id uint) error {
@@ -243,7 +307,17 @@ func DeleteAccount(id uint) error {
 		return err
 	}
 
-	return tx.Commit().Error
+	if err := tx.Commit().Error; err != nil {
+		return err
+	} else {
+		InvalidAuthCacheWithUser(id)
+		_, _ = proto.NewServiceDirectoryClient(gap.H.GetDealerGrpcConn()).BroadcastDeletion(context.Background(), &proto.DeletionRequest{
+			ResourceType: "account",
+			ResourceId:   fmt.Sprintf("%d", id),
+		})
+	}
+
+	return nil
 }
 
 func RecycleUnConfirmAccount() {

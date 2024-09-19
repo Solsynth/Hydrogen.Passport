@@ -79,6 +79,9 @@ func MapAPIs(app *fiber.App, baseURL string) {
 				relations.Post("/:relatedId/accept", acceptFriend)
 				relations.Post("/:relatedId/decline", declineFriend)
 			}
+
+			me.Post("/deletion", requestDeleteAccount)
+			me.Post("/deletion/confirm", confirmDeleteAccount)
 		}
 
 		directory := api.Group("/users/:alias").Name("User Directory")

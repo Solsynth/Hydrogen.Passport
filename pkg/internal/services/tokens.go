@@ -45,6 +45,23 @@ If you have any questions or need further assistance, please do not hesitate to 
 Best regards,
 %s`
 
+const DeleteAccountTemplate = `Dear %s,
+
+We received a request to delete your account at %s. If you did not request a account deletion, please change your account password right now.
+If you changed your mind, please ignore this email.
+
+To confirm your account deletion request, please use the link below:
+
+%s
+
+This link will expire in 24 hours. If you do not use that link within this time frame, you will need to submit an account deletion request.
+
+If you have any questions or need further assistance, please do not hesitate to contact our support team.
+Also, if you want to let us know why you decided to delete your account, send email us (lily@solsynth.dev) and tell us how could we improve our user experience.
+
+Best regards,
+%s`
+
 func ValidateMagicToken(code string, mode models.MagicTokenType) (models.MagicToken, error) {
 	var tk models.MagicToken
 	if err := database.C.Where(models.MagicToken{Code: code, Type: mode}).First(&tk).Error; err != nil {
@@ -107,6 +124,16 @@ func NotifyMagicToken(token models.MagicToken) error {
 		subject = fmt.Sprintf("[%s] Reset your password", viper.GetString("name"))
 		content = fmt.Sprintf(
 			ResetPasswordTemplate,
+			user.Name,
+			viper.GetString("name"),
+			link,
+			viper.GetString("maintainer"),
+		)
+	case models.DeleteAccountMagicToken:
+		link := fmt.Sprintf("%s/flow/accounts/account-delete?code=%s", viper.GetString("frontend_app"), token.Code)
+		subject = fmt.Sprintf("[%s] Confirm your account deletion", viper.GetString("name"))
+		content = fmt.Sprintf(
+			DeleteAccountTemplate,
 			user.Name,
 			viper.GetString("name"),
 			link,

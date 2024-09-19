@@ -216,3 +216,34 @@ func doRegisterConfirm(c *fiber.Ctx) error {
 
 	return c.SendStatus(fiber.StatusOK)
 }
+
+func requestDeleteAccount(c *fiber.Ctx) error {
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
+
+	if err := services.CheckAbleToDeleteAccount(user); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	} else if err = services.RequestDeleteAccount(user); err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+
+	return c.SendStatus(fiber.StatusOK)
+}
+
+func confirmDeleteAccount(c *fiber.Ctx) error {
+	var data struct {
+		Code string `json:"code" validate:"required"`
+	}
+
+	if err := exts.BindAndValidate(c, &data); err != nil {
+		return err
+	}
+
+	if err := services.ConfirmDeleteAccount(data.Code); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	}
+
+	return c.SendStatus(fiber.StatusOK)
+}

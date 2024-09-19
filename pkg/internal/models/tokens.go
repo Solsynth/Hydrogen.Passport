@@ -8,6 +8,7 @@ const (
 	ConfirmMagicToken = MagicTokenType(iota)
 	RegistrationMagicToken
 	ResetPasswordMagicToken
+	DeleteAccountMagicToken
 )
 
 type MagicToken struct {
