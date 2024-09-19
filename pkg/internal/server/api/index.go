@@ -30,6 +30,17 @@ func MapAPIs(app *fiber.App, baseURL string) {
 			preferences.Put("/notifications", updateNotificationPreference)
 		}
 
+		reports := api.Group("/reports").Name("Reports API")
+		{
+			abuse := reports.Group("/abuse").Name("Abuse Reports")
+			{
+				abuse.Get("/", listAbuseReports)
+				abuse.Get("/:id", getAbuseReport)
+				abuse.Put("/:id/status", updateAbuseReportStatus)
+				abuse.Post("/", createAbuseReport)
+			}
+		}
+
 		api.Get("/users/lookup", lookupAccount)
 		api.Get("/users/search", searchAccount)
 
