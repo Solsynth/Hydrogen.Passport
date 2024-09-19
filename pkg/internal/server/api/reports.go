@@ -37,7 +37,8 @@ func updateAbuseReportStatus(c *fiber.Ctx) error {
 	}
 
 	var data struct {
-		Status string `json:"status" validate:"required"`
+		Status  string `json:"status" validate:"required"`
+		Message string `json:"message" validate:"required,max=4096"`
 	}
 
 	if err := exts.BindAndValidate(c, &data); err != nil {
@@ -46,7 +47,7 @@ func updateAbuseReportStatus(c *fiber.Ctx) error {
 
 	id, _ := c.ParamsInt("id")
 
-	if err := services.UpdateAbuseReportStatus(uint(id), data.Status); err != nil {
+	if err := services.UpdateAbuseReportStatus(uint(id), data.Status, data.Message); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
