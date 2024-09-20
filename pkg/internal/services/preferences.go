@@ -47,10 +47,8 @@ func CheckNotificationNotifiable(account models.Account, topic string) bool {
 		return false
 	}
 	if val, ok := notification.Config[topic]; ok {
-		if status, ok := val.(bool); !ok || status {
-			return true
-		} else if !status {
-			return false
+		if status, ok := val.(bool); ok {
+			return status
 		}
 	}
 	return true
@@ -67,11 +65,8 @@ func CheckNotificationNotifiableBatch(accounts []models.Account, topic string) [
 	var notifiable []bool
 	for _, notification := range notifications {
 		if val, ok := notification.Config[topic]; ok {
-			if status, ok := val.(bool); !ok || status {
-				notifiable = append(notifiable, true)
-				continue
-			} else if !status {
-				notifiable = append(notifiable, false)
+			if status, ok := val.(bool); ok {
+				notifiable = append(notifiable, status)
 				continue
 			}
 		}

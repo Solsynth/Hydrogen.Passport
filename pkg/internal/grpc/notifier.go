@@ -116,6 +116,7 @@ func (v *Server) NotifyAllUser(_ context.Context, in *proto.NotifyRequest) (*pro
 			Picture:     in.Picture,
 			IsRealtime:  in.GetIsRealtime(),
 			IsForcePush: in.GetIsForcePush(),
+			Account:     user,
 			AccountID:   user.ID,
 		}
 

@@ -67,6 +67,26 @@ func NewNotification(notification models.Notification) error {
 }
 
 func NewNotificationBatch(notifications []models.Notification) error {
+	if len(notifications) == 0 {
+		return nil
+	}
+
+	notifiable := CheckNotificationNotifiableBatch(lo.Map(notifications, func(item models.Notification, index int) models.Account {
+		return item.Account
+	}), notifications[0].Topic)
+	accountIdx := lo.Map(
+		lo.Filter(notifications, func(item models.Notification, index int) bool {
+			return notifiable[index]
+		}),
+		func(item models.Notification, index int) uint {
+			return item.AccountID
+		},
+	)
+
+	if len(accountIdx) == 0 {
+		return nil
+	}
+
 	if err := database.C.CreateInBatches(notifications, 1000).Error; err != nil {
 		return err
 	}
