@@ -40,6 +40,42 @@ func listDailySignRecord(c *fiber.Ctx) error {
 	})
 }
 
+func listOtherUserDailySignRecord(c *fiber.Ctx) error {
+	take := c.QueryInt("take", 0)
+	offset := c.QueryInt("offset", 0)
+
+	alias := c.Params("alias")
+
+	var account models.Account
+	if err := database.C.
+		Where(&models.Account{Name: alias}).
+		First(&account).Error; err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	}
+
+	var count int64
+	if err := database.C.
+		Model(&models.SignRecord{}).
+		Where("account_id = ?", account.ID).
+		Count(&count).Error; err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+
+	var records []models.SignRecord
+	if err := database.C.
+		Where("account_id = ?", account.ID).
+		Limit(take).Offset(offset).
+		Order("created_at DESC").
+		Find(&records).Error; err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(fiber.Map{
+		"count": count,
+		"data":  records,
+	})
+}
+
 func getTodayDailySign(c *fiber.Ctx) error {
 	if err := exts.EnsureAuthenticated(c); err != nil {
 		return err

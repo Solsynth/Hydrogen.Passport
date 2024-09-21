@@ -59,8 +59,6 @@ func MapAPIs(app *fiber.App, baseURL string) {
 			me.Delete("/tickets/:ticketId", killTicket)
 
 			me.Post("/confirm", doRegisterConfirm)
-			me.Post("/password-reset", requestResetPassword)
-			me.Patch("/password-reset", confirmResetPassword)
 
 			me.Get("/status", getMyselfStatus)
 			me.Post("/status", setStatus)
@@ -80,14 +78,19 @@ func MapAPIs(app *fiber.App, baseURL string) {
 				relations.Post("/:relatedId/decline", declineFriend)
 			}
 
+			me.Post("/password-reset", requestResetPassword)
+			me.Patch("/password-reset", confirmResetPassword)
+
 			me.Post("/deletion", requestDeleteAccount)
-			me.Post("/deletion/confirm", confirmDeleteAccount)
+			me.Patch("/deletion", confirmDeleteAccount)
 		}
 
 		directory := api.Group("/users/:alias").Name("User Directory")
 		{
 			directory.Get("/", getOtherUserinfo)
 			directory.Get("/status", getStatus)
+
+			directory.Get("/daily", listOtherUserDailySignRecord)
 		}
 
 		api.Get("/users", getOtherUserinfoBatch)
