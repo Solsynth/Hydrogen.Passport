@@ -59,7 +59,7 @@ func NewNotification(notification models.Notification) error {
 	if err := database.C.Save(&notification).Error; err != nil {
 		return err
 	}
-	if err := PushNotification(notification); err != nil {
+	if err := PushNotification(notification, true); err != nil {
 		return err
 	}
 

@@ -56,7 +56,9 @@ func CheckNotificationNotifiable(account models.Account, topic string) bool {
 
 func CheckNotificationNotifiableBatch(accounts []models.Account, topic string) []bool {
 	var notifications []models.PreferenceNotification
-	if err := database.C.Where("account_id IN ?", accounts).Find(&notifications).Error; err != nil {
+	if err := database.C.Where("account_id IN ?", lo.Map(accounts, func(item models.Account, index int) uint {
+		return item.ID
+	})).Find(&notifications).Error; err != nil {
 		return lo.Map(accounts, func(item models.Account, index int) bool {
 			return false
 		})
