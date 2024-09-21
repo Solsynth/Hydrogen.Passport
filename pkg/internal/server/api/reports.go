@@ -62,7 +62,7 @@ func createAbuseReport(c *fiber.Ctx) error {
 
 	var data struct {
 		Resource string `json:"resource" validate:"required"`
-		Reason   string `json:"reason" validate:"required,min=16,max=4096"`
+		Reason   string `json:"reason" validate:"required,max=4096"`
 	}
 
 	if err := exts.BindAndValidate(c, &data); err != nil {
