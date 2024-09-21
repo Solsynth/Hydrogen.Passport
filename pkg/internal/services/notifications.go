@@ -74,33 +74,27 @@ func NewNotificationBatch(notifications []models.Notification) error {
 	notifiable := CheckNotificationNotifiableBatch(lo.Map(notifications, func(item models.Notification, index int) models.Account {
 		return item.Account
 	}), notifications[0].Topic)
-	accountIdx := lo.Map(
-		lo.Filter(notifications, func(item models.Notification, index int) bool {
-			return notifiable[index]
-		}),
-		func(item models.Notification, index int) uint {
-			return item.AccountID
-		},
-	)
 
-	if len(accountIdx) == 0 {
-		return nil
-	}
+	notifications = lo.Filter(notifications, func(item models.Notification, index int) bool {
+		return notifiable[index]
+	})
 
 	if err := database.C.CreateInBatches(notifications, 1000).Error; err != nil {
 		return err
 	}
 
-	PushNotificationBatch(notifications)
+	PushNotificationBatch(notifications, true)
 	return nil
 }
 
 // PushNotification will push a notification to the user, via websocket, firebase, or APNs
 // Please provide the notification with the account field is not empty
-func PushNotification(notification models.Notification) error {
-	if ok := CheckNotificationNotifiable(notification.Account, notification.Topic); !ok {
-		log.Info().Str("topic", notification.Topic).Uint("uid", notification.AccountID).Msg("Notification dismissed by user...")
-		return nil
+func PushNotification(notification models.Notification, skipNotifiableCheck ...bool) error {
+	if len(skipNotifiableCheck) == 0 || !skipNotifiableCheck[0] {
+		if ok := CheckNotificationNotifiable(notification.Account, notification.Topic); !ok {
+			log.Info().Str("topic", notification.Topic).Uint("uid", notification.AccountID).Msg("Notification dismissed by user...")
+			return nil
+		}
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -158,22 +152,32 @@ func PushNotification(notification models.Notification) error {
 	return err
 }
 
-func PushNotificationBatch(notifications []models.Notification) {
+func PushNotificationBatch(notifications []models.Notification, skipNotifiableCheck ...bool) {
 	if len(notifications) == 0 {
 		return
 	}
 
-	notifiable := CheckNotificationNotifiableBatch(lo.Map(notifications, func(item models.Notification, index int) models.Account {
-		return item.Account
-	}), notifications[0].Topic)
-	accountIdx := lo.Map(
-		lo.Filter(notifications, func(item models.Notification, index int) bool {
-			return notifiable[index]
-		}),
-		func(item models.Notification, index int) uint {
-			return item.AccountID
-		},
-	)
+	var accountIdx []uint
+	if len(skipNotifiableCheck) == 0 || !skipNotifiableCheck[0] {
+		notifiable := CheckNotificationNotifiableBatch(lo.Map(notifications, func(item models.Notification, index int) models.Account {
+			return item.Account
+		}), notifications[0].Topic)
+		accountIdx = lo.Map(
+			lo.Filter(notifications, func(item models.Notification, index int) bool {
+				return notifiable[index]
+			}),
+			func(item models.Notification, index int) uint {
+				return item.AccountID
+			},
+		)
+	} else {
+		accountIdx = lo.Map(
+			notifications,
+			func(item models.Notification, index int) uint {
+				return item.AccountID
+			},
+		)
+	}
 
 	if len(accountIdx) == 0 {
 		return

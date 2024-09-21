@@ -62,15 +62,15 @@ func CheckNotificationNotifiableBatch(accounts []models.Account, topic string) [
 		})
 	}
 
-	var notifiable []bool
-	for _, notification := range notifications {
+	var notifiable = make([]bool, len(accounts))
+	for idx, notification := range notifications {
 		if val, ok := notification.Config[topic]; ok {
 			if status, ok := val.(bool); ok {
-				notifiable = append(notifiable, status)
+				notifiable[idx] = status
 				continue
 			}
 		}
-		notifiable = append(notifiable, true)
+		notifiable[idx] = true
 	}
 
 	return notifiable
