@@ -33,6 +33,7 @@ func (v *Server) NotifyUser(_ context.Context, in *proto.NotifyUserRequest) (*pr
 		Picture:     in.GetNotify().Picture,
 		IsRealtime:  in.GetNotify().GetIsRealtime(),
 		IsForcePush: in.GetNotify().GetIsForcePush(),
+		Account:     user,
 		AccountID:   user.ID,
 	}
 
