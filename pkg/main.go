@@ -13,6 +13,7 @@ import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/robfig/cron/v3"
 
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/cache"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -43,6 +44,11 @@ func main() {
 		log.Fatal().Err(err).Msg("An error occurred when running database auto migration.")
 	}
 
+	// Initialize cache
+	if err := cache.NewStore(); err != nil {
+		log.Fatal().Err(err).Msg("An error occurred when initializing cache.")
+	}
+
 	// Connect other services
 	if err := gap.RegisterService(); err != nil {
 		log.Error().Err(err).Msg("An error occurred when registering service to gateway...")
@@ -58,7 +64,6 @@ func main() {
 	quartz := cron.New(cron.WithLogger(cron.VerbosePrintfLogger(&log.Logger)))
 	quartz.AddFunc("@every 60m", services.DoAutoSignoff)
 	quartz.AddFunc("@every 60m", services.DoAutoDatabaseCleanup)
-	quartz.AddFunc("@every 60s", services.RecycleAuthContext)
 	quartz.AddFunc("@midnight", services.RecycleUnConfirmAccount)
 	quartz.AddFunc("@every 60s", services.SaveEventChanges)
 	quartz.Start()

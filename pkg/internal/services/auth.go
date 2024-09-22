@@ -1,18 +1,20 @@
 package services
 
 import (
+	"context"
 	"fmt"
-	"sync"
 	"time"
 
+	"github.com/eko/gocache/lib/v4/cache"
+	"github.com/eko/gocache/lib/v4/marshaler"
+	"github.com/eko/gocache/lib/v4/store"
 	jsoniter "github.com/json-iterator/go"
 
+	localCache "git.solsynth.dev/hydrogen/passport/pkg/internal/cache"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog/log"
 )
-
-var authContextCache sync.Map
 
 func Authenticate(atk, rtk string, rty int) (ctx models.AuthContext, perms map[string]any, newAtk, newRtk string, err error) {
 	var claims PayloadClaims
@@ -45,14 +47,20 @@ func Authenticate(atk, rtk string, rty int) (ctx models.AuthContext, perms map[s
 	return
 }
 
+func GetAuthContextCacheKey(jti string) string {
+	return fmt.Sprintf("auth-context#%s", jti)
+}
+
 func GetAuthContext(jti string) (models.AuthContext, error) {
 	var err error
 	var ctx models.AuthContext
 
-	if val, ok := authContextCache.Load(jti); ok {
+	cacheManager := cache.New[any](localCache.S)
+	marshal := marshaler.New(cacheManager)
+	contx := context.Background()
+
+	if val, err := marshal.Get(contx, GetAuthContextCacheKey(jti), new(models.AuthContext)); err != nil {
 		ctx = val.(models.AuthContext)
-		ctx.LastUsedAt = time.Now()
-		authContextCache.Store(jti, ctx)
 	} else {
 		ctx, err = CacheAuthContext(jti)
 		log.Debug().Str("jti", jti).Msg("Created a new auth context cache")
@@ -90,38 +98,32 @@ func CacheAuthContext(jti string) (models.AuthContext, error) {
 	}
 
 	ctx = models.AuthContext{
-		Ticket:     ticket,
-		Account:    user,
-		LastUsedAt: time.Now(),
+		Ticket:  ticket,
+		Account: user,
 	}
 
-	// Put the data into memory for cache
-	authContextCache.Store(jti, ctx)
+	// Put the data into cache
+	cacheManager := cache.New[any](localCache.S)
+	marshal := marshaler.New(cacheManager)
+	contx := context.Background()
+
+	marshal.Set(
+		contx,
+		GetAuthContextCacheKey(jti),
+		ctx,
+		store.WithExpiration(3*time.Minute),
+		store.WithTags([]string{"auth-context", fmt.Sprintf("user#%d", user.ID)}),
+	)
 
 	return ctx, nil
 }
 
-func RecycleAuthContext() {
-	affected := 0
-
-	authContextCache.Range(func(key, value any) bool {
-		val := value.(models.AuthContext)
-		if val.LastUsedAt.Add(60*time.Second).Unix() < time.Now().Unix() {
-			affected++
-			authContextCache.Delete(key)
-		}
-		return true
-	})
-
-	log.Debug().Int("affected", affected).Msg("Recycled auth context...")
-}
-
 func InvalidAuthCacheWithUser(userId uint) {
-	authContextCache.Range(func(key, value any) bool {
-		val := value.(models.AuthContext)
-		if val.Account.ID == userId {
-			authContextCache.Delete(key)
-		}
-		return true
-	})
+	cacheManager := cache.New[any](localCache.S)
+	contx := context.Background()
+
+	cacheManager.Invalidate(
+		contx,
+		store.WithInvalidateTags([]string{"auth-context", fmt.Sprintf("user#%d", userId)}),
+	)
 }

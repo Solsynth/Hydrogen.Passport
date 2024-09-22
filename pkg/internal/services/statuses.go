@@ -3,21 +3,33 @@ package services
 import (
 	"context"
 	"fmt"
-	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
 	"time"
+
+	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
+	localCache "git.solsynth.dev/hydrogen/passport/pkg/internal/cache"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
+	"github.com/eko/gocache/lib/v4/cache"
+	"github.com/eko/gocache/lib/v4/marshaler"
+	"github.com/eko/gocache/lib/v4/store"
 	"github.com/samber/lo"
 )
 
-var statusCache = make(map[uint]models.Status)
+func GetStatusCacheKey(uid uint) string {
+	return fmt.Sprintf("user-status#%d", uid)
+}
 
 func GetStatus(uid uint) (models.Status, error) {
-	if status, ok := statusCache[uid]; ok {
+	cacheManager := cache.New[any](localCache.S)
+	marshal := marshaler.New(cacheManager)
+	contx := context.Background()
+
+	if val, err := marshal.Get(contx, GetStatusCacheKey(uid), new(models.Status)); err == nil {
+		status := val.(models.Status)
 		if status.ClearAt != nil && status.ClearAt.Before(time.Now()) {
-			delete(statusCache, uid)
+			marshal.Delete(contx, GetStatusCacheKey(uid))
 		} else {
 			return status, nil
 		}
@@ -29,9 +41,22 @@ func GetStatus(uid uint) (models.Status, error) {
 		First(&status).Error; err != nil {
 		return status, err
 	} else {
-		statusCache[uid] = status
+		CacheUserStatus(uid, status)
 	}
 	return status, nil
+}
+
+func CacheUserStatus(uid uint, status models.Status) {
+	cacheManager := cache.New[any](localCache.S)
+	marshal := marshaler.New(cacheManager)
+	contx := context.Background()
+
+	marshal.Set(
+		contx,
+		GetStatusCacheKey(uid),
+		status,
+		store.WithTags([]string{"user-status", fmt.Sprintf("user#%d", uid)}),
+	)
 }
 
 func GetUserOnline(uid uint) bool {
@@ -77,7 +102,7 @@ func NewStatus(user models.Account, status models.Status) (models.Status, error)
 	if err := database.C.Save(&status).Error; err != nil {
 		return status, err
 	} else {
-		statusCache[user.ID] = status
+		CacheUserStatus(user.ID, status)
 	}
 	return status, nil
 }
@@ -86,7 +111,7 @@ func EditStatus(user models.Account, status models.Status) (models.Status, error
 	if err := database.C.Save(&status).Error; err != nil {
 		return status, err
 	} else {
-		statusCache[user.ID] = status
+		CacheUserStatus(user.ID, status)
 	}
 	return status, nil
 }
@@ -98,7 +123,11 @@ func ClearStatus(user models.Account) error {
 		Updates(models.Status{ClearAt: lo.ToPtr(time.Now())}).Error; err != nil {
 		return err
 	} else {
-		delete(statusCache, user.ID)
+		cacheManager := cache.New[any](localCache.S)
+		marshal := marshaler.New(cacheManager)
+		contx := context.Background()
+
+		marshal.Delete(contx, GetStatusCacheKey(user.ID))
 	}
 
 	return nil

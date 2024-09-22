@@ -71,7 +71,6 @@ func (v AuthTicket) IsCanBeAvailble() error {
 }
 
 type AuthContext struct {
-	Ticket     AuthTicket `json:"ticket"`
-	Account    Account    `json:"account"`
-	LastUsedAt time.Time  `json:"last_used_at"`
+	Ticket  AuthTicket `json:"ticket"`
+	Account Account    `json:"account"`
 }
