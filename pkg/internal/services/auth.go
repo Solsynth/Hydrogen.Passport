@@ -59,7 +59,7 @@ func GetAuthContext(jti string) (models.AuthContext, error) {
 	marshal := marshaler.New(cacheManager)
 	contx := context.Background()
 
-	if val, err := marshal.Get(contx, GetAuthContextCacheKey(jti), new(models.AuthContext)); err != nil {
+	if val, err := marshal.Get(contx, GetAuthContextCacheKey(jti), new(models.AuthContext)); err == nil {
 		ctx = val.(models.AuthContext)
 	} else {
 		ctx, err = CacheAuthContext(jti)
