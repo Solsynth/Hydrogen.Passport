@@ -3,10 +3,11 @@ package services
 import (
 	"context"
 	"fmt"
-	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
 	"time"
 	"unicode"
+
+	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/gap"
 
 	"gorm.io/gorm/clause"
 
@@ -191,7 +192,7 @@ func CheckAbleToDeleteAccount(user models.Account) error {
 	if err := database.C.
 		Where("account_id = ?", user.ID).
 		Where("expired_at < ?", time.Now()).
-		Where("type = ?", models.ResetPasswordMagicToken).
+		Where("type = ?", models.DeleteAccountMagicToken).
 		Model(&models.MagicToken{}).
 		Count(&count).Error; err != nil {
 		return fmt.Errorf("unable to check delete account ability: %v", err)
