@@ -67,12 +67,14 @@ func MapAPIs(app *fiber.App, baseURL string) {
 
 			relations := me.Group("/relations").Name("Relations")
 			{
+				relations.Post("/", makeFriendship)
+				relations.Post("/block", makeBlockship)
+
 				relations.Get("/", listRelationship)
 				relations.Get("/:relatedId", getRelationship)
 				relations.Put("/:relatedId", editRelationship)
 				relations.Delete("/:relatedId", deleteRelationship)
 
-				relations.Post("/", makeFriendship)
 				relations.Post("/:relatedId", makeFriendship)
 				relations.Post("/:relatedId/accept", acceptFriend)
 				relations.Post("/:relatedId/decline", declineFriend)

@@ -81,6 +81,26 @@ func DeleteRelationship(relationship models.AccountRelationship) error {
 	return nil
 }
 
+func NewBlockship(userA models.Account, userB models.Account) (models.AccountRelationship, error) {
+	var err error
+	var rel models.AccountRelationship
+	if rel, err = GetRelationWithTwoNode(userA.ID, userB.ID, true); err == nil {
+		rel.Status = models.RelationshipBlocked
+	} else {
+		rel = models.AccountRelationship{
+			AccountID: userA.ID,
+			RelatedID: userB.ID,
+			Status:    models.RelationshipBlocked,
+		}
+	}
+
+	if err := database.C.Save(&rel).Error; err != nil {
+		return rel, err
+	}
+
+	return rel, nil
+}
+
 func NewFriend(userA models.Account, userB models.Account, skipPending ...bool) (models.AccountRelationship, error) {
 	relA := models.AccountRelationship{
 		AccountID: userA.ID,
