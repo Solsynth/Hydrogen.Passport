@@ -60,7 +60,7 @@ func GetAuthContext(jti string) (models.AuthContext, error) {
 	contx := context.Background()
 
 	if val, err := marshal.Get(contx, GetAuthContextCacheKey(jti), new(models.AuthContext)); err == nil {
-		ctx = val.(models.AuthContext)
+		ctx = *val.(*models.AuthContext)
 	} else {
 		ctx, err = CacheAuthContext(jti)
 		log.Debug().Str("jti", jti).Msg("Created a new auth context cache")
