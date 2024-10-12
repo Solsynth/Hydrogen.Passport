@@ -26,6 +26,8 @@ func MapAPIs(app *fiber.App, baseURL string) {
 
 		preferences := api.Group("/preferences").Name("Preferences API")
 		{
+			preferences.Get("/auth", getAuthConfig)
+			preferences.Put("/auth", updateAuthConfig)
 			preferences.Get("/notifications", getNotificationPreference)
 			preferences.Put("/notifications", updateNotificationPreference)
 		}

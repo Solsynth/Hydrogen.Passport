@@ -7,6 +7,10 @@ import (
 	"gorm.io/datatypes"
 )
 
+type AuthConfig struct {
+	MaximumAuthSteps int `json:"maximum_auth_steps" validate:"required,min=1"`
+}
+
 type AuthFactorType = int8
 
 const (

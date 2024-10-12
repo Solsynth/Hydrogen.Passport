@@ -54,7 +54,11 @@ func NewTicket(user models.Account, ip, ua string) (models.AuthTicket, error) {
 	if count := CountUserFactor(user.ID); count <= 0 {
 		return ticket, fmt.Errorf("specified user didn't enable sign in")
 	} else {
+		cfg := user.AuthConfig.Data()
 		steps = min(steps, int(count))
+		if cfg.MaximumAuthSteps >= 1 {
+			steps = min(steps, cfg.MaximumAuthSteps)
+		}
 	}
 
 	ticket = models.AuthTicket{
