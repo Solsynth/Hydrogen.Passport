@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Auth config to limit auth steps">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":recycle: Single table to store auth preferences">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/database/migrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/database/migrator.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/models/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/accounts.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/models/preferences.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/preferences.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/index.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/preferences_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/preferences_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/preferences.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/preferences.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/ticket.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/ticket.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/notifier.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/notifier.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +153,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":sparkles: Bots aka. automated accounts" />
     <MESSAGE value=":sparkles: Return affiliated to and automated by in userinfo grpc call" />
     <MESSAGE value=":sparkles: Pagination bots api" />
     <MESSAGE value=":bug: Fix query issue" />
@@ -184,7 +177,8 @@
     <MESSAGE value=":sparkles: Realm avatar, banner and access policy" />
     <MESSAGE value=":sparkles: Account deletion" />
     <MESSAGE value=":sparkles: Auth config to limit auth steps" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Auth config to limit auth steps" />
+    <MESSAGE value=":recycle: Single table to store auth preferences" />
+    <option name="LAST_COMMIT_MESSAGE" value=":recycle: Single table to store auth preferences" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

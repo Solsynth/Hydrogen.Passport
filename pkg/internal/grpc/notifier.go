@@ -3,6 +3,7 @@ package grpc
 import (
 	"context"
 	"fmt"
+	"github.com/rs/zerolog/log"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	jsoniter "github.com/json-iterator/go"
@@ -37,6 +38,8 @@ func (v *Server) NotifyUser(_ context.Context, in *proto.NotifyUserRequest) (*pr
 		AccountID:   user.ID,
 	}
 
+	log.Debug().Str("topic", notification.Topic).Uint("uid", notification.AccountID).Msg("Notifying user...")
+
 	if notification.IsRealtime {
 		if err := services.PushNotification(notification); err != nil {
 			return nil, err
@@ -64,8 +67,13 @@ func (v *Server) NotifyUserBatch(_ context.Context, in *proto.NotifyUserBatchReq
 	var metadata map[string]any
 	_ = jsoniter.Unmarshal(in.GetNotify().GetMetadata(), &metadata)
 
+	var checklist = make(map[uint]bool, len(users))
 	var notifications []models.Notification
 	for _, user := range users {
+		if checklist[user.ID] {
+			continue
+		}
+
 		notification := models.Notification{
 			Topic:       in.GetNotify().GetTopic(),
 			Title:       in.GetNotify().GetTitle(),
@@ -79,9 +87,12 @@ func (v *Server) NotifyUserBatch(_ context.Context, in *proto.NotifyUserBatchReq
 			Account:     user,
 			AccountID:   user.ID,
 		}
+		checklist[user.ID] = true
 
 		notifications = append(notifications, notification)
 	}
+
+	log.Debug().Str("topic", notifications[0].Topic).Any("uid", lo.Keys(checklist)).Msg("Notifying users...")
 
 	if in.GetNotify().GetIsRealtime() {
 		services.PushNotificationBatch(notifications)
@@ -105,8 +116,13 @@ func (v *Server) NotifyAllUser(_ context.Context, in *proto.NotifyRequest) (*pro
 	var metadata map[string]any
 	_ = jsoniter.Unmarshal(in.GetMetadata(), &metadata)
 
+	var checklist = make(map[uint]bool, len(users))
 	var notifications []models.Notification
 	for _, user := range users {
+		if checklist[user.ID] {
+			continue
+		}
+
 		notification := models.Notification{
 			Topic:       in.GetTopic(),
 			Title:       in.GetTitle(),
@@ -120,9 +136,12 @@ func (v *Server) NotifyAllUser(_ context.Context, in *proto.NotifyRequest) (*pro
 			Account:     user,
 			AccountID:   user.ID,
 		}
+		checklist[user.ID] = true
 
 		notifications = append(notifications, notification)
 	}
+
+	log.Debug().Str("topic", notifications[0].Topic).Any("uid", lo.Keys(checklist)).Msg("Notifying users...")
 
 	if in.GetIsRealtime() {
 		services.PushNotificationBatch(notifications)
