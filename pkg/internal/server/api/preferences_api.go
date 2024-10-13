@@ -18,7 +18,7 @@ func getAuthPreference(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	}
 
-	return c.JSON(cfg.Config)
+	return c.JSON(cfg.Config.Data())
 }
 
 func updateAuthPreference(c *fiber.Ctx) error {
@@ -37,7 +37,7 @@ func updateAuthPreference(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
-	return c.JSON(cfg.Config)
+	return c.JSON(cfg.Config.Data())
 }
 
 func getNotificationPreference(c *fiber.Ctx) error {

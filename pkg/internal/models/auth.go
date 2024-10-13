@@ -8,7 +8,7 @@ import (
 )
 
 type AuthConfig struct {
-	MaximumAuthSteps int `json:"maximum_auth_steps"`
+	MaximumAuthSteps int `json:"maximum_auth_steps" validate:"required,min=1,max=99"`
 }
 
 type AuthFactorType = int8
