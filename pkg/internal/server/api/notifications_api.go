@@ -88,6 +88,22 @@ func markNotificationReadBatch(c *fiber.Ctx) error {
 	}
 }
 
+func getNotifySubscriber(c *fiber.Ctx) error {
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
+
+	var subscribers []models.NotificationSubscriber
+	if err := database.C.Where(&models.NotificationSubscriber{
+		AccountID: user.ID,
+	}).Find(&subscribers).Error; err != nil {
+		return fiber.NewError(fiber.StatusNotFound, err.Error())
+	}
+
+	return c.JSON(subscribers)
+}
+
 func addNotifySubscriber(c *fiber.Ctx) error {
 	if err := exts.EnsureAuthenticated(c); err != nil {
 		return err
@@ -125,4 +141,22 @@ func addNotifySubscriber(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(subscriber)
+}
+
+func removeNotifySubscriber(c *fiber.Ctx) error {
+	if err := exts.EnsureAuthenticated(c); err != nil {
+		return err
+	}
+	user := c.Locals("user").(models.Account)
+
+	device := c.Params("deviceId")
+
+	if err := database.C.Where(&models.NotificationSubscriber{
+		DeviceID:  device,
+		AccountID: user.ID,
+	}).Delete(&models.NotificationSubscriber{}).Error; err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	}
+
+	return c.SendStatus(fiber.StatusOK)
 }
