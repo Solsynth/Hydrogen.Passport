@@ -15,7 +15,7 @@ import (
 
 const InternalTokenAudience = "solar-network"
 
-// DetectRisk is used for detect user environment is suitable for no multi-factor authenticate or not.
+// DetectRisk is used for detect user environment is suitable for no multifactorial authenticating or not.
 // Return the remaining steps, value is from 1 to 2, may appear 3 if user enabled the third-authentication-factor.
 func DetectRisk(user models.Account, ip, ua string) int {
 	var clue int64
@@ -25,11 +25,11 @@ func DetectRisk(user models.Account, ip, ua string) int {
 		Model(models.AuthTicket{}).
 		Count(&clue).Error; err == nil {
 		if clue >= 1 {
-			return 1
+			return 3
 		}
 	}
 
-	return 2
+	return 3
 }
 
 // PickTicketAttempt is trying to pick up the ticket that hasn't completed but created by a same client (identify by ip address).
