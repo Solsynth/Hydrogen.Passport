@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Account deletion">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: Auth config to limit auth steps">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/database/migrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/database/migrator.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/models/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/accounts.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/models/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/auth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/models/preferences.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/preferences.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/index.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/preferences_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/preferences_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/preferences.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/preferences.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/services/ticket.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/ticket.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -144,7 +146,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="refactor/v2" />
+                        <option value="master" />
                       </list>
                     </value>
                   </entry>
@@ -157,7 +159,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":sparkles: Bot token aka. API token" />
     <MESSAGE value=":sparkles: Bots aka. automated accounts" />
     <MESSAGE value=":sparkles: Return affiliated to and automated by in userinfo grpc call" />
     <MESSAGE value=":sparkles: Pagination bots api" />
@@ -182,7 +183,8 @@
     <MESSAGE value=":bug: Fix daily sign random panic" />
     <MESSAGE value=":sparkles: Realm avatar, banner and access policy" />
     <MESSAGE value=":sparkles: Account deletion" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Account deletion" />
+    <MESSAGE value=":sparkles: Auth config to limit auth steps" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Auth config to limit auth steps" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

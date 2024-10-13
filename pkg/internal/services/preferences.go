@@ -17,6 +17,31 @@ import (
 	"gorm.io/gorm"
 )
 
+func GetAuthPreference(account models.Account) (models.PreferenceAuth, error) {
+	var auth models.PreferenceAuth
+	if err := database.C.Where("account_id = ?", account.ID).First(&auth).Error; err != nil {
+		return auth, err
+	}
+
+	return auth, nil
+}
+
+func UpdateAuthPreference(account models.Account, config models.AuthConfig) (models.PreferenceAuth, error) {
+	var auth models.PreferenceAuth
+	var err error
+	if auth, err = GetAuthPreference(account); err != nil {
+		auth = models.PreferenceAuth{
+			AccountID: account.ID,
+			Config:    datatypes.NewJSONType(config),
+		}
+	} else {
+		auth.Config = datatypes.NewJSONType(config)
+	}
+
+	err = database.C.Save(&auth).Error
+	return auth, err
+}
+
 func GetNotificationPreferenceCacheKey(accountId uint) string {
 	return fmt.Sprintf("notification-preference#%d", accountId)
 }

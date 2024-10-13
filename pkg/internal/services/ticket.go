@@ -32,8 +32,8 @@ func DetectRisk(user models.Account, ip, ua string) int {
 	return 2
 }
 
-// PickTicketAttempt is trying to pick up the ticket that haven't completed but created by a same client (identify by ip address).
-// Then the client can continue their journey to get ticket actived.
+// PickTicketAttempt is trying to pick up the ticket that hasn't completed but created by a same client (identify by ip address).
+// Then the client can continue their journey to get ticket activated.
 func PickTicketAttempt(user models.Account, ip string) (models.AuthTicket, error) {
 	var ticket models.AuthTicket
 	if err := database.C.
@@ -54,10 +54,11 @@ func NewTicket(user models.Account, ip, ua string) (models.AuthTicket, error) {
 	if count := CountUserFactor(user.ID); count <= 0 {
 		return ticket, fmt.Errorf("specified user didn't enable sign in")
 	} else {
-		cfg := user.AuthConfig.Data()
 		steps = min(steps, int(count))
-		if cfg.MaximumAuthSteps >= 1 {
-			steps = min(steps, cfg.MaximumAuthSteps)
+
+		cfg, err := GetAuthPreference(user)
+		if err == nil && cfg.Config.Data().MaximumAuthSteps >= 1 {
+			steps = min(steps, cfg.Config.Data().MaximumAuthSteps)
 		}
 	}
 
