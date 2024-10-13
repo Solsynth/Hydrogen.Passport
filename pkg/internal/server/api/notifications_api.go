@@ -6,6 +6,8 @@ import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/gofiber/fiber/v2"
+	"github.com/samber/lo"
+	"time"
 )
 
 func getNotifications(c *fiber.Ctx) error {
@@ -20,15 +22,16 @@ func getNotifications(c *fiber.Ctx) error {
 	tx := database.C.Where(&models.Notification{AccountID: user.ID}).Model(&models.Notification{})
 
 	var count int64
-	var notifications []models.Notification
 	if err := tx.
 		Count(&count).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 
+	var notifications []models.Notification
 	if err := tx.
 		Limit(take).
 		Offset(offset).
+		Order("CASE WHEN read_at IS NULL THEN 0 ELSE 1 END, created_at").
 		Find(&notifications).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
@@ -58,7 +61,9 @@ func markNotificationRead(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	}
 
-	if err := database.C.Delete(&notify).Error; err != nil {
+	notify.ReadAt = lo.ToPtr(time.Now())
+
+	if err := database.C.Save(&notify).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	} else {
 		return c.SendStatus(fiber.StatusOK)
@@ -81,7 +86,7 @@ func markNotificationReadBatch(c *fiber.Ctx) error {
 
 	if err := database.C.Model(&models.Notification{}).
 		Where("account_id = ? AND id IN ?", user.ID, data.MessageIDs).
-		Delete(&models.Notification{}).Error; err != nil {
+		Updates(&models.Notification{ReadAt: lo.ToPtr(time.Now())}).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	} else {
 		return c.SendStatus(fiber.StatusOK)

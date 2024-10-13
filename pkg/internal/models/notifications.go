@@ -2,6 +2,7 @@ package models
 
 import (
 	"gorm.io/datatypes"
+	"time"
 )
 
 type Notification struct {
@@ -18,6 +19,8 @@ type Notification struct {
 
 	Account   Account `json:"account"`
 	AccountID uint    `json:"account_id"`
+
+	ReadAt *time.Time `json:"read_at"`
 
 	IsRealtime  bool `json:"is_realtime" gorm:"-"`
 	IsForcePush bool `json:"is_force_push" gorm:"-"`

@@ -20,7 +20,8 @@ func DoAutoDatabaseCleanup() {
 	}
 
 	deadline := time.Now().Add(-30 * 24 * time.Hour)
-	database.C.Unscoped().Where("created_at <= ?", deadline).Delete(&models.Notification{})
+	seenDeadline := time.Now().Add(-7 * 24 * time.Hour)
+	database.C.Unscoped().Where("created_at <= ? OR read_at <= ?", deadline, seenDeadline).Delete(&models.Notification{})
 
 	log.Debug().Int64("affected", count).Msg("Clean up entire database accomplished.")
 }

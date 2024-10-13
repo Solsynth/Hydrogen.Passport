@@ -322,8 +322,10 @@ func DeleteAccount(id uint) error {
 }
 
 func RecycleUnConfirmAccount() {
+	deadline := time.Now().Add(-24 * time.Hour)
+
 	var hitList []models.Account
-	if err := database.C.Where("confirmed_at IS NULL").Find(&hitList).Error; err != nil {
+	if err := database.C.Where("confirmed_at IS NULL AND created_at <= ?", deadline).Find(&hitList).Error; err != nil {
 		log.Error().Err(err).Msg("An error occurred while recycling accounts...")
 		return
 	}
