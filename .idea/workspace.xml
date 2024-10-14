@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: More event logs point">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: New login alert">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/services/preferences.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/preferences.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/services/ticket.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/ticket.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -153,7 +154,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Fix path parameters misplaced" />
     <MESSAGE value=":bug: Fix api key wasn't in auto maintain range" />
     <MESSAGE value=":bug: Fix api key missing account id" />
     <MESSAGE value=":sparkles: Preload api key's ticket" />
@@ -178,7 +178,8 @@
     <MESSAGE value=":bug: Bug fixes on settings auth preferences" />
     <MESSAGE value=":sparkles: Implement event recorder grpc" />
     <MESSAGE value=":sparkles: More event logs point" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: More event logs point" />
+    <MESSAGE value=":sparkles: New login alert" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: New login alert" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

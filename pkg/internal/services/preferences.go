@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"time"
 
@@ -14,7 +13,6 @@ import (
 	"github.com/eko/gocache/lib/v4/store"
 	"github.com/samber/lo"
 	"gorm.io/datatypes"
-	"gorm.io/gorm"
 )
 
 func GetAuthPreference(account models.Account) (models.PreferenceAuth, error) {
@@ -69,7 +67,7 @@ func CacheNotificationPreference(prefs models.PreferenceNotification) {
 	marshal := marshaler.New(cacheManager)
 	contx := context.Background()
 
-	marshal.Set(
+	_ = marshal.Set(
 		contx,
 		GetNotificationPreferenceCacheKey(prefs.AccountID),
 		prefs,
@@ -84,14 +82,10 @@ func UpdateNotificationPreference(account models.Account, config map[string]bool
 	if notification, err = GetNotificationPreference(account); err != nil {
 		notification = models.PreferenceNotification{
 			AccountID: account.ID,
-			Config: datatypes.JSONMap(
-				lo.MapValues(config, func(v bool, k string) any { return v }),
-			),
+			Config:    lo.MapValues(config, func(v bool, k string) any { return v }),
 		}
 	} else {
-		notification.Config = datatypes.JSONMap(
-			lo.MapValues(config, func(v bool, k string) any { return v }),
-		)
+		notification.Config = lo.MapValues(config, func(v bool, k string) any { return v })
 	}
 
 	err = database.C.Save(&notification).Error
@@ -112,10 +106,7 @@ func CheckNotificationNotifiable(account models.Account, topic string) bool {
 		notification = val.(models.PreferenceNotification)
 	} else {
 		if err := database.C.Where("account_id = ?", account.ID).First(&notification).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return true
-			}
-			return false
+			return true
 		}
 		CacheNotificationPreference(notification)
 	}
@@ -134,7 +125,7 @@ func CheckNotificationNotifiableBatch(accounts []models.Account, topic string) [
 	contx := context.Background()
 
 	var notifiable = make([]bool, len(accounts))
-	queryNeededIdx := []uint{}
+	var queryNeededIdx []uint
 	notificationMap := make(map[uint]models.PreferenceNotification)
 
 	// Check cache for each account
@@ -163,7 +154,7 @@ func CheckNotificationNotifiableBatch(accounts []models.Account, topic string) [
 		if err := database.C.Where("account_id IN ?", queryNeededIdx).Find(&dbNotifications).Error; err != nil {
 			// Handle error by returning false for accounts without cached notifications
 			return lo.Map(accounts, func(item models.Account, index int) bool {
-				return false
+				return true
 			})
 		}
 

@@ -26,7 +26,7 @@ func DetectRisk(user models.Account, ip, ua string) int {
 		Model(models.AuthTicket{}).
 		Count(&clue).Error; err == nil {
 		if clue >= 1 {
-			return 3
+			return 1
 		}
 	}
 
