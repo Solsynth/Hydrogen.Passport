@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"gorm.io/datatypes"
 	"time"
 
 	"github.com/rs/zerolog/log"
@@ -124,6 +125,20 @@ func ActiveTicket(ticket models.AuthTicket) (models.AuthTicket, error) {
 
 	if err := database.C.Save(&ticket).Error; err != nil {
 		return ticket, err
+	} else {
+		_ = NewNotification(models.Notification{
+			Topic:    "passport.security.alert",
+			Title:    "New sign in alert",
+			Subtitle: lo.ToPtr(fmt.Sprintf("New sign in from %s", ticket.IpAddress)),
+			Body:     fmt.Sprintf("Your account just got a new sign in from %s. Make sure you recongize this device, or sign out it immediately and reset password.", ticket.IpAddress),
+			Metadata: datatypes.JSONMap{
+				"ip_address":   ticket.IpAddress,
+				"created_at":   ticket.CreatedAt,
+				"available_at": ticket.AvailableAt,
+			},
+			AccountID:   ticket.AccountID,
+			IsForcePush: true,
+		})
 	}
 
 	return ticket, nil
