@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Bug fixes on multi-factors based authentication">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Bug fixes on settings auth preferences">
+      <change afterPath="$PROJECT_DIR$/pkg/internal/grpc/events.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/models/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/models/auth.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/preferences_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/preferences_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +154,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Fix compare perm node function" />
     <MESSAGE value=":sparkles: Bot related bot key apis" />
     <MESSAGE value=":bug: Fix bot related bot key apis path error" />
     <MESSAGE value=":bug: Fix path parameters misplaced" />
@@ -179,7 +178,8 @@
     <MESSAGE value=":sparkles: Allow user view and remove notification subscriptions" />
     <MESSAGE value=":recycle: Improve notifications mark read system" />
     <MESSAGE value=":bug: Bug fixes on multi-factors based authentication" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Bug fixes on multi-factors based authentication" />
+    <MESSAGE value=":bug: Bug fixes on settings auth preferences" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Bug fixes on settings auth preferences" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

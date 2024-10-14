@@ -17,6 +17,7 @@ type Server struct {
 	proto.UnimplementedNotifierServer
 	proto.UnimplementedRealmServer
 	proto.UnimplementedStreamControllerServer
+	proto.UnimplementedEventRecorderServer
 	health.UnimplementedHealthServer
 
 	srv *grpc.Server
@@ -31,6 +32,7 @@ func NewServer() *Server {
 	proto.RegisterNotifierServer(server.srv, server)
 	proto.RegisterRealmServer(server.srv, server)
 	proto.RegisterStreamControllerServer(server.srv, server)
+	proto.RegisterEventRecorderServer(server.srv, server)
 	health.RegisterHealthServer(server.srv, server)
 
 	reflection.Register(server.srv)
