@@ -7,6 +7,7 @@ import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/gofiber/fiber/v2"
 	"github.com/samber/lo"
+	"strconv"
 	"time"
 )
 
@@ -66,6 +67,7 @@ func markNotificationRead(c *fiber.Ctx) error {
 	if err := database.C.Save(&notify).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	} else {
+		services.AddEvent(user.ID, "notifications.mark.read", strconv.Itoa(int(notify.ID)), c.IP(), c.Get(fiber.HeaderUserAgent))
 		return c.SendStatus(fiber.StatusOK)
 	}
 }
@@ -89,6 +91,7 @@ func markNotificationReadBatch(c *fiber.Ctx) error {
 		Updates(&models.Notification{ReadAt: lo.ToPtr(time.Now())}).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	} else {
+		services.AddEvent(user.ID, "notifications.markAll.read", strconv.Itoa(int(user.ID)), c.IP(), c.Get(fiber.HeaderUserAgent))
 		return c.SendStatus(fiber.StatusOK)
 	}
 }
@@ -145,6 +148,7 @@ func addNotifySubscriber(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
+	services.AddEvent(user.ID, "notifications.subscribe.push", data.DeviceID, c.IP(), c.Get(fiber.HeaderUserAgent))
 	return c.JSON(subscriber)
 }
 
@@ -163,5 +167,6 @@ func removeNotifySubscriber(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
+	services.AddEvent(user.ID, "notifications.unsubscribe.push", device, c.IP(), c.Get(fiber.HeaderUserAgent))
 	return c.SendStatus(fiber.StatusOK)
 }

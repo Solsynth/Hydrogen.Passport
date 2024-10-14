@@ -6,6 +6,7 @@ import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/gofiber/fiber/v2"
+	"strconv"
 )
 
 func getRealm(c *fiber.Ctx) error {
@@ -85,7 +86,10 @@ func createRealm(c *fiber.Ctx) error {
 
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	} else {
+		services.AddEvent(user.ID, "realms.new", strconv.Itoa(int(realm.ID)), c.IP(), c.Get(fiber.HeaderUserAgent))
 	}
+
 	return c.JSON(realm)
 }
 
@@ -131,6 +135,8 @@ func editRealm(c *fiber.Ctx) error {
 	realm, err := services.EditRealm(realm)
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	} else {
+		services.AddEvent(user.ID, "realms.edit", strconv.Itoa(int(realm.ID)), c.IP(), c.Get(fiber.HeaderUserAgent))
 	}
 
 	return c.JSON(realm)
@@ -153,6 +159,8 @@ func deleteRealm(c *fiber.Ctx) error {
 
 	if err := services.DeleteRealm(realm); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	} else {
+		services.AddEvent(user.ID, "realms.delete", strconv.Itoa(int(realm.ID)), c.IP(), c.Get(fiber.HeaderUserAgent))
 	}
 
 	return c.SendStatus(fiber.StatusOK)

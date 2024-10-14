@@ -155,6 +155,7 @@ func editUserinfo(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 
+	services.AddEvent(user.ID, "profile.edit", strconv.Itoa(int(user.ID)), c.IP(), c.Get(fiber.HeaderUserAgent))
 	services.InvalidAuthCacheWithUser(account.ID)
 
 	return c.SendStatus(fiber.StatusOK)

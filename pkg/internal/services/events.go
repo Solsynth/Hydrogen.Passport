@@ -10,13 +10,13 @@ var writeEventQueue []models.ActionEvent
 var writeAuditQueue []models.AuditRecord
 
 // AddEvent to keep operation logs by user themselves clear to query
-func AddEvent(user models.Account, event, target, ip, ua string) {
+func AddEvent(user uint, event, target, ip, ua string) {
 	writeEventQueue = append(writeEventQueue, models.ActionEvent{
 		Type:      event,
 		Target:    target,
 		IpAddress: ip,
 		UserAgent: ua,
-		AccountID: user.ID,
+		AccountID: user,
 	})
 }
 

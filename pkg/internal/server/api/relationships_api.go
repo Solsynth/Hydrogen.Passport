@@ -5,6 +5,7 @@ import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/gofiber/fiber/v2"
+	"strconv"
 )
 
 func listRelationship(c *fiber.Ctx) error {
@@ -75,6 +76,7 @@ func editRelationship(c *fiber.Ctx) error {
 	if friendship, err := services.EditRelationship(relationship); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else {
+		services.AddEvent(user.ID, "relationships.edit", strconv.Itoa(int(relationship.ID)), c.IP(), c.Get(fiber.HeaderUserAgent))
 		return c.JSON(friendship)
 	}
 }
@@ -98,6 +100,7 @@ func deleteRelationship(c *fiber.Ctx) error {
 	if err := services.DeleteRelationship(relationship); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else {
+		services.AddEvent(user.ID, "relationships.delete", strconv.Itoa(int(relationship.ID)), c.IP(), c.Get(fiber.HeaderUserAgent))
 		return c.JSON(relationship)
 	}
 }
@@ -132,6 +135,7 @@ func makeFriendship(c *fiber.Ctx) error {
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else {
+		services.AddEvent(user.ID, "relationships.friends.new", strconv.Itoa(relatedId), c.IP(), c.Get(fiber.HeaderUserAgent))
 		return c.JSON(friend)
 	}
 }
@@ -164,6 +168,7 @@ func makeBlockship(c *fiber.Ctx) error {
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else {
+		services.AddEvent(user.ID, "relationships.blocks.new", strconv.Itoa(relatedId), c.IP(), c.Get(fiber.HeaderUserAgent))
 		return c.JSON(friend)
 	}
 }
@@ -183,6 +188,7 @@ func acceptFriend(c *fiber.Ctx) error {
 	if err := services.HandleFriend(user, related, true); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else {
+		services.AddEvent(user.ID, "relationships.friends.accept", strconv.Itoa(relatedId), c.IP(), c.Get(fiber.HeaderUserAgent))
 		return c.SendStatus(fiber.StatusOK)
 	}
 }
@@ -202,6 +208,7 @@ func declineFriend(c *fiber.Ctx) error {
 	if err := services.HandleFriend(user, related, false); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else {
+		services.AddEvent(user.ID, "relationships.friends.decline", strconv.Itoa(relatedId), c.IP(), c.Get(fiber.HeaderUserAgent))
 		return c.SendStatus(fiber.StatusOK)
 	}
 }

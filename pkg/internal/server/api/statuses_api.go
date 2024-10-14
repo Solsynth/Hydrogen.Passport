@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
@@ -90,6 +91,7 @@ func setStatus(c *fiber.Ctx) error {
 	if status, err := services.NewStatus(user, status); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else {
+		services.AddEvent(user.ID, "statuses.set", strconv.Itoa(int(status.ID)), c.IP(), c.Get(fiber.HeaderUserAgent))
 		return c.JSON(status)
 	}
 }
@@ -128,6 +130,7 @@ func editStatus(c *fiber.Ctx) error {
 	if status, err := services.EditStatus(user, status); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else {
+		services.AddEvent(user.ID, "statuses.edit", strconv.Itoa(int(status.ID)), c.IP(), c.Get(fiber.HeaderUserAgent))
 		return c.JSON(status)
 	}
 }
@@ -140,6 +143,8 @@ func clearStatus(c *fiber.Ctx) error {
 
 	if err := services.ClearStatus(user); err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	} else {
+		services.AddEvent(user.ID, "statuses.clear", strconv.Itoa(int(user.ID)), c.IP(), c.Get(fiber.HeaderUserAgent))
 	}
 
 	return c.SendStatus(fiber.StatusOK)

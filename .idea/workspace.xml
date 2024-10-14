@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Bug fixes on settings auth preferences">
-      <change afterPath="$PROJECT_DIR$/pkg/internal/grpc/events.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/server.go" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: More event logs point">
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/sign_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/sign_api.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,8 +152,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":sparkles: Bot related bot key apis" />
-    <MESSAGE value=":bug: Fix bot related bot key apis path error" />
     <MESSAGE value=":bug: Fix path parameters misplaced" />
     <MESSAGE value=":bug: Fix api key wasn't in auto maintain range" />
     <MESSAGE value=":bug: Fix api key missing account id" />
@@ -179,7 +175,9 @@
     <MESSAGE value=":recycle: Improve notifications mark read system" />
     <MESSAGE value=":bug: Bug fixes on multi-factors based authentication" />
     <MESSAGE value=":bug: Bug fixes on settings auth preferences" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Bug fixes on settings auth preferences" />
+    <MESSAGE value=":sparkles: Implement event recorder grpc" />
+    <MESSAGE value=":sparkles: More event logs point" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: More event logs point" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

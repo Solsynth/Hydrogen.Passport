@@ -6,6 +6,7 @@ import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	"github.com/gofiber/fiber/v2"
+	"strconv"
 )
 
 func listDailySignRecord(c *fiber.Ctx) error {
@@ -98,6 +99,7 @@ func doDailySign(c *fiber.Ctx) error {
 	if record, err := services.DailySign(user); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	} else {
+		services.AddEvent(user.ID, "dailySign", strconv.Itoa(int(record.ID)), c.IP(), c.Get(fiber.HeaderUserAgent))
 		return c.JSON(record)
 	}
 }
