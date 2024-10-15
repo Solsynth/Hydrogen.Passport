@@ -5,7 +5,7 @@ go 1.22
 toolchain go1.22.5
 
 require (
-	git.solsynth.dev/hydrogen/dealer v0.0.0-20240919131945-00c52eba6827
+	git.solsynth.dev/hydrogen/dealer v0.0.0-20241015165700-60e4bbfd9782
 	github.com/dgraph-io/ristretto v0.1.1
 	github.com/eko/gocache/lib/v4 v4.1.6
 	github.com/eko/gocache/store/ristretto/v4 v4.2.2

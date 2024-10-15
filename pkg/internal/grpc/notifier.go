@@ -3,10 +3,10 @@ package grpc
 import (
 	"context"
 	"fmt"
+	"git.solsynth.dev/hydrogen/dealer/pkg/hyper"
 	"github.com/rs/zerolog/log"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
-	jsoniter "github.com/json-iterator/go"
 	"github.com/samber/lo"
 
 	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
@@ -21,8 +21,7 @@ func (v *Server) NotifyUser(_ context.Context, in *proto.NotifyUserRequest) (*pr
 		return nil, fmt.Errorf("unable to get account: %v", err)
 	}
 
-	var metadata map[string]any
-	_ = jsoniter.Unmarshal(in.GetNotify().GetMetadata(), &metadata)
+	metadata := hyper.DecodeMap(in.GetNotify().GetMetadata())
 
 	notification := models.Notification{
 		Topic:       in.GetNotify().GetTopic(),
@@ -64,8 +63,7 @@ func (v *Server) NotifyUserBatch(_ context.Context, in *proto.NotifyUserBatchReq
 		return nil, fmt.Errorf("unable to get account: %v", err)
 	}
 
-	var metadata map[string]any
-	_ = jsoniter.Unmarshal(in.GetNotify().GetMetadata(), &metadata)
+	metadata := hyper.DecodeMap(in.GetNotify().GetMetadata())
 
 	var checklist = make(map[uint]bool, len(users))
 	var notifications []models.Notification
@@ -113,8 +111,7 @@ func (v *Server) NotifyAllUser(_ context.Context, in *proto.NotifyRequest) (*pro
 		return nil, fmt.Errorf("unable to get account: %v", err)
 	}
 
-	var metadata map[string]any
-	_ = jsoniter.Unmarshal(in.GetMetadata(), &metadata)
+	metadata := hyper.DecodeMap(in.GetMetadata())
 
 	var checklist = make(map[uint]bool, len(users))
 	var notifications []models.Notification

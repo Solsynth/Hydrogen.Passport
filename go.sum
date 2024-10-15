@@ -33,6 +33,8 @@ cloud.google.com/go/storage v1.10.0/go.mod h1:FLPqc6j+Ki4BU591ie1oL6qBQGu2Bl/tZ9
 dmitri.shuralyov.com/gpu/mtl v0.0.0-20190408044501-666a987793e9/go.mod h1:H6x//7gZCb22OMCxBHrMx7a5I7Hp++hsVxbQ4BYO7hU=
 git.solsynth.dev/hydrogen/dealer v0.0.0-20240919131945-00c52eba6827 h1:1ACMPm2ArRpVNYrND/y/R6oPiuMfKe49fP+lG3mcNug=
 git.solsynth.dev/hydrogen/dealer v0.0.0-20240919131945-00c52eba6827/go.mod h1:Q51JPkKnV0UoOT/IRmdBh5CyfSlp7s8BRGzgooYHqkI=
+git.solsynth.dev/hydrogen/dealer v0.0.0-20241015165700-60e4bbfd9782 h1:HUgt8RmDp5AKLlT/QGk4QXcO23OEMVpRYRjgLfOf45c=
+git.solsynth.dev/hydrogen/dealer v0.0.0-20241015165700-60e4bbfd9782/go.mod h1:Q51JPkKnV0UoOT/IRmdBh5CyfSlp7s8BRGzgooYHqkI=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/DataDog/datadog-go v3.2.0+incompatible/go.mod h1:LButxg5PwREeZtORoXG3tL4fMGNddJ+vMq1mwgfaqoQ=

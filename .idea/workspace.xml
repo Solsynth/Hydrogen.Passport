@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":sparkles: New login alert">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Bug fixes in non-cached notification preferences">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/preferences.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/preferences.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/ticket.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/ticket.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/notifier.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/notifier.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +155,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Fix api key wasn't in auto maintain range" />
     <MESSAGE value=":bug: Fix api key missing account id" />
     <MESSAGE value=":sparkles: Preload api key's ticket" />
     <MESSAGE value=":bug: Fix preloading issue" />
@@ -179,7 +179,8 @@
     <MESSAGE value=":sparkles: Implement event recorder grpc" />
     <MESSAGE value=":sparkles: More event logs point" />
     <MESSAGE value=":sparkles: New login alert" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: New login alert" />
+    <MESSAGE value=":bug: Bug fixes in non-cached notification preferences" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Bug fixes in non-cached notification preferences" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
