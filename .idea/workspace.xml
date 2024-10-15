@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Bug fixes in non-cached notification preferences">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":alien: Support better metadata encoder / decoder">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/notifier.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/notifier.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/realms.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/realms.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,7 +153,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Fix api key missing account id" />
     <MESSAGE value=":sparkles: Preload api key's ticket" />
     <MESSAGE value=":bug: Fix preloading issue" />
     <MESSAGE value=":bug: Fix bot related key api issue" />
@@ -180,7 +177,8 @@
     <MESSAGE value=":sparkles: More event logs point" />
     <MESSAGE value=":sparkles: New login alert" />
     <MESSAGE value=":bug: Bug fixes in non-cached notification preferences" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Bug fixes in non-cached notification preferences" />
+    <MESSAGE value=":alien: Support better metadata encoder / decoder" />
+    <option name="LAST_COMMIT_MESSAGE" value=":alien: Support better metadata encoder / decoder" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
