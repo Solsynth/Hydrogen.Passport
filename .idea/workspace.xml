@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Bug fixes on compile time">
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Fix notification order">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/notifications_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/notifications_api.go" afterDir="false" />
     </list>
@@ -153,7 +153,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":bug: Fix preloading issue" />
     <MESSAGE value=":bug: Fix bot related key api issue" />
     <MESSAGE value=":bug: Fix query statement column issue" />
     <MESSAGE value=":sparkles: Daily signs" />
@@ -178,7 +177,8 @@
     <MESSAGE value=":bug: Bug fixes in non-cached notification preferences" />
     <MESSAGE value=":alien: Support better metadata encoder / decoder" />
     <MESSAGE value=":bug: Bug fixes on compile time" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Bug fixes on compile time" />
+    <MESSAGE value=":bug: Fix notification order" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix notification order" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

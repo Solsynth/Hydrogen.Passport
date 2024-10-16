@@ -32,7 +32,7 @@ func getNotifications(c *fiber.Ctx) error {
 	if err := tx.
 		Limit(take).
 		Offset(offset).
-		Order("read_at DESC, created_at").
+		Order("read_at DESC, created_at DESC").
 		Find(&notifications).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
