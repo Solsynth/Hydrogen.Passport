@@ -68,7 +68,7 @@ func (v *Server) NotifyUserBatch(_ context.Context, in *proto.NotifyUserBatchReq
 	var checklist = make(map[uint]bool, len(users))
 	var notifications []models.Notification
 	for _, user := range users {
-		if checklist[user.ID] {
+		if _, ok := checklist[user.ID]; ok {
 			continue
 		}
 
