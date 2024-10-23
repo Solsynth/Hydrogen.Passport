@@ -3,12 +3,12 @@ package grpc
 import (
 	"context"
 	"fmt"
+	"git.solsynth.dev/hypernet/nexus/pkg/nex"
 
-	"git.solsynth.dev/hydrogen/dealer/pkg/hyper"
-	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
+	"git.solsynth.dev/hydrogen/passport/pkg/proto"
 	"github.com/samber/lo"
 )
 
@@ -27,7 +27,7 @@ func (v *Server) ListCommunityRealm(ctx context.Context, empty *proto.ListRealmR
 				Description:  item.Description,
 				IsPublic:     item.IsPublic,
 				IsCommunity:  item.IsCommunity,
-				AccessPolicy: hyper.EncodeMap(item.AccessPolicy),
+				AccessPolicy: nex.EncodeMap(item.AccessPolicy),
 			}
 			if item.Avatar != nil {
 				info.Avatar = *item.Avatar
@@ -59,7 +59,7 @@ func (v *Server) ListAvailableRealm(ctx context.Context, request *proto.LookupUs
 				Description:  item.Description,
 				IsPublic:     item.IsPublic,
 				IsCommunity:  item.IsCommunity,
-				AccessPolicy: hyper.EncodeMap(item.AccessPolicy),
+				AccessPolicy: nex.EncodeMap(item.AccessPolicy),
 			}
 			if item.Avatar != nil {
 				info.Avatar = *item.Avatar
@@ -91,7 +91,7 @@ func (v *Server) ListOwnedRealm(ctx context.Context, request *proto.LookupUserRe
 				Description:  item.Description,
 				IsPublic:     item.IsPublic,
 				IsCommunity:  item.IsCommunity,
-				AccessPolicy: hyper.EncodeMap(item.AccessPolicy),
+				AccessPolicy: nex.EncodeMap(item.AccessPolicy),
 			}
 			if item.Avatar != nil {
 				info.Avatar = *item.Avatar
@@ -132,7 +132,7 @@ func (v *Server) GetRealm(ctx context.Context, request *proto.LookupRealmRequest
 		Description:  realm.Description,
 		IsPublic:     realm.IsPublic,
 		IsCommunity:  realm.IsCommunity,
-		AccessPolicy: hyper.EncodeMap(realm.AccessPolicy),
+		AccessPolicy: nex.EncodeMap(realm.AccessPolicy),
 	}
 	if realm.Avatar != nil {
 		info.Avatar = *realm.Avatar

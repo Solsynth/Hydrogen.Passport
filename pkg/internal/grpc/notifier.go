@@ -3,15 +3,15 @@ package grpc
 import (
 	"context"
 	"fmt"
-	"git.solsynth.dev/hydrogen/dealer/pkg/hyper"
+	"git.solsynth.dev/hypernet/nexus/pkg/nex"
 	"github.com/rs/zerolog/log"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"github.com/samber/lo"
 
-	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
+	"git.solsynth.dev/hydrogen/passport/pkg/proto"
 )
 
 func (v *Server) NotifyUser(_ context.Context, in *proto.NotifyUserRequest) (*proto.NotifyResponse, error) {
@@ -21,7 +21,7 @@ func (v *Server) NotifyUser(_ context.Context, in *proto.NotifyUserRequest) (*pr
 		return nil, fmt.Errorf("unable to get account: %v", err)
 	}
 
-	metadata := hyper.DecodeMap(in.GetNotify().GetMetadata())
+	metadata := nex.DecodeMap(in.GetNotify().GetMetadata())
 
 	notification := models.Notification{
 		Topic:       in.GetNotify().GetTopic(),
@@ -63,7 +63,7 @@ func (v *Server) NotifyUserBatch(_ context.Context, in *proto.NotifyUserBatchReq
 		return nil, fmt.Errorf("unable to get account: %v", err)
 	}
 
-	metadata := hyper.DecodeMap(in.GetNotify().GetMetadata())
+	metadata := nex.DecodeMap(in.GetNotify().GetMetadata())
 
 	var checklist = make(map[uint]bool, len(users))
 	var notifications []models.Notification
@@ -111,7 +111,7 @@ func (v *Server) NotifyAllUser(_ context.Context, in *proto.NotifyRequest) (*pro
 		return nil, fmt.Errorf("unable to get account: %v", err)
 	}
 
-	metadata := hyper.DecodeMap(in.GetMetadata())
+	metadata := nex.DecodeMap(in.GetMetadata())
 
 	var checklist = make(map[uint]bool, len(users))
 	var notifications []models.Notification

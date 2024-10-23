@@ -3,10 +3,10 @@ package services
 import (
 	"context"
 	"fmt"
+	"git.solsynth.dev/hypernet/nexus/pkg/nex"
 	"reflect"
 	"time"
 
-	"git.solsynth.dev/hydrogen/dealer/pkg/hyper"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/rs/zerolog/log"
 	"github.com/samber/lo"
@@ -17,6 +17,8 @@ import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 )
+
+// TODO Awaiting for the new notification pusher
 
 func AddNotifySubscriber(user models.Account, provider, id, tk, ua string) (models.NotificationSubscriber, error) {
 	var prev models.NotificationSubscriber
@@ -49,7 +51,7 @@ func AddNotifySubscriber(user models.Account, provider, id, tk, ua string) (mode
 }
 
 // NewNotification will create a notification and push via the push method it
-// Please provide the notification with the account field is not empty
+// Pleases provide the notification with the account field is not empty
 func NewNotification(notification models.Notification) error {
 	if ok := CheckNotificationNotifiable(notification.Account, notification.Topic); !ok {
 		log.Info().Str("topic", notification.Topic).Uint("uid", notification.AccountID).Msg("Notification dismissed by user...")
@@ -99,9 +101,9 @@ func PushNotification(notification models.Notification, skipNotifiableCheck ...b
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	_, err := proto.NewStreamControllerClient(gap.H.GetDealerGrpcConn()).PushStream(ctx, &proto.PushStreamRequest{
+	_, err := proto.NewStreamControllerClient(gap.Nx.GetNexusGrpcConn()).PushStream(ctx, &proto.PushStreamRequest{
 		UserId: lo.ToPtr(uint64(notification.AccountID)),
-		Body: hyper.NetworkPackage{
+		Body: nex.WebSocketPackage{
 			Action:  "notifications.new",
 			Payload: notification,
 		}.Marshal(),
@@ -133,7 +135,7 @@ func PushNotification(notification models.Notification, skipNotifiableCheck ...b
 
 	ctx, cancel = context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	_, err = proto.NewPostmanClient(gap.H.GetDealerGrpcConn()).DeliverNotificationBatch(ctx, &proto.DeliverNotificationBatchRequest{
+	_, err = proto.NewPostmanClient(gap.Nx.GetNexusGrpcConn()).DeliverNotificationBatch(ctx, &proto.DeliverNotificationBatchRequest{
 		Providers:    providers,
 		DeviceTokens: tokens,
 		Notify: &proto.NotifyRequest{
@@ -186,12 +188,12 @@ func PushNotificationBatch(notifications []models.Notification, skipNotifiableCh
 	var subscribers []models.NotificationSubscriber
 	database.C.Where("account_id IN ?", accountIdx).Find(&subscribers)
 
-	stream := proto.NewStreamControllerClient(gap.H.GetDealerGrpcConn())
+	stream := proto.NewStreamControllerClient(gap.Nx.GetNexusGrpcConn())
 	for _, notification := range notifications {
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		_, _ = stream.PushStream(ctx, &proto.PushStreamRequest{
 			UserId: lo.ToPtr(uint64(notification.AccountID)),
-			Body: hyper.NetworkPackage{
+			Body: nex.WebSocketPackage{
 				Action:  "notifications.new",
 				Payload: notification,
 			}.Marshal(),
@@ -215,7 +217,7 @@ func PushNotificationBatch(notifications []models.Notification, skipNotifiableCh
 		metadata, _ := jsoniter.Marshal(notification.Metadata)
 
 		ctx, cancel = context.WithTimeout(context.Background(), 5*time.Second)
-		_, _ = proto.NewPostmanClient(gap.H.GetDealerGrpcConn()).DeliverNotificationBatch(ctx, &proto.DeliverNotificationBatchRequest{
+		_, _ = proto.NewPostmanClient(gap.Nx.GetNexusGrpcConn()).DeliverNotificationBatch(ctx, &proto.DeliverNotificationBatchRequest{
 			Providers:    providers,
 			DeviceTokens: tokens,
 			Notify: &proto.NotifyRequest{

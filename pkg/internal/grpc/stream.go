@@ -2,20 +2,22 @@ package grpc
 
 import (
 	"context"
-	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
+	"git.solsynth.dev/hypernet/nexus/pkg/nex"
+	"git.solsynth.dev/hypernet/nexus/pkg/proto"
 )
 
-func (v *Server) EmitStreamEvent(ctx context.Context, request *proto.StreamEventRequest) (*proto.StreamEventResponse, error) {
+func (v *Server) BroadcastEvent(ctx context.Context, request *proto.EventInfo) (*proto.EventResponse, error) {
 	switch request.GetEvent() {
-	case "ClientRegister":
+	case "ws.client.register":
 		// No longer need update user online status
 		// Based on realtime sever connection status
 		break
-	case "ClientUnregister":
+	case "ws.client.unregister":
 		// Update user last seen at
-		_ = services.SetAccountLastSeen(uint(request.GetUserId()))
+		data := nex.DecodeMap(request.GetData())
+		_ = services.SetAccountLastSeen(uint(data["user"].(float64)))
 	}
 
-	return &proto.StreamEventResponse{}, nil
+	return &proto.EventResponse{}, nil
 }

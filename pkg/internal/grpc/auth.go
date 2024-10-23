@@ -7,10 +7,15 @@ import (
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
 	"github.com/samber/lo"
 
-	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/services"
 	jsoniter "github.com/json-iterator/go"
+
+	"git.solsynth.dev/hypernet/nexus/pkg/proto"
 )
+
+type authenticateServer struct {
+	proto.UnimplementedAuthServiceServer
+}
 
 func (v *Server) Authenticate(_ context.Context, in *proto.AuthRequest) (*proto.AuthReply, error) {
 	ctx, perms, atk, rtk, err := services.Authenticate(in.GetAccessToken(), in.GetRefreshToken(), 0)

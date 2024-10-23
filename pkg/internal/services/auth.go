@@ -16,24 +16,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func Authenticate(atk, rtk string, rty int) (ctx models.AuthContext, perms map[string]any, newAtk, newRtk string, err error) {
-	var claims PayloadClaims
-	claims, err = DecodeJwt(atk)
-	if err != nil {
-		if len(rtk) > 0 && rty < 1 {
-			// Auto refresh and retry
-			newAtk, newRtk, err = RefreshToken(rtk)
-			if err == nil {
-				return Authenticate(newAtk, newRtk, rty+1)
-			}
-		}
-		err = fiber.NewError(fiber.StatusUnauthorized, fmt.Sprintf("invalid auth key: %v", err))
-		return
-	}
-
-	newAtk = atk
-	newRtk = rtk
-
+func Authenticate(atk, rtk string, rty int) (ctx models.AuthContext, perms map[string]any, err error) {
 	if ctx, err = GetAuthContext(claims.ID); err == nil {
 		var heldPerms map[string]any
 		rawHeldPerms, _ := jsoniter.Marshal(ctx.Account.PermNodes)

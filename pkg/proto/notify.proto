@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option go_package = ".;proto";
+
+package proto;
+
+service Notifier {
+  rpc NotifyUser(NotifyUserRequest) returns (NotifyResponse) {}
+  rpc NotifyUserBatch(NotifyUserBatchRequest) returns (NotifyResponse) {}
+  rpc NotifyAllUser(NotifyRequest) returns(NotifyResponse) {}
+}
+
+message NotifyUserRequest {
+  uint64 user_id = 1;
+  NotifyRequest notify = 2;
+}
+
+message NotifyUserBatchRequest {
+  repeated uint64 user_id = 1;
+  NotifyRequest notify = 2;
+}
+
+message NotifyRequest {
+  string topic = 1;
+  string title = 2;
+  optional string subtitle = 3;
+  string body = 4;
+  bytes metadata = 5;
+  optional string avatar = 6;
+  optional string picture = 7;
+  bool is_realtime = 8;
+  bool is_force_push = 9;
+}
+
+message NotifyResponse {
+  bool is_success = 1;
+  int64 affected_count = 2;
+}

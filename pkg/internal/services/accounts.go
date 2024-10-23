@@ -312,7 +312,7 @@ func DeleteAccount(id uint) error {
 		return err
 	} else {
 		InvalidAuthCacheWithUser(id)
-		_, _ = proto.NewServiceDirectoryClient(gap.H.GetDealerGrpcConn()).BroadcastDeletion(context.Background(), &proto.DeletionRequest{
+		_, _ = proto.NewServiceDirectoryClient(gap.Nx.GetDealerGrpcConn()).BroadcastDeletion(context.Background(), &proto.DeletionRequest{
 			ResourceType: "account",
 			ResourceId:   fmt.Sprintf("%d", id),
 		})

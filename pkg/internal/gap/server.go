@@ -2,17 +2,17 @@ package gap
 
 import (
 	"fmt"
-	"git.solsynth.dev/hydrogen/dealer/pkg/hyper"
-	"git.solsynth.dev/hydrogen/dealer/pkg/proto"
+	"git.solsynth.dev/hypernet/nexus/pkg/nex"
+	"git.solsynth.dev/hypernet/nexus/pkg/proto"
 	"github.com/rs/zerolog/log"
 	"strings"
 
 	"github.com/spf13/viper"
 )
 
-var H *hyper.HyperConn
+var Nx *nex.Conn
 
-func RegisterService() error {
+func InitializeToNexus() error {
 	grpcBind := strings.SplitN(viper.GetString("grpc_bind"), ":", 2)
 	httpBind := strings.SplitN(viper.GetString("bind"), ":", 2)
 
@@ -22,16 +22,16 @@ func RegisterService() error {
 	httpOutbound := fmt.Sprintf("%s:%s", outboundIp, httpBind[1])
 
 	var err error
-	H, err = hyper.NewHyperConn(viper.GetString("dealer.addr"), &proto.ServiceInfo{
+	Nx, err = nex.NewNexusConn(viper.GetString("dealer.addr"), &proto.ServiceInfo{
 		Id:       viper.GetString("id"),
-		Type:     hyper.ServiceTypeAuthProvider,
+		Type:     nex.ServiceTypeAuth,
 		Label:    "Passport",
 		GrpcAddr: grpcOutbound,
 		HttpAddr: &httpOutbound,
 	})
 	if err == nil {
 		go func() {
-			err := H.KeepRegisterService()
+			err := Nx.RunRegistering()
 			if err != nil {
 				log.Error().Err(err).Msg("An error occurred while registering service...")
 			}

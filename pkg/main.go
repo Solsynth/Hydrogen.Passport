@@ -37,6 +37,11 @@ func main() {
 		log.Panic().Err(err).Msg("An error occurred when loading settings.")
 	}
 
+	// Connect to nexus
+	if err := gap.InitializeToNexus(); err != nil {
+		log.Fatal().Err(err).Msg("An error occurred when connecting to nexus...")
+	}
+
 	// Connect to database
 	if err := database.NewGorm(); err != nil {
 		log.Fatal().Err(err).Msg("An error occurred when connect to database.")
@@ -47,11 +52,6 @@ func main() {
 	// Initialize cache
 	if err := cache.NewStore(); err != nil {
 		log.Fatal().Err(err).Msg("An error occurred when initializing cache.")
-	}
-
-	// Connect other services
-	if err := gap.RegisterService(); err != nil {
-		log.Error().Err(err).Msg("An error occurred when registering service to gateway...")
 	}
 
 	// Server
