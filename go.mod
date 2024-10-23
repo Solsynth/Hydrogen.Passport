@@ -6,7 +6,7 @@ toolchain go1.23.2
 
 require (
 	git.solsynth.dev/hydrogen/dealer v0.0.0-20241015165700-60e4bbfd9782
-	git.solsynth.dev/hypernet/nexus v0.0.0-20241022152358-a1412acc9084
+	git.solsynth.dev/hypernet/nexus v0.0.0-20241023163829-f51b22f0e880
 	github.com/dgraph-io/ristretto v0.1.1
 	github.com/eko/gocache/lib/v4 v4.1.6
 	github.com/eko/gocache/store/ristretto/v4 v4.2.2
@@ -22,6 +22,7 @@ require (
 	github.com/sujit-baniya/flash v0.1.8
 	golang.org/x/crypto v0.28.0
 	google.golang.org/grpc v1.67.1
+	google.golang.org/protobuf v1.35.1
 	gorm.io/datatypes v1.2.4
 	gorm.io/driver/postgres v1.5.4
 	gorm.io/gorm v1.25.12
@@ -41,6 +42,7 @@ require (
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-sql-driver/mysql v1.8.1 // indirect
+	github.com/goccy/go-json v0.10.3 // indirect
 	github.com/golang/glog v1.2.2 // indirect
 	github.com/golang/mock v1.6.0 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
@@ -101,7 +103,6 @@ require (
 	golang.org/x/sys v0.26.0 // indirect
 	golang.org/x/text v0.19.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20241015192408-796eee8c2d53 // indirect
-	google.golang.org/protobuf v1.35.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gorm.io/driver/mysql v1.5.7 // indirect

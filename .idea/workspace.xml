@@ -4,26 +4,18 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":bug: Trying to fix panic">
-      <change afterPath="$PROJECT_DIR$/pkg/proto/notify.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/proto/realm.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/proto/record.proto" afterDir="false" />
+    <list default="true" id="3fefb2c4-b6f9-466b-a523-53352e8d6f95" name="更改" comment=":recycle: Remove most of the dealer deps and move to nexus">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/database/source.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/database/source.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/gap/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/gap/server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/auth.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/events.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/events.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/notifier.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/notifier.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/realms.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/realms.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/grpc/stream.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/grpc/stream.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/server/exts/cookies.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/api/auth_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/api/auth_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/exts/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/exts/auth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/internal/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/server/server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/services/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/accounts.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/services/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/auth.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/services/factors.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/factors.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/internal/services/notifications.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/notifications.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/services/statuses.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/statuses.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/internal/services/tokens.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/internal/services/tokens.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/main.go" afterDir="false" />
@@ -75,7 +67,7 @@
     "git-widget-placeholder": "refactor/nexus",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "/Users/littlesheep/Documents/Projects/Hydrogen/Passport/pkg/proto",
+    "last_opened_file_path": "/Users/littlesheep/Documents/Projects/Hydrogen/Passport/keys",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
@@ -92,11 +84,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/keys" />
       <recent name="$PROJECT_DIR$/pkg/proto" />
       <recent name="$PROJECT_DIR$/web/src/components/admin" />
       <recent name="$PROJECT_DIR$/web/src/views" />
       <recent name="$PROJECT_DIR$/pkg/internal/server/api" />
-      <recent name="$PROJECT_DIR$/web" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/web/src/views/flow" />
@@ -174,7 +166,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":sparkles: Daily signs" />
     <MESSAGE value=":bug: Fix daily check issue" />
     <MESSAGE value=":sparkles: Can get today's daily sign record" />
     <MESSAGE value=":bug: Fix auto maintain range missing models" />
@@ -199,7 +190,8 @@
     <MESSAGE value=":bug: Fix notification order" />
     <MESSAGE value=":bug: Fix notification order... again" />
     <MESSAGE value=":bug: Trying to fix panic" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Trying to fix panic" />
+    <MESSAGE value=":recycle: Remove most of the dealer deps and move to nexus" />
+    <option name="LAST_COMMIT_MESSAGE" value=":recycle: Remove most of the dealer deps and move to nexus" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

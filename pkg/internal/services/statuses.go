@@ -60,7 +60,7 @@ func CacheUserStatus(uid uint, status models.Status) {
 }
 
 func GetUserOnline(uid uint) bool {
-	pc := proto.NewStreamControllerClient(gap.Nx.GetDealerGrpcConn())
+	pc := proto.NewStreamControllerClient(gap.Nx.GetNexusGrpcConn())
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	resp, err := pc.CountStreamConnection(ctx, &proto.CountConnectionRequest{

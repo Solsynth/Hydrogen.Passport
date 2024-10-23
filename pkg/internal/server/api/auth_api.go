@@ -151,8 +151,6 @@ func getToken(c *fiber.Ctx) error {
 		idk = atk
 	}
 
-	exts.SetAuthCookies(c, atk, rtk)
-
 	return c.JSON(fiber.Map{
 		"id_token":      idk,
 		"access_token":  atk,

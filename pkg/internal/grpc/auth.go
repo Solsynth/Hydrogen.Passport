@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	"git.solsynth.dev/hypernet/nexus/pkg/nex"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/models"
@@ -18,56 +19,32 @@ type authenticateServer struct {
 }
 
 func (v *Server) Authenticate(_ context.Context, in *proto.AuthRequest) (*proto.AuthReply, error) {
-	ctx, perms, atk, rtk, err := services.Authenticate(in.GetAccessToken(), in.GetRefreshToken(), 0)
+	ticket, perms, err := services.Authenticate(uint(in.GetSessionId()))
 	if err != nil {
 		return &proto.AuthReply{
 			IsValid: false,
 		}, nil
 	} else {
-		user := ctx.Account
-		rawPerms, _ := jsoniter.Marshal(perms)
-
+		user := ticket.Account
 		userinfo := &proto.UserInfo{
-			Id:          uint64(user.ID),
-			Name:        user.Name,
-			Nick:        user.Nick,
-			Email:       user.GetPrimaryEmail().Content,
-			Description: &user.Description,
-		}
-
-		if user.Avatar != nil {
-			userinfo.Avatar = *user.GetAvatar()
-		}
-		if user.Banner != nil {
-			userinfo.Banner = *user.GetBanner()
-		}
-
-		if user.AffiliatedID != nil {
-			userinfo.AffiliatedTo = lo.ToPtr(uint64(*user.AffiliatedID))
-		}
-		if user.AutomatedID != nil {
-			userinfo.AutomatedBy = lo.ToPtr(uint64(*user.AutomatedID))
+			Id:        uint64(user.ID),
+			Name:      user.Name,
+			PermNodes: nex.EncodeMap(perms),
+			Metadata:  nex.EncodeMap(user),
 		}
 
 		return &proto.AuthReply{
 			IsValid: true,
 			Info: &proto.AuthInfo{
-				NewAccessToken:  &atk,
-				NewRefreshToken: &rtk,
-				Permissions:     rawPerms,
-				TicketId:        uint64(ctx.Ticket.ID),
-				Info:            userinfo,
+				SessionId: uint64(ticket.ID),
+				Info:      userinfo,
 			},
 		}, nil
 	}
 }
 
 func (v *Server) EnsurePermGranted(_ context.Context, in *proto.CheckPermRequest) (*proto.CheckPermResponse, error) {
-	claims, err := services.DecodeJwt(in.GetToken())
-	if err != nil {
-		return nil, err
-	}
-	ctx, err := services.GetAuthContext(claims.ID)
+	ctx, err := services.GetAuthContext(uint(in.GetSessionId()))
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +55,7 @@ func (v *Server) EnsurePermGranted(_ context.Context, in *proto.CheckPermRequest
 
 	var value any
 	_ = jsoniter.Unmarshal(in.GetValue(), &value)
-	perms := services.FilterPermNodes(heldPerms, ctx.Ticket.Claims)
+	perms := services.FilterPermNodes(heldPerms, ctx.Claims)
 	valid := services.HasPermNode(perms, in.GetKey(), value)
 
 	return &proto.CheckPermResponse{
@@ -120,18 +97,10 @@ func (v *Server) ListUserFriends(_ context.Context, in *proto.ListUserRelativeRe
 	}
 
 	return &proto.ListUserRelativeResponse{
-		Data: lo.Map(data, func(item models.AccountRelationship, index int) *proto.SimpleUserInfo {
-			val := &proto.SimpleUserInfo{
+		Data: lo.Map(data, func(item models.AccountRelationship, index int) *proto.UserInfo {
+			val := &proto.UserInfo{
 				Id:   uint64(item.AccountID),
 				Name: item.Account.Name,
-				Nick: item.Account.Nick,
-			}
-
-			if item.Account.AffiliatedID != nil {
-				val.AffiliatedTo = lo.ToPtr(uint64(*item.Account.AffiliatedID))
-			}
-			if item.Account.AutomatedID != nil {
-				val.AutomatedBy = lo.ToPtr(uint64(*item.Account.AutomatedID))
 			}
 
 			return val
@@ -154,18 +123,10 @@ func (v *Server) ListUserBlocklist(_ context.Context, in *proto.ListUserRelative
 	}
 
 	return &proto.ListUserRelativeResponse{
-		Data: lo.Map(data, func(item models.AccountRelationship, index int) *proto.SimpleUserInfo {
-			val := &proto.SimpleUserInfo{
+		Data: lo.Map(data, func(item models.AccountRelationship, index int) *proto.UserInfo {
+			val := &proto.UserInfo{
 				Id:   uint64(item.AccountID),
 				Name: item.Account.Name,
-				Nick: item.Account.Nick,
-			}
-
-			if item.Account.AffiliatedID != nil {
-				val.AffiliatedTo = lo.ToPtr(uint64(*item.Account.AffiliatedID))
-			}
-			if item.Account.AutomatedID != nil {
-				val.AutomatedBy = lo.ToPtr(uint64(*item.Account.AutomatedID))
 			}
 
 			return val

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"git.solsynth.dev/hypernet/nexus/pkg/nex/sec"
 	"os"
 	"os/signal"
 	"syscall"
@@ -40,6 +41,14 @@ func main() {
 	// Connect to nexus
 	if err := gap.InitializeToNexus(); err != nil {
 		log.Fatal().Err(err).Msg("An error occurred when connecting to nexus...")
+	}
+
+	// Load keypair
+	if reader, err := sec.NewInternalTokenReader(viper.GetString("security.internal_public_key")); err != nil {
+		log.Error().Err(err).Msg("An error occurred when reading internal public key for jwt. Authentication related features will be disabled.")
+	} else {
+		server.IReader = reader
+		log.Info().Msg("Internal jwt public key loaded.")
 	}
 
 	// Connect to database

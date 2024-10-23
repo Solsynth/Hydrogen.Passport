@@ -37,6 +37,8 @@ git.solsynth.dev/hydrogen/dealer v0.0.0-20241015165700-60e4bbfd9782 h1:HUgt8RmDp
 git.solsynth.dev/hydrogen/dealer v0.0.0-20241015165700-60e4bbfd9782/go.mod h1:Q51JPkKnV0UoOT/IRmdBh5CyfSlp7s8BRGzgooYHqkI=
 git.solsynth.dev/hypernet/nexus v0.0.0-20241022152358-a1412acc9084 h1:e+G3H8Hrzk3VaYwbppxIXATq8I4u/5K/g4BkqWv2L2Y=
 git.solsynth.dev/hypernet/nexus v0.0.0-20241022152358-a1412acc9084/go.mod h1:BKF6Fv/TdfMaxiRHoLjT5AxTsbVBU6VKAZbWxGAMxe4=
+git.solsynth.dev/hypernet/nexus v0.0.0-20241023163829-f51b22f0e880 h1:l6IKIMfm0XRHQSrCoTVQTrOoE3NxIhd+h/OodXGSz3g=
+git.solsynth.dev/hypernet/nexus v0.0.0-20241023163829-f51b22f0e880/go.mod h1:BKF6Fv/TdfMaxiRHoLjT5AxTsbVBU6VKAZbWxGAMxe4=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/DataDog/datadog-go v3.2.0+incompatible/go.mod h1:LButxg5PwREeZtORoXG3tL4fMGNddJ+vMq1mwgfaqoQ=
@@ -126,6 +128,8 @@ github.com/go-sql-driver/mysql v1.7.0/go.mod h1:OXbVy3sEdcQ2Doequ6Z5BW6fXNQTmx+9
 github.com/go-sql-driver/mysql v1.8.1 h1:LedoTUt/eveggdHS9qUFC1EFSa8bU2+1pZjSRpvNJ1Y=
 github.com/go-sql-driver/mysql v1.8.1/go.mod h1:wEBSXgmK//2ZFJyE+qWnIsVGmvmEKlqwuVSjsCm7DZg=
 github.com/go-stack/stack v1.8.0/go.mod h1:v0f6uXyyMGvRgIKkXu+yp6POWl0qKG85gN/melR3HDY=
+github.com/goccy/go-json v0.10.3 h1:KZ5WoDbxAIgm2HNbYckL0se1fHD6rz5j4ywS6ebzDqA=
+github.com/goccy/go-json v0.10.3/go.mod h1:oq7eo15ShAhp70Anwd5lgX2pLfOS3QCiwU/PULtXL6M=
 github.com/godbus/dbus/v5 v5.0.4/go.mod h1:xhWf0FNVPg57R7Z0UbKHbJfkEywrmjJnf7w5xrFpKfA=
 github.com/gofiber/fiber/v2 v2.36.0/go.mod h1:tgCr+lierLwLoVHHO/jn3Niannv34WRkQETU8wiL9fQ=
 github.com/gofiber/fiber/v2 v2.52.5 h1:tWoP1MJQjGEe4GB5TUGOi7P2E0ZMMRx5ZTG4rT+yGMo=

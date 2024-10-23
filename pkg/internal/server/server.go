@@ -1,12 +1,11 @@
 package server
 
 import (
+	"git.solsynth.dev/hypernet/nexus/pkg/nex/sec"
 	"strings"
 
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/admin"
 	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/api"
-	"git.solsynth.dev/hydrogen/passport/pkg/internal/server/exts"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/idempotency"
@@ -19,6 +18,8 @@ import (
 type HTTPApp struct {
 	app *fiber.App
 }
+
+var IReader *sec.InternalTokenReader
 
 func NewServer() *HTTPApp {
 	app := fiber.New(fiber.Config{
@@ -54,7 +55,7 @@ func NewServer() *HTTPApp {
 		Output: log.Logger,
 	}))
 
-	app.Use(exts.AuthMiddleware)
+	app.Use(sec.ContextMiddleware(IReader))
 
 	admin.MapAdminAPIs(app, "/api/admin")
 	api.MapAPIs(app, "/api")

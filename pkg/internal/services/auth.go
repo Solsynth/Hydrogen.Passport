@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"fmt"
+	"git.solsynth.dev/hydrogen/passport/pkg/internal/database"
 	"time"
 
 	"github.com/eko/gocache/lib/v4/cache"
@@ -16,13 +17,13 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func Authenticate(atk, rtk string, rty int) (ctx models.AuthContext, perms map[string]any, err error) {
-	if ctx, err = GetAuthContext(claims.ID); err == nil {
+func Authenticate(sessionId uint) (ctx models.AuthTicket, perms map[string]any, err error) {
+	if ctx, err = GetAuthContext(sessionId); err == nil {
 		var heldPerms map[string]any
 		rawHeldPerms, _ := jsoniter.Marshal(ctx.Account.PermNodes)
 		_ = jsoniter.Unmarshal(rawHeldPerms, &heldPerms)
 
-		perms = FilterPermNodes(heldPerms, ctx.Ticket.Claims)
+		perms = FilterPermNodes(heldPerms, ctx.Claims)
 		return
 	}
 
@@ -30,46 +31,47 @@ func Authenticate(atk, rtk string, rty int) (ctx models.AuthContext, perms map[s
 	return
 }
 
-func GetAuthContextCacheKey(jti string) string {
-	return fmt.Sprintf("auth-context#%s", jti)
+func GetAuthContextCacheKey(sessionId uint) string {
+	return fmt.Sprintf("auth-context#%d", sessionId)
 }
 
-func GetAuthContext(jti string) (models.AuthContext, error) {
+func GetAuthContext(sessionId uint) (models.AuthTicket, error) {
 	var err error
-	var ctx models.AuthContext
+	var ctx models.AuthTicket
 
 	cacheManager := cache.New[any](localCache.S)
 	marshal := marshaler.New(cacheManager)
 	contx := context.Background()
 
-	if val, err := marshal.Get(contx, GetAuthContextCacheKey(jti), new(models.AuthContext)); err == nil {
-		ctx = *val.(*models.AuthContext)
+	if val, err := marshal.Get(contx, GetAuthContextCacheKey(sessionId), new(models.AuthTicket)); err == nil {
+		ctx = *val.(*models.AuthTicket)
 	} else {
-		ctx, err = CacheAuthContext(jti)
-		log.Debug().Str("jti", jti).Msg("Created a new auth context cache")
+		ctx, err = CacheAuthContext(sessionId)
+		log.Debug().Uint("session", sessionId).Msg("Created a new auth context cache")
 	}
 
 	return ctx, err
 }
 
-func CacheAuthContext(jti string) (models.AuthContext, error) {
-	var ctx models.AuthContext
-
+func CacheAuthContext(sessionId uint) (models.AuthTicket, error) {
 	// Query data from primary database
-	ticket, err := GetTicketWithToken(jti)
-	if err != nil {
-		return ctx, fmt.Errorf("invalid auth ticket: %v", err)
+	var ticket models.AuthTicket
+	if err := database.C.
+		Where("id = ?", sessionId).
+		Preload("Account").
+		First(&ticket).Error; err != nil {
+		return ticket, fmt.Errorf("invalid auth ticket: %v", err)
 	} else if err := ticket.IsAvailable(); err != nil {
-		return ctx, fmt.Errorf("unavailable auth ticket: %v", err)
+		return ticket, fmt.Errorf("unavailable auth ticket: %v", err)
 	}
 
 	user, err := GetAccount(ticket.AccountID)
 	if err != nil {
-		return ctx, fmt.Errorf("invalid account: %v", err)
+		return ticket, fmt.Errorf("invalid account: %v", err)
 	}
 	groups, err := GetUserAccountGroup(user)
 	if err != nil {
-		return ctx, fmt.Errorf("unable to get account groups: %v", err)
+		return ticket, fmt.Errorf("unable to get account groups: %v", err)
 	}
 
 	for _, group := range groups {
@@ -80,33 +82,28 @@ func CacheAuthContext(jti string) (models.AuthContext, error) {
 		}
 	}
 
-	ctx = models.AuthContext{
-		Ticket:  ticket,
-		Account: user,
-	}
-
-	// Put the data into cache
+	// Put the data into the cache
 	cacheManager := cache.New[any](localCache.S)
 	marshal := marshaler.New(cacheManager)
-	contx := context.Background()
+	ctx := context.Background()
 
-	marshal.Set(
-		contx,
-		GetAuthContextCacheKey(jti),
+	_ = marshal.Set(
 		ctx,
+		GetAuthContextCacheKey(sessionId),
+		ticket,
 		store.WithExpiration(3*time.Minute),
 		store.WithTags([]string{"auth-context", fmt.Sprintf("user#%d", user.ID)}),
 	)
 
-	return ctx, nil
+	return ticket, nil
 }
 
 func InvalidAuthCacheWithUser(userId uint) {
 	cacheManager := cache.New[any](localCache.S)
-	contx := context.Background()
+	ctx := context.Background()
 
 	cacheManager.Invalidate(
-		contx,
+		ctx,
 		store.WithInvalidateTags([]string{"auth-context", fmt.Sprintf("user#%d", userId)}),
 	)
 }

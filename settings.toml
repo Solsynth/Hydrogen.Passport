@@ -26,3 +26,4 @@ cookie_domain = "localhost"
 cookie_samesite = "Lax"
 access_token_duration = 300
 refresh_token_duration = 2592000
+internal_public_key = "keys/internal_public_key.pem"

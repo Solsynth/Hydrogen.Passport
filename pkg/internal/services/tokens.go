@@ -145,7 +145,7 @@ func NotifyMagicToken(token models.MagicToken) error {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	_, err := proto.NewPostmanClient(gap.Nx.GetDealerGrpcConn()).DeliverEmail(ctx, &proto.DeliverEmailRequest{
+	_, err := proto.NewPostmanClient(gap.Nx.GetNexusGrpcConn()).DeliverEmail(ctx, &proto.DeliverEmailRequest{
 		To: user.GetPrimaryEmail().Content,
 		Email: &proto.EmailRequest{
 			Subject:  subject,
